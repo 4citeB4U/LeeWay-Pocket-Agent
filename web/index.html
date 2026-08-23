@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <title>LeeWay Pocket Agent</title>
+  <style>
+    :root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:#000;color:#fff;display:grid;place-items:center;padding:24px}
+    main{width:min(520px,100%);text-align:center}
+    .orb{width:170px;height:170px;margin:0 auto 32px;border-radius:50%;position:relative;background:radial-gradient(circle at 35% 30%,#fff 0 2%,#777 7%,#222 25%,#050505 55%,#000 72%);box-shadow:0 0 70px rgba(255,255,255,.13);animation:float 4s ease-in-out infinite,spin 12s linear infinite}
+    .orb:before,.orb:after{content:"";position:absolute;inset:12%;border:1px solid rgba(255,255,255,.18);border-radius:50%;transform:rotate(37deg)}
+    .orb:after{inset:25%;transform:rotate(75deg)}
+    h1{font-size:2rem;margin:0 0 8px}
+    .sub{opacity:.7;margin:0 0 28px;line-height:1.5}
+    .download{display:block;width:100%;padding:17px 20px;border-radius:16px;background:#fff;color:#000;text-decoration:none;font-weight:800;font-size:1.05rem;margin-bottom:14px}
+    .note{font-size:.9rem;opacity:.62;line-height:1.55}
+    .steps{text-align:left;margin:30px auto 0;padding:20px;border:1px solid #242424;border-radius:16px;background:#080808}
+    .steps strong{display:block;margin-bottom:8px}
+    .steps ol{margin:0;padding-left:20px;line-height:1.7;opacity:.82}
+    @keyframes float{50%{transform:translateY(-8px) scale(1.025)}}
+    @keyframes spin{to{filter:hue-rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="orb" aria-hidden="true"></div>
+    <h1>LeeWay Pocket Agent</h1>
+    <p class="sub">Agent Lee in your pocket. Voice-first Android build.</p>
+    <a class="download" href="LeeWay-Pocket-Agent.apk" download>Download LeeWay Pocket Agent</a>
+    <p class="note">Android may ask you to allow installs from your browser or Files app. The APK is built directly from this repository by GitHub Actions.</p>
+    <div class="steps">
+      <strong>Install on Samsung Galaxy</strong>
+      <ol>
+        <li>Tap the download button.</li>
+        <li>Open the downloaded APK.</li>
+        <li>If prompted, allow “Install unknown apps” for your browser or Files.</li>
+        <li>Tap Install, then Open.</li>
+        <li>Grant microphone, camera, contacts, and calendar permissions when Lee asks.</li>
+      </ol>
+    </div>
+  </main>
+</body>
+</html>
