@@ -17,7 +17,7 @@ object PocketVoiceHost {
         fun onError(message: String)
     }
 
-    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"
+    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html?device=wasm"
     private val main = Handler(Looper.getMainLooper())
     private val session = VoiceSession<Listener>()
     private var view: WebView? = null
@@ -42,6 +42,7 @@ object PocketVoiceHost {
         val snapshot = JSONObject().put("updatedAtMs", now).put("state", lastState)
             .put("ready", ready).put("pageReady", pageReady).put("error", lastError)
             .put("voicePackageId", "agent-lee-voice-one").put("progress", progress)
+            .put("requestedBackend", "wasm")
             .put("rendererGeneration", rendererGeneration)
         diagnostics?.edit()?.putString("latest_json", snapshot.toString())?.apply()
         Log.i("LeeWayPocketVoice", "$lastState ready=$ready progress=${progress.optInt("percent", -1)} error=$lastError")
