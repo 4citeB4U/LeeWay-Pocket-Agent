@@ -41,6 +41,7 @@ class PocketVoiceActivity: Activity(){
     private var pendingSpeech:String?=null
     private var pendingRequest:String?=null
     private var expectedNonce:String?=null
+    @Volatile private var lastSkillEvidence:String="skills=NOT_LOADED"
 
     override fun onCreate(savedInstanceState:Bundle?){
         super.onCreate(savedInstanceState)
@@ -253,8 +254,12 @@ class PocketVoiceActivity: Activity(){
         status.text="Loading LeeWay authority"
         thread{
             val authority=EcosystemBindings.promptContext(applicationContext)
+            val skillContext=SkillAuthorityClient(applicationContext).contextFor(request)
+            lastSkillEvidence=skillContext.evidence
             val prompt=buildString{
                 append(authority)
+                append("\n\n")
+                append(skillContext.promptContext)
                 append("\n\nROLE: You are Agent Lee speaking through LeeWay Pocket Agent. ")
                 append("Be concise for spoken conversation. Uphold Creator authority and LeeWay truth boundaries. ")
                 append("Do not claim a skill, Formula evaluation, tool action, Notebook action, or runtime action occurred unless the current turn contains evidence. ")
@@ -302,7 +307,8 @@ class PocketVoiceActivity: Activity(){
                 }
                 val trace="Device Bridge model="+result?.optString("modelId")+
                     "; authority="+result?.optString("authority")+
-                    "; canonicalFormula="+envelope.optString("canonicalFormulaState","NOT_EXECUTED")
+                    "; canonicalFormula="+envelope.optString("canonicalFormulaState","NOT_EXECUTED")+
+                    "; "+lastSkillEvidence
                 memory.saveNotebook("Pocket turn trace: $trace")
                 deliver(response)
             }
