@@ -7,6 +7,7 @@ const voice=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketVoiceActi
 const overlay=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketOverlayService.kt","utf8");
 const bridge=fs.readFileSync(root+"/java/industries/leeway/pocket/DeviceBridgeClient.kt","utf8");
 const bindings=fs.readFileSync(root+"/java/industries/leeway/pocket/EcosystemBindings.kt","utf8");
+const skills=fs.readFileSync(root+"/java/industries/leeway/pocket/SkillAuthorityClient.kt","utf8");
 const manifest=fs.readFileSync(root+"/AndroidManifest.xml","utf8");
 const bindingJson=JSON.parse(fs.readFileSync("docs/ecosystem-bindings.json","utf8"));
 
@@ -23,6 +24,12 @@ assert.match(overlay,/PocketVoiceActivity/);
 assert.match(bridge,/PocketBridgeActivity/);
 assert.match(bridge,/POCKET_BOOTSTRAP/);
 assert.match(bindings,/ecosystem-bindings\.json/);
+assert.match(skills,/96ea94dda56e642887e600b54528b69919f0a2e6/);
+assert.match(skills,/skillsSourceCommit/);
+assert.match(skills,/CONTEXT_USED/);
+assert.match(skills,/Do not claim a skill was loaded or executed/);
+assert.match(voice,/SkillAuthorityClient/);
+assert.match(voice,/lastSkillEvidence/);
 assert.match(manifest,/SYSTEM_ALERT_WINDOW/);
 assert.match(manifest,/PocketOverlayService/);
 assert.match(manifest,/PocketBootReceiver/);
