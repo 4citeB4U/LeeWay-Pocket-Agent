@@ -23,7 +23,7 @@ import android.provider.CalendarContract
 import android.speech.*
 import android.view.Gravity
 import android.view.ViewGroup
-import android.webkit.*
+
 import android.widget.*
 import org.json.JSONObject
 import java.util.Locale
@@ -32,13 +32,13 @@ import kotlin.concurrent.thread
 class PocketVoiceActivity: Activity(){
     private lateinit var status:TextView
     private lateinit var transcript:TextView
-    private lateinit var voiceView:WebView
+
     private lateinit var bridge:DeviceBridgeClient
     private lateinit var memory:MemoryStore
     private lateinit var automation:N8nBridge
     private var recognizer:SpeechRecognizer?=null
-    private var bridgePageReady=false
-    private var pendingSpeech:String?=null
+
+
     private var pendingRequest:String?=null
     private var expectedNonce:String?=null
     @Volatile private var lastSkillEvidence:String="skills=NOT_LOADED"
@@ -94,54 +94,29 @@ class PocketVoiceActivity: Activity(){
             ViewGroup.LayoutParams.WRAP_CONTENT,
             Gravity.CENTER
         ))
-        voiceView=WebView(this)
-        root.addView(voiceView,FrameLayout.LayoutParams(2,2,Gravity.BOTTOM or Gravity.START))
+
+
         setContentView(root)
     }
 
+    private val voiceListener = object : PocketVoiceHost.Listener {
+        override fun onReady(){status.text="Voice One ready"}
+        override fun onState(message:String){status.text=message.replace('_',' ')}
+        override fun onComplete(){
+            status.text="Ready"
+            status.postDelayed({ if (!isDestroyed && !isFinishing) finish() },700)
+        }
+        override fun onError(message:String){
+            status.text="Voice One unavailable"
+            Toast.makeText(this@PocketVoiceActivity,message,Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun initVoiceFabric(){
-        WebView.setWebContentsDebuggingEnabled(false)
-        voiceView.settings.javaScriptEnabled=true
-        voiceView.settings.domStorageEnabled=true
-        voiceView.settings.mediaPlaybackRequiresUserGesture=false
-        voiceView.addJavascriptInterface(VoiceCallbacks(),"LeeWayPocketNative")
-        voiceView.webViewClient=object:WebViewClient(){
-            override fun onReceivedError(view:WebView?,request:WebResourceRequest?,error:WebResourceError?){
-                if(request?.isForMainFrame==true)runOnUiThread{
-                    status.text="Voice One unavailable"
-                    transcript.text="Voice Fabric could not load. Text response will remain visible; no substitute voice will be used."
-                }
-            }
-        }
-        voiceView.loadUrl(VOICE_BRIDGE_URL)
+        PocketVoiceHost.attach(applicationContext, voiceListener)
     }
-
-    inner class VoiceCallbacks{
-        @JavascriptInterface fun onBridgeReady(json:String){
-            runOnUiThread{
-                bridgePageReady=true
-                voiceView.evaluateJavascript("window.LeeWayAndroidVoice.prepare().catch(()=>{})",null)
-                pendingSpeech?.let{pendingSpeech=null;speakVoiceOne(it)}
-            }
-        }
-        @JavascriptInterface fun onReady(json:String){runOnUiThread{status.text="Voice One ready"}}
-        @JavascriptInterface fun onState(json:String){
-            val message=runCatching{JSONObject(json).optString("message")}.getOrDefault("")
-            if(message.isNotBlank())runOnUiThread{status.text=message.replace('_',' ')}
-        }
-        @JavascriptInterface fun onSpeakComplete(json:String){
-            runOnUiThread{status.text="Ready";status.postDelayed({finish()},700)}
-        }
-        @JavascriptInterface fun onError(json:String){
-            val message=runCatching{JSONObject(json).optString("error")}.getOrDefault("VOICE_UNAVAILABLE")
-            runOnUiThread{
-                status.text="Voice One unavailable"
-                Toast.makeText(this@PocketVoiceActivity,message,Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     private fun startListening(){
+        if (isFinishing || isDestroyed) return
         if(!SpeechRecognizer.isRecognitionAvailable(this)){
             transcript.text="Android speech recognition is unavailable."
             return
@@ -269,6 +244,7 @@ class PocketVoiceActivity: Activity(){
             val args=JSONObject().put("prompt",prompt).put("speak",false)
             runOnUiThread{
                 try{
+                    if (isFinishing || isDestroyed) return@runOnUiThread
                     startActivityForResult(bridge.commandIntent("agent.chat",args),REQ_BRIDGE_COMMAND)
                     status.text="Agent Lee thinking"
                 }catch(_:Exception){
@@ -316,15 +292,11 @@ class PocketVoiceActivity: Activity(){
     }
 
     private fun deliver(text:String){
+        if (isFinishing || isDestroyed) return
         memory.saveConversation("Lee: $text")
         transcript.text="Agent Lee: $text"
         status.text="Preparing Voice One"
-        if(bridgePageReady)speakVoiceOne(text) else pendingSpeech=text
-    }
-
-    private fun speakVoiceOne(text:String){
-        val quoted=JSONObject.quote(text)
-        voiceView.evaluateJavascript("window.LeeWayAndroidVoice.speak($quoted).catch(()=>{})",null)
+        PocketVoiceHost.speak(voiceListener, text)
     }
 
     override fun onRequestPermissionsResult(requestCode:Int,permissions:Array<out String>,grantResults:IntArray){
@@ -334,8 +306,8 @@ class PocketVoiceActivity: Activity(){
 
     override fun onDestroy(){
         recognizer?.destroy()
-        runCatching{voiceView.evaluateJavascript("window.LeeWayAndroidVoice?.stop?.()",null)}
-        voiceView.destroy()
+        PocketVoiceHost.detach(voiceListener)
+
         super.onDestroy()
     }
 
@@ -343,6 +315,6 @@ class PocketVoiceActivity: Activity(){
         private const val REQ_AUDIO=701
         private const val REQ_BRIDGE_BOOTSTRAP=702
         private const val REQ_BRIDGE_COMMAND=703
-        private const val VOICE_BRIDGE_URL="https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"
+
     }
 }
