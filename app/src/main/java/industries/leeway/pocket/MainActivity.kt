@@ -22,6 +22,9 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.*
 import android.widget.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import kotlin.math.*
 
 class MainActivity : Activity() {
@@ -33,14 +36,20 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
         window.navigationBarColor = Color.BLACK
         memory = MemoryStore(this)
         automation = N8nBridge(this)
         bridge = DeviceBridgeClient(this)
 
-        val permissions=mutableListOf(Manifest.permission.RECORD_AUDIO,Manifest.permission.CAMERA)
+        val permissions=mutableListOf(Manifest.permission.RECORD_AUDIO)
         if(Build.VERSION.SDK_INT>=33)permissions+=Manifest.permission.POST_NOTIFICATIONS
-        requestPermissions(permissions.toTypedArray(),10)
+        val missing=permissions.filter { checkSelfPermission(it)!=PackageManager.PERMISSION_GRANTED }
+        if(missing.isNotEmpty())requestPermissions(missing.toTypedArray(),10)
         buildUi()
         if (intent?.getStringExtra("leeway_action") == "TALK_TO_AGENT_LEE") {
             startActivity(Intent(this, PocketVoiceActivity::class.java))
@@ -59,6 +68,11 @@ class MainActivity : Activity() {
 
     private fun buildUi() {
         val frame = FrameLayout(this).apply { setBackgroundColor(Color.BLACK) }
+        ViewCompat.setOnApplyWindowInsetsListener(frame) { view, insets ->
+            val safe = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            view.setPadding(safe.left, safe.top, safe.right, safe.bottom)
+            insets
+        }
         sphere = VoxelSphereView(this).apply {
             setOnClickListener { startActivity(Intent(this@MainActivity,PocketVoiceActivity::class.java)) }
         }
@@ -72,10 +86,14 @@ class MainActivity : Activity() {
             textSize = 34f
             setTextColor(Color.WHITE)
             gravity = Gravity.CENTER
-            setPadding(22,10,22,10)
+            contentDescription = "Open Agent Lee menu"
+            isFocusable = true
             setOnClickListener { showMenu() }
         }
-        frame.addView(menu,FrameLayout.LayoutParams(96,96,Gravity.TOP or Gravity.START))
+        frame.addView(menu,FrameLayout.LayoutParams(dp(56),dp(56),Gravity.TOP or Gravity.START).apply {
+            topMargin=dp(8)
+            marginStart=dp(8)
+        })
 
         val hint=TextView(this).apply{
             text="Tap Agent Lee to talk"
@@ -89,9 +107,25 @@ class MainActivity : Activity() {
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 Gravity.BOTTOM
-            ).apply{bottomMargin=52}
+            ).apply{bottomMargin=dp(24)}
         )
         setContentView(frame)
+        ViewCompat.requestApplyInsets(frame)
+    }
+
+    private fun dp(value:Int)=(value*resources.displayMetrics.density).roundToInt()
+
+    private fun openCamera(){
+        if(checkSelfPermission(Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED){
+            requestPermissions(arrayOf(Manifest.permission.CAMERA),REQ_CAMERA)
+        }else{
+            startActivity(Intent("android.media.action.IMAGE_CAPTURE"))
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode:Int,permissions:Array<out String>,grantResults:IntArray){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults)
+        if(requestCode==REQ_CAMERA && grantResults.firstOrNull()==PackageManager.PERMISSION_GRANTED)openCamera()
     }
 
     private fun showMenu() {
@@ -117,7 +151,7 @@ class MainActivity : Activity() {
                 4 -> showText("Personal memory",memory.readPersonal())
                 5 -> showText("Lee's notebook",memory.readNotebook())
                 6 -> configureAutomationBridge()
-                7 -> startActivity(Intent("android.media.action.IMAGE_CAPTURE"))
+                7 -> openCamera()
                 else -> d.dismiss()
             }
         }.show()
@@ -217,6 +251,7 @@ class MainActivity : Activity() {
 
     companion object{
         private const val REQ_BRIDGE_BOOTSTRAP=801
+        private const val REQ_CAMERA=802
     }
 }
 
