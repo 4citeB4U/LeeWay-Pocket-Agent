@@ -212,6 +212,24 @@ class PocketVoiceActivity: Activity(){
         val q=raw.trim()
         memory.saveConversation("You: $q")
         val l=q.lowercase(Locale.US)
+        val launch=PhoneLaunchCommand.parse(q)
+        if(launch!=null){
+            val label=if(launch==PhoneLaunchCommand.SETTINGS)"Settings" else "Calculator"
+            val target=if(launch==PhoneLaunchCommand.SETTINGS)Intent(android.provider.Settings.ACTION_SETTINGS)
+                else Intent.makeMainSelectorActivity(Intent.ACTION_MAIN,Intent.CATEGORY_APP_CALCULATOR)
+            try{
+                startActivity(target)
+                memory.saveNotebook("phone.intent.launch target=$label state=DISPATCHED screenVerification=NOT_PERFORMED")
+                deliver("I requested Android to open $label.")
+            }catch(_:android.content.ActivityNotFoundException){
+                memory.saveNotebook("phone.intent.launch target=$label state=UNAVAILABLE")
+                deliver("Android did not provide an available $label app.")
+            }catch(_:SecurityException){
+                memory.saveNotebook("phone.intent.launch target=$label state=PERMISSION_BLOCKED")
+                deliver("Android blocked the request to open $label.")
+            }
+            return
+        }
         when{
             l.startsWith("remember ")->{
                 memory.savePersonal(q.substringAfter("remember "))
@@ -292,7 +310,8 @@ class PocketVoiceActivity: Activity(){
             val authority=EcosystemBindings.promptContext(applicationContext)
             val skillContext=SkillAuthorityClient(applicationContext).contextFor(request)
             lastSkillEvidence=skillContext.evidence
-            val prompt=SpokenPrompt.build(request,authority,skillContext.promptContext,skillContext.evidence)
+            val prompt=SpokenPrompt.build(request,authority,skillContext.promptContext,skillContext.evidence,
+                PocketAuthorityProfile.creatorContext(applicationContext))
             val args=JSONObject().put("prompt",prompt).put("speak",false)
             runOnUiThread{
                 try{

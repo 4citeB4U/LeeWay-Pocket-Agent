@@ -11,6 +11,11 @@ const bindings=fs.readFileSync(root+"/java/industries/leeway/pocket/EcosystemBin
 const skills=fs.readFileSync(root+"/java/industries/leeway/pocket/SkillAuthorityClient.kt","utf8");
 const manifest=fs.readFileSync(root+"/AndroidManifest.xml","utf8");
 const bindingJson=JSON.parse(fs.readFileSync("docs/ecosystem-bindings.json","utf8"));
+const profile=JSON.parse(fs.readFileSync(root+"/assets/leeway-authority-profile.json","utf8"));
+assert.equal(profile.creator.name,"Leonard J. Lee");
+assert.equal(new Set(profile.repositories.map(x=>x.name)).size,9);
+assert.equal(profile.imageGeneration.binding,"NOT_BOUND");
+assert.match(profile.creator.classification,/NOT_AUTHENTICATION/);
 
 assert.doesNotMatch(main,/TextToSpeech/);
 assert.doesNotMatch(voice,/TextToSpeech/);
