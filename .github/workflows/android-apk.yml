@@ -9,6 +9,7 @@ on:
       - 'docs/ecosystem-bindings.json'
       - 'tests/**'
       - '*.gradle.kts'
+      - 'gradle.properties'
       - 'settings.gradle.kts'
       - '.github/workflows/android-apk.yml'
 
