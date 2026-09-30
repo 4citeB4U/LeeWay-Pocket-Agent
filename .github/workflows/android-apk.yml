@@ -3,9 +3,11 @@ name: Build LeeWay Pocket APK
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, feature/pocket-workstation-side-tab-20260929]
     paths:
       - 'app/**'
+      - 'docs/ecosystem-bindings.json'
+      - 'tests/**'
       - '*.gradle.kts'
       - 'settings.gradle.kts'
       - '.github/workflows/android-apk.yml'
@@ -39,6 +41,9 @@ jobs:
         with:
           gradle-version: '8.10.2'
 
+      - name: Verify Pocket source contract
+        run: node tests/pocket-workstation-source.test.mjs
+
       - name: Build debug APK
         run: gradle :app:assembleDebug --stacktrace --no-daemon
 
@@ -56,6 +61,7 @@ jobs:
           if-no-files-found: error
 
       - name: Publish APK into repository
+        if: github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
