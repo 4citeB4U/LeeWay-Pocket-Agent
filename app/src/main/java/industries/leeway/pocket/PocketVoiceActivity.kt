@@ -27,11 +27,15 @@ import android.view.ViewGroup
 import android.widget.*
 import org.json.JSONObject
 import java.util.Locale
+import java.lang.ref.WeakReference
 import kotlin.concurrent.thread
 
 class PocketVoiceActivity: Activity(){
     private lateinit var status:TextView
     private lateinit var transcript:TextView
+    private lateinit var voiceDetails:TextView
+    private var voiceFailed=false
+    private var agentRequestInFlight=false
 
     private lateinit var bridge:DeviceBridgeClient
     private lateinit var memory:MemoryStore
@@ -45,6 +49,12 @@ class PocketVoiceActivity: Activity(){
 
     override fun onCreate(savedInstanceState:Bundle?){
         super.onCreate(savedInstanceState)
+        val existing=activeVoiceActivity?.get()
+        if(existing!=null && !existing.isDestroyed && !existing.isFinishing){
+            finish()
+            return
+        }
+        activeVoiceActivity=WeakReference(this)
         bridge=DeviceBridgeClient(this)
         memory=MemoryStore(this)
         automation=N8nBridge(this)
@@ -86,8 +96,48 @@ class PocketVoiceActivity: Activity(){
             text="CLOSE"
             setOnClickListener{finish()}
         }
+        voiceDetails=TextView(this).apply{
+            text="Preparing Voice One"
+            textSize=13f
+            setTextColor(Color.LTGRAY)
+            gravity=Gravity.CENTER
+            setTextIsSelectable(true)
+        }
+        val retry=Button(this).apply{
+            text="RETRY MICROPHONE"
+            setOnClickListener{
+                if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED)
+                    requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),REQ_AUDIO)
+                else startListening()
+            }
+        }
+        val typeInstead=Button(this).apply{
+            text="TYPE INSTEAD"
+            setOnClickListener{
+                if(agentRequestInFlight){status.text="Agent Lee is still answering";return@setOnClickListener}
+                recognizer?.cancel()
+                recognizer?.destroy()
+                recognizer=null
+                val input=EditText(this@PocketVoiceActivity).apply{
+                    hint="Ask Agent Lee"
+                    maxLines=4
+                }
+                android.app.AlertDialog.Builder(this@PocketVoiceActivity)
+                    .setTitle("Ask Agent Lee").setView(input)
+                    .setPositiveButton("Ask"){_,_->
+                        val request=input.text.toString().trim()
+                        if(request.isNotBlank() && !agentRequestInFlight){
+                            transcript.text="You: $request"
+                            handle(request)
+                        }
+                    }.setNegativeButton("Cancel",null).show()
+            }
+        }
         card.addView(status)
         card.addView(transcript)
+        card.addView(voiceDetails)
+        card.addView(retry)
+        card.addView(typeInstead)
         card.addView(cancel)
         root.addView(card,FrameLayout.LayoutParams(
             resources.displayMetrics.density.let{(330*it).toInt()},
@@ -100,15 +150,15 @@ class PocketVoiceActivity: Activity(){
     }
 
     private val voiceListener = object : PocketVoiceHost.Listener {
-        override fun onReady(){status.text="Voice One ready"}
-        override fun onState(message:String){status.text=message.replace('_',' ')}
+        override fun onReady(){voiceFailed=false;voiceDetails.text="Voice One ready"}
+        override fun onState(message:String){if(!voiceFailed)voiceDetails.text=message.replace('_',' ')}
         override fun onComplete(){
             status.text="Ready"
             status.postDelayed({ if (!isDestroyed && !isFinishing) finish() },700)
         }
         override fun onError(message:String){
-            status.text="Voice One unavailable"
-            Toast.makeText(this@PocketVoiceActivity,message,Toast.LENGTH_SHORT).show()
+            voiceFailed=true
+            voiceDetails.text="Voice One unavailable\n$message"
         }
     }
 
@@ -117,6 +167,10 @@ class PocketVoiceActivity: Activity(){
     }
     private fun startListening(){
         if (isFinishing || isDestroyed) return
+        if (agentRequestInFlight) {
+            status.text="Agent Lee is still answering"
+            return
+        }
         if(!SpeechRecognizer.isRecognitionAvailable(this)){
             transcript.text="Android speech recognition is unavailable."
             return
@@ -129,7 +183,12 @@ class PocketVoiceActivity: Activity(){
             override fun onRmsChanged(rmsdB:Float){}
             override fun onBufferReceived(buffer:ByteArray?){}
             override fun onEndOfSpeech(){status.text="Thinking"}
-            override fun onError(error:Int){status.text="Listening stopped";transcript.text="Speech recognition error: $error"}
+            override fun onError(error:Int){
+                status.text="Listening stopped"
+                transcript.text=if(error==SpeechRecognizer.ERROR_NO_MATCH || error==SpeechRecognizer.ERROR_SPEECH_TIMEOUT)
+                    "No speech detected. Tap Retry microphone and speak again."
+                else "Speech recognition error: $error. Tap Retry microphone to try again."
+            }
             override fun onPartialResults(partialResults:Bundle?){
                 val partial=partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()
                 if(!partial.isNullOrBlank())transcript.text=partial
@@ -209,6 +268,8 @@ class PocketVoiceActivity: Activity(){
     }
 
     private fun routeAgent(request:String){
+        if(agentRequestInFlight)return
+        agentRequestInFlight=true
         pendingRequest=request
         if(!bridge.isGranted()){
             val nonce=bridge.newNonce()
@@ -231,16 +292,7 @@ class PocketVoiceActivity: Activity(){
             val authority=EcosystemBindings.promptContext(applicationContext)
             val skillContext=SkillAuthorityClient(applicationContext).contextFor(request)
             lastSkillEvidence=skillContext.evidence
-            val prompt=buildString{
-                append(authority)
-                append("\n\n")
-                append(skillContext.promptContext)
-                append("\n\nROLE: You are Agent Lee speaking through LeeWay Pocket Agent. ")
-                append("Be concise for spoken conversation. Uphold Creator authority and LeeWay truth boundaries. ")
-                append("Do not claim a skill, Formula evaluation, tool action, Notebook action, or runtime action occurred unless the current turn contains evidence. ")
-                append("\nUSER REQUEST: ")
-                append(request)
-            }
+            val prompt=SpokenPrompt.build(request,authority,skillContext.promptContext,skillContext.evidence)
             val args=JSONObject().put("prompt",prompt).put("speak",false)
             runOnUiThread{
                 try{
@@ -292,6 +344,7 @@ class PocketVoiceActivity: Activity(){
     }
 
     private fun deliver(text:String){
+        agentRequestInFlight=false
         if (isFinishing || isDestroyed) return
         memory.saveConversation("Lee: $text")
         transcript.text="Agent Lee: $text"
@@ -305,6 +358,7 @@ class PocketVoiceActivity: Activity(){
     }
 
     override fun onDestroy(){
+        if(activeVoiceActivity?.get()===this)activeVoiceActivity=null
         recognizer?.destroy()
         PocketVoiceHost.detach(voiceListener)
 
@@ -312,6 +366,7 @@ class PocketVoiceActivity: Activity(){
     }
 
     companion object{
+        private var activeVoiceActivity:WeakReference<PocketVoiceActivity>?=null
         private const val REQ_AUDIO=701
         private const val REQ_BRIDGE_BOOTSTRAP=702
         private const val REQ_BRIDGE_COMMAND=703
