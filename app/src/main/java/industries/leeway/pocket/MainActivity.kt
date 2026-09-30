@@ -42,6 +42,9 @@ class MainActivity : Activity() {
         if(Build.VERSION.SDK_INT>=33)permissions+=Manifest.permission.POST_NOTIFICATIONS
         requestPermissions(permissions.toTypedArray(),10)
         buildUi()
+        if (intent?.getStringExtra("leeway_action") == "TALK_TO_AGENT_LEE") {
+            startActivity(Intent(this, PocketVoiceActivity::class.java))
+        }
     }
 
     override fun onResume() {
