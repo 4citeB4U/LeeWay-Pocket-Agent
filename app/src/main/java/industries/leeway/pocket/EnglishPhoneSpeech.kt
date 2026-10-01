@@ -90,13 +90,28 @@ object EnglishPhoneSpeech {
             val voice=candidates.firstOrNull{it.name==choice?.name}
             if(voice==null||instance.setLanguage(Locale.US)<TextToSpeech.LANG_AVAILABLE||instance.setVoice(voice)!=TextToSpeech.SUCCESS){tryEngine(engines,index+1);return@post}
             selected=voice
+            instance.setAudioAttributes(android.media.AudioAttributes.Builder()
+                .setUsage(android.media.AudioAttributes.USAGE_MEDIA)
+                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SPEECH).build())
             description="${voice.locale.toLanguageTag()} · ${voice.name}\n$engine"
             record("READY")
             instance.setOnUtteranceProgressListener(object:UtteranceProgressListener(){
-                override fun onStart(id:String?) { main.post {if(id=="turn-$utterance"){record("PLAYBACK_STARTED");owner?.onState("Speaking · ${selected?.locale?.toLanguageTag()}")}} }
-                override fun onDone(id:String?) { main.post {if(id=="turn-$utterance"){record("PLAYBACK_COMPLETED");owner?.onComplete()}} }
+                override fun onStart(id:String?) { main.post {
+                    if(id=="turn-$utterance"){record("PLAYBACK_STARTED");owner?.onState("Speaking · ${selected?.locale?.toLanguageTag()}")}
+                    else if(id=="preview-$utterance")record("PREVIEW_STARTED")
+                } }
+                override fun onDone(id:String?) { main.post {
+                    if(id=="turn-$utterance"){record("PLAYBACK_COMPLETED");owner?.onComplete()}
+                    else if(id=="preview-$utterance")record("PREVIEW_COMPLETED")
+                } }
                 @Deprecated("Android legacy callback") override fun onError(id:String?)=onError(id,TextToSpeech.ERROR)
-                override fun onError(id:String?,code:Int){main.post {if(id=="turn-$utterance"){record("PLAYBACK_FAILED_$code");owner?.onError("English speech failed ($code). Choose another installed English voice.")}}}
+                override fun onError(id:String?,code:Int){main.post {
+                    if(id=="turn-$utterance"){record("PLAYBACK_FAILED_$code");owner?.onError("English speech failed ($code). Choose another installed English voice.")}
+                    else if(id=="preview-$utterance"){
+                        record("PREVIEW_FAILED_$code")
+                        android.widget.Toast.makeText(context,"Preview failed. Try another English voice.",android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }}
             })
             finishInitialization(true)
         } },engine)
