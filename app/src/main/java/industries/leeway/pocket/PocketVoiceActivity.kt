@@ -36,6 +36,9 @@ class PocketVoiceActivity: Activity(){
     private lateinit var voiceDetails:TextView
     private var voiceFailed=false
     private var agentRequestInFlight=false
+    private val recognitionSession=RecognitionSession()
+    private var typingDialog:android.app.AlertDialog?=null
+    private val initialListening=Runnable{startListening()}
 
     private lateinit var bridge:DeviceBridgeClient
     private lateinit var memory:MemoryStore
@@ -49,6 +52,7 @@ class PocketVoiceActivity: Activity(){
 
     override fun onCreate(savedInstanceState:Bundle?){
         super.onCreate(savedInstanceState)
+        setFinishOnTouchOutside(false)
         val existing=activeVoiceActivity?.get()
         if(existing!=null && !existing.isDestroyed && !existing.isFinishing){
             finish()
@@ -63,7 +67,7 @@ class PocketVoiceActivity: Activity(){
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){
             requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),REQ_AUDIO)
         }else{
-            status.postDelayed({startListening()},250)
+            status.postDelayed(initialListening,250)
         }
     }
 
@@ -115,6 +119,9 @@ class PocketVoiceActivity: Activity(){
             text="TYPE INSTEAD"
             setOnClickListener{
                 if(agentRequestInFlight){status.text="Agent Lee is still answering";return@setOnClickListener}
+                if(typingDialog!=null)return@setOnClickListener
+                recognitionSession.beginTyping()
+                status.removeCallbacks(initialListening)
                 recognizer?.cancel()
                 recognizer?.destroy()
                 recognizer=null
@@ -122,7 +129,8 @@ class PocketVoiceActivity: Activity(){
                     hint="Ask Agent Lee"
                     maxLines=4
                 }
-                android.app.AlertDialog.Builder(this@PocketVoiceActivity)
+                status.text="Type your question"
+                typingDialog=android.app.AlertDialog.Builder(this@PocketVoiceActivity)
                     .setTitle("Ask Agent Lee").setView(input)
                     .setPositiveButton("Ask"){_,_->
                         val request=input.text.toString().trim()
@@ -130,7 +138,15 @@ class PocketVoiceActivity: Activity(){
                             transcript.text="You: $request"
                             handle(request)
                         }
-                    }.setNegativeButton("Cancel",null).show()
+                    }.setNegativeButton("Cancel",null).create().apply{
+                        setCanceledOnTouchOutside(false)
+                        setOnDismissListener{
+                            recognitionSession.endTyping()
+                            typingDialog=null
+                        }
+                        show()
+                        input.requestFocus()
+                    }
             }
         }
         card.addView(status)
@@ -154,7 +170,7 @@ class PocketVoiceActivity: Activity(){
         override fun onState(message:String){if(!voiceFailed)voiceDetails.text=message.replace('_',' ')}
         override fun onComplete(){
             status.text="Ready"
-            status.postDelayed({ if (!isDestroyed && !isFinishing) finish() },700)
+            status.postDelayed({ if (!isDestroyed && !isFinishing && typingDialog==null) finish() },700)
         }
         override fun onError(message:String){
             voiceFailed=true
@@ -167,6 +183,7 @@ class PocketVoiceActivity: Activity(){
     }
     private fun startListening(){
         if (isFinishing || isDestroyed) return
+        if(typingDialog!=null)return
         if (agentRequestInFlight) {
             status.text="Agent Lee is still answering"
             return
@@ -176,25 +193,31 @@ class PocketVoiceActivity: Activity(){
             return
         }
         recognizer?.destroy()
+        val recognitionToken=recognitionSession.begin()?:return
         recognizer=SpeechRecognizer.createSpeechRecognizer(this)
         recognizer?.setRecognitionListener(object:RecognitionListener{
-            override fun onReadyForSpeech(params:Bundle?){status.text="Listening";transcript.text="Speak now…"}
+            private fun current()=recognitionSession.accepts(recognitionToken) && !isFinishing && !isDestroyed && !agentRequestInFlight
+            override fun onReadyForSpeech(params:Bundle?){if(current()){status.text="Listening";transcript.text="Speak now…"}}
             override fun onBeginningOfSpeech(){}
             override fun onRmsChanged(rmsdB:Float){}
             override fun onBufferReceived(buffer:ByteArray?){}
-            override fun onEndOfSpeech(){status.text="Thinking"}
+            override fun onEndOfSpeech(){if(current())status.text="Thinking"}
             override fun onError(error:Int){
+                if(!current())return
                 status.text="Listening stopped"
                 transcript.text=if(error==SpeechRecognizer.ERROR_NO_MATCH || error==SpeechRecognizer.ERROR_SPEECH_TIMEOUT)
                     "No speech detected. Tap Retry microphone and speak again."
                 else "Speech recognition error: $error. Tap Retry microphone to try again."
             }
             override fun onPartialResults(partialResults:Bundle?){
+                if(!current())return
                 val partial=partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()
                 if(!partial.isNullOrBlank())transcript.text=partial
             }
             override fun onEvent(eventType:Int,params:Bundle?){}
             override fun onResults(results:Bundle?){
+                if(!current())return
+                recognitionSession.cancel()
                 val heard=results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull().orEmpty().trim()
                 if(heard.isBlank()){status.text="Ready";transcript.text="I did not hear a complete request.";return}
                 transcript.text="You: $heard"
@@ -307,12 +330,15 @@ class PocketVoiceActivity: Activity(){
     private fun executeAgent(request:String){
         status.text="Loading LeeWay authority"
         thread{
-            val authority=EcosystemBindings.promptContext(applicationContext)
             val skillContext=SkillAuthorityClient(applicationContext).contextFor(request)
-            lastSkillEvidence=skillContext.evidence
-            val prompt=SpokenPrompt.build(request,authority,skillContext.promptContext,skillContext.evidence,
-                PocketAuthorityProfile.creatorContext(applicationContext))
-            val args=JSONObject().put("prompt",prompt).put("speak",false)
+            lastSkillEvidence=skillContext.evidence.replace("skills=CONTEXT_USED","skills=SOURCE_LOADED")
+            // Model system instructions belong in Device Bridge's conversation API.
+            // Keep retrieved source text out of the small model's user-message channel.
+            val args=JSONObject().put("prompt",request.take(600)).put("speak",false)
+                .put("userRequest",request.take(600))
+                .put("creatorContext",PocketAuthorityProfile.creatorContext(applicationContext))
+                .put("authorityEvidence",JSONObject().put("skills",lastSkillEvidence)
+                    .put("contextOnly",true).put("canonicalFormulaState","NOT_EXECUTED"))
             runOnUiThread{
                 try{
                     if (isFinishing || isDestroyed) return@runOnUiThread
@@ -377,6 +403,9 @@ class PocketVoiceActivity: Activity(){
     }
 
     override fun onDestroy(){
+        recognitionSession.cancel()
+        if(::status.isInitialized)status.removeCallbacks(initialListening)
+        typingDialog?.dismiss()
         if(activeVoiceActivity?.get()===this)activeVoiceActivity=null
         recognizer?.destroy()
         PocketVoiceHost.detach(voiceListener)

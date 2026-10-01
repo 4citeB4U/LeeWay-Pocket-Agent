@@ -30,6 +30,7 @@ object PocketVoiceHost {
     private var lastState = "NOT_STARTED"
     private var lastError = ""
     private var progress = JSONObject()
+    private var actualBackend:String?=null
 
     private fun record(state: String = lastState, error: String = lastError) {
         lastState = VoiceProgress.safe(state)
@@ -43,6 +44,7 @@ object PocketVoiceHost {
             .put("ready", ready).put("pageReady", pageReady).put("error", lastError)
             .put("voicePackageId", "agent-lee-voice-one").put("progress", progress)
             .put("requestedBackend", "wasm")
+            .put("actualBackend", actualBackend ?: JSONObject.NULL)
             .put("rendererGeneration", rendererGeneration)
         diagnostics?.edit()?.putString("latest_json", snapshot.toString())?.apply()
         Log.i("LeeWayPocketVoice", "$lastState ready=$ready progress=${progress.optInt("percent", -1)} error=$lastError")
@@ -97,7 +99,7 @@ object PocketVoiceHost {
     private fun create(context: Context) {
         val renderer = ++rendererGeneration
         record("LOADING_VOICE_FABRIC", "")
-        WebView.setWebContentsDebuggingEnabled(false)
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
         view = WebView(context).apply {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
@@ -127,6 +129,7 @@ object PocketVoiceHost {
     private fun destroyRenderer() {
         rendererGeneration++
         ready = false
+        actualBackend = null
         pageReady = false
         record()
         view?.removeJavascriptInterface("LeeWayPocketNative")
@@ -144,6 +147,9 @@ object PocketVoiceHost {
             prepare()
         }
         @JavascriptInterface fun onReady(json: String) = deliver {
+            val payload=runCatching{JSONObject(json)}.getOrNull()
+            val reported=payload?.optString("device")?.ifBlank{payload.optString("backend")}.orEmpty()
+            actualBackend=reported.takeIf{it=="wasm" || it=="webgpu"}
             ready = true
             record("VOICE_ONE_READY", "")
             session.owner?.onReady()

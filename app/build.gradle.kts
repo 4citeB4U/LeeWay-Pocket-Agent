@@ -3,6 +3,7 @@ plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
 android {
     namespace = "industries.leeway.pocket"
     compileSdk = 35
+    buildFeatures { buildConfig = true }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -14,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 6
-        versionName = "0.2.4-workstation-rc4"
+        versionCode = 7
+        versionName = "0.2.5-workstation-rc5"
     }
 }
 
