@@ -140,6 +140,7 @@ class MainActivity : Activity() {
             "Lee's notebook",
             "Automation bridge (n8n)",
             "Camera",
+            "Phone voice · English voices and preview",
             "Close"
         )
         android.app.AlertDialog.Builder(this).setTitle("LeeWay Pocket").setItems(items) { d, which ->
@@ -152,6 +153,7 @@ class MainActivity : Activity() {
                 5 -> showText("Lee's notebook",memory.readNotebook())
                 6 -> configureAutomationBridge()
                 7 -> openCamera()
+                8 -> PocketSpeech.settings(this)
                 else -> d.dismiss()
             }
         }.show()

@@ -22,7 +22,7 @@ assert.doesNotMatch(voice,/TextToSpeech/);
 assert.doesNotMatch(voice,/speechSynthesis/);
 assert.match(voice,/SpeechRecognizer/);
 assert.match(voiceHost,/LeeWayAndroidVoice/);
-assert.match(voice,/PocketVoiceHost.detach/);
+assert.match(voice,/PocketSpeech.detach/);
 assert.doesNotMatch(voice,/WebView\(/);
 assert.match(voice,/agent\.chat/);
 assert.match(voice,/canonicalFormulaState/);

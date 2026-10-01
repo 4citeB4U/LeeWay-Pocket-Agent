@@ -90,6 +90,9 @@ object PocketVoiceHost {
         // Keep model weights and worker warm; closing a conversation only stops speech.
     }
 
+    fun stop(listener:Listener){if(session.owner===listener)stopPlayback()}
+    fun releaseIdle(){if(session.owner==null&&view!=null)destroyRenderer()}
+
     fun speak(listener: Listener, text: String) {
         if (!session.queue(listener, text)) return
         stopPlayback()

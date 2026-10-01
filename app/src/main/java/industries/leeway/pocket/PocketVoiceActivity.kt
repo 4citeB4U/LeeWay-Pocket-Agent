@@ -107,7 +107,7 @@ class PocketVoiceActivity: Activity(){
             setOnClickListener{finish()}
         }
         voiceDetails=TextView(this).apply{
-            text="Preparing Voice One"
+            text="Preparing phone voice"
             textSize=13f
             setTextColor(Color.LTGRAY)
             gravity=Gravity.CENTER
@@ -126,6 +126,7 @@ class PocketVoiceActivity: Activity(){
             setOnClickListener{
                 if(agentRequestInFlight){status.text="Agent Lee is still answering";return@setOnClickListener}
                 if(typingDialog!=null)return@setOnClickListener
+                PocketSpeech.stop(voiceListener)
                 recognitionSession.beginTyping()
                 status.removeCallbacks(initialListening)
                 recognizer?.cancel()
@@ -172,23 +173,23 @@ class PocketVoiceActivity: Activity(){
     }
 
     private val voiceListener = object : PocketVoiceHost.Listener {
-        override fun onReady(){voiceFailed=false;voiceDetails.text="Voice One ready"}
+        override fun onReady(){voiceFailed=false;voiceDetails.text=PocketSpeech.description()}
         override fun onState(message:String){if(!voiceFailed)voiceDetails.text=message.replace('_',' ')}
         override fun onComplete(){
             status.text="Ready"
-            status.postDelayed({ if (!isDestroyed && !isFinishing && typingDialog==null) finish() },700)
         }
         override fun onError(message:String){
             voiceFailed=true
-            voiceDetails.text="Voice One unavailable\n$message"
+            voiceDetails.text="Phone voice unavailable\n$message"
         }
     }
 
     private fun initVoiceFabric(){
-        PocketVoiceHost.attach(applicationContext, voiceListener, voiceContainer)
+        PocketSpeech.attach(applicationContext, voiceListener, voiceContainer)
     }
     private fun startListening(){
         if (isFinishing || isDestroyed) return
+        PocketSpeech.stop(voiceListener)
         if(typingDialog!=null)return
         if (agentRequestInFlight) {
             status.text="Agent Lee is still answering"
@@ -399,8 +400,8 @@ class PocketVoiceActivity: Activity(){
         if (isFinishing || isDestroyed) return
         memory.saveConversation("Lee: $text")
         transcript.text="Agent Lee: $text"
-        status.text="Preparing Voice One"
-        PocketVoiceHost.speak(voiceListener, text)
+        status.text="Preparing response audio"
+        PocketSpeech.speak(voiceListener, text)
     }
 
     override fun onRequestPermissionsResult(requestCode:Int,permissions:Array<out String>,grantResults:IntArray){
@@ -421,7 +422,7 @@ class PocketVoiceActivity: Activity(){
         typingDialog?.dismiss()
         if(activeVoiceActivity?.get()===this)activeVoiceActivity=null
         recognizer?.destroy()
-        PocketVoiceHost.detach(voiceListener)
+        PocketSpeech.detach(voiceListener)
 
         super.onDestroy()
     }
