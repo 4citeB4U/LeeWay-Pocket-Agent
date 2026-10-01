@@ -2,11 +2,16 @@ name: Build LeeWay Pocket APK
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches: [main]
+  push:
+    branches: [main, feature/pocket-workstation-side-tab-20260929]
     paths:
       - 'app/**'
+      - 'docs/ecosystem-bindings.json'
+      - 'tests/**'
       - '*.gradle.kts'
+      - 'gradle.properties'
       - 'settings.gradle.kts'
       - '.github/workflows/android-apk.yml'
 
@@ -26,21 +31,45 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android API 35
+      - name: Prepare Android SDK 35
+        shell: bash
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then
+            SDKMANAGER="$(command -v sdkmanager)"
+          fi
+          echo "SDK_ROOT=$SDK_ROOT"
+          echo "SDKMANAGER=$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
 
-      - name: Build debug APK
-        run: gradle :app:assembleDebug --stacktrace --no-daemon
+      - name: Verify Pocket source contract
+        run: node tests/pocket-workstation-source.test.mjs
+
+      - name: Test and build debug APK
+        run: gradle :app:testDebugUnitTest :app:assembleDebug --stacktrace --no-daemon
+
+      - name: Measure, hash, and identify APK signer
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          test -f "$APK"
+          BYTES=$(stat -c%s "$APK")
+          SHA=$(sha256sum "$APK" | awk '{print $1}')
+          echo "package_bytes=$BYTES" | tee pocket-package-evidence.txt
+          echo "sha256=$SHA" | tee -a pocket-package-evidence.txt
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          APKSIGNER="$SDK_ROOT/build-tools/35.0.0/apksigner"
+          test -x "$APKSIGNER"
+          "$APKSIGNER" verify --print-certs "$APK" | tee -a pocket-package-evidence.txt
 
       - name: Stage download APK
         run: |
@@ -52,10 +81,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: LeeWay-Pocket-Agent-APK
-          path: docs/download/LeeWay-Pocket-Agent.apk
+          path: |
+            docs/download/LeeWay-Pocket-Agent.apk
+            pocket-package-evidence.txt
           if-no-files-found: error
 
       - name: Publish APK into repository
+        if: github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0.0",
+  "authority": "4citeB4U/LeeWay-Pocket-Agent",
+  "purpose": "Canonical Pocket Agent binding registry. A source binding is not proof of execution.",
+  "bindings": [
+    {
+      "id": "standards",
+      "authority": "4citeB4U/LeeWay-Standards",
+      "role": "constitutional-authority",
+      "phoneBinding": "POLICY_CONTEXT",
+      "executionClaim": "AUTHORITY_REFERENCE"
+    },
+    {
+      "id": "agent-skills",
+      "authority": "4citeB4U/LeeWay-Agent-Skills",
+      "role": "capability-manifold",
+      "phoneBinding": "SOURCE_AUTHORITY_BOUND_REMOTE_MCP_PENDING",
+      "executionClaim": "SKILL_EXECUTION_NOT_YET_BOUND"
+    },
+    {
+      "id": "formula",
+      "authority": "4citeB4U/Leeway-formula-live",
+      "role": "canonical-formula",
+      "phoneBinding": "CENTRALIZED_EVALUATOR_REQUIRED",
+      "executionClaim": "NOT_EXECUTED_UNLESS_RECEIPT_RETURNED"
+    },
+    {
+      "id": "runtime-fabric",
+      "authority": "4citeB4U/Leeway-Runtime-Fabric",
+      "role": "workplane-and-provider-fabric",
+      "endpoint": "https://leeway-runtime-fabric.fly.dev",
+      "phoneBinding": "REMOTE_HEALTH_AND_WORKPLANE_ADAPTER_PENDING_AUTH",
+      "executionClaim": "DO_NOT_ASSUME_LIVE"
+    },
+    {
+      "id": "device-bridge",
+      "authority": "4citeB4U/LEEWAY-DEVICE-BRIDGE",
+      "role": "phone-native-device-and-local-model-authority",
+      "phoneBinding": "SCOPED_ANDROID_IPC",
+      "executionClaim": "EXECUTED_ONLY_WHEN_IPC_RESULT_RETURNS"
+    },
+    {
+      "id": "voice-fabric",
+      "authority": "4citeB4U/LeeWay-Voice-Fabric",
+      "role": "canonical-Agent-Lee-voice",
+      "endpoint": "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html",
+      "voicePackageId": "agent-lee-voice-one",
+      "phoneBinding": "ANDROID_WEBVIEW_VOICE_BRIDGE",
+      "executionClaim": "SPOKEN_ONLY_AFTER_NATIVE_CALLBACK"
+    },
+    {
+      "id": "leeway-live",
+      "authority": "4citeB4U/Leeway-live",
+      "role": "public-Agent-Lee-bootstrap-and-interaction-authority",
+      "phoneBinding": "REFERENCE_AND_WEB_SURFACE",
+      "executionClaim": "SOURCE_BOUND"
+    },
+    {
+      "id": "notebook-direct-git",
+      "authority": "4citeB4U/LEEWAY-INTELLECTUAL-ESTATE/tools/notebook-direct-git-bridge",
+      "role": "Notebook-Studio-to-GitHub-evidence-adapter",
+      "phoneBinding": "GITHUB_EVIDENCE_CONSUMER_ONLY",
+      "executionClaim": "WINDOWS_CHROME_EXTENSION_NOT_CLAIMED_ON_ANDROID"
+    },
+    {
+      "id": "n8n",
+      "authority": "LeeWay Pocket Automation Router",
+      "role": "deterministic-automation-provider",
+      "phoneBinding": "CONFIGURABLE_AUTHENTICATED_WEBHOOK",
+      "executionClaim": "EXECUTED_ONLY_ON_SUCCESS_RESPONSE"
+    }
+  ],
+  "invariants": [
+    "mounted != executed",
+    "configured != proven",
+    "source authority != runtime execution",
+    "local eligibility gate != canonical Formula execution",
+    "Android/system TTS is not Agent Lee Voice One",
+    "Notebook Chrome extension is not an Android capability"
+  ]
+}

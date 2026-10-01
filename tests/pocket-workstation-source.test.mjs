@@ -1,0 +1,48 @@
+import fs from "node:fs";
+import assert from "node:assert/strict";
+
+const root="app/src/main";
+const main=fs.readFileSync(root+"/java/industries/leeway/pocket/MainActivity.kt","utf8");
+const voice=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketVoiceActivity.kt","utf8");
+const voiceHost=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketVoiceHost.kt","utf8");
+const overlay=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketOverlayService.kt","utf8");
+const bridge=fs.readFileSync(root+"/java/industries/leeway/pocket/DeviceBridgeClient.kt","utf8");
+const bindings=fs.readFileSync(root+"/java/industries/leeway/pocket/EcosystemBindings.kt","utf8");
+const skills=fs.readFileSync(root+"/java/industries/leeway/pocket/SkillAuthorityClient.kt","utf8");
+const manifest=fs.readFileSync(root+"/AndroidManifest.xml","utf8");
+const bindingJson=JSON.parse(fs.readFileSync("docs/ecosystem-bindings.json","utf8"));
+const profile=JSON.parse(fs.readFileSync(root+"/assets/leeway-authority-profile.json","utf8"));
+assert.equal(profile.creator.name,"Leonard J. Lee");
+assert.equal(new Set(profile.repositories.map(x=>x.name)).size,9);
+assert.equal(profile.imageGeneration.binding,"NOT_BOUND");
+assert.match(profile.creator.classification,/NOT_AUTHENTICATION/);
+
+assert.doesNotMatch(main,/TextToSpeech/);
+assert.doesNotMatch(voice,/TextToSpeech/);
+assert.doesNotMatch(voice,/speechSynthesis/);
+assert.match(voice,/SpeechRecognizer/);
+assert.match(voiceHost,/LeeWayAndroidVoice/);
+assert.match(voice,/PocketSpeech.detach/);
+assert.doesNotMatch(voice,/WebView\(/);
+assert.match(voice,/agent\.chat/);
+assert.match(voice,/canonicalFormulaState/);
+assert.match(voice,/DeviceBridgeClient/);
+assert.match(overlay,/TYPE_APPLICATION_OVERLAY/);
+assert.match(overlay,/PocketVoiceActivity/);
+assert.match(bridge,/PocketBridgeActivity/);
+assert.match(bridge,/POCKET_BOOTSTRAP/);
+assert.match(bindings,/ecosystem-bindings\.json/);
+assert.match(skills,/96ea94dda56e642887e600b54528b69919f0a2e6/);
+assert.match(skills,/skillsSourceCommit/);
+assert.match(skills,/CONTEXT_USED/);
+assert.match(skills,/Do not claim a skill was loaded or executed/);
+assert.match(voice,/SkillAuthorityClient/);
+assert.match(voice,/lastSkillEvidence/);
+assert.match(manifest,/SYSTEM_ALERT_WINDOW/);
+assert.match(manifest,/PocketOverlayService/);
+assert.match(manifest,/PocketBootReceiver/);
+assert.equal(bindingJson.bindings.find(x=>x.id==="voice-fabric").voicePackageId,"agent-lee-voice-one");
+assert.equal(bindingJson.bindings.find(x=>x.id==="formula").executionClaim,"NOT_EXECUTED_UNLESS_RECEIPT_RETURNED");
+assert.match(bindingJson.bindings.find(x=>x.id==="agent-skills").phoneBinding,/REMOTE_MCP_PENDING/);
+
+console.log("PASS Pocket secondary-workstation source contract");

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "creator": {
+    "name": "Leonard J. Lee",
+    "aliases": ["Leonard Lee"],
+    "relationship": "Creator of the LeeWay ecosystem",
+    "classification": "USER_AUTHORIZED_PROFILE_CONTEXT_NOT_AUTHENTICATION",
+    "sources": [
+      "https://github.com/4citeB4U/Resume-PDF/blob/30fe2285126fb5f6f407ee5231e265eec2b943da/README.md",
+      "https://github.com/4citeB4U/Leonard-Lee-Resume/blob/9650947654d019692f525e8a97c7bd94b5663270/manifest.json"
+    ]
+  },
+  "repositories": [
+    {"name":"LEEWAY-DEVICE-BRIDGE","url":"https://github.com/4citeB4U/LEEWAY-DEVICE-BRIDGE","binding":"PHONE_SCOPED_IPC_PROVIDER","execution":"REQUIRES_CURRENT_COMMAND_RESULT"},
+    {"name":"LeeWay-Voice-Fabric","url":"https://github.com/4citeB4U/LeeWay-Voice-Fabric","binding":"CANONICAL_VOICE_ONE_WEBVIEW_WASM","execution":"REQUIRES_CURRENT_PLAYBACK_CALLBACK"},
+    {"name":"LeeWay-Agent-Skills","url":"https://github.com/4citeB4U/LeeWay-Agent-Skills","binding":"READ_ONLY_SKILL_CONTEXT","execution":"READING_IS_NOT_TOOL_EXECUTION"},
+    {"name":"LeeWay-Pocket-Agent","url":"https://github.com/4citeB4U/LeeWay-Pocket-Agent","binding":"PHONE_CONVERSATION_INTERFACE","execution":"REQUIRES_PER_TURN_EVIDENCE"},
+    {"name":"Leeway-Runtime-Fabric","url":"https://github.com/4citeB4U/Leeway-Runtime-Fabric","binding":"REFERENCE_ONLY_REMOTE_ADAPTER_NOT_BOUND","execution":"NOT_EXECUTED"},
+    {"name":"Leeway-formula-live","url":"https://github.com/4citeB4U/Leeway-formula-live","binding":"REFERENCE_ONLY_MEASURED_INPUT_ADAPTER_REQUIRED","execution":"NOT_EXECUTED"},
+    {"name":"Leeway-live","url":"https://github.com/4citeB4U/Leeway-live","binding":"REFERENCE_ONLY_BROWSER_BOOTSTRAP","execution":"NOT_EXECUTED"},
+    {"name":"Resume-PDF","url":"https://github.com/4citeB4U/Resume-PDF","binding":"REFERENCE_ONLY_CREATOR_PROFILE","execution":"NOT_EXECUTED"},
+    {"name":"Leonard-Lee-Resume","url":"https://github.com/4citeB4U/Leonard-Lee-Resume","binding":"REFERENCE_ONLY_CREATOR_PROFILE","execution":"NOT_EXECUTED"}
+  ],
+  "imageGeneration": {"binding":"NOT_BOUND","reason":"Runtime Fabric image placeholder does not generate an image; an authenticated real provider and artifact receipt are required."},
+  "truthBoundary": "Repository membership is not a live connection, authentication proof, permission grant, or proof of execution."
+}
