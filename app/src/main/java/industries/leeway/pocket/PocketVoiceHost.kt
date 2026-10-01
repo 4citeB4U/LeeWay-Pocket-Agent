@@ -6,6 +6,8 @@ import android.os.Handler
 import android.os.Looper
 import android.webkit.*
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import org.json.JSONObject
 
 /** One canonical Voice Fabric renderer per Pocket process; no Activity context retained. */
@@ -46,16 +48,25 @@ object PocketVoiceHost {
             .put("requestedBackend", "wasm")
             .put("actualBackend", actualBackend ?: JSONObject.NULL)
             .put("rendererGeneration", rendererGeneration)
+            .put("attachedToWindow", view?.isAttachedToWindow == true)
         diagnostics?.edit()?.putString("latest_json", snapshot.toString())?.apply()
         Log.i("LeeWayPocketVoice", "$lastState ready=$ready progress=${progress.optInt("percent", -1)} error=$lastError")
     }
 
-    fun attach(context: Context, listener: Listener) {
+    fun attach(context: Context, listener: Listener, container: ViewGroup) {
         check(Looper.myLooper() == Looper.getMainLooper())
         diagnostics = context.applicationContext.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
         session.attach(listener)
         stopPlayback()
         if (view == null) create(context.applicationContext)
+        view?.let { renderer ->
+            // Give Chromium a real window lifecycle without retaining an Activity context.
+            // The compact voice panel owns UI; this child only hosts its canonical audio runtime.
+            if (renderer.parent !== container) {
+                (renderer.parent as? ViewGroup)?.removeView(renderer)
+                container.addView(renderer, ViewGroup.LayoutParams(1, 1))
+            }
+        }
         if (ready) listener.onReady() else {
             if(lastError.isNotBlank())listener.onError(lastError)
             else listener.onState(VoiceProgress.label(lastState, progress))
@@ -64,7 +75,10 @@ object PocketVoiceHost {
     }
 
     fun detach(listener: Listener) {
-        if (session.detach(listener)) stopPlayback()
+        if (session.detach(listener)) {
+            stopPlayback()
+            view?.let { (it.parent as? ViewGroup)?.removeView(it) }
+        }
         // Keep model weights and worker warm; closing a conversation only stops speech.
     }
 
@@ -101,6 +115,20 @@ object PocketVoiceHost {
         record("LOADING_VOICE_FABRIC", "")
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
         view = WebView(context).apply {
+            isFocusable = false
+            isFocusableInTouchMode = false
+            importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+            setOnTouchListener { _, _ -> true }
+            addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View) {
+                    lastDiagnosticKey = ""
+                    record()
+                }
+                override fun onViewDetachedFromWindow(v: View) {
+                    lastDiagnosticKey = ""
+                    record()
+                }
+            })
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
             settings.mediaPlaybackRequiresUserGesture = false
@@ -133,6 +161,7 @@ object PocketVoiceHost {
         pageReady = false
         record()
         view?.removeJavascriptInterface("LeeWayPocketNative")
+        view?.let { (it.parent as? ViewGroup)?.removeView(it) }
         view?.destroy()
         view = null
     }

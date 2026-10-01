@@ -34,6 +34,7 @@ class PocketVoiceActivity: Activity(){
     private lateinit var status:TextView
     private lateinit var transcript:TextView
     private lateinit var voiceDetails:TextView
+    private lateinit var voiceContainer:FrameLayout
     private var voiceFailed=false
     private var agentRequestInFlight=false
     private val recognitionSession=RecognitionSession()
@@ -73,6 +74,7 @@ class PocketVoiceActivity: Activity(){
 
     private fun buildUi(){
         val root=FrameLayout(this).apply{setBackgroundColor(Color.TRANSPARENT)}
+        voiceContainer=root
         val card=LinearLayout(this).apply{
             orientation=LinearLayout.VERTICAL
             gravity=Gravity.CENTER_HORIZONTAL
@@ -179,7 +181,7 @@ class PocketVoiceActivity: Activity(){
     }
 
     private fun initVoiceFabric(){
-        PocketVoiceHost.attach(applicationContext, voiceListener)
+        PocketVoiceHost.attach(applicationContext, voiceListener, voiceContainer)
     }
     private fun startListening(){
         if (isFinishing || isDestroyed) return
