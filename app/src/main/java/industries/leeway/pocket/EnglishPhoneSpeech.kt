@@ -28,6 +28,7 @@ object EnglishPhoneSpeech {
     private var selected:Voice?=null
     private val prefs get()=context!!.getSharedPreferences("pocket-english-voice",Context.MODE_PRIVATE)
     fun description()=description
+    fun binding()=org.json.JSONObject().put("engine",engine).put("voice",selected?.name).put("locale",selected?.locale?.toLanguageTag()).put("provider","android-tts")
     private fun record(state:String){
         val voice=selected
         prefs.edit().putString("latest_state",state).putString("active_engine",engine)

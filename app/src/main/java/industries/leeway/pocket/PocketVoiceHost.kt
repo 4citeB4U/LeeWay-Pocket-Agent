@@ -35,6 +35,7 @@ object PocketVoiceHost {
     private var progress = JSONObject()
     private var actualBackend:String?=null
     private var nativeDecoder:NativeVoiceDecoder?=null
+    private var englishAdapter:FabricEnglishAdapter?=null
     @Volatile private var trustedPage=false
     private var selectionPrefs:SharedPreferences?=null
     private var requestedVoiceId="chatterbox-default-natural"
@@ -72,7 +73,10 @@ object PocketVoiceHost {
         check(Looper.myLooper() == Looper.getMainLooper())
         diagnostics = context.applicationContext.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
         selectionPrefs=context.applicationContext.getSharedPreferences("pocket-fabric-voice",Context.MODE_PRIVATE)
-        requestedVoiceId=selectionPrefs?.getString("selected_id","chatterbox-default-natural") ?: "chatterbox-default-natural"
+        if(selectionPrefs?.getBoolean("fabric_english_default_v1",false)!=true){
+            selectionPrefs?.edit()?.putString("selected_id","android-installed-english")?.putBoolean("fabric_english_default_v1",true)?.apply()
+        }
+        requestedVoiceId=selectionPrefs?.getString("selected_id","android-installed-english") ?: "android-installed-english"
         session.attach(listener)
         stopPlayback()
         if (view == null) create(context.applicationContext)
@@ -171,6 +175,9 @@ object PocketVoiceHost {
                     view?.evaluateJavascript("window.LeeWayNativeDecoderResult?.(${payload})",null)
             }
         }
+        englishAdapter=FabricEnglishAdapter(context,{trustedPage}) { payload ->
+            main.post { if(renderer==rendererGeneration&&trustedPage)view?.evaluateJavascript("window.LeeWayEnglishResult?.(${payload})",null) }
+        }
         record("LOADING_VOICE_FABRIC", "")
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
         view = WebView(context).apply {
@@ -193,9 +200,11 @@ object PocketVoiceHost {
             settings.mediaPlaybackRequiresUserGesture = false
             addJavascriptInterface(Callbacks(renderer), "LeeWayPocketNative")
             addJavascriptInterface(nativeDecoder!!,"LeeWayPocketDecoder")
+            addJavascriptInterface(englishAdapter!!,"LeeWayPocketEnglish")
             webViewClient = object : WebViewClient() {
                 override fun onPageStarted(v: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
                     nativeDecoder?.cancelActive()
+                    englishAdapter?.stop()
                     trustedPage=canonicalPage(url)
                     readiness.beginPage()
                     selectionConfirmed=false
@@ -230,11 +239,13 @@ object PocketVoiceHost {
         readiness.beginPage()
         actualBackend = null
         trustedPage=false
+        englishAdapter?.close();englishAdapter=null
         nativeDecoder?.close()
         nativeDecoder=null
         record()
         view?.removeJavascriptInterface("LeeWayPocketNative")
         view?.removeJavascriptInterface("LeeWayPocketDecoder")
+        view?.removeJavascriptInterface("LeeWayPocketEnglish")
         view?.let { (it.parent as? ViewGroup)?.removeView(it) }
         view?.destroy()
         view = null
@@ -275,7 +286,8 @@ object PocketVoiceHost {
             val payload=runCatching{JSONObject(json)}.getOrNull()
             if(!selectionConfirmed||payload?.optString("voicePackageId")!=requestedVoiceId)return@deliver
             val reported=payload?.optString("device")?.ifBlank{payload.optString("backend")}.orEmpty()
-            actualBackend=reported.takeIf{it=="wasm" || it=="webgpu"}
+            actualBackend=reported.takeIf{it=="wasm" || it=="webgpu" || it=="android-native"}
+            if(payload?.optString("provider")=="android-tts")selectedVoiceName="${VoiceProgress.safe(payload.optString("voiceName"))} · ${VoiceProgress.safe(payload.optString("actualVoice"))} · ${VoiceProgress.safe(payload.optString("actualEngine"))}"
             if (!readiness.modelReady()) return@deliver
             record("VOICE_READY", "")
             session.owner?.onReady()
