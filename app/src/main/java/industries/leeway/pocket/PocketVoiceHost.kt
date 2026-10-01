@@ -23,8 +23,9 @@ object PocketVoiceHost {
     private val main = Handler(Looper.getMainLooper())
     private val session = VoiceSession<Listener>()
     private var view: WebView? = null
-    private var ready = false
-    private var pageReady = false
+    private val readiness = VoiceReadiness()
+    private val ready get() = readiness.ready
+    private val pageReady get() = readiness.pageReady
     private var rendererGeneration = 0
     private var diagnostics: SharedPreferences? = null
     private var lastDiagnosticKey = ""
@@ -112,6 +113,8 @@ object PocketVoiceHost {
 
     private fun create(context: Context) {
         val renderer = ++rendererGeneration
+        readiness.beginPage()
+        actualBackend = null
         record("LOADING_VOICE_FABRIC", "")
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
         view = WebView(context).apply {
@@ -134,16 +137,22 @@ object PocketVoiceHost {
             settings.mediaPlaybackRequiresUserGesture = false
             addJavascriptInterface(Callbacks(renderer), "LeeWayPocketNative")
             webViewClient = object : WebViewClient() {
+                override fun onPageStarted(v: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
+                    readiness.beginPage()
+                    actualBackend = null
+                    PocketVoiceHost.progress = JSONObject()
+                    record("LOADING_VOICE_FABRIC", "")
+                }
                 override fun onReceivedError(v: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                     if (request?.isForMainFrame == true) {
-                        pageReady = false
-                        ready = false
+                        readiness.beginPage()
                         record("PAGE_LOAD_FAILED", "WebView error ${error?.errorCode}")
                         session.owner?.onError("Voice Fabric could not load. Close and reopen to retry.")
                         destroyRenderer()
                     }
                 }
                 override fun onRenderProcessGone(v: WebView?, detail: RenderProcessGoneDetail?): Boolean {
+                    readiness.beginPage()
                     record("RENDERER_STOPPED", "Renderer exited; crashed=${detail?.didCrash()}")
                     session.owner?.onError("Voice renderer stopped. Close and reopen to reload Voice One.")
                     destroyRenderer()
@@ -156,9 +165,8 @@ object PocketVoiceHost {
 
     private fun destroyRenderer() {
         rendererGeneration++
-        ready = false
+        readiness.beginPage()
         actualBackend = null
-        pageReady = false
         record()
         view?.removeJavascriptInterface("LeeWayPocketNative")
         view?.let { (it.parent as? ViewGroup)?.removeView(it) }
@@ -171,7 +179,8 @@ object PocketVoiceHost {
             main.post { if (renderer == rendererGeneration) block() }
         }
         @JavascriptInterface fun onBridgeReady(json: String) = deliver {
-            pageReady = true
+            readiness.bridgeReady()
+            actualBackend = null
             record("ANDROID_BRIDGE_READY", "")
             prepare()
         }
@@ -179,7 +188,7 @@ object PocketVoiceHost {
             val payload=runCatching{JSONObject(json)}.getOrNull()
             val reported=payload?.optString("device")?.ifBlank{payload.optString("backend")}.orEmpty()
             actualBackend=reported.takeIf{it=="wasm" || it=="webgpu"}
-            ready = true
+            if (!readiness.modelReady()) return@deliver
             record("VOICE_ONE_READY", "")
             session.owner?.onReady()
             dispatch()
@@ -189,16 +198,18 @@ object PocketVoiceHost {
             val message = VoiceProgress.safe(payload.optString("message"))
             payload.optJSONObject("progress")?.let { progress = VoiceProgress.fields(it) }
             if (message.isNotBlank()) {
+                if (message == "PREPARING_VOICE_ONE") readiness.unavailable()
                 record(message)
                 session.owner?.onState(VoiceProgress.label(message, progress))
             }
         }
         @JavascriptInterface fun onError(json: String) = deliver {
             val error = runCatching { JSONObject(json) }.getOrNull()
-            if (error?.optString("stage") == "prepare") {
-                ready = false
-                val message = VoiceProgress.safe(error.optString("error", "VOICE_UNAVAILABLE"))
-                record("PREPARE_FAILED", message)
+            if (error?.optString("stage") in setOf("prepare", "runtime")) {
+                readiness.unavailable()
+                actualBackend = null
+                val message = VoiceProgress.safe(error?.optString("error", "VOICE_UNAVAILABLE") ?: "VOICE_UNAVAILABLE")
+                record(if(error?.optString("stage") == "runtime") "RUNTIME_FAILED" else "PREPARE_FAILED", message)
                 session.owner?.onError(message)
             }
         }
@@ -208,6 +219,8 @@ object PocketVoiceHost {
         }
         @JavascriptInterface fun onPocketError(turn: Int, error: String) = deliver {
             if (session.ownerFor(turn) != null) {
+                readiness.unavailable()
+                actualBackend = null
                 val message = VoiceProgress.safe(error)
                 record("PLAYBACK_FAILED", message)
                 session.ownerFor(turn)?.onError(message)
