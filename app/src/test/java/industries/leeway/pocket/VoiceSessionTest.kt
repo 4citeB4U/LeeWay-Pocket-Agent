@@ -45,4 +45,13 @@ class VoiceSessionTest {
         lease.detach(activity)
         assertNull(lease.ownerFor(second))
     }
+    @Test fun stoppingDropsQueuedSpeechWithoutDetachingOwner() {
+        val lease=VoiceSession<Any>();val owner=Any();lease.attach(owner)
+        lease.queue(owner,"first");val oldTurn=lease.takePending()!!.first
+        lease.queue(owner,"queued");assertTrue(lease.cancel(owner))
+        assertNull(lease.takePending());assertNull(lease.ownerFor(oldTurn))
+        assertSame(owner,lease.owner);assertFalse(lease.cancel(Any()))
+        assertTrue(lease.queue(owner,"new"))
+        assertEquals("new",lease.takePending()!!.second)
+    }
 }

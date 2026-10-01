@@ -140,7 +140,7 @@ class MainActivity : Activity() {
             "Lee's notebook",
             "Automation bridge (n8n)",
             "Camera",
-            "Phone voice · English voices and preview",
+            "Voice Fabric · choose voice",
             "Close"
         )
         android.app.AlertDialog.Builder(this).setTitle("LeeWay Pocket").setItems(items) { d, which ->

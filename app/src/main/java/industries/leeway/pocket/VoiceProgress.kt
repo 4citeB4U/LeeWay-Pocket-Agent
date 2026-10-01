@@ -22,10 +22,10 @@ object VoiceProgress {
     }
 
     fun label(state: String, progress: JSONObject): String {
-        if (state != "PREPARING_VOICE_ONE") return state.replace('_', ' ')
+        if (state != "PREPARING_VOICE_ONE" && state != "PREPARING_VOICE") return state.replace('_', ' ')
         val file = progress.optString("file")
         val percent = progress.optInt("percent", -1)
-        return "Preparing Voice One" + (if (percent >= 0) ": $percent%" else "") +
+        return "Preparing voice" + (if (percent >= 0) ": $percent%" else "") +
             (if (file.isNotBlank()) "\n$file" else "") +
             (if (progress.optString("message").isNotBlank()) "\n" + progress.optString("message") else "") +
             (if (progress.optString("status") == "done") "\nLoading model into memory" else "")

@@ -69,6 +69,10 @@ class PocketVoiceActivity: Activity(){
         automation=N8nBridge(this)
         buildUi()
         initVoiceFabric()
+        if(intent?.getBooleanExtra("show_fabric_voice_picker",false)==true){
+            PocketVoiceHost.showVoicePicker(this)
+            return
+        }
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED){
             requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),REQ_AUDIO)
         }else{
@@ -177,6 +181,7 @@ class PocketVoiceActivity: Activity(){
         override fun onState(message:String){if(!voiceFailed)voiceDetails.text=message.replace('_',' ')}
         override fun onComplete(){
             status.text="Ready"
+            voiceDetails.text=PocketSpeech.description()
         }
         override fun onError(message:String){
             voiceFailed=true
@@ -412,6 +417,11 @@ class PocketVoiceActivity: Activity(){
     override fun onNewIntent(intent:Intent){
         super.onNewIntent(intent)
         setIntent(intent)
+        if(intent.getBooleanExtra("show_fabric_voice_picker",false)){
+            recognitionSession.cancel();recognizer?.cancel();recognizer?.destroy();recognizer=null
+            status.removeCallbacks(initialListening);PocketSpeech.stop(voiceListener)
+            PocketVoiceHost.showVoicePicker(this)
+        }
         // Reopening brings the existing conversation forward. Do not restart recognition,
         // replace a typed question, or interrupt an outstanding Device Bridge result.
     }

@@ -36,4 +36,9 @@ class VoiceSession<T : Any> {
     }
 
     fun ownerFor(turn: Int): T? = if (generation == turn) owner else null
+    fun cancel(caller:T):Boolean {
+        if(owner!==caller)return false
+        generation++;pending=null
+        return true
+    }
 }

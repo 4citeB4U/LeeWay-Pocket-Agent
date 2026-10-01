@@ -36,6 +36,13 @@ object PocketVoiceHost {
     private var actualBackend:String?=null
     private var nativeDecoder:NativeVoiceDecoder?=null
     @Volatile private var trustedPage=false
+    private var selectionPrefs:SharedPreferences?=null
+    private var requestedVoiceId="chatterbox-default-natural"
+    private var selectedVoiceId=""
+    private var selectedVoiceName="LeeWay Voice Fabric"
+    private var selectionConfirmed=false
+    private var catalogCallback:((List<FabricVoiceCatalog.Choice>?,String?)->Unit)?=null
+    fun description()="$selectedVoiceName · LeeWay Voice Fabric"
 
     private fun canonicalPage(url:String?):Boolean {
         val uri=android.net.Uri.parse(url ?: return false)
@@ -52,7 +59,7 @@ object PocketVoiceHost {
         lastDiagnosticAt = now
         val snapshot = JSONObject().put("updatedAtMs", now).put("state", lastState)
             .put("ready", ready).put("pageReady", pageReady).put("error", lastError)
-            .put("voicePackageId", "agent-lee-voice-one").put("progress", progress)
+            .put("voicePackageId", selectedVoiceId).put("requestedVoicePackageId",requestedVoiceId).put("progress", progress)
             .put("requestedBackend", "wasm")
             .put("actualBackend", actualBackend ?: JSONObject.NULL)
             .put("rendererGeneration", rendererGeneration)
@@ -64,6 +71,8 @@ object PocketVoiceHost {
     fun attach(context: Context, listener: Listener, container: ViewGroup) {
         check(Looper.myLooper() == Looper.getMainLooper())
         diagnostics = context.applicationContext.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
+        selectionPrefs=context.applicationContext.getSharedPreferences("pocket-fabric-voice",Context.MODE_PRIVATE)
+        requestedVoiceId=selectionPrefs?.getString("selected_id","chatterbox-default-natural") ?: "chatterbox-default-natural"
         session.attach(listener)
         stopPlayback()
         if (view == null) create(context.applicationContext)
@@ -75,6 +84,7 @@ object PocketVoiceHost {
                 container.addView(renderer, ViewGroup.LayoutParams(1, 1))
             }
         }
+        if(pageReady && selectedVoiceId!=requestedVoiceId)requestSelection()
         if (ready) listener.onReady() else {
             if(lastError.isNotBlank())listener.onError(lastError)
             else listener.onState(VoiceProgress.label(lastState, progress))
@@ -90,7 +100,7 @@ object PocketVoiceHost {
         // Keep model weights and worker warm; closing a conversation only stops speech.
     }
 
-    fun stop(listener:Listener){if(session.owner===listener)stopPlayback()}
+    fun stop(listener:Listener){if(session.cancel(listener)){stopPlayback();record("VOICE_STOPPED","")}}
     fun releaseIdle(){if(session.owner==null&&view!=null)destroyRenderer()}
 
     fun speak(listener: Listener, text: String) {
@@ -100,9 +110,38 @@ object PocketVoiceHost {
     }
 
     private fun prepare() {
-        if (pageReady && !ready) view?.evaluateJavascript(
+        if (pageReady && selectionConfirmed && !ready) view?.evaluateJavascript(
             "window.LeeWayAndroidVoice.prepare().catch(()=>{})", null
         )
+    }
+
+    private fun requestSelection(){
+        if(!pageReady)return
+        selectionConfirmed=false;readiness.unavailable()
+        view?.evaluateJavascript("window.LeeWayAndroidVoice.select(${JSONObject.quote(requestedVoiceId)}).catch(e=>LeeWayPocketNative.onSelectionError(String(e.message||e)))",null)
+    }
+    private fun requestCatalog(){
+        if(!pageReady)return
+        view?.evaluateJavascript("window.LeeWayAndroidVoice.list().then(v=>LeeWayPocketNative.onCatalog(JSON.stringify(v))).catch(e=>LeeWayPocketNative.onCatalogError(String(e.message||e)))",null)
+    }
+    fun showVoicePicker(activity:android.app.Activity){
+        val loading=android.app.AlertDialog.Builder(activity).setTitle("LeeWay Voice Fabric")
+            .setMessage("Loading the canonical voice catalog…").setNegativeButton("Cancel",null).create()
+        val timeout=Runnable{catalogCallback?.invoke(null,"Voice Fabric catalog timed out.");catalogCallback=null}
+        catalogCallback={ choices,error ->
+            main.removeCallbacks(timeout);catalogCallback=null
+            if(!activity.isFinishing&&!activity.isDestroyed){
+                loading.dismiss()
+                if(error!=null||choices.isNullOrEmpty())android.app.AlertDialog.Builder(activity).setTitle("Voice Fabric")
+                    .setMessage(error ?: "No available voice adapters were returned.").setPositiveButton("Close",null).show()
+                else android.app.AlertDialog.Builder(activity).setTitle("Voice Fabric voices")
+                    .setSingleChoiceItems(choices.map{"${it.name} · ${it.provider}"}.toTypedArray(),choices.indexOfFirst{it.id==selectedVoiceId}){ dialog,index ->
+                        requestedVoiceId=choices[index].id;requestSelection();dialog.dismiss()
+                    }.setNegativeButton("Cancel",null).show()
+            }
+        }
+        loading.setOnDismissListener{catalogCallback=null;main.removeCallbacks(timeout)}
+        loading.show();main.postDelayed(timeout,20000);requestCatalog()
     }
 
     private fun dispatch() {
@@ -111,7 +150,7 @@ object PocketVoiceHost {
         view?.evaluateJavascript(
             "window.LeeWayAndroidVoice.speak(${JSONObject.quote(text)})" +
                 ".then(()=>LeeWayPocketNative.onPocketComplete($turn))" +
-                ".catch(e=>LeeWayPocketNative.onPocketError($turn,String(e.message||e)))", null
+                ".catch(e=>e.name==='AbortError'?LeeWayPocketNative.onPocketStopped($turn):LeeWayPocketNative.onPocketError($turn,String(e.message||e)))", null
         )
     }
 
@@ -124,6 +163,7 @@ object PocketVoiceHost {
     private fun create(context: Context) {
         val renderer = ++rendererGeneration
         readiness.beginPage()
+        selectionConfirmed=false
         actualBackend = null
         nativeDecoder=NativeVoiceDecoder(context,{trustedPage}) { payload ->
             main.post {
@@ -158,6 +198,7 @@ object PocketVoiceHost {
                     nativeDecoder?.cancelActive()
                     trustedPage=canonicalPage(url)
                     readiness.beginPage()
+                    selectionConfirmed=false
                     actualBackend = null
                     PocketVoiceHost.progress = JSONObject()
                     record("LOADING_VOICE_FABRIC", "")
@@ -175,7 +216,7 @@ object PocketVoiceHost {
                 override fun onRenderProcessGone(v: WebView?, detail: RenderProcessGoneDetail?): Boolean {
                     readiness.beginPage()
                     record("RENDERER_STOPPED", "Renderer exited; crashed=${detail?.didCrash()}")
-                    session.owner?.onError("Voice renderer stopped. Close and reopen to reload Voice One.")
+                    session.owner?.onError("Voice renderer stopped. Close and reopen to reload the selected voice.")
                     destroyRenderer()
                     return true
                 }
@@ -207,29 +248,54 @@ object PocketVoiceHost {
             readiness.bridgeReady()
             actualBackend = null
             record("ANDROID_BRIDGE_READY", "")
-            prepare()
+            requestSelection()
+            if(catalogCallback!=null)requestCatalog()
         }
+        @JavascriptInterface fun onSelection(json:String)=deliver {
+            val payload=runCatching{JSONObject(json)}.getOrNull() ?: return@deliver
+            if(payload.optString("voicePackageId")!=requestedVoiceId)return@deliver
+            selectedVoiceId=requestedVoiceId;selectedVoiceName=VoiceProgress.safe(payload.optString("name",selectedVoiceId))
+            selectionConfirmed=true;readiness.unavailable()
+            selectionPrefs?.edit()?.putString("selected_id",selectedVoiceId)?.apply()
+            record("VOICE_SELECTED","")
+            if(payload.optBoolean("ready")&&readiness.modelReady()){
+                record("VOICE_READY","");session.owner?.onReady();dispatch()
+            }else if(session.owner!=null)prepare()
+        }
+        @JavascriptInterface fun onSelectionError(error:String)=deliver {
+            selectionConfirmed=false;readiness.unavailable();record("VOICE_SELECTION_FAILED",VoiceProgress.safe(error))
+            session.owner?.onError(VoiceProgress.safe(error))
+        }
+        @JavascriptInterface fun onCatalog(json:String)=deliver {
+            val parsed=runCatching{FabricVoiceCatalog.parse(json)}
+            catalogCallback?.invoke(parsed.getOrNull(),parsed.exceptionOrNull()?.message)
+        }
+        @JavascriptInterface fun onCatalogError(error:String)=deliver {catalogCallback?.invoke(null,VoiceProgress.safe(error))}
         @JavascriptInterface fun onReady(json: String) = deliver {
             val payload=runCatching{JSONObject(json)}.getOrNull()
+            if(!selectionConfirmed||payload?.optString("voicePackageId")!=requestedVoiceId)return@deliver
             val reported=payload?.optString("device")?.ifBlank{payload.optString("backend")}.orEmpty()
             actualBackend=reported.takeIf{it=="wasm" || it=="webgpu"}
             if (!readiness.modelReady()) return@deliver
-            record("VOICE_ONE_READY", "")
+            record("VOICE_READY", "")
             session.owner?.onReady()
             dispatch()
         }
         @JavascriptInterface fun onState(json: String) = deliver {
             val payload = runCatching { JSONObject(json) }.getOrNull() ?: return@deliver
+            if(payload.optString("voicePackageId")!=requestedVoiceId)return@deliver
             val message = VoiceProgress.safe(payload.optString("message"))
             payload.optJSONObject("progress")?.let { progress = VoiceProgress.fields(it) }
             if (message.isNotBlank()) {
-                if (message == "PREPARING_VOICE_ONE") readiness.unavailable()
+                if (message == "PREPARING_VOICE_ONE" || message == "PREPARING_VOICE") readiness.unavailable()
+                if(message=="VOICE_STOPPED"&&!payload.optBoolean("ready",true))readiness.unavailable()
                 record(message)
                 session.owner?.onState(VoiceProgress.label(message, progress))
             }
         }
         @JavascriptInterface fun onError(json: String) = deliver {
             val error = runCatching { JSONObject(json) }.getOrNull()
+            if(error?.optString("voicePackageId").orEmpty().let{it.isNotBlank()&&it!=requestedVoiceId})return@deliver
             if (error?.optString("stage") in setOf("prepare", "runtime")) {
                 readiness.unavailable()
                 actualBackend = null
@@ -241,6 +307,9 @@ object PocketVoiceHost {
         @JavascriptInterface fun onPocketComplete(turn: Int) = deliver {
             if (session.ownerFor(turn) != null) record("PLAYBACK_COMPLETED", "")
             session.ownerFor(turn)?.onComplete()
+        }
+        @JavascriptInterface fun onPocketStopped(turn:Int)=deliver {
+            if(session.ownerFor(turn)!=null){record("VOICE_STOPPED","");session.ownerFor(turn)?.onState("Stopped")}
         }
         @JavascriptInterface fun onPocketError(turn: Int, error: String) = deliver {
             if (session.ownerFor(turn) != null) {
