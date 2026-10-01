@@ -14,6 +14,7 @@ package industries.leeway.pocket
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -404,6 +405,13 @@ class PocketVoiceActivity: Activity(){
         if(requestCode==REQ_AUDIO && grantResults.firstOrNull()==PackageManager.PERMISSION_GRANTED)startListening()
     }
 
+    override fun onNewIntent(intent:Intent){
+        super.onNewIntent(intent)
+        setIntent(intent)
+        // Reopening brings the existing conversation forward. Do not restart recognition,
+        // replace a typed question, or interrupt an outstanding Device Bridge result.
+    }
+
     override fun onDestroy(){
         recognitionSession.cancel()
         if(::status.isInitialized)status.removeCallbacks(initialListening)
@@ -416,6 +424,11 @@ class PocketVoiceActivity: Activity(){
     }
 
     companion object{
+        fun launchIntent(context:Context, newTask:Boolean=false)=
+            Intent(context,PocketVoiceActivity::class.java).apply{
+                addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                if(newTask)addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
         private var activeVoiceActivity:WeakReference<PocketVoiceActivity>?=null
         private const val REQ_AUDIO=701
         private const val REQ_BRIDGE_BOOTSTRAP=702

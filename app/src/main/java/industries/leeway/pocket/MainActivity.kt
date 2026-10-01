@@ -52,7 +52,7 @@ class MainActivity : Activity() {
         if(missing.isNotEmpty())requestPermissions(missing.toTypedArray(),10)
         buildUi()
         if (intent?.getStringExtra("leeway_action") == "TALK_TO_AGENT_LEE") {
-            startActivity(Intent(this, PocketVoiceActivity::class.java))
+            startActivity(PocketVoiceActivity.launchIntent(this))
         }
     }
 
@@ -74,7 +74,7 @@ class MainActivity : Activity() {
             insets
         }
         sphere = VoxelSphereView(this).apply {
-            setOnClickListener { startActivity(Intent(this@MainActivity,PocketVoiceActivity::class.java)) }
+            setOnClickListener { startActivity(PocketVoiceActivity.launchIntent(this@MainActivity)) }
         }
         frame.addView(
             sphere,
@@ -144,7 +144,7 @@ class MainActivity : Activity() {
         )
         android.app.AlertDialog.Builder(this).setTitle("LeeWay Pocket").setItems(items) { d, which ->
             when (which) {
-                0 -> startActivity(Intent(this,PocketVoiceActivity::class.java))
+                0 -> startActivity(PocketVoiceActivity.launchIntent(this))
                 1 -> toggleFloatingAgent()
                 2 -> connectDeviceBridge()
                 3 -> showText("Past conversations",memory.readConversations())

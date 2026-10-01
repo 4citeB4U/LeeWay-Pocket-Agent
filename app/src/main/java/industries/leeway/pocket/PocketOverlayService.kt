@@ -129,9 +129,7 @@ class PocketOverlayService: Service(){
     }
 
     private fun openVoice(){
-        startActivity(Intent(this,PocketVoiceActivity::class.java).apply{
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        })
+        startActivity(PocketVoiceActivity.launchIntent(this,newTask=true))
     }
 
     private fun createChannel(){
