@@ -38,7 +38,7 @@ object PocketVoiceHost {
         lastState = VoiceProgress.safe(state)
         lastError = VoiceProgress.safe(error)
         val now = System.currentTimeMillis()
-        val key = "$lastState|$lastError|$ready|${progress.optInt("percent", -1) / 5}|${progress.optString("file")}"
+        val key = "$lastState|$lastError|$ready|${progress.optInt("percent", -1) / 5}|${progress.optString("file")}|${progress.optString("message")}"
         if (key == lastDiagnosticKey && now - lastDiagnosticAt < 2000) return
         lastDiagnosticKey = key
         lastDiagnosticAt = now

@@ -54,6 +54,9 @@ class PocketVoiceActivity: Activity(){
 
     override fun onCreate(savedInstanceState:Bundle?){
         super.onCreate(savedInstanceState)
+        // Conversation-scoped: prevent model preparation/playback being interrupted
+        // by screen timeout. Android releases the flag when this window closes.
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setFinishOnTouchOutside(false)
         val existing=activeVoiceActivity?.get()
         if(existing!=null && !existing.isDestroyed && !existing.isFinishing){

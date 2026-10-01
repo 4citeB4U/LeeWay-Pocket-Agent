@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 9
-        versionName = "0.2.7-workstation-rc7"
+        versionCode = 10
+        versionName = "0.2.8-workstation-rc8"
     }
 }
 
