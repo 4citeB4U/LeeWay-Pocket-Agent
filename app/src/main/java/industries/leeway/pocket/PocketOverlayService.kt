@@ -27,6 +27,9 @@ import androidx.core.content.ContextCompat
 import kotlin.math.abs
 
 class PocketOverlayService: Service(){
+    private var actionClient:PhoneActionClient?=null
+    private var suppressTab=false
+    private var destroying=false
     private var windowManager: WindowManager?=null
     private var tab: View?=null
     private var params: WindowManager.LayoutParams?=null
@@ -43,11 +46,27 @@ class PocketOverlayService: Service(){
 
     override fun onStartCommand(intent: Intent?,flags:Int,startId:Int):Int{
         if(!isEnabled(this)){stopSelf();return START_NOT_STICKY}
-        attach()
+        if(intent?.action=="LEEWAY_EXPLICIT_PHONE_COMMAND"){
+            if(actionClient!=null)return START_STICKY
+            val command=PhoneActionCommand(intent.getStringExtra("action").orEmpty(),intent.getStringExtra("label").orEmpty())
+            suppressTab=true;detach()
+            val client=PhoneActionClient(this);actionClient=client
+            client.execute(command){result->
+                actionClient=null
+                if(!destroying){suppressTab=false;attach()}
+                val text=if(!result.optBoolean("ok")) "Phone command could not be verified: "+result.optString("error","UNKNOWN")
+                    else if(result.optString("verification")=="FOREGROUND_PACKAGE_MATCH") "Opened "+command.label+"; its app is in the foreground."
+                    else "Android accepted the "+command.action+" request. The final screen outcome was not verified."
+                MemoryStore(this).saveNotebook("Explicit phone command: "+result.toString())
+                PocketVoiceActivity.completeDeviceCommand(text)
+            }
+        }else if(!suppressTab)attach()
         return START_STICKY
     }
 
     override fun onDestroy(){
+        destroying=true;suppressTab=true
+        actionClient?.cancel();actionClient=null
         detach()
         super.onDestroy()
     }
@@ -55,7 +74,7 @@ class PocketOverlayService: Service(){
     override fun onBind(intent: Intent?):IBinder?=null
 
     private fun attach(){
-        if(tab!=null)return
+        if(suppressTab||tab!=null)return
         if(!Settings.canDrawOverlays(this)){stopSelf();return}
         val wm=getSystemService(WINDOW_SERVICE) as WindowManager
         windowManager=wm

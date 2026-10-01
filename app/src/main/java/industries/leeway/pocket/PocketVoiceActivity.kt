@@ -241,22 +241,22 @@ class PocketVoiceActivity: Activity(){
         val q=raw.trim()
         memory.saveConversation("You: $q")
         val l=q.lowercase(Locale.US)
-        val launch=PhoneLaunchCommand.parse(q)
-        if(launch!=null){
-            val label=if(launch==PhoneLaunchCommand.SETTINGS)"Settings" else "Calculator"
-            val target=if(launch==PhoneLaunchCommand.SETTINGS)Intent(android.provider.Settings.ACTION_SETTINGS)
-                else Intent.makeMainSelectorActivity(Intent.ACTION_MAIN,Intent.CATEGORY_APP_CALCULATOR)
-            try{
-                startActivity(target)
-                memory.saveNotebook("phone.intent.launch target=$label state=DISPATCHED screenVerification=NOT_PERFORMED")
-                deliver("I requested Android to open $label.")
-            }catch(_:android.content.ActivityNotFoundException){
-                memory.saveNotebook("phone.intent.launch target=$label state=UNAVAILABLE")
-                deliver("Android did not provide an available $label app.")
-            }catch(_:SecurityException){
-                memory.saveNotebook("phone.intent.launch target=$label state=PERMISSION_BLOCKED")
-                deliver("Android blocked the request to open $label.")
+        val phoneAction=PhoneActionCommand.parse(q)
+        if(phoneAction!=null){
+            if(agentRequestInFlight)return
+            if(!bridge.isGranted()||!PocketOverlayService.isEnabled(this)){
+                deliver("Connect Device Bridge and enable the Pocket side tab before using phone commands.")
+                return
             }
+            agentRequestInFlight=true
+            status.text="Executing explicit phone command"
+            // Yield the active app window; the existing service owns IPC and the result.
+            moveTaskToBack(true)
+            try{
+                startService(Intent(this,PocketOverlayService::class.java)
+                    .setAction("LEEWAY_EXPLICIT_PHONE_COMMAND")
+                    .putExtra("action",phoneAction.action).putExtra("label",phoneAction.label))
+            }catch(_:Exception){deliver("The Pocket command service could not be reached. No result is verified.")}
             return
         }
         when{
@@ -427,6 +427,11 @@ class PocketVoiceActivity: Activity(){
     }
 
     companion object{
+        fun completeDeviceCommand(text:String){
+            activeVoiceActivity?.get()?.let { activity ->
+                activity.runOnUiThread { if(!activity.isDestroyed&&!activity.isFinishing)activity.deliver(text) }
+            }
+        }
         fun launchIntent(context:Context, newTask:Boolean=false)=
             Intent(context,PocketVoiceActivity::class.java).apply{
                 addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_SINGLE_TOP)
