@@ -34,6 +34,13 @@ object PocketVoiceHost {
     private var lastError = ""
     private var progress = JSONObject()
     private var actualBackend:String?=null
+    private var nativeDecoder:NativeVoiceDecoder?=null
+    @Volatile private var trustedPage=false
+
+    private fun canonicalPage(url:String?):Boolean {
+        val uri=android.net.Uri.parse(url ?: return false)
+        return uri.scheme=="https" && uri.host=="4citeb4u.github.io" && uri.path=="/LeeWay-Voice-Fabric/android-bridge.html"
+    }
 
     private fun record(state: String = lastState, error: String = lastError) {
         lastState = VoiceProgress.safe(state)
@@ -115,6 +122,12 @@ object PocketVoiceHost {
         val renderer = ++rendererGeneration
         readiness.beginPage()
         actualBackend = null
+        nativeDecoder=NativeVoiceDecoder(context,{trustedPage}) { payload ->
+            main.post {
+                if(renderer==rendererGeneration && trustedPage)
+                    view?.evaluateJavascript("window.LeeWayNativeDecoderResult?.(${payload})",null)
+            }
+        }
         record("LOADING_VOICE_FABRIC", "")
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
         view = WebView(context).apply {
@@ -136,13 +149,18 @@ object PocketVoiceHost {
             settings.domStorageEnabled = true
             settings.mediaPlaybackRequiresUserGesture = false
             addJavascriptInterface(Callbacks(renderer), "LeeWayPocketNative")
+            addJavascriptInterface(nativeDecoder!!,"LeeWayPocketDecoder")
             webViewClient = object : WebViewClient() {
                 override fun onPageStarted(v: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
+                    nativeDecoder?.cancelActive()
+                    trustedPage=canonicalPage(url)
                     readiness.beginPage()
                     actualBackend = null
                     PocketVoiceHost.progress = JSONObject()
                     record("LOADING_VOICE_FABRIC", "")
                 }
+                override fun shouldOverrideUrlLoading(v:WebView?,request:WebResourceRequest?):Boolean =
+                    request?.isForMainFrame==true && !canonicalPage(request.url.toString())
                 override fun onReceivedError(v: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                     if (request?.isForMainFrame == true) {
                         readiness.beginPage()
@@ -167,8 +185,12 @@ object PocketVoiceHost {
         rendererGeneration++
         readiness.beginPage()
         actualBackend = null
+        trustedPage=false
+        nativeDecoder?.close()
+        nativeDecoder=null
         record()
         view?.removeJavascriptInterface("LeeWayPocketNative")
+        view?.removeJavascriptInterface("LeeWayPocketDecoder")
         view?.let { (it.parent as? ViewGroup)?.removeView(it) }
         view?.destroy()
         view = null

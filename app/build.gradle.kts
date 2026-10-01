@@ -15,12 +15,13 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 10
-        versionName = "0.2.8-workstation-rc8"
+        versionCode = 11
+        versionName = "0.2.9-workstation-rc9"
     }
 }
 
 dependencies {
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.30.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20240303")
     implementation("androidx.core:core-ktx:1.15.0")
