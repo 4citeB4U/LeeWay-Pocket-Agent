@@ -110,6 +110,18 @@ object PocketVoiceHost {
     }
 
     fun stop(listener:Listener){if(session.cancel(listener)){stopPlayback();record("VOICE_STOPPED","")}}
+    fun forceVoiceOne(listener:Listener){
+        requestedVoiceId=DEFAULT_VOICE_ID
+        selectedVoiceId=""
+        selectedVoiceName=DEFAULT_VOICE_NAME
+        selectionConfirmed=false
+        previewAfterSelection=true
+        readiness.unavailable()
+        selectionPrefs?.edit()?.putString("selected_id",DEFAULT_VOICE_ID)?.putBoolean("agent_voice_one_default_v2",true)?.apply()
+        listener.onState("FORCING_AGENT_LEE_VOICE_ONE")
+        if(pageReady)requestSelection() else prepare()
+    }
+    fun diagnosticSnapshot():String=diagnostics?.getString("latest_json",null) ?: "{\"state\":\"NO_DIAGNOSTIC_YET\"}"
     fun releaseIdle(){if(session.owner==null&&view!=null)destroyRenderer()}
 
     fun speak(listener: Listener, text: String) {
