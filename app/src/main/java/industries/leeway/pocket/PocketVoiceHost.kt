@@ -20,6 +20,8 @@ object PocketVoiceHost {
     }
 
     private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html?device=wasm"
+    private const val DEFAULT_VOICE_ID = "agent-lee-voice-one"
+    private const val DEFAULT_VOICE_NAME = "Agent Lee · Voice One"
     private val main = Handler(Looper.getMainLooper())
     private val session = VoiceSession<Listener>()
     private var view: WebView? = null
@@ -38,10 +40,11 @@ object PocketVoiceHost {
     private var englishAdapter:FabricEnglishAdapter?=null
     @Volatile private var trustedPage=false
     private var selectionPrefs:SharedPreferences?=null
-    private var requestedVoiceId="chatterbox-default-natural"
+    private var requestedVoiceId=DEFAULT_VOICE_ID
     private var selectedVoiceId=""
-    private var selectedVoiceName="LeeWay Voice Fabric"
+    private var selectedVoiceName=DEFAULT_VOICE_NAME
     private var selectionConfirmed=false
+    private var previewAfterSelection=false
     private var catalogCallback:((List<FabricVoiceCatalog.Choice>?,String?)->Unit)?=null
     fun description()="$selectedVoiceName · LeeWay Voice Fabric"
 
@@ -73,10 +76,12 @@ object PocketVoiceHost {
         check(Looper.myLooper() == Looper.getMainLooper())
         diagnostics = context.applicationContext.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
         selectionPrefs=context.applicationContext.getSharedPreferences("pocket-fabric-voice",Context.MODE_PRIVATE)
-        if(selectionPrefs?.getBoolean("fabric_english_default_v1",false)!=true){
-            selectionPrefs?.edit()?.putString("selected_id","android-installed-english")?.putBoolean("fabric_english_default_v1",true)?.apply()
+        val savedVoiceId=selectionPrefs?.getString("selected_id",null)
+        if(selectionPrefs?.getBoolean("agent_voice_one_default_v2",false)!=true){
+            val nextVoiceId=if(savedVoiceId.isNullOrBlank() || savedVoiceId=="android-installed-english") DEFAULT_VOICE_ID else savedVoiceId
+            selectionPrefs?.edit()?.putString("selected_id",nextVoiceId)?.putBoolean("agent_voice_one_default_v2",true)?.apply()
         }
-        requestedVoiceId=selectionPrefs?.getString("selected_id","android-installed-english") ?: "android-installed-english"
+        requestedVoiceId=selectionPrefs?.getString("selected_id",DEFAULT_VOICE_ID) ?: DEFAULT_VOICE_ID
         session.attach(listener)
         stopPlayback()
         if (view == null) create(context.applicationContext)
@@ -139,8 +144,12 @@ object PocketVoiceHost {
                 if(error!=null||choices.isNullOrEmpty())android.app.AlertDialog.Builder(activity).setTitle("Voice Fabric")
                     .setMessage(error ?: "No available voice adapters were returned.").setPositiveButton("Close",null).show()
                 else android.app.AlertDialog.Builder(activity).setTitle("Voice Fabric voices")
-                    .setSingleChoiceItems(choices.map{"${it.name} · ${it.provider}"}.toTypedArray(),choices.indexOfFirst{it.id==selectedVoiceId}){ dialog,index ->
-                        requestedVoiceId=choices[index].id;requestSelection();dialog.dismiss()
+                    .setSingleChoiceItems(choices.map{"${it.name} · ${it.provider}"}.toTypedArray(),choices.indexOfFirst{it.id==requestedVoiceId}){ dialog,index ->
+                        requestedVoiceId=choices[index].id
+                        previewAfterSelection=true
+                        session.owner?.onState("Preparing ${choices[index].name}")
+                        requestSelection()
+                        dialog.dismiss()
                     }.setNegativeButton("Cancel",null).show()
             }
         }
@@ -237,6 +246,7 @@ object PocketVoiceHost {
     private fun destroyRenderer() {
         rendererGeneration++
         readiness.beginPage()
+        previewAfterSelection=false
         actualBackend = null
         trustedPage=false
         englishAdapter?.close();englishAdapter=null
@@ -269,12 +279,20 @@ object PocketVoiceHost {
             selectionConfirmed=true;readiness.unavailable()
             selectionPrefs?.edit()?.putString("selected_id",selectedVoiceId)?.apply()
             record("VOICE_SELECTED","")
+            if(previewAfterSelection){
+                previewAfterSelection=false
+                session.owner?.let { owner ->
+                    val phrase=if(selectedVoiceId==DEFAULT_VOICE_ID) "Hello. I am Agent Lee. Voice One is ready." else "Agent Lee voice test. This selected voice is ready."
+                    speak(owner,phrase)
+                    return@deliver
+                }
+            }
             if(payload.optBoolean("ready")&&readiness.modelReady()){
                 record("VOICE_READY","");session.owner?.onReady();dispatch()
             }else if(session.owner!=null)prepare()
         }
         @JavascriptInterface fun onSelectionError(error:String)=deliver {
-            selectionConfirmed=false;readiness.unavailable();record("VOICE_SELECTION_FAILED",VoiceProgress.safe(error))
+            previewAfterSelection=false;selectionConfirmed=false;readiness.unavailable();record("VOICE_SELECTION_FAILED",VoiceProgress.safe(error))
             session.owner?.onError(VoiceProgress.safe(error))
         }
         @JavascriptInterface fun onCatalog(json:String)=deliver {
@@ -287,7 +305,7 @@ object PocketVoiceHost {
             if(!selectionConfirmed||payload?.optString("voicePackageId")!=requestedVoiceId)return@deliver
             val reported=payload?.optString("device")?.ifBlank{payload.optString("backend")}.orEmpty()
             actualBackend=reported.takeIf{it=="wasm" || it=="webgpu" || it=="android-native"}
-            if(payload?.optString("provider")=="android-tts")selectedVoiceName="${VoiceProgress.safe(payload.optString("voiceName"))} � ${VoiceProgress.safe(payload.optString("actualVoice"))} � ${VoiceProgress.safe(payload.optString("actualEngine"))}"
+            if(payload?.optString("provider")=="android-tts")selectedVoiceName="${VoiceProgress.safe(payload.optString("voiceName"))} � ${VoiceProgress.safe(payload.optString("actualVoice"))} � ${VoiceProgress.safe(payload.optString("actualEngine"))}"
             if (!readiness.modelReady()) return@deliver
             record("VOICE_READY", "")
             session.owner?.onReady()
