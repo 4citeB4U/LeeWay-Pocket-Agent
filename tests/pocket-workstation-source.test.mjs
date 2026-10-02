@@ -1,5 +1,3 @@
-[Reading 71 lines from start (total: 71 lines, 0 remaining)]
-
 import fs from "node:fs";
 import assert from "node:assert/strict";
 
@@ -71,5 +69,3 @@ assert.equal(bindingJson.bindings.find(x=>x.id==="formula").executionClaim,"NOT_
 assert.match(bindingJson.bindings.find(x=>x.id==="agent-skills").phoneBinding,/REMOTE_MCP_PENDING/);
 
 console.log("PASS Pocket secondary-workstation source contract");
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
