@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 19
-        versionName = "0.2.17-live-voice-stream-rc2"
+        versionCode = 218
+        versionName = "0.2.18-agent-lee-unified-rc1"
     }
 }
 
