@@ -1,5 +1,3 @@
-[Reading 64 lines from start (total: 64 lines, 0 remaining)]
-
 /*
 LEEWAY
 REGION: POCKET.DEVICE.BRIDGE
@@ -64,5 +62,3 @@ class DeviceBridgeClient(context: Context) {
 
     fun clearGrant(){prefs.edit().remove("pocket_token").apply()}
 }
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
