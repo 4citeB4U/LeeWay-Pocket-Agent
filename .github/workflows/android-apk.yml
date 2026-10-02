@@ -86,11 +86,101 @@ jobs:
             pocket-package-evidence.txt
           if-no-files-found: error
 
-      - name: Publish APK into repository
+      - name: Publish signed GitHub release and update metadata
         if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LEEWAY_ANDROID_KEYSTORE_B64: ${{ secrets.LEEWAY_ANDROID_KEYSTORE_B64 }}
+          LEEWAY_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.LEEWAY_ANDROID_KEYSTORE_PASSWORD }}
+          LEEWAY_ANDROID_KEY_ALIAS: ${{ secrets.LEEWAY_ANDROID_KEY_ALIAS }}
+          LEEWAY_ANDROID_KEY_PASSWORD: ${{ secrets.LEEWAY_ANDROID_KEY_PASSWORD }}
+        shell: bash
         run: |
+          set -euo pipefail
+          for name in \
+            LEEWAY_ANDROID_KEYSTORE_B64 \
+            LEEWAY_ANDROID_KEYSTORE_PASSWORD \
+            LEEWAY_ANDROID_KEY_ALIAS \
+            LEEWAY_ANDROID_KEY_PASSWORD; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::Missing required LeeWay Android signing secret: $name"
+              exit 72
+            fi
+          done
+
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          APKSIGNER="$SDK_ROOT/build-tools/35.0.0/apksigner"
+          ZIPALIGN="$SDK_ROOT/build-tools/35.0.0/zipalign"
+          test -x "$APKSIGNER"
+          test -x "$ZIPALIGN"
+
+          KEYSTORE="$RUNNER_TEMP/leeway-android-signing.jks"
+          printf '%s' "$LEEWAY_ANDROID_KEYSTORE_B64" | base64 -d > "$KEYSTORE"
+          chmod 600 "$KEYSTORE"
+
+          gradle :app:assembleRelease --stacktrace --no-daemon
+          UNSIGNED=app/build/outputs/apk/release/app-release-unsigned.apk
+          test -f "$UNSIGNED"
+          ALIGNED="$RUNNER_TEMP/LeeWay-Agent-Lee-aligned.apk"
+          SIGNED="$RUNNER_TEMP/LeeWay-Agent-Lee.apk"
+          "$ZIPALIGN" -f -p 4 "$UNSIGNED" "$ALIGNED"
+          "$APKSIGNER" sign \
+            --ks "$KEYSTORE" \
+            --ks-key-alias "$LEEWAY_ANDROID_KEY_ALIAS" \
+            --ks-pass env:LEEWAY_ANDROID_KEYSTORE_PASSWORD \
+            --key-pass env:LEEWAY_ANDROID_KEY_PASSWORD \
+            --out "$SIGNED" \
+            "$ALIGNED"
+          "$APKSIGNER" verify --verbose --print-certs "$SIGNED"
+
+          VERSION_CODE="$(sed -nE 's/^[[:space:]]*versionCode = ([0-9]+).*/\1/p' app/build.gradle.kts | head -1)"
+          VERSION_NAME="$(sed -nE 's/^[[:space:]]*versionName = "([^"]+)".*/\1/p' app/build.gradle.kts | head -1)"
+          SHA="$(sha256sum "$SIGNED" | awk '{print $1}')"
+          BYTES="$(stat -c%s "$SIGNED")"
+          CERT="$("$APKSIGNER" verify --print-certs "$SIGNED" | awk -F': ' '/Signer #1 certificate SHA-256 digest/{print $2; exit}')"
+          TAG="agent-lee-v${VERSION_NAME}"
+          ASSET="LeeWay-Agent-Lee.apk"
+
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$SIGNED#$ASSET" --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$TAG" "$SIGNED#$ASSET" \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "LeeWay Agent Lee $VERSION_NAME" \
+              --notes "Qualified LeeWay Agent Lee Android release. Automatic retrieval is allowed only after user opt-in; installation still requires explicit user approval."
+          fi
+
+          export VERSION_CODE VERSION_NAME SHA BYTES CERT TAG ASSET
+          mkdir -p docs/download
+          node <<'NODE'
+          const fs = require('fs');
+          const repo = process.env.GITHUB_REPOSITORY;
+          const meta = {
+            standard: 'LEEWAY-UPDATE-v1.0',
+            productId: 'agent-lee-pocket',
+            applicationId: 'industries.leeway.pocket',
+            canonicalRepository: repo,
+            channel: 'stable',
+            versionName: process.env.VERSION_NAME,
+            versionCode: Number(process.env.VERSION_CODE),
+            sourceCommit: process.env.GITHUB_SHA,
+            sourceRunId: process.env.GITHUB_RUN_ID,
+            downloadUrl: 'https://github.com/' + repo + '/releases/download/' + process.env.TAG + '/' + process.env.ASSET,
+            sha256: process.env.SHA,
+            signerSha256: process.env.CERT,
+            artifactBytes: Number(process.env.BYTES),
+            publishedAt: new Date().toISOString()
+          };
+          fs.writeFileSync(
+            'docs/download/LeeWay-Agent-Lee-latest.json',
+            JSON.stringify(meta, null, 2) + '\n'
+          );
+          NODE
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/download/LeeWay-Pocket-Agent.apk
-          git diff --cached --quiet || git commit -m "Publish latest LeeWay Pocket APK"
-          git push
+          git add docs/download/LeeWay-Agent-Lee-latest.json
+          git diff --cached --quiet || git commit -m "Publish Agent Lee update metadata [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main

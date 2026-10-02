@@ -17,6 +17,7 @@ import android.content.Intent
 
 class PocketBootReceiver: BroadcastReceiver(){
     override fun onReceive(context: Context,intent: Intent?){
+        industries.leeway.devicebridge.AgentLeeUpdate.syncSchedule(context.applicationContext)
         if(PocketOverlayService.isEnabled(context))PocketOverlayService.start(context)
     }
 }
