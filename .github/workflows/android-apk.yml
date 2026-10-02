@@ -1,3 +1,5 @@
+[Reading 126 lines from start (total: 126 lines, 0 remaining)]
+
 name: Build LeeWay Pocket APK
 
 on:
@@ -5,7 +7,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, feature/pocket-workstation-side-tab-20260929]
+    branches: [main, feature/pocket-workstation-side-tab-20260929, leeway-live-update-repair-20261002]
     paths:
       - 'app/**'
       - 'docs/ecosystem-bindings.json'
@@ -71,11 +73,31 @@ jobs:
           test -x "$APKSIGNER"
           "$APKSIGNER" verify --print-certs "$APK" | tee -a pocket-package-evidence.txt
 
-      - name: Stage download APK
+      - name: Stage verified Pocket release
+        shell: bash
         run: |
-          test -f app/build/outputs/apk/debug/app-debug.apk
+          set -euo pipefail
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          test -f "$APK"
           mkdir -p docs/download
-          cp app/build/outputs/apk/debug/app-debug.apk docs/download/LeeWay-Pocket-Agent.apk
+          cp "$APK" docs/download/LeeWay-Pocket-Agent.apk
+          BYTES=$(stat -c%s docs/download/LeeWay-Pocket-Agent.apk)
+          SHA=$(sha256sum docs/download/LeeWay-Pocket-Agent.apk | awk '{print $1}')
+          VERSION_NAME=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
+          VERSION_CODE=$(sed -n 's/.*versionCode = \([0-9][0-9]*\).*/\1/p' app/build.gradle.kts)
+          cat > docs/download/LeeWay-Pocket-Agent-latest.json <<JSON
+          {
+            "componentId": "pocket-agent",
+            "packageName": "industries.leeway.pocket",
+            "versionName": "$VERSION_NAME",
+            "versionCode": $VERSION_CODE,
+            "sha256": "$SHA",
+            "sizeBytes": $BYTES,
+            "downloadUrl": "./LeeWay-Pocket-Agent.apk",
+            "sourceRunId": "${{ github.run_id }}",
+            "sourceCommit": "${{ github.sha }}"
+          }
+          JSON
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
@@ -83,14 +105,26 @@ jobs:
           name: LeeWay-Pocket-Agent-APK
           path: |
             docs/download/LeeWay-Pocket-Agent.apk
+            docs/download/LeeWay-Pocket-Agent-latest.json
             pocket-package-evidence.txt
           if-no-files-found: error
 
-      - name: Publish APK into repository
+      - name: Publish candidate release into repair branch
+        if: github.ref == 'refs/heads/leeway-live-update-repair-20261002'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json
+          git diff --cached --quiet || git commit -m "Publish verified Pocket repair candidate"
+          git push origin HEAD:leeway-live-update-repair-20261002
+
+      - name: Publish verified release into repository
         if: github.ref == 'refs/heads/main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/download/LeeWay-Pocket-Agent.apk
-          git diff --cached --quiet || git commit -m "Publish latest LeeWay Pocket APK"
+          git add docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json
+          git diff --cached --quiet || git commit -m "Publish latest verified LeeWay Pocket APK"
           git push
+
+[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
