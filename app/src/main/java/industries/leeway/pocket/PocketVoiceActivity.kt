@@ -322,6 +322,7 @@ class PocketVoiceActivity: Activity(){
 
     private fun routeAgent(request:String){
         if(agentRequestInFlight)return
+        ConsciousnessShadow.observe(applicationContext,request)
         agentRequestInFlight=true
         pendingRequest=request
         if(!bridge.isGranted()){
@@ -395,6 +396,7 @@ class PocketVoiceActivity: Activity(){
                     "; canonicalFormula="+envelope.optString("canonicalFormulaState","NOT_EXECUTED")+
                     "; "+lastSkillEvidence
                 memory.saveNotebook("Pocket turn trace: $trace")
+                ConsciousnessShadow.recordActual(applicationContext,pendingRequest.orEmpty(),response,true)
                 deliver(response)
             }
         }
