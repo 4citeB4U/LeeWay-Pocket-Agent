@@ -85,7 +85,7 @@ jobs:
             "  \"versionCode\": $VERSION_CODE," \
             "  \"sha256\": \"$SHA\"," \
             "  \"sizeBytes\": $BYTES," \
-            '  "downloadUrl": "./LeeWay-Pocket-Agent.apk",' \
+            "  \"downloadUrl\": \"$RELEASE_URL\"," \
             "  \"sourceRunId\": \"$SOURCE_RUN_ID\"," \
             "  \"sourceCommit\": \"$SOURCE_COMMIT\"" \
             '}' > docs/download/LeeWay-Pocket-Agent-latest.json
@@ -107,25 +107,37 @@ jobs:
       - name: Publish repair candidate
         if: ${{ github.ref == 'refs/heads/leeway-live-update-repair-20261002' }}
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          VERSION_NAME=$(sed -n 's/.*versionName = "\\([^"]*\\)".*/\\1/p' app/build.gradle.kts)
+          TAG="pocket-$VERSION_NAME"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --prerelease --target "$GITHUB_SHA" --title "LeeWay Pocket $VERSION_NAME" --notes "Governed Agent Lee Pocket repair candidate. Physical Fold playback gate remains required."
+          gh release upload "$TAG" docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json --clobber
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json
+          git add docs/download/LeeWay-Pocket-Agent-latest.json
           if ! git diff --cached --quiet; then
-            git commit -m "Publish verified Pocket repair candidate"
+            git commit -m "Publish Pocket candidate metadata"
             git push origin HEAD:leeway-live-update-repair-20261002
           fi
 
       - name: Publish verified release
         if: ${{ github.ref == 'refs/heads/main' }}
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          VERSION_NAME=$(sed -n 's/.*versionName = "\\([^"]*\\)".*/\\1/p' app/build.gradle.kts)
+          TAG="pocket-$VERSION_NAME"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --target "$GITHUB_SHA" --title "LeeWay Pocket $VERSION_NAME" --notes "Verified LeeWay Pocket release."
+          gh release upload "$TAG" docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json --clobber
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json
+          git add docs/download/LeeWay-Pocket-Agent-latest.json
           if ! git diff --cached --quiet; then
-            git commit -m "Publish latest verified LeeWay Pocket APK"
+            git commit -m "Publish latest Pocket metadata"
             git push
           fi
