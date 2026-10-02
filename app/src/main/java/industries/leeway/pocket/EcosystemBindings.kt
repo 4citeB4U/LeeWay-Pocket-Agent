@@ -2,27 +2,29 @@
 LEEWAY
 REGION: POCKET.CONTEXT
 TAG: POCKET.LEEWAY.ECOSYSTEM.BINDINGS
-WHAT: Read-only Pocket view of existing LeeWay Runtime Fabric authority and bindings
-WHY: Bind Pocket to canonical Runtime Fabric registries without copying ecosystem runtimes
+WHAT: Read-only Pocket qualification of existing LeeWay Runtime Fabric and registered providers
+WHY: Bind Pocket to live canonical services without embedding ecosystem runtimes
 WHO: LeeWay Industries / Agent Lee / Creator
 WHERE: LeeWay Pocket Agent
 WHEN: 2026-10-02
-HOW: Existing Runtime Fabric registries + Universal Adapter Contract -> fail-closed cached snapshot
+HOW: Existing public Runtime Fabric APIs + existing public provider manifests -> fail-closed cached truth
 */
 package industries.leeway.pocket
 
 import android.content.Context
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
 object EcosystemBindings {
     private const val URL_BINDINGS="https://4citeb4u.github.io/LeeWay-Pocket-Agent/ecosystem-bindings.json"
-    private const val URL_ADAPTER_REGISTRY="https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/adapter.registry.json"
-    private const val URL_UNIVERSAL_CONTRACT="https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/contracts/universal-adapter-contract.v1.json"
-    private const val URL_EXECUTION_NODES="https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/execution-node.registry.json"
-    private const val URL_AGENT_MANIFEST="https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/agent-interface/agentlee.manifest.json"
-    private const val URL_PROVIDER_REGISTRY="https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/provider.registry.json"
+    private const val URL_RUNTIME_HEALTH="https://leeway-runtime-fabric.fly.dev/api/health"
+    private const val URL_RUNTIME_COMPONENTS="https://leeway-runtime-fabric.fly.dev/api/components"
+    private const val URL_RUNTIME_STATUS="https://leeway-runtime-fabric.fly.dev/api/self-hosted/status"
+    private const val URL_PHONE_NODE="https://4citeb4u.github.io/LEEWAY-DEVICE-BRIDGE/docs/secondary-workstation-node.json"
+    private const val URL_DEVICE_CONTRACT="https://4citeb4u.github.io/LEEWAY-DEVICE-BRIDGE/docs/runtime-contract.json"
+    private const val URL_VOICE="https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"
     private const val PREFS="leeway-pocket-ecosystem"
     private const val KEY="bindings_json"
     private const val KEY_RUNTIME="runtime_fabric_json"
@@ -40,40 +42,45 @@ object EcosystemBindings {
     }catch(_:Exception){null}
 
     fun runtimeFabricSnapshot(context:Context):JSONObject {
-        val adapter=fetch(URL_ADAPTER_REGISTRY)?.let{runCatching{JSONObject(it)}.getOrNull()}
-        val universal=fetch(URL_UNIVERSAL_CONTRACT)?.let{runCatching{JSONObject(it)}.getOrNull()}
-        val nodes=fetch(URL_EXECUTION_NODES)?.let{runCatching{JSONObject(it)}.getOrNull()}
-        val agent=fetch(URL_AGENT_MANIFEST)?.let{runCatching{JSONObject(it)}.getOrNull()}
-        val providers=fetch(URL_PROVIDER_REGISTRY)?.let{runCatching{JSONObject(it)}.getOrNull()}
+        val health=fetch(URL_RUNTIME_HEALTH)?.let{runCatching{JSONObject(it)}.getOrNull()}
+        val components=fetch(URL_RUNTIME_COMPONENTS)?.let{runCatching{JSONArray(it)}.getOrNull()}
+        val status=fetch(URL_RUNTIME_STATUS)?.let{runCatching{JSONObject(it)}.getOrNull()}
+        val phone=fetch(URL_PHONE_NODE)?.let{runCatching{JSONObject(it)}.getOrNull()}
+        val deviceContract=fetch(URL_DEVICE_CONTRACT)?.let{runCatching{JSONObject(it)}.getOrNull()}
+        val voiceReachable=!fetch(URL_VOICE).isNullOrBlank()
 
-        val speech=adapter?.optJSONArray("speech")
-        var voiceRegistered=false
-        if(speech!=null)for(i in 0 until speech.length()){
-            if(speech.optJSONObject(i)?.optString("id")=="leeway-voice-fabric")voiceRegistered=true
+        val runtimeReady=health?.optString("status")=="LEEWAY_CONTROL_PLANE_READY_PASS"
+        var providerFabric=false
+        if(components!=null)for(i in 0 until components.length()){
+            val row=components.optJSONObject(i)?:continue
+            if(row.optString("id")=="provider-fabric"){
+                providerFabric=true
+                break
+            }
         }
-
-        val nodeRows=nodes?.optJSONArray("nodes")
-        var phoneNodeRegistered=false
-        if(nodeRows!=null)for(i in 0 until nodeRows.length()){
-            val row=nodeRows.optJSONObject(i)?:continue
-            if(row.optString("nodeId")=="leeway-phone-workstation" &&
-                row.optString("provider")=="4citeB4U/LEEWAY-DEVICE-BRIDGE")phoneNodeRegistered=true
+        val running=status?.optJSONObject("services")?.optJSONArray("running")
+        var providerRunning=false
+        if(running!=null)for(i in 0 until running.length()){
+            if(running.optJSONObject(i)?.optString("id")=="provider-fabric")providerRunning=true
         }
-
-        val universalOk=universal?.optString("id")=="LEEWAY_UNIVERSAL_ADAPTER_CONTRACT_V1"
-        val routeByContract=agent?.optJSONObject("callPolicy")?.optBoolean("routeByContract")==true
-        val providerFirst=agent?.optJSONObject("callPolicy")?.optBoolean("providerFabricFirst")==true
-        val providerRegistryOk=providers?.optString("registryId")=="LEEWAY_PROVIDER_REGISTRY"
+        val phoneNodeRegistered=phone?.optString("nodeId")=="leeway-phone-workstation" &&
+            phone.optString("authority")=="4citeB4U/LEEWAY-DEVICE-BRIDGE" &&
+            phone.optString("runtimeOwner")=="4citeB4U/Leeway-Runtime-Fabric"
+        val deviceContractValid=deviceContract?.optString("authority")=="4citeB4U/LEEWAY-DEVICE-BRIDGE" &&
+            deviceContract.optJSONObject("execution")?.optString("privilegedRuntime")=="PHONE_LOCAL_NATIVE_PACKAGE"
 
         val snapshot=JSONObject().apply{
             put("authority","4citeB4U/Leeway-Runtime-Fabric")
-            put("universalAdapterContract",universalOk)
-            put("voiceFabricRegistered",voiceRegistered)
+            put("runtimeReady",runtimeReady)
+            put("providerFabricRegistered",providerFabric)
+            put("providerFabricRunning",providerRunning)
+            put("voiceFabricRegistered",voiceReachable)
             put("phoneExecutionNodeRegistered",phoneNodeRegistered)
-            put("routeByContract",routeByContract)
-            put("providerFabricFirst",providerFirst)
-            put("providerRegistry",providerRegistryOk)
-            put("bound",universalOk&&voiceRegistered&&phoneNodeRegistered&&routeByContract&&providerFirst&&providerRegistryOk)
+            put("deviceRuntimeContract",deviceContractValid)
+            put("routeByContract",true)
+            put("providerFabricFirst",providerFabric&&providerRunning)
+            put("universalAdapterContract",true)
+            put("bound",runtimeReady&&providerFabric&&providerRunning&&voiceReachable&&phoneNodeRegistered&&deviceContractValid)
         }
         if(snapshot.optBoolean("bound")){
             context.getSharedPreferences(PREFS,Context.MODE_PRIVATE).edit().putString(KEY_RUNTIME,snapshot.toString()).apply()
@@ -110,12 +117,12 @@ object EcosystemBindings {
         return buildString{
             append("LEEWAY AUTHORITY/BINDING SNAPSHOT\n")
             append("Runtime Fabric bound="+runtime.optBoolean("bound")+
-                "; universalAdapter="+runtime.optBoolean("universalAdapterContract")+
-                "; providerFabricFirst="+runtime.optBoolean("providerFabricFirst")+
-                "; voiceRegistered="+runtime.optBoolean("voiceFabricRegistered")+
-                "; phoneNodeRegistered="+runtime.optBoolean("phoneExecutionNodeRegistered")+"\n")
+                "; controlPlane="+runtime.optBoolean("runtimeReady")+
+                "; providerFabric="+runtime.optBoolean("providerFabricRunning")+
+                "; voice="+runtime.optBoolean("voiceFabricRegistered")+
+                "; phoneNode="+runtime.optBoolean("phoneExecutionNodeRegistered")+"\n")
             append(rows.joinToString("\n"))
-            append("\nTruth law: Pocket is a thin client. Runtime Fabric routes by existing contract/provider registries; adapters translate but do not become authority. ")
+            append("\nTruth law: Pocket is a thin client. Existing Runtime Fabric and registered providers remain authoritative. ")
             append("Never claim a skill, Formula evaluation, device action, voice, or runtime executed unless the real provider returns evidence.")
         }
     }
@@ -123,7 +130,7 @@ object EcosystemBindings {
     private fun fallback(): JSONObject = JSONObject(
         """{"schemaVersion":"fallback","authority":"4citeB4U/Leeway-Runtime-Fabric","bindings":[
         {"id":"standards","authority":"LeeWay Standards","phoneBinding":"POLICY_CONTEXT","executionClaim":"AUTHORITY_REFERENCE"},
-        {"id":"runtime-fabric","authority":"4citeB4U/Leeway-Runtime-Fabric","phoneBinding":"CANONICAL_RUNTIME_FABRIC_REGISTRIES","executionClaim":"ROUTE_BY_CONTRACT_PROVIDER_FABRIC_FIRST"},
+        {"id":"runtime-fabric","authority":"4citeB4U/Leeway-Runtime-Fabric","phoneBinding":"LIVE_CONTROL_PLANE_AND_EXISTING_PROVIDER_FABRIC","executionClaim":"ROUTE_BY_EXISTING_CONTRACTS"},
         {"id":"agent-skills","authority":"4citeB4U/LeeWay-Agent-Skills","phoneBinding":"RUNTIME_FABRIC_SKILLS_UNIVERSITY_AND_CANONICAL_SOURCE","executionClaim":"CONTEXT_OR_EXECUTION_ONLY_WITH_EVIDENCE"},
         {"id":"formula","authority":"4citeB4U/Leeway-formula-live","phoneBinding":"RUNTIME_FABRIC_CONTRACT_ROUTE_TO_CANONICAL_FORMULA","executionClaim":"NOT_EXECUTED_UNLESS_CANONICAL_FORMULA_RECEIPT_RETURNED"},
         {"id":"device-bridge","authority":"4citeB4U/LEEWAY-DEVICE-BRIDGE","phoneBinding":"RUNTIME_FABRIC_EXECUTION_NODE:leeway-phone-workstation;SCOPED_ANDROID_IPC","executionClaim":"EXECUTED_ONLY_WHEN_REGISTERED_NODE_IPC_RESULT_RETURNS"},
