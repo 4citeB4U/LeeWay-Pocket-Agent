@@ -1,5 +1,3 @@
-[Reading 561 lines from start (total: 561 lines, 0 remaining)]
-
 /*
 LEEWAY
 REGION: POCKET.VOICE
@@ -561,5 +559,3 @@ class PocketVoiceActivity: Activity(){
 
     }
 }
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
