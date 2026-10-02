@@ -1,11 +1,11 @@
 {
   "componentId": "pocket-agent",
   "packageName": "industries.leeway.pocket",
-  "versionName": "0.2.17-live-voice-stream-rc2",
-  "versionCode": 19,
-  "sha256": "f9fe7400058a14fbd97fa80301b8c04a66bc9640d1b31f2306291f8134fed684",
+  "versionName": "0.2.18-agent-lee-unified-rc1",
+  "versionCode": 218,
+  "sha256": "8b4ececb08c1dd80b08c3f80526019c06ccaf0897b10995e0e500abc05dc4e43",
   "sizeBytes": 144048165,
-  "downloadUrl": "https://github.com/4citeB4U/LeeWay-Pocket-Agent/releases/download/pocket-0.2.17-live-voice-stream-rc2/LeeWay-Pocket-Agent.apk",
-  "sourceRunId": "37071507172",
-  "sourceCommit": "3c606440e7b7bde2e1d3cf66b070f00662358b4e"
+  "downloadUrl": "https://github.com/4citeB4U/LeeWay-Pocket-Agent/releases/download/pocket-0.2.18-agent-lee-unified-rc1/LeeWay-Pocket-Agent.apk",
+  "sourceRunId": "37073678337",
+  "sourceCommit": "8acd2ff1dc513d843e7ab1efdf9b4ed55262a511"
 }
