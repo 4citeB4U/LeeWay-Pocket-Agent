@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.*
 import org.json.JSONObject
 import java.util.UUID
+import kotlin.concurrent.thread
 
 /** Bound by Pocket's existing foreground service, never by a transient Activity. */
 class PhoneActionClient(private val context: Context) {
@@ -17,6 +18,20 @@ class PhoneActionClient(private val context: Context) {
 
     fun execute(command: PhoneActionCommand, result: (JSONObject) -> Unit) {
         callback = result
+        thread(name="leeway-runtime-fabric-device-binding"){
+            val fabric=EcosystemBindings.runtimeFabricSnapshot(context.applicationContext)
+            handler.post {
+                if(!fabric.optBoolean("universalAdapterContract") ||
+                    !fabric.optBoolean("providerFabricFirst") ||
+                    !fabric.optBoolean("phoneExecutionNodeRegistered")){
+                    finish(failure("RUNTIME_FABRIC_PHONE_NODE_UNQUALIFIED"))
+                } else executeQualified(command)
+            }
+        }
+    }
+
+    private fun executeQualified(command:PhoneActionCommand) {
+        if(completion.isFinished())return
         val id = UUID.randomUUID().toString()
         val bridgePackage = "industries.leeway.devicebridge"
         if(context.packageManager.checkSignatures(context.packageName, bridgePackage) != PackageManager.SIGNATURE_MATCH) {
