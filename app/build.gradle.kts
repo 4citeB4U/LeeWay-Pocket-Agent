@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 24
-        versionName = "0.3.5-runtime-fabric-thin-client-rc1"
+        versionCode = 25
+        versionName = "0.3.6-runtime-fabric-live-binding-rc2"
     }
 }
 
