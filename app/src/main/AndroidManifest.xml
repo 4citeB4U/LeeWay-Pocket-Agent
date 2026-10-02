@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme"
         android:label="LeeWay Pocket"
         android:allowBackup="false"
-        android:usesCleartextTraffic="false">
+        android:usesCleartextTraffic="false"
+        android:networkSecurityConfig="@xml/network_security_config">
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
