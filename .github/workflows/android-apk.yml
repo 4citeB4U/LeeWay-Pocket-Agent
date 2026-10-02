@@ -19,6 +19,10 @@ on:
       - settings.gradle.kts
       - .github/workflows/android-apk.yml
 
+concurrency:
+  group: pocket-build-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
