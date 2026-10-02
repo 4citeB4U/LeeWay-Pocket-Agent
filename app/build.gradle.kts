@@ -1,5 +1,3 @@
-[Reading 29 lines from start (total: 29 lines, 0 remaining)]
-
 plugins { id("com.android.application"); id("org.jetbrains.kotlin.android") }
 
 android {
@@ -29,5 +27,3 @@ dependencies {
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
 }
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
