@@ -19,7 +19,9 @@ object PocketVoiceHost {
         fun onError(message: String)
     }
 
-    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html?device=wasm"
+    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"
+    private const val DEFAULT_VOICE_ID = "agent-lee-voice-one"
+    private const val DEFAULT_VOICE_NAME = "Agent Lee · Voice One"
     private val main = Handler(Looper.getMainLooper())
     private val session = VoiceSession<Listener>()
     private var view: WebView? = null
@@ -38,12 +40,12 @@ object PocketVoiceHost {
     private var englishAdapter:FabricEnglishAdapter?=null
     @Volatile private var trustedPage=false
     private var selectionPrefs:SharedPreferences?=null
-    private var requestedVoiceId="chatterbox-default-natural"
+    private var requestedVoiceId=DEFAULT_VOICE_ID
     private var selectedVoiceId=""
-    private var selectedVoiceName="LeeWay Voice Fabric"
+    private var selectedVoiceName=DEFAULT_VOICE_NAME
     private var selectionConfirmed=false
     private var catalogCallback:((List<FabricVoiceCatalog.Choice>?,String?)->Unit)?=null
-    fun description()="$selectedVoiceName · LeeWay Voice Fabric"
+    fun description()="$selectedVoiceName Â· LeeWay Voice Fabric"
 
     private fun canonicalPage(url:String?):Boolean {
         val uri=android.net.Uri.parse(url ?: return false)
@@ -61,7 +63,7 @@ object PocketVoiceHost {
         val snapshot = JSONObject().put("updatedAtMs", now).put("state", lastState)
             .put("ready", ready).put("pageReady", pageReady).put("error", lastError)
             .put("voicePackageId", selectedVoiceId).put("requestedVoicePackageId",requestedVoiceId).put("progress", progress)
-            .put("requestedBackend", "wasm")
+            .put("requestedBackend", "voice-fabric-managed")
             .put("actualBackend", actualBackend ?: JSONObject.NULL)
             .put("rendererGeneration", rendererGeneration)
             .put("attachedToWindow", view?.isAttachedToWindow == true)
@@ -73,10 +75,13 @@ object PocketVoiceHost {
         check(Looper.myLooper() == Looper.getMainLooper())
         diagnostics = context.applicationContext.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
         selectionPrefs=context.applicationContext.getSharedPreferences("pocket-fabric-voice",Context.MODE_PRIVATE)
-        if(selectionPrefs?.getBoolean("fabric_english_default_v1",false)!=true){
-            selectionPrefs?.edit()?.putString("selected_id","android-installed-english")?.putBoolean("fabric_english_default_v1",true)?.apply()
+        if(selectionPrefs?.getBoolean("agent_voice_one_default_v2",false)!=true){
+            val current=selectionPrefs?.getString("selected_id","").orEmpty()
+            val selected=if(current.isBlank() || current=="android-installed-english") DEFAULT_VOICE_ID else current
+            selectionPrefs?.edit()?.putString("selected_id",selected)
+                ?.putBoolean("agent_voice_one_default_v2",true)?.apply()
         }
-        requestedVoiceId=selectionPrefs?.getString("selected_id","android-installed-english") ?: "android-installed-english"
+        requestedVoiceId=selectionPrefs?.getString("selected_id",DEFAULT_VOICE_ID) ?: DEFAULT_VOICE_ID
         session.attach(listener)
         stopPlayback()
         if (view == null) create(context.applicationContext)
@@ -130,7 +135,7 @@ object PocketVoiceHost {
     }
     fun showVoicePicker(activity:android.app.Activity){
         val loading=android.app.AlertDialog.Builder(activity).setTitle("LeeWay Voice Fabric")
-            .setMessage("Loading the canonical voice catalog…").setNegativeButton("Cancel",null).create()
+            .setMessage("Loading the canonical voice catalogâ€¦").setNegativeButton("Cancel",null).create()
         val timeout=Runnable{catalogCallback?.invoke(null,"Voice Fabric catalog timed out.");catalogCallback=null}
         catalogCallback={ choices,error ->
             main.removeCallbacks(timeout);catalogCallback=null
@@ -139,7 +144,7 @@ object PocketVoiceHost {
                 if(error!=null||choices.isNullOrEmpty())android.app.AlertDialog.Builder(activity).setTitle("Voice Fabric")
                     .setMessage(error ?: "No available voice adapters were returned.").setPositiveButton("Close",null).show()
                 else android.app.AlertDialog.Builder(activity).setTitle("Voice Fabric voices")
-                    .setSingleChoiceItems(choices.map{"${it.name} · ${it.provider}"}.toTypedArray(),choices.indexOfFirst{it.id==selectedVoiceId}){ dialog,index ->
+                    .setSingleChoiceItems(choices.map{"${it.name} Â· ${it.provider}"}.toTypedArray(),choices.indexOfFirst{it.id==selectedVoiceId}){ dialog,index ->
                         requestedVoiceId=choices[index].id;requestSelection();dialog.dismiss()
                     }.setNegativeButton("Cancel",null).show()
             }
@@ -287,7 +292,7 @@ object PocketVoiceHost {
             if(!selectionConfirmed||payload?.optString("voicePackageId")!=requestedVoiceId)return@deliver
             val reported=payload?.optString("device")?.ifBlank{payload.optString("backend")}.orEmpty()
             actualBackend=reported.takeIf{it=="wasm" || it=="webgpu" || it=="android-native"}
-            if(payload?.optString("provider")=="android-tts")selectedVoiceName="${VoiceProgress.safe(payload.optString("voiceName"))} � ${VoiceProgress.safe(payload.optString("actualVoice"))} � ${VoiceProgress.safe(payload.optString("actualEngine"))}"
+            if(payload?.optString("provider")=="android-tts")selectedVoiceName="${VoiceProgress.safe(payload.optString("voiceName"))} · ${VoiceProgress.safe(payload.optString("actualVoice"))} · ${VoiceProgress.safe(payload.optString("actualEngine"))}"
             if (!readiness.modelReady()) return@deliver
             record("VOICE_READY", "")
             session.owner?.onReady()
