@@ -68,7 +68,7 @@ assert.match(bindingJson.bindings.find(x=>x.id==="runtime-fabric").phoneBinding,
 assert.match(bindingJson.bindings.find(x=>x.id==="device-bridge").phoneBinding,/leeway-phone-workstation/);
 assert.match(bindingJson.bindings.find(x=>x.id==="voice-fabric").phoneBinding,/leeway-voice-fabric/);
 assert.equal(fs.existsSync(embeddedDeviceRuntime),false);
-assert.match(gradle,/versionCode = 24/);
+assert.match(gradle,/versionCode = 25/);
 assert.match(gradle,/0\.3\.5-runtime-fabric-thin-client-rc1/);
 assert.match(bindingJson.bindings.find(x=>x.id==="agent-skills").phoneBinding,/RUNTIME_FABRIC_SKILLS_UNIVERSITY/);
 
