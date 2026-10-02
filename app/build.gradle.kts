@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 17
-        versionName = "0.2.15-voice-force-diagnostic-rc1"
+        versionCode = 18
+        versionName = "0.2.16-native-encoder-rc1"
     }
 }
 
