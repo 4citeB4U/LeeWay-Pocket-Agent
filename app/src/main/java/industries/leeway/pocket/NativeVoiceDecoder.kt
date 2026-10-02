@@ -1,5 +1,3 @@
-[Reading 217 lines from start (total: 217 lines, 0 remaining)]
-
 package industries.leeway.pocket
 
 import android.content.Context
@@ -217,5 +215,3 @@ class NativeVoiceDecoder(context:Context, private val trusted:()->Boolean, priva
         executor.shutdown()
     }
 }
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
