@@ -1,5 +1,3 @@
-[Reading 68 lines from start (total: 68 lines, 0 remaining)]
-
 package industries.leeway.pocket
 
 import org.json.JSONArray
@@ -68,5 +66,3 @@ class NativeDecoderContractTest {
         assertThrows(IllegalStateException::class.java){job.check()}
     }
 }
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
