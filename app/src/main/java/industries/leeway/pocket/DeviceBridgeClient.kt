@@ -14,6 +14,7 @@ package industries.leeway.pocket
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import industries.leeway.devicebridge.PocketGrantStore
 import org.json.JSONObject
 import java.util.UUID
 
@@ -21,7 +22,13 @@ class DeviceBridgeClient(context: Context) {
     private val appContext=context.applicationContext
     private val prefs=appContext.getSharedPreferences("leeway-pocket-device-bridge",Context.MODE_PRIVATE)
 
-    fun isGranted(): Boolean = token().isNotBlank()
+    fun isGranted(): Boolean {
+        val saved = token()
+        if (saved.isBlank()) return false
+        val valid = PocketGrantStore.matches(appContext, saved)
+        if (!valid) prefs.edit().remove("pocket_token").apply()
+        return valid
+    }
     fun token(): String = prefs.getString("pocket_token","").orEmpty()
 
     fun newNonce(): String = UUID.randomUUID().toString().replace("-","")
@@ -39,6 +46,7 @@ class DeviceBridgeClient(context: Context) {
         val returned=data?.getStringExtra("leeway_nonce").orEmpty()
         val scoped=data?.getStringExtra("leeway_pocket_token").orEmpty()
         if(returned!=expectedNonce || scoped.length<20)return false
+        if(!PocketGrantStore.matches(appContext,scoped))return false
         prefs.edit().putString("pocket_token",scoped).apply()
         return true
     }
