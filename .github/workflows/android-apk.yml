@@ -1,21 +1,23 @@
-[Reading 126 lines from start (total: 126 lines, 0 remaining)]
-
 name: Build LeeWay Pocket APK
 
 on:
   workflow_dispatch:
   pull_request:
-    branches: [main]
+    branches:
+      - main
   push:
-    branches: [main, feature/pocket-workstation-side-tab-20260929, leeway-live-update-repair-20261002]
+    branches:
+      - main
+      - feature/pocket-workstation-side-tab-20260929
+      - leeway-live-update-repair-20261002
     paths:
-      - 'app/**'
-      - 'docs/ecosystem-bindings.json'
-      - 'tests/**'
+      - app/**
+      - docs/ecosystem-bindings.json
+      - tests/**
       - '*.gradle.kts'
-      - 'gradle.properties'
-      - 'settings.gradle.kts'
-      - '.github/workflows/android-apk.yml'
+      - gradle.properties
+      - settings.gradle.kts
+      - .github/workflows/android-apk.yml
 
 permissions:
   contents: write
@@ -42,8 +44,6 @@ jobs:
           if [ ! -x "$SDKMANAGER" ]; then
             SDKMANAGER="$(command -v sdkmanager)"
           fi
-          echo "SDK_ROOT=$SDK_ROOT"
-          echo "SDKMANAGER=$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses >/dev/null || true
           "$SDKMANAGER" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
@@ -58,23 +58,11 @@ jobs:
       - name: Test and build debug APK
         run: gradle :app:testDebugUnitTest :app:assembleDebug --stacktrace --no-daemon
 
-      - name: Measure, hash, and identify APK signer
+      - name: Measure and stage verified Pocket release
         shell: bash
-        run: |
-          set -euo pipefail
-          APK=app/build/outputs/apk/debug/app-debug.apk
-          test -f "$APK"
-          BYTES=$(stat -c%s "$APK")
-          SHA=$(sha256sum "$APK" | awk '{print $1}')
-          echo "package_bytes=$BYTES" | tee pocket-package-evidence.txt
-          echo "sha256=$SHA" | tee -a pocket-package-evidence.txt
-          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
-          APKSIGNER="$SDK_ROOT/build-tools/35.0.0/apksigner"
-          test -x "$APKSIGNER"
-          "$APKSIGNER" verify --print-certs "$APK" | tee -a pocket-package-evidence.txt
-
-      - name: Stage verified Pocket release
-        shell: bash
+        env:
+          SOURCE_RUN_ID: ${{ github.run_id }}
+          SOURCE_COMMIT: ${{ github.sha }}
         run: |
           set -euo pipefail
           APK=app/build/outputs/apk/debug/app-debug.apk
@@ -85,19 +73,22 @@ jobs:
           SHA=$(sha256sum docs/download/LeeWay-Pocket-Agent.apk | awk '{print $1}')
           VERSION_NAME=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
           VERSION_CODE=$(sed -n 's/.*versionCode = \([0-9][0-9]*\).*/\1/p' app/build.gradle.kts)
-          cat > docs/download/LeeWay-Pocket-Agent-latest.json <<JSON
-          {
-            "componentId": "pocket-agent",
-            "packageName": "industries.leeway.pocket",
-            "versionName": "$VERSION_NAME",
-            "versionCode": $VERSION_CODE,
-            "sha256": "$SHA",
-            "sizeBytes": $BYTES,
-            "downloadUrl": "./LeeWay-Pocket-Agent.apk",
-            "sourceRunId": "${{ github.run_id }}",
-            "sourceCommit": "${{ github.sha }}"
-          }
-          JSON
+          printf '%s\n' \
+            '{' \
+            '  "componentId": "pocket-agent",' \
+            '  "packageName": "industries.leeway.pocket",' \
+            "  \"versionName\": \"$VERSION_NAME\"," \
+            "  \"versionCode\": $VERSION_CODE," \
+            "  \"sha256\": \"$SHA\"," \
+            "  \"sizeBytes\": $BYTES," \
+            '  "downloadUrl": "./LeeWay-Pocket-Agent.apk",' \
+            "  \"sourceRunId\": \"$SOURCE_RUN_ID\"," \
+            "  \"sourceCommit\": \"$SOURCE_COMMIT\"" \
+            '}' > docs/download/LeeWay-Pocket-Agent-latest.json
+          echo "package_bytes=$BYTES" > pocket-package-evidence.txt
+          echo "sha256=$SHA" >> pocket-package-evidence.txt
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          "$SDK_ROOT/build-tools/35.0.0/apksigner" verify --print-certs "$APK" >> pocket-package-evidence.txt
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
@@ -109,22 +100,28 @@ jobs:
             pocket-package-evidence.txt
           if-no-files-found: error
 
-      - name: Publish candidate release into repair branch
-        if: github.ref == 'refs/heads/leeway-live-update-repair-20261002'
+      - name: Publish repair candidate
+        if: ${{ github.ref == 'refs/heads/leeway-live-update-repair-20261002' }}
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json
-          git diff --cached --quiet || git commit -m "Publish verified Pocket repair candidate"
-          git push origin HEAD:leeway-live-update-repair-20261002
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish verified Pocket repair candidate"
+            git push origin HEAD:leeway-live-update-repair-20261002
+          fi
 
-      - name: Publish verified release into repository
-        if: github.ref == 'refs/heads/main'
+      - name: Publish verified release
+        if: ${{ github.ref == 'refs/heads/main' }}
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json
-          git diff --cached --quiet || git commit -m "Publish latest verified LeeWay Pocket APK"
-          git push
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish latest verified LeeWay Pocket APK"
+            git push
+          fi
