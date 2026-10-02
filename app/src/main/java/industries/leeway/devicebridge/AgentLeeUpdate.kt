@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 
 object AgentLeeUpdate {
     const val METADATA_URL =
-        "https://4citeb4u.github.io/LEEWAY-DEVICE-BRIDGE/docs/downloads/leeway-device-bridge-android-latest.json"
+        "https://raw.githubusercontent.com/4citeB4U/LeeWay-Pocket-Agent/main/docs/download/LeeWay-Agent-Lee-latest.json"
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(15, TimeUnit.SECONDS)

@@ -131,13 +131,25 @@ object ModelRuntime {
         val started = System.currentTimeMillis()
         try {
             val file = modelFile(context)
-            val st = status(context)
+            var st = status(context)
             if (!st.optBoolean("verified")) {
-                return JSONObject().apply {
-                    put("ok", false)
-                    put("error", "MODEL_NOT_VERIFIED")
-                    put("status", st)
+                ReceiptStore.record(
+                    context,
+                    "model.auto.install",
+                    "OBSERVED",
+                    "Verified local model missing; first-use install starting."
+                )
+                st = try {
+                    download(context) { _, _ -> }
+                } catch (error: Exception) {
+                    return failed(
+                        "MODEL_AUTO_INSTALL_FAILED:" + (error.message ?: error.javaClass.simpleName).take(120),
+                        System.currentTimeMillis() - started
+                    )
                 }
+            }
+            if (!st.optBoolean("verified")) {
+                return failed("MODEL_NOT_VERIFIED_AFTER_AUTO_INSTALL", System.currentTimeMillis() - started)
             }
 
             val output = StringBuilder()
