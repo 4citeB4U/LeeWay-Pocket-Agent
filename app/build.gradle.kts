@@ -18,8 +18,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 20
-        versionName = "0.3.1-unified-agent-lee-rc2"
+        versionCode = 21
+        versionName = "0.3.2-unified-agent-lee-rc3"
     }
 }
 
