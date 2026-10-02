@@ -19,7 +19,7 @@
 
     <application
         android:theme="@style/AppTheme"
-        android:label="LeeWay Pocket"
+        android:label="Agent Lee"
         android:allowBackup="false"
         android:usesCleartextTraffic="false"
         android:networkSecurityConfig="@xml/network_security_config">
