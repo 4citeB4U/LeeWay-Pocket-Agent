@@ -45,7 +45,7 @@ assert.match(nativeVoice,/audio_features","audio_tokens","speaker_embeddings","s
 assert.match(gradle,/versionCode = 22/);
 assert.match(gradle,/versionName = "0\.3\.3-unified-agent-lee-rc4"/);
 assert.match(deviceBoot,/LocalBridgeServer\.start/);
-assert.match(deviceBoot,/LocalAuthority\.agentAccessEnabled/);
+assert.match(deviceBoot,/LocalAuthority\.agentAccessEnabled/);\nconst localBridge=fs.readFileSync(root+"/java/industries/leeway/devicebridge/LocalBridgeServer.kt","utf8");\nassert.match(localBridge,/const val PORT = 5324/);
 assert.match(modelRuntime,/model\.auto\.install/);
 assert.match(modelRuntime,/MODEL_AUTO_INSTALL_FAILED/);
 assert.match(agentUpdate,/LeeWay-Pocket-Agent\/main\/docs\/download\/LeeWay-Agent-Lee-latest\.json/);

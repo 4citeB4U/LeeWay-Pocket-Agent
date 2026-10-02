@@ -12,7 +12,7 @@ import java.net.URLDecoder
 import kotlin.concurrent.thread
 
 object LocalBridgeServer {
-    const val PORT = 5323
+    const val PORT = 5324
     @Volatile private var server: ServerSocket? = null
     @Volatile private var worker: Thread? = null
     @Volatile private var ownerBootstrapNonce: String? = null
