@@ -1,3 +1,5 @@
+[Reading 74 lines from start (total: 74 lines, 0 remaining)]
+
 package industries.leeway.pocket
 
 import org.json.JSONObject
@@ -41,6 +43,29 @@ object NativeDecoderContract {
     }
 }
 
+object NativeEncoderContract {
+    const val MAX_JSON = 4_100_000
+    const val MAX_OUTPUT_BYTES = 8_000_000
+    fun decode(json:String):NativeDecoderContract.Input {
+        require(json.length<=MAX_JSON){"ENCODER_INPUT_TOO_LARGE"}
+        val root=JSONObject(json)
+        require(root.keys().asSequence().toSet()==setOf("audio_values")){"ENCODER_INPUT_NAMES"}
+        val value=root.getJSONObject("audio_values")
+        val shape=value.getJSONArray("dims")
+        val dims=LongArray(shape.length()){shape.getLong(it)}
+        require(dims.size==2 && dims[0]==1L && dims[1] in 24_000L..720_000L){"ENCODER_INPUT_SHAPE"}
+        require(value.getString("dtype")=="float32"){"ENCODER_INPUT_TYPE"}
+        val count=dims[1]
+        val encoded=value.getString("data")
+        require(encoded.length<=3_900_000){"ENCODER_TENSOR_TOO_LARGE"}
+        val bytes=Base64.getDecoder().decode(encoded)
+        require(bytes.size.toLong()==count*4){"ENCODER_INPUT_BYTES"}
+        val buffer=ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
+        repeat(count.toInt()){require(buffer.float.isFinite()){"ENCODER_NONFINITE_INPUT"}}
+        return NativeDecoderContract.Input("audio_values",dims,bytes,false)
+    }
+}
+
 /** Timeout/cancel/completion may race; only one result can leave a request. */
 class NativeDecoderJob(val id:String) {
     val cancelled=AtomicBoolean(false)
@@ -49,3 +74,5 @@ class NativeDecoderJob(val id:String) {
     fun cancel(){cancelled.set(true)}
     fun check(){check(!cancelled.get()){"DECODER_CANCELLED"}}
 }
+
+[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
