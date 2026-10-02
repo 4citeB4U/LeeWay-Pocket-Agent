@@ -39,7 +39,7 @@ assert.match(nativeVoice,/speech_encoder\.onnx/);
 assert.match(nativeVoice,/04431dcef6325c54b02de2219845888b464bcd1f1ac2f8839c2fecd1ed2ef294/);
 assert.match(nativeVoice,/@JavascriptInterface fun encode/);
 assert.match(nativeVoice,/audio_features","audio_tokens","speaker_embeddings","speaker_features/);
-assert.match(gradle,/versionCode = 19/);
+assert.match(gradle,/versionCode = 218/);
 assert.match(gradle,/versionName = "0\.2\.17-live-voice-stream-rc2"/);
 assert.match(voice,/ResultReceiver/);
 assert.match(voice,/acceptAgentDelta/);
