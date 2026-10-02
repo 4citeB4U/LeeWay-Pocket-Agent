@@ -141,6 +141,7 @@ class MainActivity : Activity() {
             "Automation bridge (n8n)",
             "Camera",
             "Voice Fabric · choose voice",
+            "Consciousness shadow (L1)",
             "Close"
         )
         android.app.AlertDialog.Builder(this).setTitle("LeeWay Pocket").setItems(items) { d, which ->
@@ -154,6 +155,7 @@ class MainActivity : Activity() {
                 6 -> configureAutomationBridge()
                 7 -> openCamera()
                 8 -> PocketSpeech.settings(this)
+                9 -> showText("Consciousness shadow (L1)",ConsciousnessShadow.describe(this))
                 else -> d.dismiss()
             }
         }.show()
