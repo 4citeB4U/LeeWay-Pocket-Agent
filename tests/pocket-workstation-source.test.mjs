@@ -1,3 +1,5 @@
+[Reading 71 lines from start (total: 71 lines, 0 remaining)]
+
 import fs from "node:fs";
 import assert from "node:assert/strict";
 
@@ -5,6 +7,9 @@ const root="app/src/main";
 const main=fs.readFileSync(root+"/java/industries/leeway/pocket/MainActivity.kt","utf8");
 const voice=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketVoiceActivity.kt","utf8");
 const voiceHost=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketVoiceHost.kt","utf8");
+const nativeVoice=fs.readFileSync(root+"/java/industries/leeway/pocket/NativeVoiceDecoder.kt","utf8");
+const nativeContract=fs.readFileSync(root+"/java/industries/leeway/pocket/NativeDecoderContract.kt","utf8");
+const gradle=fs.readFileSync("app/build.gradle.kts","utf8");
 const overlay=fs.readFileSync(root+"/java/industries/leeway/pocket/PocketOverlayService.kt","utf8");
 const bridge=fs.readFileSync(root+"/java/industries/leeway/pocket/DeviceBridgeClient.kt","utf8");
 const bindings=fs.readFileSync(root+"/java/industries/leeway/pocket/EcosystemBindings.kt","utf8");
@@ -22,6 +27,26 @@ assert.doesNotMatch(voice,/TextToSpeech/);
 assert.doesNotMatch(voice,/speechSynthesis/);
 assert.match(voice,/SpeechRecognizer/);
 assert.match(voiceHost,/LeeWayAndroidVoice/);
+assert.match(voiceHost,/DEFAULT_VOICE_ID = "agent-lee-voice-one"/);
+assert.match(voiceHost,/agent_voice_one_default_v2/);
+assert.doesNotMatch(voiceHost,/putString\("selected_id","android-installed-english"\)/);
+assert.match(voiceHost,/previewAfterSelection=true/);
+assert.match(voiceHost,/Voice One is ready/);
+assert.match(voiceHost,/fun forceVoiceOne/);
+assert.match(voiceHost,/fun diagnosticSnapshot/);
+assert.match(voice,/FORCE AGENT LEE VOICE ONE/);
+assert.match(voice,/SHOW VOICE DIAGNOSTIC/);
+assert.match(nativeContract,/object NativeEncoderContract/);
+assert.match(nativeVoice,/speech_encoder\.onnx/);
+assert.match(nativeVoice,/04431dcef6325c54b02de2219845888b464bcd1f1ac2f8839c2fecd1ed2ef294/);
+assert.match(nativeVoice,/@JavascriptInterface fun encode/);
+assert.match(nativeVoice,/audio_features","audio_tokens","speaker_embeddings","speaker_features/);
+assert.match(gradle,/versionCode = 19/);
+assert.match(gradle,/versionName = "0\.2\.17-live-voice-stream-rc2"/);
+assert.match(voice,/ResultReceiver/);
+assert.match(voice,/acceptAgentDelta/);
+assert.match(voice,/drainStreamingSpeech/);
+assert.match(bridge,/leeway_stream_receiver/);
 assert.match(voice,/PocketSpeech.detach/);
 assert.doesNotMatch(voice,/WebView\(/);
 assert.match(voice,/agent\.chat/);
@@ -46,3 +71,5 @@ assert.equal(bindingJson.bindings.find(x=>x.id==="formula").executionClaim,"NOT_
 assert.match(bindingJson.bindings.find(x=>x.id==="agent-skills").phoneBinding,/REMOTE_MCP_PENDING/);
 
 console.log("PASS Pocket secondary-workstation source contract");
+
+[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
