@@ -125,6 +125,22 @@ class PocketVoiceActivity: Activity(){
                 else startListening()
             }
         }
+        val forceVoice=Button(this).apply{
+            text="FORCE AGENT LEE VOICE ONE"
+            setOnClickListener{
+                PocketSpeech.stop(voiceListener)
+                voiceFailed=false
+                status.text="Forcing Agent Lee Voice One"
+                transcript.text="Running direct Voice One audio verification…"
+                PocketVoiceHost.forceVoiceOne(voiceListener)
+            }
+        }
+        val voiceDiagnostic=Button(this).apply{
+            text="SHOW VOICE DIAGNOSTIC"
+            setOnClickListener{
+                transcript.text=PocketVoiceHost.diagnosticSnapshot()
+            }
+        }
         val typeInstead=Button(this).apply{
             text="TYPE INSTEAD"
             setOnClickListener{
@@ -164,6 +180,8 @@ class PocketVoiceActivity: Activity(){
         card.addView(transcript)
         card.addView(voiceDetails)
         card.addView(retry)
+        card.addView(forceVoice)
+        card.addView(voiceDiagnostic)
         card.addView(typeInstead)
         card.addView(cancel)
         root.addView(card,FrameLayout.LayoutParams(
@@ -322,6 +340,7 @@ class PocketVoiceActivity: Activity(){
 
     private fun routeAgent(request:String){
         if(agentRequestInFlight)return
+        ConsciousnessShadow.observe(applicationContext,request)
         agentRequestInFlight=true
         pendingRequest=request
         if(!bridge.isGranted()){
@@ -395,6 +414,7 @@ class PocketVoiceActivity: Activity(){
                     "; canonicalFormula="+envelope.optString("canonicalFormulaState","NOT_EXECUTED")+
                     "; "+lastSkillEvidence
                 memory.saveNotebook("Pocket turn trace: $trace")
+                ConsciousnessShadow.recordActual(applicationContext,pendingRequest.orEmpty(),response,true)
                 deliver(response)
             }
         }

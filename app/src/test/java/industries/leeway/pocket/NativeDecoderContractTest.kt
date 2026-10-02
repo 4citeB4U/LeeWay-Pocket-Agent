@@ -37,6 +37,29 @@ class NativeDecoderContractTest {
         assertThrows(IllegalArgumentException::class.java){NativeDecoderContract.decode("x".repeat(NativeDecoderContract.MAX_JSON+1))}
         assertThrows(IllegalArgumentException::class.java){NativeDecoderContract.decode(valid().put("path","untrusted").toString())}
     }
+    private fun validEncoder(samples:Int=24_000):JSONObject {
+        val bytes=ByteArray(samples*4)
+        return JSONObject().put("audio_values",tensor("float32",listOf(1,samples),bytes))
+    }
+    @Test fun encoderAcceptsOnlyBoundedCanonicalAudio(){
+        val input=NativeEncoderContract.decode(validEncoder().toString())
+        assertEquals("audio_values",input.name)
+        assertFalse(input.int64)
+        assertArrayEquals(longArrayOf(1,24_000),input.dims)
+    }
+    @Test fun encoderRejectsWrongNamesTypesShapesAndNonfinite(){
+        assertThrows(IllegalArgumentException::class.java){NativeEncoderContract.decode(validEncoder().put("path","x").toString())}
+        val wrongType=validEncoder();wrongType.getJSONObject("audio_values").put("dtype","int64")
+        assertThrows(IllegalArgumentException::class.java){NativeEncoderContract.decode(wrongType.toString())}
+        val wrongShape=validEncoder();wrongShape.getJSONObject("audio_values").put("dims",JSONArray(listOf(24_000)))
+        assertThrows(IllegalArgumentException::class.java){NativeEncoderContract.decode(wrongShape.toString())}
+        val nanBytes=ByteArray(24_000*4);ByteBuffer.wrap(nanBytes).order(ByteOrder.LITTLE_ENDIAN).putFloat(Float.NaN)
+        val nan=JSONObject().put("audio_values",tensor("float32",listOf(1,24_000),nanBytes))
+        assertThrows(IllegalArgumentException::class.java){NativeEncoderContract.decode(nan.toString())}
+    }
+    @Test fun encoderRejectsOversizedEnvelope(){
+        assertThrows(IllegalArgumentException::class.java){NativeEncoderContract.decode("x".repeat(NativeEncoderContract.MAX_JSON+1))}
+    }
     @Test fun timeoutOrCancelProducesOneResultAndRejectsLateWork(){
         val job=NativeDecoderJob("test")
         job.cancel();assertTrue(job.finish());assertFalse(job.finish())
