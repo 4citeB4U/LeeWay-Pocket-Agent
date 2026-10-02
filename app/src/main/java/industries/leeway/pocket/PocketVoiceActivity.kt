@@ -20,6 +20,9 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.ResultReceiver
 import android.provider.CalendarContract
 import android.speech.*
 import android.view.Gravity
@@ -28,6 +31,7 @@ import android.view.ViewGroup
 import android.widget.*
 import org.json.JSONObject
 import java.util.Locale
+import java.util.ArrayDeque
 import java.lang.ref.WeakReference
 import kotlin.concurrent.thread
 
@@ -51,6 +55,12 @@ class PocketVoiceActivity: Activity(){
     private var pendingRequest:String?=null
     private var expectedNonce:String?=null
     @Volatile private var lastSkillEvidence:String="skills=NOT_LOADED"
+    private val streamedText=StringBuilder()
+    private val streamingSpeechBuffer=StringBuilder()
+    private val streamingSpeechQueue=ArrayDeque<String>()
+    private var streamingSpeechActive=false
+    private var sawStreamDelta=false
+    private var streamFinished=false
 
     override fun onCreate(savedInstanceState:Bundle?){
         super.onCreate(savedInstanceState)
@@ -125,6 +135,22 @@ class PocketVoiceActivity: Activity(){
                 else startListening()
             }
         }
+        val forceVoice=Button(this).apply{
+            text="FORCE AGENT LEE VOICE ONE"
+            setOnClickListener{
+                PocketSpeech.stop(voiceListener)
+                voiceFailed=false
+                status.text="Forcing Agent Lee Voice One"
+                transcript.text="Running direct Voice One audio verification…"
+                PocketVoiceHost.forceVoiceOne(voiceListener)
+            }
+        }
+        val voiceDiagnostic=Button(this).apply{
+            text="SHOW VOICE DIAGNOSTIC"
+            setOnClickListener{
+                transcript.text=PocketVoiceHost.diagnosticSnapshot()
+            }
+        }
         val typeInstead=Button(this).apply{
             text="TYPE INSTEAD"
             setOnClickListener{
@@ -164,6 +190,8 @@ class PocketVoiceActivity: Activity(){
         card.addView(transcript)
         card.addView(voiceDetails)
         card.addView(retry)
+        card.addView(forceVoice)
+        card.addView(voiceDiagnostic)
         card.addView(typeInstead)
         card.addView(cancel)
         root.addView(card,FrameLayout.LayoutParams(
@@ -180,13 +208,78 @@ class PocketVoiceActivity: Activity(){
         override fun onReady(){voiceFailed=false;voiceDetails.text=PocketSpeech.description()}
         override fun onState(message:String){if(!voiceFailed)voiceDetails.text=message.replace('_',' ')}
         override fun onComplete(){
-            status.text="Ready"
+            streamingSpeechActive=false
             voiceDetails.text=PocketSpeech.description()
+            pumpStreamingSpeech()
+            if(!streamingSpeechActive && streamingSpeechQueue.isEmpty() && (!sawStreamDelta || streamFinished)) status.text="Ready"
         }
         override fun onError(message:String){
+            streamingSpeechActive=false
             voiceFailed=true
             voiceDetails.text="Phone voice unavailable\n$message"
         }
+    }
+
+    private fun resetStreamingTurn(){
+        streamedText.setLength(0)
+        streamingSpeechBuffer.setLength(0)
+        streamingSpeechQueue.clear()
+        streamingSpeechActive=false
+        sawStreamDelta=false
+        streamFinished=false
+    }
+
+    private fun acceptAgentDelta(delta:String){
+        if(delta.isBlank() || !agentRequestInFlight)return
+        sawStreamDelta=true
+        streamedText.append(delta)
+        streamingSpeechBuffer.append(delta)
+        transcript.text="Agent Lee: "+streamedText.toString()
+        status.text=if(streamingSpeechActive)"Agent Lee speaking" else "Agent Lee responding"
+        drainStreamingSpeech(false)
+    }
+
+    private fun drainStreamingSpeech(force:Boolean){
+        while(true){
+            val raw=streamingSpeechBuffer.toString()
+            if(raw.isBlank()){streamingSpeechBuffer.setLength(0);break}
+            var cut=-1
+            val scanEnd=minOf(raw.length,140)
+            for(i in 0 until scanEnd){
+                if(i>=24 && raw[i] in charArrayOf('.','!','?'))cut=i+1
+            }
+            if(cut<0 && raw.length>=56){
+                val max=minOf(raw.length,96)
+                val space=raw.lastIndexOf(' ',max-1)
+                if(space>=32)cut=space+1
+            }
+            if(cut<0 && force){
+                val max=minOf(raw.length,160)
+                val space=raw.lastIndexOf(' ',max-1)
+                cut=if(space>=24)space+1 else max
+            }
+            if(cut<=0)break
+            val chunk=raw.substring(0,cut).trim()
+            streamingSpeechBuffer.delete(0,cut)
+            if(chunk.isNotBlank())streamingSpeechQueue.addLast(chunk)
+        }
+        pumpStreamingSpeech()
+    }
+
+    private fun pumpStreamingSpeech(){
+        if(streamingSpeechActive || streamingSpeechQueue.isEmpty() || voiceFailed)return
+        streamingSpeechActive=true
+        status.text="Agent Lee speaking"
+        PocketSpeech.speak(voiceListener,streamingSpeechQueue.removeFirst())
+    }
+
+    private fun finishStreamedResponse(finalText:String){
+        streamFinished=true
+        drainStreamingSpeech(true)
+        agentRequestInFlight=false
+        memory.saveConversation("Lee: $finalText")
+        transcript.text="Agent Lee: $finalText"
+        if(!streamingSpeechActive && streamingSpeechQueue.isEmpty())status.text="Ready"
     }
 
     private fun initVoiceFabric(){
@@ -322,6 +415,7 @@ class PocketVoiceActivity: Activity(){
 
     private fun routeAgent(request:String){
         if(agentRequestInFlight)return
+        ConsciousnessShadow.observe(applicationContext,request)
         agentRequestInFlight=true
         pendingRequest=request
         if(!bridge.isGranted()){
@@ -341,6 +435,7 @@ class PocketVoiceActivity: Activity(){
 
     private fun executeAgent(request:String){
         status.text="Loading LeeWay authority"
+        resetStreamingTurn()
         thread{
             val skillContext=SkillAuthorityClient(applicationContext).contextFor(request)
             lastSkillEvidence=skillContext.evidence.replace("skills=CONTEXT_USED","skills=SOURCE_LOADED")
@@ -354,7 +449,15 @@ class PocketVoiceActivity: Activity(){
             runOnUiThread{
                 try{
                     if (isFinishing || isDestroyed) return@runOnUiThread
-                    startActivityForResult(bridge.commandIntent("agent.chat",args),REQ_BRIDGE_COMMAND)
+                    val streamReceiver=object:ResultReceiver(Handler(Looper.getMainLooper())){
+                        override fun onReceiveResult(resultCode:Int,resultData:Bundle?){
+                            when(resultCode){
+                                1 -> acceptAgentDelta(resultData?.getString("delta").orEmpty())
+                                2 -> {streamFinished=true;drainStreamingSpeech(true)}
+                            }
+                        }
+                    }
+                    startActivityForResult(bridge.commandIntent("agent.chat",args,streamReceiver),REQ_BRIDGE_COMMAND)
                     status.text="Agent Lee thinking"
                 }catch(_:Exception){
                     bridge.clearGrant()
@@ -395,7 +498,8 @@ class PocketVoiceActivity: Activity(){
                     "; canonicalFormula="+envelope.optString("canonicalFormulaState","NOT_EXECUTED")+
                     "; "+lastSkillEvidence
                 memory.saveNotebook("Pocket turn trace: $trace")
-                deliver(response)
+                ConsciousnessShadow.recordActual(applicationContext,pendingRequest.orEmpty(),response,true)
+                if(sawStreamDelta)finishStreamedResponse(response) else deliver(response)
             }
         }
     }

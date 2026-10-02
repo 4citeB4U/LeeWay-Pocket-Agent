@@ -14,6 +14,7 @@ package industries.leeway.pocket
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.ResultReceiver
 import org.json.JSONObject
 import java.util.UUID
 
@@ -42,7 +43,7 @@ class DeviceBridgeClient(context: Context) {
         return true
     }
 
-    fun commandIntent(capability: String, arguments: JSONObject): Intent =
+    fun commandIntent(capability: String, arguments: JSONObject, streamReceiver: ResultReceiver? = null): Intent =
         Intent().setComponent(
             ComponentName(
                 "industries.leeway.devicebridge",
@@ -51,6 +52,7 @@ class DeviceBridgeClient(context: Context) {
         ).putExtra("leeway_pocket_token",token())
             .putExtra("leeway_capability",capability)
             .putExtra("leeway_arguments",arguments.toString())
+            .apply { if (streamReceiver != null) putExtra("leeway_stream_receiver", streamReceiver) }
 
     fun parseResult(data: Intent?): JSONObject {
         val raw=data?.getStringExtra("leeway_result").orEmpty()

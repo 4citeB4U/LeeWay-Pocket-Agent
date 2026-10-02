@@ -1,0 +1,11 @@
+{
+  "componentId": "pocket-agent",
+  "packageName": "industries.leeway.pocket",
+  "versionName": "0.2.18-agent-lee-unified-rc1",
+  "versionCode": 218,
+  "sha256": "8b4ececb08c1dd80b08c3f80526019c06ccaf0897b10995e0e500abc05dc4e43",
+  "sizeBytes": 144048165,
+  "downloadUrl": "https://github.com/4citeB4U/LeeWay-Pocket-Agent/releases/download/pocket-0.2.18-agent-lee-unified-rc1/LeeWay-Pocket-Agent.apk",
+  "sourceRunId": "37073678337",
+  "sourceCommit": "8acd2ff1dc513d843e7ab1efdf9b4ed55262a511"
+}

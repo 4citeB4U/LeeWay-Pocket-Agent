@@ -25,30 +25,31 @@ class NativeVoiceDecoder(context:Context, private val trusted:()->Boolean, priva
     private val runLock=Any()
     private var runOptions:OrtSession.RunOptions?=null
     private var session:OrtSession?=null
+    private var encoderSession:OrtSession?=null
     @Volatile private var closed=false
     private val environment by lazy { OrtEnvironment.getEnvironment() }
     private val base="https://huggingface.co/onnx-community/chatterbox-ONNX/resolve/3cab09af388d3f02bba43443fce88c1f4525ac43/onnx/"
     private data class Asset(val name:String,val bytes:Long,val hash:String)
-    private val assets=listOf(
+    private val decoderAssets=listOf(
         Asset("conditional_decoder.onnx",6350448,"1656d0d31332bae1854839959a3139300ebb67c178651dfa3f8c5fbfa5351351"),
         Asset("conditional_decoder.onnx_data",533970816,"51d58345a272747665ec9d5bb61e01835258a940e321a288582ac4c18cf01b5a")
     )
-    @JavascriptInterface fun prepare(id:String)=submit(id,10*60){job->
+    private val encoderAssets=listOf(
+        Asset("speech_encoder.onnx",1184608,"8f1c8a0f89b77bf9cd5dd8f2e034eb2c79dc00fe70d41196b28c257643b00ccb"),
+        Asset("speech_encoder.onnx_data",591274880,"04431dcef6325c54b02de2219845888b464bcd1f1ac2f8839c2fecd1ed2ef294")
+    )
+    @JavascriptInterface fun prepare(id:String)=submit(id,20*60){job->
+        directory.mkdirs()
+        for(asset in encoderAssets){job.check();ensureAsset(asset,job,"Downloading canonical native speech encoder")}
+        for(asset in decoderAssets){job.check();ensureAsset(asset,job,"Downloading canonical native decoder")}
         if(session==null){
-            directory.mkdirs()
-            for(asset in assets){job.check();ensureAsset(asset,job)}
             progress(job,"Initializing native CPU decoder")
-            OrtSession.SessionOptions().use { options ->
-                options.setIntraOpNumThreads(4)
-                options.setInterOpNumThreads(1)
-                options.setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
-                options.setCPUArenaAllocator(false)
-                val loaded=environment.createSession(File(directory,assets[0].name).absolutePath,options)
-                if(job.cancelled.get()||closed){loaded.close();job.check();error("DECODER_CLOSED")}
-                session=loaded
-            }
+            val loaded=createSession(decoderAssets[0].name)
+            if(job.cancelled.get()||closed){loaded.close();job.check();error("DECODER_CLOSED")}
+            session=loaded
         }
-        JSONObject().put("ready",true).put("backend","onnxruntime-android-cpu").put("threads",4)
+        JSONObject().put("ready",true).put("backend","onnxruntime-android-cpu")
+            .put("speechEncoder","onnxruntime-android-cpu").put("threads",4)
     }
     @JavascriptInterface fun decode(id:String,payload:String)=submit(id,180){job->
         val inputs=NativeDecoderContract.decode(payload)
@@ -84,6 +85,58 @@ class NativeVoiceDecoder(context:Context, private val trusted:()->Boolean, priva
                 }finally{synchronized(runLock){runOptions=null}}
             }
         }finally{tensors.values.forEach{it.close()}}
+    }
+    @JavascriptInterface fun encode(id:String,payload:String)=submit(id,300){job->
+        val input=NativeEncoderContract.decode(payload)
+        progress(job,"Initializing canonical native speech encoder")
+        val encoder=createSession(encoderAssets[0].name)
+        encoderSession=encoder
+        val buffer=ByteBuffer.allocateDirect(input.bytes.size).order(ByteOrder.LITTLE_ENDIAN).put(input.bytes)
+        buffer.rewind()
+        val tensor=OnnxTensor.createTensor(environment,buffer.asFloatBuffer(),input.dims)
+        try{
+            OrtSession.RunOptions().use { options ->
+                synchronized(runLock){job.check();runOptions=options}
+                try{
+                    val start=System.nanoTime()
+                    encoder.run(mapOf(input.name to tensor),options).use { result ->
+                        job.check()
+                        val expected=linkedSetOf("audio_features","audio_tokens","speaker_embeddings","speaker_features")
+                        require(encoder.outputNames==expected){"ENCODER_OUTPUT_NAMES"}
+                        val out=JSONObject();var totalBytes=0
+                        for(name in expected){
+                            val output=result.get(name).orElseThrow() as OnnxTensor
+                            val info=output.info as TensorInfo
+                            val dims=info.shape
+                            val count=dims.fold(1L){a,b->a*b}
+                            require(count in 1L..2_000_000L){"ENCODER_OUTPUT_SHAPE"}
+                            val int64=name=="audio_tokens"
+                            val bytes=ByteBuffer.allocate(Math.toIntExact(count*(if(int64)8L else 4L))).order(ByteOrder.LITTLE_ENDIAN)
+                            if(int64){
+                                val values=output.longBuffer
+                                while(values.hasRemaining())bytes.putLong(values.get())
+                            }else{
+                                val values=output.floatBuffer
+                                while(values.hasRemaining()){
+                                    val value=values.get();require(value.isFinite()){"ENCODER_NONFINITE_OUTPUT"};bytes.putFloat(value)
+                                }
+                            }
+                            totalBytes+=bytes.position()
+                            require(totalBytes<=NativeEncoderContract.MAX_OUTPUT_BYTES){"ENCODER_OUTPUT_TOO_LARGE"}
+                            out.put(name,JSONObject().put("dtype",if(int64)"int64" else "float32")
+                                .put("dims",JSONArray(dims.toList()))
+                                .put("data",Base64.getEncoder().encodeToString(bytes.array())))
+                        }
+                        android.util.Log.i("LeeWayPocketVoice","NATIVE_ENCODER outputs="+expected.joinToString(",")+" bytes="+totalBytes+" elapsedMs="+((System.nanoTime()-start)/1_000_000))
+                        out
+                    }
+                }finally{synchronized(runLock){runOptions=null}}
+            }
+        }finally{
+            tensor.close()
+            encoder.close()
+            encoderSession=null
+        }
     }
     @JavascriptInterface fun cancel(id:String){
         active.get()?.takeIf{it.id==id}?.let { job ->
@@ -121,7 +174,14 @@ class NativeVoiceDecoder(context:Context, private val trusted:()->Boolean, priva
         file.inputStream().use { stream -> val bytes=ByteArray(128*1024);while(true){job.check();val n=stream.read(bytes);if(n<0)break;hash.update(bytes,0,n)} }
         return hash.digest().joinToString(""){"%02x".format(it)}
     }
-    private fun ensureAsset(asset:Asset,job:NativeDecoderJob){
+    private fun createSession(graph:String):OrtSession = OrtSession.SessionOptions().use { options ->
+        options.setIntraOpNumThreads(4)
+        options.setInterOpNumThreads(1)
+        options.setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
+        options.setCPUArenaAllocator(false)
+        environment.createSession(File(directory,graph).absolutePath,options)
+    }
+    private fun ensureAsset(asset:Asset,job:NativeDecoderJob,message:String){
         val target=File(directory,asset.name)
         if(target.isFile && target.length()==asset.bytes && digest(target,job)==asset.hash)return
         val part=File(directory,asset.name+".part")
@@ -135,7 +195,7 @@ class NativeVoiceDecoder(context:Context, private val trusted:()->Boolean, priva
                 connection.inputStream.use { input -> part.outputStream().use { output ->
                     val bytes=ByteArray(128*1024)
                     while(true){job.check();val n=input.read(bytes);if(n<0)break;count+=n;require(count<=asset.bytes){"DECODER_DOWNLOAD_SIZE"};output.write(bytes,0,n)
-                        val now=System.currentTimeMillis();if(now-lastProgress>1000){progress(job,"Downloading canonical native decoder",count,asset.bytes);lastProgress=now}
+                        val now=System.currentTimeMillis();if(now-lastProgress>1000){progress(job,message,count,asset.bytes);lastProgress=now}
                     }
                 } }
                 require(count==asset.bytes && digest(part,job)==asset.hash){"DECODER_DOWNLOAD_INTEGRITY"}
@@ -151,7 +211,7 @@ class NativeVoiceDecoder(context:Context, private val trusted:()->Boolean, priva
         closed=true;active.get()?.let{it.cancel()}
         synchronized(runLock){runCatching{runOptions?.setTerminate(true)}}
         timer.shutdownNow()
-        executor.execute{session?.close();session=null}
+        executor.execute{encoderSession?.close();encoderSession=null;session?.close();session=null}
         executor.shutdown()
     }
 }
