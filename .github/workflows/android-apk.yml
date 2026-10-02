@@ -113,7 +113,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          VERSION_NAME=$(sed -n 's/.*versionName = "\\([^"]*\\)".*/\\1/p' app/build.gradle.kts)
+          VERSION_NAME=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
           TAG="pocket-$VERSION_NAME"
           gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --prerelease --target "$GITHUB_SHA" --title "LeeWay Pocket $VERSION_NAME" --notes "Governed Agent Lee Pocket repair candidate. Physical Fold playback gate remains required."
           gh release upload "$TAG" docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json --clobber
@@ -132,7 +132,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          VERSION_NAME=$(sed -n 's/.*versionName = "\\([^"]*\\)".*/\\1/p' app/build.gradle.kts)
+          VERSION_NAME=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
           TAG="pocket-$VERSION_NAME"
           gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --target "$GITHUB_SHA" --title "LeeWay Pocket $VERSION_NAME" --notes "Verified LeeWay Pocket release."
           gh release upload "$TAG" docs/download/LeeWay-Pocket-Agent.apk docs/download/LeeWay-Pocket-Agent-latest.json --clobber
