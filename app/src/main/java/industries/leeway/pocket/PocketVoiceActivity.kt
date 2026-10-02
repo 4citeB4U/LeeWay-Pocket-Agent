@@ -190,7 +190,22 @@ class PocketVoiceActivity: Activity(){
     }
 
     private fun initVoiceFabric(){
-        PocketSpeech.attach(applicationContext, voiceListener, voiceContainer)
+        voiceDetails.text="Checking LeeWay Runtime Fabric"
+        thread(name="leeway-runtime-fabric-voice-binding"){
+            val fabric=EcosystemBindings.runtimeFabricSnapshot(applicationContext)
+            runOnUiThread{
+                if(isFinishing||isDestroyed)return@runOnUiThread
+                val qualified=fabric.optBoolean("universalAdapterContract") &&
+                    fabric.optBoolean("voiceFabricRegistered") &&
+                    fabric.optBoolean("providerFabricFirst")
+                if(!qualified){
+                    voiceFailed=true
+                    voiceDetails.text="Voice Fabric is not qualified by the canonical Runtime Fabric registry."
+                    return@runOnUiThread
+                }
+                PocketSpeech.attach(applicationContext, voiceListener, voiceContainer)
+            }
+        }
     }
     private fun startListening(){
         if (isFinishing || isDestroyed) return
@@ -342,6 +357,13 @@ class PocketVoiceActivity: Activity(){
     private fun executeAgent(request:String){
         status.text="Loading LeeWay authority"
         thread{
+            val fabric=EcosystemBindings.runtimeFabricSnapshot(applicationContext)
+            if(!fabric.optBoolean("bound") || !fabric.optBoolean("phoneExecutionNodeRegistered")){
+                runOnUiThread{
+                    deliver("LeeWay Runtime Fabric has not qualified the registered phone execution node. No Agent Lee runtime call was made.")
+                }
+                return@thread
+            }
             val skillContext=SkillAuthorityClient(applicationContext).contextFor(request)
             lastSkillEvidence=skillContext.evidence.replace("skills=CONTEXT_USED","skills=SOURCE_LOADED")
             // Model system instructions belong in Device Bridge's conversation API.

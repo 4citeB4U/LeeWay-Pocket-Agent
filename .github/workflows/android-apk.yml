@@ -86,6 +86,23 @@ jobs:
             pocket-package-evidence.txt
           if-no-files-found: error
 
+      - name: Publish thin-client qualification prerelease
+        if: github.event_name == 'pull_request' && github.head_ref == 'fix/runtime-fabric-thin-client-20261002'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="pocket-0.3.6-runtime-fabric-live-binding-rc2"
+          ASSET="LeeWay-Pocket-Agent-0.3.6-unsigned-ci.apk"
+          cp docs/download/LeeWay-Pocket-Agent.apk "$ASSET"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$ASSET" --clobber
+          else
+            gh release create "$TAG" "$ASSET"               --prerelease               --target "$HEAD_SHA"               --title "Pocket 0.3.6 Runtime Fabric live binding RC2"               --notes "Qualification-only unsigned CI APK. LeeWay signing is applied locally on the authorized phone before install."
+          fi
+
       - name: Publish APK into repository
         if: github.ref == 'refs/heads/main'
         run: |
