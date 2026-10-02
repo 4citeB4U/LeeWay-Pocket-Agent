@@ -49,7 +49,6 @@ class PocketVoiceActivity: Activity(){
 
 
     private var pendingRequest:String?=null
-    private var expectedNonce:String?=null
     @Volatile private var lastSkillEvidence:String="skills=NOT_LOADED"
 
     override fun onCreate(savedInstanceState:Bundle?){
@@ -344,15 +343,27 @@ class PocketVoiceActivity: Activity(){
         agentRequestInFlight=true
         pendingRequest=request
         if(!bridge.isGranted()){
-            val nonce=bridge.newNonce()
-            expectedNonce=nonce
-            try{
-                startActivityForResult(bridge.bootstrapIntent(nonce),REQ_BRIDGE_BOOTSTRAP)
-                status.text="Approve Agent Lee device runtime"
-                transcript.text="One-time owner approval is required for Agent Lee device control."
-            }catch(_:Exception){
-                deliver("The embedded Agent Lee device runtime could not be opened. Agent Lee reasoning did not run.")
-            }
+            status.text="Owner approval required"
+            transcript.text="Agent Lee needs one-time approval to enable its embedded phone runtime."
+            android.app.AlertDialog.Builder(this)
+                .setTitle("Enable Agent Lee device runtime")
+                .setMessage(
+                    "Allow Agent Lee to enable its embedded local runtime on this phone? " +
+                    "This stays inside the unified LeeWay Agent Lee app."
+                )
+                .setPositiveButton("Allow"){_,_->
+                    val result=bridge.enableEmbeddedRuntime()
+                    if(result.optBoolean("ok"))executeAgent(request)
+                    else deliver(
+                        "Agent Lee device runtime could not start: "+
+                            result.optString("error","UNKNOWN")
+                    )
+                }
+                .setNegativeButton("Not now"){_,_->
+                    deliver("Agent Lee device runtime was not enabled. No device authority was used.")
+                }
+                .setCancelable(false)
+                .show()
             return
         }
         executeAgent(request)
@@ -387,15 +398,6 @@ class PocketVoiceActivity: Activity(){
     override fun onActivityResult(requestCode:Int,resultCode:Int,data:Intent?){
         super.onActivityResult(requestCode,resultCode,data)
         when(requestCode){
-            REQ_BRIDGE_BOOTSTRAP->{
-                val nonce=expectedNonce.orEmpty()
-                expectedNonce=null
-                if(resultCode==RESULT_OK && bridge.acceptBootstrap(data,nonce)){
-                    pendingRequest?.let{executeAgent(it)}
-                }else{
-                    deliver("Agent Lee device runtime access was not approved. No device authority was used.")
-                }
-            }
             REQ_BRIDGE_COMMAND->{
                 val envelope=bridge.parseResult(data)
                 if(!envelope.optBoolean("ok")){
@@ -470,7 +472,6 @@ class PocketVoiceActivity: Activity(){
             }
         private var activeVoiceActivity:WeakReference<PocketVoiceActivity>?=null
         private const val REQ_AUDIO=701
-        private const val REQ_BRIDGE_BOOTSTRAP=702
         private const val REQ_BRIDGE_COMMAND=703
 
     }
