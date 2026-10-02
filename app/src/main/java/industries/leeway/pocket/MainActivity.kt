@@ -45,6 +45,9 @@ class MainActivity : Activity() {
         memory = MemoryStore(this)
         automation = N8nBridge(this)
         bridge = DeviceBridgeClient(this)
+        if (industries.leeway.devicebridge.LocalAuthority.agentAccessEnabled(this)) {
+            runCatching { industries.leeway.devicebridge.LocalBridgeServer.start(applicationContext) }
+        }
 
         val permissions=mutableListOf(Manifest.permission.RECORD_AUDIO)
         if(Build.VERSION.SDK_INT>=33)permissions+=Manifest.permission.POST_NOTIFICATIONS

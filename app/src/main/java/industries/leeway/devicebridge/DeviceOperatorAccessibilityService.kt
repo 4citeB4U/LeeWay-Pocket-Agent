@@ -31,7 +31,8 @@ import org.json.JSONObject
 class DeviceOperatorAccessibilityService : AccessibilityService() {
     override fun onServiceConnected() {
         current = this
-        ReceiptStore.record(this, "device.ui.control", "PASS", "Owner-authorized accessibility service connected")
+        runCatching { LocalBridgeServer.start(applicationContext) }
+        ReceiptStore.record(this, "device.ui.control", "PASS", "Owner-authorized accessibility service connected; loopback diagnostics ensured")
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) = Unit

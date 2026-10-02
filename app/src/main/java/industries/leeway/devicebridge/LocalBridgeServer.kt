@@ -112,11 +112,39 @@ object LocalBridgeServer {
         put("bindAddress", "127.0.0.1")
         put("port", PORT)
         put("agentAccessEnabled", LocalAuthority.agentAccessEnabled(context))
+        put("accessibility", DeviceOperatorAccessibilityService.status())
         put("appVersionName", BuildConfig.VERSION_NAME)
         put("appVersionCode", BuildConfig.VERSION_CODE)
         put("updateMetadataUrl", AgentLeeUpdate.METADATA_URL)
         put("transport", "LOCAL_LOOPBACK")
         put("authority", "PHONE_LOCAL_RUNTIME")
+    }
+
+    private fun pocketVoiceDiagnostic(context: Context): JSONObject {
+        val raw = context.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
+            .getString("latest_json", "").orEmpty()
+        val source = runCatching { if (raw.isBlank()) null else JSONObject(raw) }.getOrNull()
+        return JSONObject().apply {
+            put("ok", true)
+            put("appVersionName", BuildConfig.VERSION_NAME)
+            put("appVersionCode", BuildConfig.VERSION_CODE)
+            if (source == null) {
+                put("state", "NO_DIAGNOSTIC_YET")
+            } else {
+                listOf(
+                    "updatedAtMs", "state", "ready", "pageReady", "error",
+                    "voicePackageId", "requestedVoicePackageId", "actualBackend",
+                    "rendererGeneration", "attachedToWindow"
+                ).forEach { key -> if (source.has(key)) put(key, source.opt(key)) }
+                source.optJSONObject("progress")?.let { progress ->
+                    put("progress", JSONObject().apply {
+                        listOf("percent", "file", "message").forEach { key ->
+                            if (progress.has(key)) put(key, progress.opt(key))
+                        }
+                    })
+                }
+            }
+        }
     }
 
     private fun handle(context: Context, socket: Socket) {
@@ -155,6 +183,11 @@ object LocalBridgeServer {
 
             if (path == "/health") {
                 respond(client, 200, status(context))
+                return
+            }
+
+            if (path == "/voice-diagnostic") {
+                respond(client, 200, pocketVoiceDiagnostic(context))
                 return
             }
 
