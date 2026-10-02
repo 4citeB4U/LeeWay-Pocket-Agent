@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "authority": "4citeB4U/LeeWay-Pocket-Agent",
-  "purpose": "Canonical Pocket Agent binding registry. A source binding is not proof of execution.",
+  "authority": "4citeB4U/Leeway-Runtime-Fabric",
+  "purpose": "Pocket Agent thin-client binding snapshot. Runtime Fabric registries and the Universal Adapter Contract define discovery/routing; source binding is not proof of execution.",
   "bindings": [
     {
       "id": "standards",
@@ -14,38 +14,41 @@
       "id": "agent-skills",
       "authority": "4citeB4U/LeeWay-Agent-Skills",
       "role": "capability-manifold",
-      "phoneBinding": "SOURCE_AUTHORITY_BOUND_REMOTE_MCP_PENDING",
-      "executionClaim": "SKILL_EXECUTION_NOT_YET_BOUND"
+      "phoneBinding": "RUNTIME_FABRIC_SKILLS_UNIVERSITY_AND_CANONICAL_SOURCE",
+      "executionClaim": "CONTEXT_OR_EXECUTION_ONLY_WITH_EVIDENCE"
     },
     {
       "id": "formula",
       "authority": "4citeB4U/Leeway-formula-live",
       "role": "canonical-formula",
-      "phoneBinding": "CENTRALIZED_EVALUATOR_REQUIRED",
-      "executionClaim": "NOT_EXECUTED_UNLESS_RECEIPT_RETURNED"
+      "phoneBinding": "RUNTIME_FABRIC_CONTRACT_ROUTE_TO_CANONICAL_FORMULA",
+      "executionClaim": "NOT_EXECUTED_UNLESS_CANONICAL_FORMULA_RECEIPT_RETURNED"
     },
     {
       "id": "runtime-fabric",
       "authority": "4citeB4U/Leeway-Runtime-Fabric",
-      "role": "workplane-and-provider-fabric",
+      "role": "canonical-discovery-provider-and-contract-router",
       "endpoint": "https://leeway-runtime-fabric.fly.dev",
-      "phoneBinding": "REMOTE_HEALTH_AND_WORKPLANE_ADAPTER_PENDING_AUTH",
-      "executionClaim": "DO_NOT_ASSUME_LIVE"
+      "phoneBinding": "CANONICAL_RUNTIME_FABRIC_REGISTRIES",
+      "executionClaim": "ROUTE_BY_CONTRACT_PROVIDER_FABRIC_FIRST",
+      "registry": "https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/adapter.registry.json",
+      "universalContract": "https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/contracts/universal-adapter-contract.v1.json",
+      "agentManifest": "https://raw.githubusercontent.com/4citeB4U/Leeway-Runtime-Fabric/main/agent-interface/agentlee.manifest.json"
     },
     {
       "id": "device-bridge",
       "authority": "4citeB4U/LEEWAY-DEVICE-BRIDGE",
-      "role": "phone-native-device-and-local-model-authority",
-      "phoneBinding": "SCOPED_ANDROID_IPC",
-      "executionClaim": "EXECUTED_ONLY_WHEN_IPC_RESULT_RETURNS"
+      "role": "registered-phone-execution-node-provider",
+      "phoneBinding": "RUNTIME_FABRIC_EXECUTION_NODE:leeway-phone-workstation;SCOPED_ANDROID_IPC",
+      "executionClaim": "EXECUTED_ONLY_WHEN_REGISTERED_NODE_IPC_RESULT_RETURNS"
     },
     {
       "id": "voice-fabric",
       "authority": "4citeB4U/LeeWay-Voice-Fabric",
-      "role": "canonical-Agent-Lee-voice",
+      "role": "runtime-fabric-registered-canonical-Agent-Lee-voice",
       "endpoint": "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html",
       "voicePackageId": "agent-lee-voice-one",
-      "phoneBinding": "ANDROID_WEBVIEW_VOICE_BRIDGE",
+      "phoneBinding": "RUNTIME_FABRIC_ADAPTER:leeway-voice-fabric;ANDROID_WEBVIEW_VOICE_BRIDGE",
       "executionClaim": "SPOKEN_ONLY_AFTER_NATIVE_CALLBACK"
     },
     {
@@ -71,6 +74,11 @@
     }
   ],
   "invariants": [
+    "LeeWay Standards remain constitutional authority above Runtime Fabric",
+    "Runtime Fabric routes by existing contract/provider registries; Pocket does not embed ecosystem runtimes",
+    "adapter translates but does not become authority",
+    "availability is not authorization",
+    "execution is not verification",
     "mounted != executed",
     "configured != proven",
     "source authority != runtime execution",
