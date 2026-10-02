@@ -77,6 +77,8 @@ jobs:
           SHA=$(sha256sum docs/download/LeeWay-Pocket-Agent.apk | awk '{print $1}')
           VERSION_NAME=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
           VERSION_CODE=$(sed -n 's/.*versionCode = \([0-9][0-9]*\).*/\1/p' app/build.gradle.kts)
+          RELEASE_TAG="pocket-$VERSION_NAME"
+          RELEASE_URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$RELEASE_TAG/LeeWay-Pocket-Agent.apk"
           printf '%s\n' \
             '{' \
             '  "componentId": "pocket-agent",' \
