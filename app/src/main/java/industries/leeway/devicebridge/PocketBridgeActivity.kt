@@ -41,10 +41,8 @@ class PocketBridgeActivity : Activity() {
         val capability = intent?.getStringExtra("leeway_capability").orEmpty()
         val rawArgs = intent?.getStringExtra("leeway_arguments").orEmpty()
 
-        if (caller != "industries.leeway.pocket") {
-            finishBlocked("CALLER_NOT_AUTHORIZED", caller)
-            return
-        }
+        // This component is exported=false in the unified APK. Android already
+        // confines launches to this application; the scoped grant token remains required.
         if (!PocketGrantStore.matches(this, token)) {
             finishBlocked("POCKET_TOKEN_INVALID", caller)
             return

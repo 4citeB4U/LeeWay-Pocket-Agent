@@ -32,7 +32,6 @@ class MainActivity : Activity() {
     private lateinit var memory: MemoryStore
     private lateinit var automation: N8nBridge
     private lateinit var bridge: DeviceBridgeClient
-    private var expectedNonce: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -186,32 +185,13 @@ class MainActivity : Activity() {
     }
 
     private fun connectDeviceBridge(){
-        val nonce=bridge.newNonce()
-        expectedNonce=nonce
-        try{
-            startActivityForResult(bridge.bootstrapIntent(nonce),REQ_BRIDGE_BOOTSTRAP)
-        }catch(_:Exception){
-            Toast.makeText(
-                this,
-                "The embedded Agent Lee device runtime could not be opened.",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
-    @Deprecated("Legacy activity-result API retained for minimum-compatible explicit cross-app handoff")
-    override fun onActivityResult(requestCode:Int,resultCode:Int,data:Intent?){
-        super.onActivityResult(requestCode,resultCode,data)
-        if(requestCode==REQ_BRIDGE_BOOTSTRAP){
-            val nonce=expectedNonce.orEmpty()
-            expectedNonce=null
-            val ok=resultCode==RESULT_OK && bridge.acceptBootstrap(data,nonce)
-            Toast.makeText(
-                this,
-                if(ok)"Agent Lee device runtime is enabled." else "Agent Lee device runtime was not approved.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        val result=bridge.enableEmbeddedRuntime()
+        Toast.makeText(
+            this,
+            if(result.optBoolean("ok")) "Agent Lee device runtime is enabled."
+            else "Agent Lee device runtime failed: " + result.optString("error","UNKNOWN"),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun configureAutomationBridge() {

@@ -14,7 +14,10 @@ package industries.leeway.pocket
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import industries.leeway.devicebridge.LocalAuthority
+import industries.leeway.devicebridge.LocalBridgeServer
 import industries.leeway.devicebridge.PocketGrantStore
+import industries.leeway.devicebridge.ReceiptStore
 import org.json.JSONObject
 import java.util.UUID
 
@@ -31,24 +34,30 @@ class DeviceBridgeClient(context: Context) {
     }
     fun token(): String = prefs.getString("pocket_token","").orEmpty()
 
-    fun newNonce(): String = UUID.randomUUID().toString().replace("-","")
-
-    fun bootstrapIntent(nonce: String): Intent =
-        Intent().setComponent(
-            ComponentName(
-                appContext.packageName,
-                "industries.leeway.devicebridge.MainActivity"
+    fun enableEmbeddedRuntime(): JSONObject {
+        return try {
+            LocalAuthority.setAgentAccess(appContext, true)
+            val local = LocalBridgeServer.start(appContext)
+            val scoped = PocketGrantStore.ensure(appContext)
+            if (scoped.length < 20 || !PocketGrantStore.matches(appContext, scoped)) {
+                return JSONObject().put("ok", false).put("error", "EMBEDDED_GRANT_FAILED")
+            }
+            prefs.edit().putString("pocket_token", scoped).apply()
+            ReceiptStore.record(
+                appContext,
+                "device.pocket.grant",
+                if (local.optBoolean("ok")) "PASS" else "BLOCKED",
+                "Owner enabled embedded Agent Lee runtime"
             )
-        ).putExtra("leeway_action","POCKET_BOOTSTRAP")
-            .putExtra("leeway_nonce",nonce)
-
-    fun acceptBootstrap(data: Intent?, expectedNonce: String): Boolean {
-        val returned=data?.getStringExtra("leeway_nonce").orEmpty()
-        val scoped=data?.getStringExtra("leeway_pocket_token").orEmpty()
-        if(returned!=expectedNonce || scoped.length<20)return false
-        if(!PocketGrantStore.matches(appContext,scoped))return false
-        prefs.edit().putString("pocket_token",scoped).apply()
-        return true
+            JSONObject().apply {
+                put("ok", local.optBoolean("ok"))
+                put("runtime", local)
+                put("grantReady", true)
+            }
+        } catch (error: Exception) {
+            JSONObject().put("ok", false)
+                .put("error", "EMBEDDED_RUNTIME_START_FAILED:" + error.javaClass.simpleName)
+        }
     }
 
     fun commandIntent(capability: String, arguments: JSONObject): Intent =
