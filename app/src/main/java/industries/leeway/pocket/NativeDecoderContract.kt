@@ -1,5 +1,3 @@
-[Reading 74 lines from start (total: 74 lines, 0 remaining)]
-
 package industries.leeway.pocket
 
 import org.json.JSONObject
@@ -74,5 +72,3 @@ class NativeDecoderJob(val id:String) {
     fun cancel(){cancelled.set(true)}
     fun check(){check(!cancelled.get()){"DECODER_CANCELLED"}}
 }
-
-[executed on device: localhost (0580364a-68c5-43c9-ad40-f0261d31d7b4)]
