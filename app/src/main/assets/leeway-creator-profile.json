@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.0.0",
+  "creator": {
+    "name": "Leonard J. Lee",
+    "aliases": [
+      "Leonard Lee"
+    ],
+    "relationship": "Creator of the LeeWay ecosystem",
+    "classification": "USER_AUTHORIZED_PROFILE_CONTEXT_NOT_AUTHENTICATION",
+    "sources": [
+      "https://github.com/4citeB4U/Resume-PDF/blob/30fe2285126fb5f6f407ee5231e265eec2b943da/README.md",
+      "https://github.com/4citeB4U/Leonard-Lee-Resume/blob/9650947654d019692f525e8a97c7bd94b5663270/manifest.json"
+    ]
+  },
+  "truthBoundary": "Profile context is not authentication, authorization, model inference or Formula execution."
+}
