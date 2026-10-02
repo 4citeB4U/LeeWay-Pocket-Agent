@@ -130,7 +130,7 @@ class MainActivity : Activity() {
 
     private fun showMenu() {
         val overlayLabel=if(PocketOverlayService.isEnabled(this))"Disable floating Agent Lee" else "Enable floating Agent Lee"
-        val bridgeLabel=if(bridge.isGranted())"Reconnect Device Bridge" else "Connect Device Bridge"
+        val bridgeLabel=if(bridge.isGranted())"Reconnect Agent Lee device runtime" else "Enable Agent Lee device runtime"
         val items = arrayOf(
             "Talk to Agent Lee",
             overlayLabel,
@@ -190,7 +190,7 @@ class MainActivity : Activity() {
         }catch(_:Exception){
             Toast.makeText(
                 this,
-                "Current Device Bridge does not yet expose the Pocket workstation adapter.",
+                "The embedded Agent Lee device runtime could not be opened.",
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -205,7 +205,7 @@ class MainActivity : Activity() {
             val ok=resultCode==RESULT_OK && bridge.acceptBootstrap(data,nonce)
             Toast.makeText(
                 this,
-                if(ok)"Pocket is connected to Device Bridge." else "Device Bridge connection was not approved.",
+                if(ok)"Agent Lee device runtime is enabled." else "Agent Lee device runtime was not approved.",
                 Toast.LENGTH_SHORT
             ).show()
         }

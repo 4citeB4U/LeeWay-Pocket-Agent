@@ -19,7 +19,7 @@ object PocketVoiceHost {
         fun onError(message: String)
     }
 
-    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html?device=wasm"
+    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"
     private const val DEFAULT_VOICE_ID = "agent-lee-voice-one"
     private const val DEFAULT_VOICE_NAME = "Agent Lee · Voice One"
     private val main = Handler(Looper.getMainLooper())

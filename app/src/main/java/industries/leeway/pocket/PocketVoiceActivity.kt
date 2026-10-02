@@ -269,7 +269,7 @@ class PocketVoiceActivity: Activity(){
         if(phoneAction!=null){
             if(agentRequestInFlight)return
             if(!bridge.isGranted()||!PocketOverlayService.isEnabled(this)){
-                deliver("Connect Device Bridge and enable the Pocket side tab before using phone commands.")
+                deliver("Enable the Agent Lee device runtime and Pocket side tab before using phone commands.")
                 return
             }
             agentRequestInFlight=true
@@ -348,10 +348,10 @@ class PocketVoiceActivity: Activity(){
             expectedNonce=nonce
             try{
                 startActivityForResult(bridge.bootstrapIntent(nonce),REQ_BRIDGE_BOOTSTRAP)
-                status.text="Approve Device Bridge"
-                transcript.text="One-time scoped Pocket access approval is required."
+                status.text="Approve Agent Lee device runtime"
+                transcript.text="One-time owner approval is required for Agent Lee device control."
             }catch(_:Exception){
-                deliver("The installed Device Bridge does not yet expose the Pocket workstation adapter. Update Device Bridge before Agent Lee reasoning can run here.")
+                deliver("The embedded Agent Lee device runtime could not be opened. Agent Lee reasoning did not run.")
             }
             return
         }
@@ -377,7 +377,7 @@ class PocketVoiceActivity: Activity(){
                     status.text="Agent Lee thinking"
                 }catch(_:Exception){
                     bridge.clearGrant()
-                    deliver("Pocket cannot reach the current Device Bridge command adapter. The bridge package needs the workstation update.")
+                    deliver("Pocket cannot reach the embedded Agent Lee command runtime. No reasoning result was produced.")
                 }
             }
         }
@@ -393,7 +393,7 @@ class PocketVoiceActivity: Activity(){
                 if(resultCode==RESULT_OK && bridge.acceptBootstrap(data,nonce)){
                     pendingRequest?.let{executeAgent(it)}
                 }else{
-                    deliver("Pocket Device Bridge access was not approved. No device authority was used.")
+                    deliver("Agent Lee device runtime access was not approved. No device authority was used.")
                 }
             }
             REQ_BRIDGE_COMMAND->{

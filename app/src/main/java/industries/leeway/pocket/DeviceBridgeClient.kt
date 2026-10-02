@@ -18,7 +18,8 @@ import org.json.JSONObject
 import java.util.UUID
 
 class DeviceBridgeClient(context: Context) {
-    private val prefs=context.getSharedPreferences("leeway-pocket-device-bridge",Context.MODE_PRIVATE)
+    private val appContext=context.applicationContext
+    private val prefs=appContext.getSharedPreferences("leeway-pocket-device-bridge",Context.MODE_PRIVATE)
 
     fun isGranted(): Boolean = token().isNotBlank()
     fun token(): String = prefs.getString("pocket_token","").orEmpty()
@@ -28,7 +29,7 @@ class DeviceBridgeClient(context: Context) {
     fun bootstrapIntent(nonce: String): Intent =
         Intent().setComponent(
             ComponentName(
-                "industries.leeway.devicebridge",
+                appContext.packageName,
                 "industries.leeway.devicebridge.MainActivity"
             )
         ).putExtra("leeway_action","POCKET_BOOTSTRAP")
@@ -45,7 +46,7 @@ class DeviceBridgeClient(context: Context) {
     fun commandIntent(capability: String, arguments: JSONObject): Intent =
         Intent().setComponent(
             ComponentName(
-                "industries.leeway.devicebridge",
+                appContext.packageName,
                 "industries.leeway.devicebridge.PocketBridgeActivity"
             )
         ).putExtra("leeway_pocket_token",token())

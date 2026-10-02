@@ -18,7 +18,7 @@ class PhoneActionClient(private val context: Context) {
     fun execute(command: PhoneActionCommand, result: (JSONObject) -> Unit) {
         callback = result
         val id = UUID.randomUUID().toString()
-        val bridgePackage = "industries.leeway.devicebridge"
+        val bridgePackage = context.packageName
         if(context.packageManager.checkSignatures(context.packageName, bridgePackage) != PackageManager.SIGNATURE_MATCH) {
             finish(failure("BRIDGE_SIGNATURE_NOT_TRUSTED")); return
         }
@@ -53,7 +53,7 @@ class PhoneActionClient(private val context: Context) {
         }
         handler.postDelayed(timeout, 12000)
         try {
-            bound = context.bindService(Intent().setComponent(ComponentName(bridgePackage, "$bridgePackage.PocketCommandService")), connection!!, Context.BIND_AUTO_CREATE)
+            bound = context.bindService(Intent().setComponent(ComponentName(bridgePackage, "industries.leeway.devicebridge.PocketCommandService")), connection!!, Context.BIND_AUTO_CREATE)
             if(!bound) finish(failure("BRIDGE_COMMAND_SERVICE_UNAVAILABLE"))
         } catch (_: Exception) { finish(failure("BRIDGE_BIND_FAILED")) }
     }
