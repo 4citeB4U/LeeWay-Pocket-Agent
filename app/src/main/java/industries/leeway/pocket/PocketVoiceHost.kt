@@ -73,10 +73,10 @@ object PocketVoiceHost {
         check(Looper.myLooper() == Looper.getMainLooper())
         diagnostics = context.applicationContext.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
         selectionPrefs=context.applicationContext.getSharedPreferences("pocket-fabric-voice",Context.MODE_PRIVATE)
-        if(selectionPrefs?.getBoolean("fabric_english_default_v1",false)!=true){
-            selectionPrefs?.edit()?.putString("selected_id","android-installed-english")?.putBoolean("fabric_english_default_v1",true)?.apply()
+        if(selectionPrefs?.contains("selected_id")!=true){
+            selectionPrefs?.edit()?.putString("selected_id","agent-lee-voice-one")?.apply()
         }
-        requestedVoiceId=selectionPrefs?.getString("selected_id","android-installed-english") ?: "android-installed-english"
+        requestedVoiceId=selectionPrefs?.getString("selected_id","agent-lee-voice-one") ?: "agent-lee-voice-one"
         session.attach(listener)
         stopPlayback()
         if (view == null) create(context.applicationContext)
