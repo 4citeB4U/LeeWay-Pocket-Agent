@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="industries.leeway.devicebridge.POCKET_COMMAND" />
     <queries>
-        <package android:name="industries.leeway.devicebridge" />
         <intent><action android:name="android.intent.action.TTS_SERVICE" /></intent>
     </queries>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -19,7 +17,7 @@
 
     <application
         android:theme="@style/AppTheme"
-        android:label="LeeWay Pocket"
+        android:label="Agent Lee"
         android:allowBackup="false"
         android:usesCleartextTraffic="false">
         <activity

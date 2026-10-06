@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "leeway.employee-voice-bindings.v1",
+  "authority": "LEEWAY_VOICE_FABRIC",
+  "rule": "Every employed LeeWay agent/worker requires personaFamily + personaArchetypeId + verified voicePackageId before speech.",
+  "bindings": {
+    "agent-lee": {
+      "agentId": "agent-lee",
+      "personaFamily": "AGENT_LEE_CONSTITUTIONAL",
+      "personaArchetypeId": "ELDER_MALE",
+      "voicePackageId": "kokoro-am_michael",
+      "state": "TEMPORARY_VERIFIED_PROVIDER",
+      "selectedBy": "CREATOR_PENDING_FINAL_AUDITION"
+    }
+  }
+}

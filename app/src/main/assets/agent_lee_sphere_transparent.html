@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Agent Lee — Elemental Digital Brain Sphere</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      cursor: pointer;
+    }
+    /* Floating translucent Agent Lee side tab */
+    .agent-side-tab {
+      position: fixed;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 64px;
+      min-height: 112px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.20);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.12), inset 0 0 24px rgba(56,189,248,0.06);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      z-index: 19;
+      pointer-events: none;
+    }
+
+    /* Top Floating Hamburger Button */
+    .hamburger-btn {
+      position: absolute;
+      top: 50%;
+      right: 23px;
+      left: auto;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.25s ease;
+      outline: none;
+    }
+    .hamburger-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(56, 189, 248, 0.8);
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+
+    /* Subtle Bottom Status Indicator */
+    .status-badge {
+      display: none !important;
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: rgba(10, 14, 23, 0.65);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      backdrop-filter: blur(18px) saturate(150%);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+      transition: all 0.3s ease;
+    }
+    .status-badge.active .status-dot {
+      background: #f43f5e;
+      box-shadow: 0 0 12px #f43f5e;
+    }
+    .status-text {
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Slide-out Navigation Drawer */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(4px);
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 85%;
+      height: 100%;
+      background: rgba(5, 12, 24, 0.28);
+      border-right: 1px solid rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      z-index: 35;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .drawer.open {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .drawer-title {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .drawer-subtitle {
+      color: #94a3b8;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .element-card {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .element-card:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .element-name {
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .element-motto {
+      color: #94a3b8;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+    .element-action {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- Floating translucent side tab -->
+  <div class="agent-side-tab" aria-hidden="true"></div>
+
+  <!-- Hamburger control integrated with side tab -->
+  <button class="hamburger-btn" id="hamburger-btn" aria-label="Open Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- 3D Canvas (Clickable Sphere) -->
+  <div id="canvas-container"></div>
+
+  <!-- Bottom Tap Instruction Status -->
+  <div class="status-badge" id="status-badge">
+    <div class="status-dot" id="status-dot"></div>
+    <span class="status-text" id="status-text">Tap sphere to speak</span>
+  </div>
+
+  <!-- Drawer & Overlay -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title">Agent Lee</div>
+        <div class="drawer-subtitle">Elemental Intelligence · Logic × Purpose</div>
+      </div>
+      <button class="close-btn" id="close-drawer">&times;</button>
+    </div>
+
+    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#38bdf8;margin-top:10px;">AGENT LEE · PHONE-FOLD6</div>
+    <div class="element-card" onclick="openDigitalBrain()"><div><div class="element-name">Digital Brain</div><div class="element-motto">This Device · Connected Devices</div></div><div class="element-action">OPEN</div></div>
+    <div class="element-card" onclick="openWorkstation()"><div><div class="element-name">Workstation</div><div class="element-motto">Agent VT · Notebook · Sandbox</div></div><div class="element-action">OPEN</div></div>
+    <div class="element-card"><div><div class="element-name">Continuum</div><div class="element-motto">Body-local governed state</div></div><div class="element-action">BIND</div></div>
+    <div class="element-card"><div><div class="element-name">LDWMD</div><div class="element-motto">Device Working-Memory Database</div></div><div class="element-action">BIND</div></div>
+    <div class="element-card"><div><div class="element-name">LeeWay Voice</div><div class="element-motto">Unified Agent Lee voice</div></div><div class="element-action">VOICE</div></div>
+    <div class="element-card"><div><div class="element-name">Skills</div><div class="element-motto">LeeWay Agent Skills capability fabric</div></div><div class="element-action">SKILLS</div></div>
+    <div class="element-card"><div><div class="element-name">Devices</div><div class="element-motto">Device Bridge · Commander providers</div></div><div class="element-action">DEVICES</div></div>
+    <div class="element-card"><div><div class="element-name">Formula / Veritas</div><div class="element-motto">Decision and proof authority</div></div><div class="element-action">STATUS</div></div>
+  </div>
+
+  <script>
+    // --- THREE.JS SCENE SETUP ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = null;
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 4.6);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.3;
+    container.appendChild(renderer.domElement);
+
+    // --- LIGHTING ---
+    const ambientLight = new THREE.AmbientLight(0x06182c, 1.8);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0x67e8f9, 3.4);
+    keyLight.position.set(-3.5, 4.0, 3.5);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x0284c7, 2.5);
+    rimLight.position.set(3.5, -2.5, -2.5);
+    scene.add(rimLight);
+
+    const fissureLight = new THREE.PointLight(0x38bdf8, 3.6, 6);
+    fissureLight.position.set(0, 0, 0);
+    scene.add(fissureLight);
+
+    // --- MAIN GLOBE GROUP ---
+    const sphereGroup = new THREE.Group();
+    sphereGroup.position.set(0, 0, 0); // Perfectly centered
+    scene.add(sphereGroup);
+
+    // --- 1. REALISTIC DUAL-HEMISPHERE BRAIN GEOMETRY ---
+    const brainGroup = new THREE.Group();
+    sphereGroup.add(brainGroup);
+
+    const gapX = 0.085;
+    const latSteps = 22;
+    const lonSteps = 16;
+
+    function createHemisphereGeometry(isLeft) {
+      const geom = new THREE.BufferGeometry();
+      const vertices = [];
+      const normals = [];
+      const indices = [];
+
+      const side = isLeft ? -1 : 1;
+      const grid = [];
+
+      for (let i = 0; i <= latSteps; i++) {
+        grid[i] = [];
+        const latFrac = i / latSteps;
+        const lat = (latFrac - 0.5) * Math.PI * 0.94;
+
+        for (let j = 0; j <= lonSteps; j++) {
+          const lonFrac = j / lonSteps;
+          const lon = lonFrac * Math.PI;
+
+          const isMedial = j === 0;
+
+          const cosLat = Math.cos(lat);
+          const sinLat = Math.sin(lat);
+          const baseY = -sinLat * 0.90 - 0.05;
+          const baseZ = Math.cos(lon) * cosLat * 1.12;
+          const sinLon = Math.sin(lon);
+
+          let gyri = 0;
+          if (!isMedial) {
+            const n1 = Math.sin(lat * 8.5) * Math.cos(lon * 7.0) * 0.095;
+            const n2 = Math.cos(lat * 15.0 + lon * 11.0) * 0.045;
+            const n3 = Math.sin(baseZ * 9.0) * 0.035;
+            gyri = n1 + n2 + n3;
+          }
+
+          const r = 1.0 + gyri;
+          const posX = isMedial ? (side * gapX) : (side * (gapX + sinLon * cosLat * 0.82 * r));
+          const posY = baseY * r;
+          const posZ = baseZ * r;
+
+          const vIndex = vertices.length / 3;
+          grid[i][j] = vIndex;
+          vertices.push(posX, posY, posZ);
+
+          if (isMedial) {
+            normals.push(-side, 0, 0);
+          } else {
+            const vNorm = new THREE.Vector3(posX - side * gapX, posY, posZ).normalize();
+            normals.push(vNorm.x, vNorm.y, vNorm.z);
+          }
+        }
+      }
+
+      for (let i = 0; i < latSteps; i++) {
+        for (let j = 0; j < lonSteps; j++) {
+          const v0 = grid[i][j];
+          const v1 = grid[i + 1][j];
+          const v2 = grid[i + 1][j + 1];
+          const v3 = grid[i][j + 1];
+
+          indices.push(v0, v1, v2);
+          indices.push(v0, v2, v3);
+        }
+      }
+
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geom.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+      geom.setIndex(indices);
+      geom.computeVertexNormals();
+      return geom;
+    }
+
+    const leftGeom = createHemisphereGeometry(true);
+    const rightGeom = createHemisphereGeometry(false);
+
+    const brainMaterial = new THREE.MeshStandardMaterial({
+      color: 0x052244,
+      emissive: 0x02162e,
+      roughness: 0.28,
+      metalness: 0.85,
+      transparent: true,
+      opacity: 0.88,
+      side: THREE.DoubleSide
+    });
+
+    const wireframeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.38
+    });
+
+    const leftMesh = new THREE.Mesh(leftGeom, brainMaterial);
+    const rightMesh = new THREE.Mesh(rightGeom, brainMaterial);
+    const leftWire = new THREE.Mesh(leftGeom, wireframeMaterial);
+    const rightWire = new THREE.Mesh(rightGeom, wireframeMaterial);
+
+    brainGroup.add(leftMesh);
+    brainGroup.add(rightMesh);
+    brainGroup.add(leftWire);
+    brainGroup.add(rightWire);
+
+    // --- 2. CENTRAL SAGITTAL BRIDGE (CORPUS CALLOSUM) ---
+    const bridgeGroup = new THREE.Group();
+    sphereGroup.add(bridgeGroup);
+
+    const bridgeFiberCount = 42;
+    const bridgePositions = new Float32Array(bridgeFiberCount * 2 * 3);
+    const bridgeColors = new Float32Array(bridgeFiberCount * 2 * 3);
+
+    for (let k = 0; k < bridgeFiberCount; k++) {
+      const y = (Math.random() - 0.5) * 1.35;
+      const z = (Math.random() - 0.5) * 1.6;
+      const idx = k * 6;
+      bridgePositions[idx + 0] = -gapX;
+      bridgePositions[idx + 1] = y;
+      bridgePositions[idx + 2] = z;
+
+      bridgePositions[idx + 3] = gapX;
+      bridgePositions[idx + 4] = y;
+      bridgePositions[idx + 5] = z;
+
+      bridgeColors[idx + 0] = 0.4; bridgeColors[idx + 1] = 0.9; bridgeColors[idx + 2] = 1.0;
+      bridgeColors[idx + 3] = 0.9; bridgeColors[idx + 4] = 0.98; bridgeColors[idx + 5] = 1.0;
+    }
+
+    const bridgeGeom = new THREE.BufferGeometry();
+    bridgeGeom.setAttribute('position', new THREE.BufferAttribute(bridgePositions, 3));
+    bridgeGeom.setAttribute('color', new THREE.BufferAttribute(bridgeColors, 3));
+
+    const bridgeMaterial = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.95,
+      linewidth: 2
+    });
+    const bridgeLines = new THREE.LineSegments(bridgeGeom, bridgeMaterial);
+    bridgeGroup.add(bridgeLines);
+
+    // Synaptic Particles
+    const bridgeSignalCount = 32;
+    const bridgeSigGeom = new THREE.BufferGeometry();
+    const bridgeSigPos = new Float32Array(bridgeSignalCount * 3);
+    for (let s = 0; s < bridgeSignalCount * 3; s += 3) {
+      bridgeSigPos[s + 0] = (Math.random() - 0.5) * gapX * 2;
+      bridgeSigPos[s + 1] = (Math.random() - 0.5) * 1.35;
+      bridgeSigPos[s + 2] = (Math.random() - 0.5) * 1.6;
+    }
+    bridgeSigGeom.setAttribute('position', new THREE.BufferAttribute(bridgeSigPos, 3));
+
+    const bridgeSigMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.06,
+      transparent: true,
+      opacity: 0.95,
+      blending: THREE.AdditiveBlending
+    });
+    const bridgeSignals = new THREE.Points(bridgeSigGeom, bridgeSigMaterial);
+    bridgeGroup.add(bridgeSignals);
+
+    // --- 3. TRANSLUCENT GEODESIC GLASS SPHERE ---
+    const globeRadius = 1.58;
+
+    const glassGeom = new THREE.SphereGeometry(globeRadius, 48, 36);
+    const glassMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x071e3d,
+      emissive: 0x0284c7,
+      emissiveIntensity: 0.18,
+      roughness: 0.08,
+      metalness: 0.1,
+      transmission: 0.72,
+      ior: 1.333,
+      transparent: true,
+      opacity: 0.45,
+      side: THREE.FrontSide
+    });
+    const glassMesh = new THREE.Mesh(glassGeom, glassMaterial);
+    sphereGroup.add(glassMesh);
+
+    const wireframeGlobeGeom = new THREE.SphereGeometry(globeRadius * 0.998, 28, 20);
+    const wireframeGlobeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.18
+    });
+    const wireframeGlobe = new THREE.Mesh(wireframeGlobeGeom, wireframeGlobeMaterial);
+    sphereGroup.add(wireframeGlobe);
+
+    const rimGeom = new THREE.RingGeometry(globeRadius * 0.98, globeRadius * 1.05, 64);
+    const rimMaterial = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.38,
+      blending: THREE.AdditiveBlending
+    });
+    const rimMesh = new THREE.Mesh(rimGeom, rimMaterial);
+    sphereGroup.add(rimMesh);
+
+    // --- 4. BACKGROUND NEURAL CONSTELLATION ---
+    const constellGroup = new THREE.Group();
+    scene.add(constellGroup);
+
+    const constellPositions = [];
+    for (let c = 0; c < 48; c++) {
+      const r = 3.2 + Math.random() * 2.5;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = (Math.random() - 0.5) * Math.PI;
+      constellPositions.push(new THREE.Vector3(
+        r * Math.cos(phi) * Math.cos(theta),
+        r * Math.sin(phi),
+        r * Math.cos(phi) * Math.sin(theta)
+      ));
+    }
+
+    const constellLinesGeom = new THREE.BufferGeometry();
+    const constellLinePos = [];
+    for (let i = 0; i < constellPositions.length; i++) {
+      for (let j = i + 1; j < constellPositions.length; j++) {
+        if (constellPositions[i].distanceTo(constellPositions[j]) < 2.2) {
+          constellLinePos.push(
+            constellPositions[i].x, constellPositions[i].y, constellPositions[i].z,
+            constellPositions[j].x, constellPositions[j].y, constellPositions[j].z
+          );
+        }
+      }
+    }
+    constellLinesGeom.setAttribute('position', new THREE.Float32BufferAttribute(constellLinePos, 3));
+    const constellLineMat = new THREE.LineBasicMaterial({ color: 0x0369a1, transparent: true, opacity: 0.14 });
+    constellGroup.add(new THREE.LineSegments(constellLinesGeom, constellLineMat));
+
+    const constellDotGeom = new THREE.BufferGeometry().setFromPoints(constellPositions);
+    const constellDotMat = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.05, transparent: true, opacity: 0.45 });
+    constellGroup.add(new THREE.Points(constellDotGeom, constellDotMat));
+
+    // --- INTERACTIVE TOUCH & DRAG / CLICKABLE SPHERE ---
+    let isDragging = false;
+    let dragDistance = 0;
+    let prevMouseX = 0;
+    let prevMouseY = 0;
+    let startX = 0;
+    let startY = 0;
+    let yaw = 0.35;
+    let pitch = 0.12;
+
+    function onPointerDown(e) {
+      isDragging = true;
+      dragDistance = 0;
+      startX = e.clientX || (e.touches && e.touches[0].clientX);
+      startY = e.clientY || (e.touches && e.touches[0].clientY);
+      prevMouseX = startX;
+      prevMouseY = startY;
+    }
+
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      const x = e.clientX || (e.touches && e.touches[0].clientX);
+      const y = e.clientY || (e.touches && e.touches[0].clientY);
+      const dx = x - prevMouseX;
+      const dy = y - prevMouseY;
+      dragDistance += Math.abs(dx) + Math.abs(dy);
+      yaw += dx * 0.006;
+      pitch = Math.max(-0.75, Math.min(0.75, pitch + dy * 0.006));
+      prevMouseX = x;
+      prevMouseY = y;
+    }
+
+    function onPointerUp(e) {
+      if (isDragging && dragDistance < 10) {
+        // Registered as a TAP/CLICK on the sphere!
+        toggleVoiceInteraction();
+      }
+      isDragging = false;
+    }
+
+    window.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+    window.addEventListener('touchstart', onPointerDown, { passive: true });
+    window.addEventListener('touchmove', onPointerMove, { passive: true });
+    window.addEventListener('touchend', onPointerUp, { passive: true });
+
+    // --- VOICE & TALKING ENGINE ---
+    let isListening = false;
+    let isSpeaking = false;
+    let audioContext = null;
+    let analyser = null;
+    let micStream = null;
+    let dataArray = null;
+    let voiceAmplitude = 0;
+
+    const statusBadge = document.getElementById('status-badge');
+    const statusText = document.getElementById('status-text');
+
+    async function toggleVoiceInteraction() {
+      if (window.LeeWayAndroid && window.LeeWayAndroid.talk) {
+        window.LeeWayAndroid.talk();
+        return;
+      }
+      if (isListening) stopListening(); else startListening();
+    }
+
+    function openDigitalBrain() {
+      closeDrawer();
+      const raw = window.LeeWayAndroid?.digitalBrain?.() || '{"state":"UNAVAILABLE"}';
+      const data = JSON.parse(raw);
+      document.body.innerHTML = '<div style="position:fixed;inset:0;overflow:auto;padding:28px;background:rgba(3,10,18,.48);backdrop-filter:blur(20px);color:white;font-family:Segoe UI,Arial"><button onclick="location.reload()" style="position:fixed;right:20px;top:20px;border-radius:22px;padding:10px 16px;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.25)">Back</button><h1>Digital Brain · phone-fold6</h1><h3>Information Brain</h3><pre>'+escapeHtml(JSON.stringify(data.informationBrain||{},null,2))+'</pre><h3>Device Brain</h3><pre>'+escapeHtml(JSON.stringify(data.deviceBrain||{},null,2))+'</pre><h3>Runtime Brain</h3><pre>'+escapeHtml(JSON.stringify(data.runtimeBrain||{},null,2))+'</pre></div>';
+    }
+    function openWorkstation(){ closeDrawer(); alert('Agent VT Workstation binding is being restored through the LeeWay capability fabric.'); }
+    function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+
+    async function startListening() {
+      if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+        voiceUnavailable('SPEECH_RECOGNITION_UNBOUND');
+        return;
+      }
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          voiceUnavailable();
+          return;
+        }
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        const source = audioContext.createMediaStreamSource(micStream);
+        source.connect(analyser);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        isListening = true;
+        statusBadge.classList.add('active');
+        statusText.textContent = 'Listening... Tap sphere to stop';
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+          const recognition = new SpeechRec();
+          recognition.continuous = false;
+          recognition.interimResults = false;
+          recognition.onresult = (e) => {
+            const transcript = e.results[0][0].transcript;
+            stopListening();
+            agentLeeSpeak(transcript);
+          };
+          recognition.onerror = () => stopListening();
+          recognition.start();
+        }
+      } catch (err) {
+        voiceUnavailable();
+      }
+    }
+
+    function stopListening() {
+      isListening = false;
+      statusBadge.classList.remove('active');
+      statusText.textContent = 'Tap sphere to speak';
+      if (micStream) {
+        micStream.getTracks().forEach(t => t.stop());
+        micStream = null;
+      }
+      if (audioContext) {
+        audioContext.close();
+        audioContext = null;
+      }
+    }
+
+    function voiceUnavailable(reason = 'MICROPHONE_PROVIDER_UNBOUND') {
+      stopListening();
+      isSpeaking = false;
+      voiceAmplitude = 0;
+      statusBadge.style.display = 'flex';
+      statusText.textContent = 'Agent Lee connection unavailable: ' + reason;
+      window.dispatchEvent(new CustomEvent('leeway:voice-error', { detail: { reason } }));
+    }
+
+    function agentLeeSpeak(prompt) {
+      if (window.LeeWayAndroid && window.LeeWayAndroid.talk) {
+        window.LeeWayAndroid.talk();
+        return;
+      }
+      isSpeaking=false;
+    }
+
+    // --- HAMBURGER MENU DRAWER ---
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const closeDrawerBtn = document.getElementById('close-drawer');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    }
+
+    hamburgerBtn.addEventListener('click', openDrawer);
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+
+    function setElement(name, primary, accent) {
+      wireframeMaterial.color.setHex(accent);
+      wireframeGlobeMaterial.color.setHex(accent);
+      rimMaterial.color.setHex(accent);
+      fissureLight.color.setHex(accent);
+      keyLight.color.setHex(accent);
+      document.getElementById('status-dot').style.backgroundColor = '#' + accent.toString(16);
+      closeDrawer();
+      agentLeeSpeak("Harmonizing with " + name);
+    }
+
+    // --- ANIMATION LOOP (LIVELY TALKING ANIMATION) ---
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      if (analyser && dataArray) {
+        analyser.getByteFrequencyData(dataArray);
+        let sum = 0;
+        for (let i = 0; i < dataArray.length; i++) {
+          sum += dataArray[i];
+        }
+        const avg = sum / dataArray.length;
+        voiceAmplitude = THREE.MathUtils.lerp(voiceAmplitude, Math.min(1.0, avg / 80), 0.25);
+      } else if (!isListening && !isSpeaking) {
+        voiceAmplitude = THREE.MathUtils.lerp(voiceAmplitude, 0, 0.1);
+      }
+
+      // Dynamic talking animation: faster orbital drift & conversational micro-sway
+      const talkingSpeed = (isSpeaking ? 2.5 : isListening ? 1.6 : 1.0);
+      if (!isDragging) {
+        yaw += dt * (0.15 + voiceAmplitude * 0.45) * talkingSpeed;
+      }
+
+      // Conversational sway when speaking
+      const talkPitchSway = isSpeaking ? Math.sin(time * 4.2) * 0.04 : 0;
+      const talkYawSway = isSpeaking ? Math.cos(time * 3.6) * 0.03 : 0;
+
+      sphereGroup.rotation.y = yaw + talkYawSway;
+      sphereGroup.rotation.x = pitch + talkPitchSway;
+
+      rimMesh.lookAt(camera.position);
+
+      // Lively Breathing & Talking Surface Expansion
+      const talkPulse = isSpeaking ? (0.04 * Math.sin(time * 9.0) + voiceAmplitude * 0.12) : (voiceAmplitude * 0.08);
+      const currentScale = 1.0 + talkPulse;
+      brainGroup.scale.set(currentScale, currentScale, currentScale);
+
+      // Central Fissure Bridge Light Surge
+      const fissureIntensity = isSpeaking ? (3.5 + voiceAmplitude * 6.0 + Math.sin(time * 10) * 1.5) : (2.5 + voiceAmplitude * 4.0);
+      fissureLight.intensity = fissureIntensity;
+
+      // Accelerated Synaptic Particles across the gap
+      const sigPositions = bridgeSigGeom.attributes.position.array;
+      const particleSpeed = (isSpeaking ? 4.0 : 1.0) * (1.0 + voiceAmplitude * 3.5);
+      for (let s = 0; s < bridgeSignalCount * 3; s += 3) {
+        sigPositions[s + 0] += (Math.random() - 0.5) * 0.04 * particleSpeed;
+        if (Math.abs(sigPositions[s + 0]) > gapX * 1.25) {
+          sigPositions[s + 0] = (Math.random() - 0.5) * gapX;
+        }
+      }
+      bridgeSigGeom.attributes.position.needsUpdate = true;
+
+      constellGroup.rotation.y = time * 0.02;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

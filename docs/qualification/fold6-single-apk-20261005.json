@@ -1,0 +1,65 @@
+{
+  "schemaVersion":"leeway.pocket.qualification-review.v1",
+  "scope":"Unified Fold6 candidate build and source review, not device deployment",
+  "repository":"4citeB4U/LeeWay-Pocket-Agent",
+  "baseCommit":"a43ba6217216cd1ade6b058f39fd16cd31cdedd2",
+  "buildRunId":"fold6-build-20261006T005247097Z",
+  "sourceManifestSha256":"059FF143E831BFC13F9A0086CD60CF043B9B17E48024C92FCA829EC13CAA9E8B",
+  "gradleExitCode":0,
+  "tests":{
+    "androidJvm":{"tests":34,"failures":0,"errors":0,"skipped":0,"newVoiceBindingTests":8},
+    "sphereVoiceBoundary":{"tests":4,"failures":0,"scope":"Actual JS functions exercised using isolated DOM/native fixtures; not browser or speaker acceptance"},
+    "incompletePackageGate":{"sourceOnly":"PASS","fullDeployment":"REJECTED_AS_REQUIRED"}
+  },
+  "apk":{
+    "packageName":"industries.leeway.pocket",
+    "versionCode":26,
+    "versionName":"1.0.0-unified-body-fold6-rc1",
+    "applicationLabel":"Agent Lee",
+    "bytes":42042287,
+    "sha256":"F4E18F27DA1310A91419CAAA011F4693404FCA0C52985786FC28F5EC9667201E",
+    "launcherCount":1,
+    "abis":["arm64-v8a"],
+    "signatureVerificationExitCode":0,
+    "debuggable":true,
+    "customerRelease":false,
+    "embeddedSphereMatchesSource":true,
+    "embeddedSphereSha256":"3A44006E7AF777700268888342801920AF5A1C1A2307047A539A6E2894E17676",
+    "knownKokoroModelPackaged":false
+  },
+  "repairs":[
+    "Resolved installed SDK for the build; preserve native exit codes and source/log hashes.",
+    "Read shared PC employee voice binding/catalog instead of selecting Android-installed-english automatically.",
+    "Check returned package and provider identity before admitting renderer readiness.",
+    "Keep temporary Michael binding qualification-only; release requires explicit Creator selection.",
+    "Prevent the phone voice picker from silently replacing shared voice identity.",
+    "Configure native main-window translucency; physical visual parity remains unverified.",
+    "Reject unbound conversation rather than return a canned paragraph claiming connected consciousness.",
+    "Remove simulated microphone fallback and blank-window navigation from the prototype brain handler.",
+    "Stop treating a filename check as full-APK completeness; reject default deployment admission."
+  ],
+  "sourceEvidence":{
+    "voiceContractBlob":"7ab6099582516e6384f1a42fb973648083844c5a",
+    "androidVoiceAdapter":{"repository":"4citeB4U/LeeWay-Voice-Fabric","path":"src/android-bridge.js","blobSha":"6b43d1095987e2cfd5ff9c5b97d4a96ff6334a4c","observedProviders":["chatterbox","android-tts"],"kokoroBound":false},
+    "digitalBrainViewer":{"repository":"4citeB4U/RapidWebDev","commit":"4bc4b1c7a54bbe04ddae049208b69a01d4e40520","path":"brain/public/brain-3d.js","blobSha":"904c44de18213ab680801da8aacbd70f7993c78e","state":"SOURCE_LOCATED_NOT_EMBEDDED"},
+    "dockerViewer":{"relativePath":"DigitalBrain/brain-service/app/static/brain.html","bytes":5995379,"sha256":"0130D8ECB65F28F4D615D08D8498227DE1CD841B545BEDD81154508B753E46F9","copiedIntoApk":false},
+    "pcVoiceCatalogSha256":"2E56FD4390757B7AD76C44F0CA42D03D5EBF6F9C6507A9A2FBCA5EAFF7F5F298"
+  },
+  "mandatoryUnfinished":[
+    {"id":"voice-execution","state":"BLOCKED","reason":"Canonical Android adapter lacks the selected PC Kokoro provider. Same-ID tests do not prove acoustic equivalence. Local runtime/model packaging pending."},
+    {"id":"conversation","state":"BLOCKED","reason":"Canonical local executor, multi-turn context retrieval and cross-body session binding are absent in this APK."},
+    {"id":"digital-brain","state":"PARTIAL","reason":"Candidate schema/bootstrap only. Exact recursive viewer, authorized filesystem census, full hardware observations and on-device persistence need qualification. Do not seed phone/customer databases with PC personal records."},
+    {"id":"continuum","state":"PARTIAL","reason":"Local tables do not prove canonical Continuum semantics, federation or synchronization."},
+    {"id":"ldwmd","state":"BLOCKED","reason":"A working_set table is not the verified LeeWayDeviceWorkingMemoryDatabase implementation or measured tier movement. Canonical binding unresolved."},
+    {"id":"workstation","state":"BLOCKED","reason":"Menu handler is an alert, not embedded Agent VT execution."},
+    {"id":"devices-commander","state":"PARTIAL","reason":"Settings/URI wrapper is not the full qualified Device Bridge/Commander implementation."},
+    {"id":"automation-skills-formula-veritas","state":"BLOCKED","reason":"Authority labels and classification do not link canonical scheduler, skill execution, Formula or receipt-backed governance."},
+    {"id":"visual-parity","state":"PARTIAL","reason":"Sphere source packaged; transparency configured. Actual logo/state-colored medallion, recursive viewer and device screenshots remain unqualified."},
+    {"id":"release-compression-provisioning","state":"BLOCKED","reason":"Debug ARM64 candidate only. Release signing, portable body identity, compression/equivalence measurements and reboot/recovery acceptance incomplete."}
+  ],
+  "installDecision":"BLOCKED_DO_NOT_INSTALL_PARTIAL_PACKAGE",
+  "phoneMutatedThisPass":false,
+  "formulaExecution":"NOT_EXECUTED",
+  "learningLedgerUpdated":false,
+  "compressionClaim":"No LeeWay condensation or equivalent-feature size reduction is claimed."
+}

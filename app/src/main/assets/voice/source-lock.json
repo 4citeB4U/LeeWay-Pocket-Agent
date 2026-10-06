@@ -1,0 +1,12 @@
+﻿{
+    "schemaVersion":  "leeway.voice.source-projection.v1",
+    "authority":  "4citeB4U/LeeWay-Voice-Fabric",
+    "body":  "phone-fold6",
+    "sourceBody":  "pc-primary",
+    "mode":  "QUALIFICATION_ONLY",
+    "creatorFinalVoiceSelection":  false,
+    "catalogSha256":  "2E56FD4390757B7AD76C44F0CA42D03D5EBF6F9C6507A9A2FBCA5EAFF7F5F298",
+    "bindingSha256":  "002F87C59B562E2F3BECFCC6C5435C1034C096937E9D0E3CF2D7F7B6DF2EEEEF",
+    "acousticEquivalence":  "NOT_TESTED",
+    "providerRuntimePackaged":  false
+}

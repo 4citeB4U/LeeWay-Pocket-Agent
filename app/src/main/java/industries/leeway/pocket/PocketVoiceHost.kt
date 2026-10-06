@@ -19,7 +19,8 @@ object PocketVoiceHost {
         fun onError(message: String)
     }
 
-    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"\n    private const val ACTIVE_PROFILE_URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/profiles/agent-lee-active-voice.v1.json"
+    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"
+    private const val ACTIVE_PROFILE_URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/profiles/agent-lee-active-voice.v1.json"
     private val main = Handler(Looper.getMainLooper())
     private val session = VoiceSession<Listener>()
     private var view: WebView? = null
@@ -38,7 +39,8 @@ object PocketVoiceHost {
     private var englishAdapter:FabricEnglishAdapter?=null
     @Volatile private var trustedPage=false
     private var selectionPrefs:SharedPreferences?=null
-    private var requestedVoiceId="agent-lee-voice-one"
+    private var requestedVoiceId=""
+    private var activeBinding:AgentVoiceBinding?=null
     private var selectedVoiceId=""
     private var selectedVoiceName="LeeWay Voice Fabric"
     private var selectionConfirmed=false
@@ -73,10 +75,21 @@ object PocketVoiceHost {
         check(Looper.myLooper() == Looper.getMainLooper())
         diagnostics = context.applicationContext.getSharedPreferences("leeway-pocket-voice-status", Context.MODE_PRIVATE)
         selectionPrefs=context.applicationContext.getSharedPreferences("pocket-fabric-voice",Context.MODE_PRIVATE)
-        if(selectionPrefs?.getBoolean("fabric_english_default_v1",false)!=true){
-            selectionPrefs?.edit()?.putString("selected_id","android-installed-english")?.putBoolean("fabric_english_default_v1",true)?.apply()
+        val binding = try {
+            AgentVoiceBinding.fromSources(
+                JSONObject(context.assets.open("voice/employee-voice-bindings.v1.json").bufferedReader().use { it.readText() }),
+                JSONObject(context.assets.open("voice/catalog.v1.json").bufferedReader().use { it.readText() }),
+                allowQualification = BuildConfig.DEBUG
+            )
+        } catch (error: Exception) {
+            readiness.unavailable()
+            record("VOICE_BINDING_BLOCKED", error.message ?: "VOICE_SELECTION_REQUIRED")
+            listener.onError(lastError)
+            return
         }
-        requestedVoiceId=selectionPrefs?.getString("selected_id","android-installed-english") ?: "android-installed-english"
+        activeBinding=binding
+        requestedVoiceId=binding.voicePackageId
+        if(binding.qualificationOnly) listener.onState("TEMPORARY_SHARED_VOICE_FOR_QUALIFICATION")
         session.attach(listener)
         stopPlayback()
         if (view == null) create(context.applicationContext)
@@ -140,7 +153,11 @@ object PocketVoiceHost {
                     .setMessage(error ?: "No available voice adapters were returned.").setPositiveButton("Close",null).show()
                 else android.app.AlertDialog.Builder(activity).setTitle("Voice Fabric voices")
                     .setSingleChoiceItems(choices.map{"${it.name} Â· ${it.provider}"}.toTypedArray(),choices.indexOfFirst{it.id==selectedVoiceId}){ dialog,index ->
-                        requestedVoiceId=choices[index].id;requestSelection();dialog.dismiss()
+                        dialog.dismiss()
+                        if(choices[index].id==requestedVoiceId) requestSelection()
+                        else android.app.AlertDialog.Builder(activity).setTitle("One Agent Lee voice")
+                            .setMessage("Voice identity is shared with the PC. A device-local selection cannot replace the shared LeeWay Voice binding.")
+                            .setPositiveButton("Close",null).show()
                     }.setNegativeButton("Cancel",null).show()
             }
         }
@@ -148,6 +165,18 @@ object PocketVoiceHost {
         loading.show();main.postDelayed(timeout,20000);requestCatalog()
     }
 
+    private fun admitRenderer(payload:JSONObject):Boolean {
+        val binding=activeBinding ?: return false
+        return try {
+            binding.requireRenderer(payload.optString("voicePackageId"),payload.optString("provider"))
+            true
+        } catch(error:IllegalArgumentException) {
+            selectionConfirmed=false;readiness.unavailable()
+            record("VOICE_IDENTITY_REJECTED",error.message ?: "VOICE_IDENTITY_MISMATCH")
+            session.owner?.onError(lastError)
+            false
+        }
+    }
     private fun dispatch() {
         val (turn, text) = session.takePending() ?: return
         // Turn-bound callbacks cannot finish or speak for a subsequently opened activity.
@@ -265,6 +294,7 @@ object PocketVoiceHost {
         @JavascriptInterface fun onSelection(json:String)=deliver {
             val payload=runCatching{JSONObject(json)}.getOrNull() ?: return@deliver
             if(payload.optString("voicePackageId")!=requestedVoiceId)return@deliver
+            if(!admitRenderer(payload))return@deliver
             selectedVoiceId=requestedVoiceId;selectedVoiceName=VoiceProgress.safe(payload.optString("name",selectedVoiceId))
             selectionConfirmed=true;readiness.unavailable()
             selectionPrefs?.edit()?.putString("selected_id",selectedVoiceId)?.apply()
@@ -285,6 +315,7 @@ object PocketVoiceHost {
         @JavascriptInterface fun onReady(json: String) = deliver {
             val payload=runCatching{JSONObject(json)}.getOrNull()
             if(!selectionConfirmed||payload?.optString("voicePackageId")!=requestedVoiceId)return@deliver
+            if(!admitRenderer(payload))return@deliver
             val reported=payload?.optString("device")?.ifBlank{payload.optString("backend")}.orEmpty()
             actualBackend=reported.takeIf{it=="wasm" || it=="webgpu" || it=="android-native"}
             if(payload?.optString("provider")=="android-tts")selectedVoiceName="${VoiceProgress.safe(payload.optString("voiceName"))} · ${VoiceProgress.safe(payload.optString("actualVoice"))} · ${VoiceProgress.safe(payload.optString("actualEngine"))}"
