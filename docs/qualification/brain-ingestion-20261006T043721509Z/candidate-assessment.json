@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "leeway.golden-system-evidence-assessment.v1",
+  "status": "BLOCKED",
+  "requiredCaseCount": 46,
+  "profileCount": 1,
+  "requiredEvidenceCount": 46,
+  "verifiedEvidenceCount": 0,
+  "blockers": [
+    {
+      "code": "AUTHORIZED_EXISTING_VERITAS_VERIFIER_REQUIRED"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/fresh-install-isolation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/existing-brain-reuse"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/recursive-viewer-real-data"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/new-file-record-within-180s"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/edit-rename-delete-reconciliation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/permission-denial-and-restoration"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/no-self-ingestion-loop"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/revocation-local-brain-survival"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/restart-retains-and-resumes"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "digital-brain/owner-export-restore"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "continuum/canonical-local-durable-operations"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "continuum/authorized-federation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "continuum/cross-customer-isolation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "continuum/revocation-stops-egress-preserves-local-data"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "ldwmd/canonical-device-local-execution"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "ldwmd/capacity-and-recovery"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "ldwmd/no-cross-device-allocation-state"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "workstation/embedded-vt-real-work"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "workstation/sandbox-and-notepad-persistence"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "workstation/promotion-and-rollback"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "devices-commander/internal-device-execution"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "devices-commander/owner-approved-remote-session"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "devices-commander/remote-readback-and-receipt"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "devices-commander/revocation-denies-next-remote-command"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "voice/selected-provider-actually-synthesizes"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "voice/speaker-output-observed"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "voice/interrupt-stop-resume"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "voice/same-approved-voice-across-bodies"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "conversation/canonical-executor"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "conversation/multi-turn-context-and-restart"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "conversation/customer-session-isolation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "skills-automation-formula-veritas/real-skill-dispatch"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "skills-automation-formula-veritas/durable-automation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "skills-automation-formula-veritas/canonical-formula-real-input-and-receipt"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "skills-automation-formula-veritas/veritas-pre-post-enforced"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "skills-automation-formula-veritas/zero-llm-core"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "skills-automation-formula-veritas/one-and-two-optional-llms-fault-isolation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "visual-parity/approved-logo-and-operational-colors"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "visual-parity/original-brain-recursion"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "visual-parity/device-translucency-and-navigation"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "distribution/release-signature-and-payload-integrity"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "distribution/customer-neutral-payload"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "distribution/path-relocation-and-device-binding"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "distribution/complete-payload-compression-roundtrip"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "distribution/fresh-install-upgrade-recovery-reboot"
+    },
+    {
+      "code": "MISSING_ACCEPTANCE_EVIDENCE",
+      "profileId": "android-candidate-not-certified",
+      "caseId": "distribution/complete-dependency-bill-of-materials"
+    }
+  ],
+  "artifactSha256": "d4b65dada0ca4affdbaf69cf5f89d51b9bba0fc2571490e26c26af1b4fb6cba2",
+  "sourceCommit": "1ad8946acfe18df61af2fb99d26a5b210e3761f3",
+  "policySha256": "3ce341d57b26511ae0e98a96d0a0ea75869e065631293773f4b2d1d58f37ec42",
+  "platformId": "android",
+  "platformProfileSha256": "57e6c5f6936ba6de42253986e6490d184a71385c9f29edb7b6325338c8d3bab9",
+  "releasePromoted": false,
+  "installed": false
+}
