@@ -61,6 +61,7 @@ class MainActivity : Activity() {
                 }
             }
         }
+        @JavascriptInterface fun openDigitalBrain(){runOnUiThread{startActivity(Intent(this@MainActivity,DigitalBrainActivity::class.java))}}
         @JavascriptInterface fun digitalBrain():String = AndroidDigitalBrainAdapter.snapshot(this@MainActivity)
         @JavascriptInterface fun bodyId():String = AndroidDigitalBrainAdapter.identity(this@MainActivity).deviceId
     }

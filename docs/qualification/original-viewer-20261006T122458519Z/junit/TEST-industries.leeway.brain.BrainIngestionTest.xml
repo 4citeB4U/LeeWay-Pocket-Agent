@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="industries.leeway.brain.BrainIngestionTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2026-10-06T12:23:19" hostname="AGENT-LEE" time="0.041">
+  <properties/>
+  <testcase name="completeAbsenceRetainsTombstoneAndProvenanceEvent" classname="industries.leeway.brain.BrainIngestionTest" time="0.032"/>
+  <testcase name="sourceParentCycleBlocksBeforeMutation" classname="industries.leeway.brain.BrainIngestionTest" time="0.001"/>
+  <testcase name="suppliedStableIdentitySupportsRenameWithoutGuessing" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="createdFileRetainsHistoryAndHonestContentState" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="partialAbsenceCannotDelete" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="repeatedDeletionIsIdempotent" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="directoryHierarchyUsesExistingBrainNodes" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="omissionsCannotBeLabelledComplete" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="resourceScopeCorruptionIsRejected" classname="industries.leeway.brain.BrainIngestionTest" time="0.001"/>
+  <testcase name="returningSourceRestoresWithoutLosingDeletionHistory" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="writeFailureRollsBackAllMetadataAndEvents" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="missingOrNonDirectoryParentIsRejected" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="staleCensusCannotOverwriteNewerState" classname="industries.leeway.brain.BrainIngestionTest" time="0.001"/>
+  <testcase name="anotherBodyCannotUseTheSameHandle" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="unchangedCensusDoesNotDuplicateNodesOrEvents" classname="industries.leeway.brain.BrainIngestionTest" time="0.001"/>
+  <testcase name="metadataChangeRecordsPreviousVersion" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="revokedPermissionBlocksBeforeAnyDeletion" classname="industries.leeway.brain.BrainIngestionTest" time="0.001"/>
+  <testcase name="duplicateKeysBlockEntireCensus" classname="industries.leeway.brain.BrainIngestionTest" time="0.0"/>
+  <testcase name="staleResourceHandleBlocksCommit" classname="industries.leeway.brain.BrainIngestionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -614,11 +614,11 @@
 
     function openDigitalBrain() {
       closeDrawer();
-      const raw = window.LeeWayAndroid?.digitalBrain?.() || '{"state":"UNAVAILABLE"}';
-      const data = JSON.parse(raw);
-      document.body.innerHTML = '<div style="position:fixed;inset:0;overflow:auto;padding:28px;background:rgba(3,10,18,.48);backdrop-filter:blur(20px);color:white;font-family:Segoe UI,Arial"><button onclick="location.reload()" style="position:fixed;right:20px;top:20px;border-radius:22px;padding:10px 16px;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.25)">Back</button><h1>Digital Brain</h1><h3>Information Brain</h3><pre>'+escapeHtml(JSON.stringify(data.informationBrain||{},null,2))+'</pre><h3>Device Brain</h3><pre>'+escapeHtml(JSON.stringify(data.deviceBrain||{},null,2))+'</pre><h3>Runtime Brain</h3><pre>'+escapeHtml(JSON.stringify(data.runtimeBrain||{},null,2))+'</pre></div>';
-    }
-    function openWorkstation(){ closeDrawer(); alert('Agent VT Workstation binding is being restored through the LeeWay capability fabric.'); }
+      if(window.LeeWayAndroid && typeof window.LeeWayAndroid.openDigitalBrain==='function'){
+        window.LeeWayAndroid.openDigitalBrain();return;
+      }
+      voiceUnavailable('DIGITAL_BRAIN_NATIVE_VIEWER_UNBOUND');
+    }    function openWorkstation(){ closeDrawer(); alert('Agent VT Workstation binding is being restored through the LeeWay capability fabric.'); }
     function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
 
     async function startListening() {

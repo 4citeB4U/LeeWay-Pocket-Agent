@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="industries.leeway.pocket.NativeFileCensusTest" tests="15" skipped="0" failures="0" errors="0" timestamp="2026-10-06T12:23:20" hostname="AGENT-LEE" time="0.095">
+  <properties/>
+  <testcase name="changedRootIdentityFixtureFailsBeforeCommit" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.012"/>
+  <testcase name="changedMetadataProducesChangedVersion" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.009"/>
+  <testcase name="aProtectedRootCannotPretendToBeEmpty" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.002"/>
+  <testcase name="stableRootIdentityFixtureExercisesCompleteCensusLogicOnly" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.003"/>
+  <testcase name="protectedBrainOutputsAreNotReingested" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.004"/>
+  <testcase name="missingNativeIdentityExplicitlyPreventsCompleteCensus" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.002"/>
+  <testcase name="unicodeAndSpacesRemainObservations" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.005"/>
+  <testcase name="removalStillRequiresKnownRootIdentityForAbsenceAdmission" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.004"/>
+  <testcase name="budgetExceededIsReportedAsIncomplete" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.006"/>
+  <testcase name="renameIsNotInferredFromNameOrContentSimilarity" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.004"/>
+  <testcase name="realHierarchyHasStableParentKeys" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.003"/>
+  <testcase name="depthLimitIsNotACompleteDirectoryClaim" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.003"/>
+  <testcase name="relocationDoesNotCompilePhysicalRootIntoObjectKey" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.006"/>
+  <testcase name="directoryLinkCannotEscapeAuthorizedRoot" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.03"/>
+  <testcase name="missingRootIsAnErrorNotAnEmptyCensus" classname="industries.leeway.pocket.NativeFileCensusTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

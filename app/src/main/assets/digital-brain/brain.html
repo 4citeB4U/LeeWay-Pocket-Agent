@@ -1,0 +1,2014 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
+<title>LeeWay Cognitive Fabric — Continuous Universe v14</title>
+<style>
+:root{--bg:#02050a;--panel:#07101a;--line:#1c3246;--text:#eef6ff;--muted:#8298ae;--cyan:#50e6ff;--orange:#ff8a16;--purple:#7934ff;--teal:#54e0be;--authority:#93a8ba;--runtime:#50e6ff;--agent:#6f9cff;--formula:#c978ff;--harness:#57e49a;--memory:#55efba;--kernel:#62a8ff;--mcp:#ffad52;--skill:#e6d75a;--intelligence:#a67cff;--security:#ff6577;--evidence:#4de0cf;--employment:#e273ff;--presence:#6fc4ff;--brain:#8b9dff;--external:#c58b64;--data:#56c7ff;--system-accent:#ff9a35;--user-accent:#8c74ff;--user-accent-soft:#66b7ff}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{position:relative;background:#061427}
+#absoluteNucleusBackground{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:#061427}
+#nucleusFallbackImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#061427}
+#nucleusWaveCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:transparent}
+#stage{z-index:1;background:transparent}
+#top,#crumbs,#zoom,#legend,#hud,#settingsPanel,#dock{isolation:isolate}
+.settingRow input[type=color]{width:100%;min-width:145px;height:34px;min-height:34px;padding:2px;border-radius:8px;background:#06101a}
+#top{position:absolute;z-index:4000;left:0;right:0;top:0;min-height:54px;padding:6px 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:rgba(2,5,10,.95);border-bottom:1px solid var(--line)}
+.brand{font-weight:900;letter-spacing:.1em;font-size:13px}.brand span{color:#71e4ff}
+button,input{font:inherit}button{min-height:40px;border:1px solid var(--line);border-radius:10px;background:#07131e;color:#eef6ff;padding:7px 9px;cursor:pointer}button.active{border-color:#71e4ff;color:#71e4ff}
+input{min-height:40px;border:1px solid var(--line);border-radius:10px;background:#06101a;color:#eef6ff;padding:7px 9px;font-size:16px;min-width:180px}
+#crumbs{position:absolute;z-index:20;left:8px;right:8px;top:58px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.crumb{min-height:30px;padding:4px 8px;font-size:10px;border-radius:999px;background:rgba(5,13,21,.92)}.sep{color:#587086;font-size:10px}
+#stage{position:absolute;left:0;right:0;top:92px;bottom:55px;overflow:hidden;touch-action:none}
+#signalCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}#nodes{position:absolute;inset:0;pointer-events:none;z-index:3;isolation:isolate}
+.node{position:absolute;pointer-events:auto;width:142px;min-height:62px;transform:translate(-50%,-50%);border:1.6px solid var(--zone);border-radius:16px;background:#07111b;color:#eef6ff;padding:9px 7px;text-align:center;box-shadow:0 7px 18px rgba(0,0,0,.33);cursor:pointer;transition:opacity .15s}
+ .node b{display:block;font-size:calc(13px * var(--label-scale,1));line-height:1.2;text-shadow:0 1px 2px #000}.node small{display:block;margin-top:5px;font-size:calc(9.5px * var(--label-scale,1));line-height:1.2;color:#a9bdd0}.node .count{margin-top:5px;color:var(--zone);font-size:calc(9px * var(--label-scale,1));font-weight:750}
+.node.center{width:205px;min-height:96px;border-width:2.8px;background:#071722;box-shadow:0 0 30px color-mix(in srgb,var(--zone) 26%,transparent)}
+.node.context{opacity:.72;width:126px;min-height:54px;border-style:dashed}.node.sel{outline:2px solid #fff;outline-offset:2px;z-index:12}.node.dim{opacity:.11}
+#scopeLabel{position:absolute;z-index:4;top:12px;left:50%;transform:translateX(-50%);pointer-events:none;font-size:11px;letter-spacing:.16em;font-weight:850;color:#a9c0d4;opacity:.8;white-space:nowrap}
+#hint{position:absolute;z-index:4;top:31px;left:50%;transform:translateX(-50%);pointer-events:none;color:#6f8599;font-size:9px;white-space:nowrap}
+#hud{position:absolute;z-index:5000;right:12px;top:92px;width:min(500px,39vw);max-height:calc(100% - 158px);overflow:auto;pointer-events:auto;isolation:isolate;border:1px solid rgba(109,169,255,.62);border-radius:18px;background:linear-gradient(155deg,rgba(5,11,20,.998),rgba(3,8,15,.994));padding:15px;box-shadow:0 22px 80px rgba(0,0,0,.82),0 0 0 1px rgba(201,120,255,.22),0 0 34px rgba(86,199,255,.16);backdrop-filter:blur(22px) saturate(125%)}
+#hud::before{content:"";position:absolute;inset:0;border-radius:18px;padding:1px;background:linear-gradient(145deg,rgba(255,138,22,.78),rgba(121,52,255,.68),rgba(80,230,255,.72));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+#hud.hidden{display:none}.hudHeader{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center;margin-bottom:12px}.hudIcon{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--hud-accent,#50e6ff) 70%,#fff 15%);background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--hud-accent,#50e6ff) 28%,transparent),rgba(7,17,27,.9));box-shadow:0 0 22px color-mix(in srgb,var(--hud-accent,#50e6ff) 35%,transparent);font-size:29px}.hudTitle h2{font-size:22px;line-height:1.05;margin:0}.hudSubtitle{color:#9fb2c5;font-size:11px;line-height:1.35;margin-top:6px}.hudClose{align-self:start;min-height:32px;padding:5px 9px;border-radius:9px;background:#08111c}.hudSection{margin-top:9px;border:1px solid rgba(55,82,108,.64);border-radius:12px;background:rgba(5,14,24,.74);padding:10px}.hudSectionTitle{display:flex;align-items:center;gap:7px;margin:0 0 8px;color:var(--section-accent,#71e4ff);font-size:10px;font-weight:850;letter-spacing:.1em;text-transform:uppercase}.hudSection p{margin:0;color:#d4e0e9;font-size:12px;line-height:1.55}.hudFacts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.hudFact{border:1px solid rgba(42,68,92,.72);border-radius:10px;background:rgba(3,10,18,.76);padding:8px}.hudFact b{display:block;color:#f5f9ff;font-size:11px;margin-bottom:4px}.hudFact span{display:block;color:#a9bdce;font-size:10px;line-height:1.35;overflow-wrap:anywhere}.responsibilityList{display:grid;gap:6px}.responsibility{display:flex;gap:8px;align-items:flex-start;color:#d1dce5;font-size:11px;line-height:1.45}.responsibility i{width:16px;height:16px;flex:0 0 16px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:9px;color:#07101a;background:var(--hud-accent,#50e6ff);box-shadow:0 0 10px color-mix(in srgb,var(--hud-accent,#50e6ff) 48%,transparent)}
+.connList{display:grid;gap:6px}.connRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;width:100%;min-height:46px;padding:8px;border:1px solid #183047;background:#06111c;border-radius:9px;text-align:left}.connRow strong{display:block;font-size:10px}.connRow small{display:block;font-size:8px;color:#8198ae;margin-top:3px}.connMeta{text-align:right;font-size:8px;color:#94a8ba;text-transform:uppercase}.muted{color:#89a0b5;font-size:12px}.sec{margin:12px 0 5px;color:#71e4ff;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.item{display:block;width:100%;text-align:left;margin:5px 0;padding:8px;border:1px solid #183047;background:#06111c;border-radius:9px;min-height:0}.item strong{font-size:11px}.item span{display:block;font-size:9px;color:#8198ae;margin-top:3px}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.badge{font-size:8px;padding:3px 6px;border:1px solid #294761;border-radius:999px;color:#b0c3d4;background:rgba(11,26,40,.72)}
+.sourcePath{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:8px!important;word-break:break-all;color:#7f98ad!important}.enterAction{width:100%;margin-top:9px;border-color:color-mix(in srgb,var(--hud-accent,#50e6ff) 65%,#24415a);background:linear-gradient(90deg,rgba(80,230,255,.1),rgba(121,52,255,.09));font-weight:750}.statusDot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#57e49a;box-shadow:0 0 9px #57e49a;margin-right:5px}
+#settingsPanel{position:absolute;z-index:5001;pointer-events:auto;isolation:isolate;right:12px;top:92px;width:min(520px,44vw);max-height:calc(100% - 158px);overflow:auto;border:1px solid rgba(109,169,255,.5);border-radius:18px;background:linear-gradient(155deg,rgba(5,11,20,.99),rgba(3,8,15,.975));padding:15px;box-shadow:0 18px 65px rgba(0,0,0,.66),0 0 28px rgba(121,52,255,.14);backdrop-filter:blur(18px)}#settingsPanel.hidden{display:none}#settingsPanel h3{margin:0;font-size:18px}.settingsLead{margin:5px 0 0;color:#93a9bc;font-size:11px;line-height:1.45}.settingsSection{margin-top:12px;padding:11px;border:1px solid rgba(55,82,108,.62);border-radius:12px;background:rgba(5,14,24,.72)}.settingsSection h4{margin:0 0 8px;color:#71e4ff;font-size:10px;letter-spacing:.12em;text-transform:uppercase}.settingRow{display:grid;grid-template-columns:minmax(140px,1fr) minmax(145px,190px);gap:12px;align-items:center;margin-top:10px}.settingRow label{font-size:11px;color:#c5d3df;line-height:1.3}.settingRow input[type=range]{width:100%;min-width:145px;min-height:24px}.settingRow input[type=checkbox]{min-width:auto;width:18px;height:18px;justify-self:end}.settingsNote{margin-top:10px;color:#8ca1b4;font-size:10px;line-height:1.5}.shapeGuide{display:grid;grid-template-columns:1fr 1fr;gap:7px}.shapeGuideItem{display:grid;grid-template-columns:32px 1fr;gap:8px;align-items:center;padding:8px;border:1px solid #193047;border-radius:9px;background:#06111c}.shapeGuideItem svg{width:26px;height:26px;filter:drop-shadow(0 0 6px currentColor)}.shapeGuideItem b{display:block;font-size:10px;color:#eef6ff}.shapeGuideItem span{display:block;margin-top:2px;font-size:9px;line-height:1.25;color:#8da4b8}.settingsButtons{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.settingsButtons button{min-height:34px;font-size:10px}.kbList{display:grid;gap:6px}.kbItem{padding:8px 9px;border-left:2px solid #50e6ff;background:rgba(5,17,28,.72);border-radius:0 8px 8px 0}.kbItem b{font-size:10px}.kbItem span{display:block;margin-top:3px;color:#92a8bb;font-size:9px;line-height:1.4}.packetHint{position:absolute;z-index:21;left:50%;bottom:8px;transform:translateX(-50%);pointer-events:none;padding:5px 9px;border:1px solid rgba(80,230,255,.25);border-radius:999px;background:rgba(2,8,14,.72);color:#89a8bd;font-size:9px;opacity:.9}
+.previewPanel{display:grid;gap:10px}.previewMeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.previewMeta .hudFact{margin:0}.previewCard{padding:10px;border:1px solid rgba(83,118,150,.4);border-radius:12px;background:rgba(5,12,22,.55)}.previewCard p{margin:0;color:#bad0e2;font-size:12px;line-height:1.55}.previewMedia,.previewFrame{width:100%;min-height:220px;max-height:360px;border:1px solid rgba(83,118,150,.42);border-radius:12px;background:rgba(0,0,0,.18)}.previewMedia{object-fit:contain;background:rgba(1,5,10,.85)}.previewFrame{display:block}.previewChildren{display:grid;gap:7px}.previewChild{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid rgba(63,95,123,.42);border-radius:10px;background:rgba(4,12,22,.42)}.previewChild strong{display:block;color:#eef6ff;font-size:12px}.previewChild small{display:block;color:#91a8bc;font-size:10px;line-height:1.4}.previewBadge{display:inline-grid;place-items:center;min-width:34px;height:24px;padding:0 8px;border-radius:999px;border:1px solid rgba(109,151,196,.45);background:rgba(10,22,35,.7);color:#f4fbff;font-size:11px;font-weight:700}.previewFallback{padding:12px;border:1px dashed rgba(97,132,164,.48);border-radius:12px;background:rgba(5,12,22,.34);color:#a9bfd1;font-size:12px;line-height:1.55}.previewActions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.previewBtn{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:6px 11px;border:1px solid rgba(96,145,195,.45);border-radius:10px;background:rgba(7,18,31,.78);color:#f4fbff;text-decoration:none;font-size:11px;font-weight:700}
+@media(max-width:1100px){#hud{width:min(470px,48vw)}#settingsPanel{width:min(500px,52vw)}}
+#zoom{position:absolute;z-index:20;left:8px;top:100px;padding:5px 8px;background:#05101a;border:1px solid var(--line);border-radius:8px;color:#8298ae;font-size:10px;pointer-events:none}
+#dock{position:absolute;z-index:4000;left:0;right:0;bottom:0;height:55px;display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:4px;background:rgba(2,5,10,.96);border-top:1px solid var(--line)}
+#dock button{min-height:45px;font-size:10px}
+.filesystemCarouselHost{position:absolute;left:50%;bottom:68px;transform:translateX(-50%);width:min(94vw,1360px);max-height:290px;z-index:25;pointer-events:auto;padding:12px 14px 14px;border:1px solid rgba(107,170,255,.52);border-radius:22px;background:linear-gradient(180deg,rgba(4,11,21,.92),rgba(2,7,14,.96));box-shadow:0 18px 55px rgba(0,0,0,.56),0 0 28px rgba(80,230,255,.12);backdrop-filter:blur(18px) saturate(118%)}
+.filesystemCarouselHost.hidden{display:none}
+.filesystemCarouselToolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.filesystemCarouselTitle{display:flex;align-items:center;gap:8px;color:#d7efff;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.filesystemCarouselTitle span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:8px;background:rgba(80,230,255,.12);border:1px solid rgba(80,230,255,.32);color:#83efff;font-size:12px}
+.filesystemCarouselSearch{width:min(360px,44vw);min-height:36px;padding:8px 12px;border-radius:10px;border:1px solid rgba(112,183,255,.45);background:rgba(8,20,32,.82);color:#eff8ff;font-size:12px}
+.filesystemCarouselSearch::placeholder{color:#6d88a1}
+.filesystemCarouselCount{color:#96adc6;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.filesystemCarouselTrack{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x proximity}
+.filesystemCarouselTrack::-webkit-scrollbar{height:8px}.filesystemCarouselTrack::-webkit-scrollbar-thumb{background:rgba(80,230,255,.33);border-radius:999px}
+.filesystemDocumentCard{flex:0 0 220px;scroll-snap-align:start;padding:11px 12px;border:1px solid rgba(118,155,198,.36);border-radius:16px;background:linear-gradient(180deg,rgba(8,18,32,.9),rgba(4,12,22,.86));box-shadow:inset 0 1px 0 rgba(255,255,255,.04);cursor:pointer;transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease}
+.filesystemDocumentCard:hover{transform:translateY(-1px);border-color:rgba(80,230,255,.7);box-shadow:0 12px 32px rgba(0,0,0,.28),0 0 18px rgba(80,230,255,.08)}
+.filesystemDocumentCard.selected{border-color:rgba(80,230,255,.95);box-shadow:0 10px 30px rgba(80,230,255,.15)}
+.filesystemDocumentType{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:22px;border-radius:8px;background:rgba(80,230,255,.12);border:1px solid rgba(80,230,255,.23);color:#7eeaff;font-weight:800;font-size:10px}
+.filesystemDocumentTop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.filesystemDocumentName{margin:0;font-size:13px;font-weight:800;line-height:1.35;color:#edf8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.filesystemDocumentMeta{margin:7px 0 0;color:#9bb3c7;font-size:10px;line-height:1.35;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.filesystemDocumentMeta small{display:block;margin-top:2px;color:#7e9bb0}
+.filesystemCarouselEmpty{padding:16px;border:1px dashed rgba(118,155,198,.38);border-radius:12px;background:rgba(8,18,32,.7);color:#9ab3c4;font-size:12px;text-align:center}
+@media(max-width:760px){#top .wide{display:none}#hud{left:6px;right:6px;top:auto;bottom:60px;width:auto;max-height:58%}.hudHeader{grid-template-columns:50px 1fr auto}.hudIcon{width:48px;height:48px}.hudFacts{grid-template-columns:1fr}.node{width:124px}.node.center{width:170px}#crumbs{top:57px}#stage{top:91px}#settingsPanel{left:6px;right:6px;top:auto;bottom:60px;width:auto;max-height:68%}.shapeGuide{grid-template-columns:1fr}.filesystemCarouselHost{bottom:74px;width:min(96vw,900px)}.filesystemCarouselToolbar{flex-direction:column;align-items:stretch}.filesystemCarouselSearch{width:100%}.filesystemDocumentCard{flex-basis:180px}}
+
+#legendBtn{min-width:74px}
+#legend{position:absolute;z-index:5001;pointer-events:auto;isolation:isolate;left:14px;top:96px;width:min(520px,calc(100vw - 28px));max-height:calc(100% - 164px);overflow:auto;border:1px solid #38546d;border-radius:22px;background:linear-gradient(180deg,rgba(5,12,21,.995),rgba(3,8,14,.995));padding:16px;box-shadow:0 24px 70px rgba(0,0,0,.72),0 0 0 1px rgba(80,230,255,.08),0 0 38px rgba(80,230,255,.11);backdrop-filter:blur(18px)}
+#legend.hidden{display:none}
+.legendHead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #20364a}.legendTitleWrap{display:flex;gap:12px;align-items:center}.legendMark{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;border:1px solid #4a6f8d;background:radial-gradient(circle at 35% 30%,rgba(80,230,255,.24),rgba(121,52,255,.12) 55%,rgba(6,15,25,.92));box-shadow:0 0 24px rgba(80,230,255,.16);font-size:26px}.legendHead h3{margin:0;font-size:22px;line-height:1.15;letter-spacing:.01em}.legendSubtitle{margin-top:5px;color:#a9bfd2;font-size:13px;line-height:1.45;max-width:350px}.legendClose{min-height:34px;padding:5px 9px;border-radius:10px;white-space:nowrap;font-size:12px}.legendSection{margin-top:12px;padding:13px;border:1px solid #1d3448;border-radius:15px;background:rgba(5,14,23,.92);box-shadow:inset 0 1px 0 rgba(255,255,255,.02)}.legendSectionTitle{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:12px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:#72e7ff}.legendSectionTitle.purple{color:#c78bff}.legendSectionTitle.orange{color:#ffad52}.legendSectionTitle.green{color:#65e7ad}.legendGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.legendItem{display:flex;align-items:center;gap:10px;color:#d8e5ef;font-size:13px;line-height:1.3;padding:8px 9px;border:1px solid #183047;border-radius:10px;background:#06111c;min-height:44px}.legendItem strong{display:block;color:#f3f8fc;font-size:13px}.legendItem small{display:block;color:#8fa6ba;font-size:11px;margin-top:2px}.swatch{width:15px;height:15px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 12px currentColor}.shapeSvg{width:30px;height:30px;overflow:visible;flex:0 0 auto;filter:drop-shadow(0 0 5px currentColor)}.legendNote{margin-top:12px;padding:12px 13px;border:1px solid #214159;border-radius:12px;background:rgba(4,15,25,.94);color:#b9cad8;font-size:12.5px;line-height:1.6}.legendHow{display:grid;gap:8px}.legendStep{display:grid;grid-template-columns:26px 1fr;gap:9px;align-items:start;color:#cad9e5;font-size:12.5px;line-height:1.5}.legendStepNum{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:#0a2030;border:1px solid #28516b;color:#75e7ff;font-weight:800;font-size:11px}
+@media(max-width:760px){#legend{left:7px;right:7px;top:auto;bottom:62px;width:auto;max-height:68%;padding:13px;border-radius:18px}.legendGrid{grid-template-columns:1fr}.legendHead h3{font-size:20px}.legendSubtitle{font-size:12px}.legendItem{font-size:13px}.shapeSvg{width:28px;height:28px}}
+
+/* V4.1 stacking repair: graph is contained below UI inspector/settings/legend. */
+
+/* ---- v6 unified Brain Universe: ONE DOM, ONE chrome, ONE stage ---- */
+#brainUniverseLayer{position:absolute;inset:0;z-index:12;opacity:var(--brain-shell-alpha,1);transition:opacity .42s ease;pointer-events:auto;overflow:hidden;background:transparent}
+#brain3DCanvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
+#brain3DCanvas:active{cursor:grabbing}
+#brain3DCanvas canvas{display:block;width:100%!important;height:100%!important}
+#brainInternalLabels{position:absolute;inset:0;pointer-events:none;opacity:var(--brain-label-alpha,0);transition:opacity .38s ease}
+.brainInternalLabel{position:absolute;top:51%;transform:translate(-50%,-50%);min-width:126px;padding:8px 10px;border-radius:13px;background:rgba(4,12,22,.62);backdrop-filter:blur(8px);text-align:center;box-shadow:0 0 24px rgba(0,0,0,.35)}
+.brainInternalLabel strong{display:block;font-size:11px;letter-spacing:.07em;line-height:1.1}.brainInternalLabel span{display:block;margin-top:4px;color:#9eb4c7;font-size:8px}
+.brainInternalLabel.system{left:40.2%;border:1px solid rgba(255,138,22,.48)}.brainInternalLabel.system strong{color:#ffb15b}
+.brainInternalLabel.runtime{left:50%;border:1px solid rgba(80,230,255,.6);box-shadow:0 0 28px rgba(80,230,255,.18)}.brainInternalLabel.runtime strong{color:#76edff}
+.brainInternalLabel.user{left:59.8%;border:1px solid rgba(164,130,255,.48)}.brainInternalLabel.user strong{color:#c1a6ff}
+#brainDepthHint{display:none!important}
+#signalCanvas,#nodes,#scopeLabel,#hint,.packetHint{transition:opacity .42s ease,filter .42s ease,transform .52s cubic-bezier(.2,.75,.2,1);opacity:var(--ecosystem-alpha,0);filter:blur(var(--ecosystem-blur,1.4px)) brightness(var(--ecosystem-bright,.68));}
+#nodes,#signalCanvas{transform:scale(var(--ecosystem-scale,.83));transform-origin:50% 50%}
+body.galaxy-active #brainUniverseLayer{pointer-events:none}
+body.galaxy-active #signalCanvas,body.galaxy-active #nodes,body.galaxy-active #scopeLabel,body.galaxy-active #hint,body.galaxy-active .packetHint{opacity:1!important;filter:none!important;transform:none!important}
+
+/* v6.1 brain-spatial projection: two balanced lobes around the Runtime Fabric midline. */
+#brainSpatialGuide{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:var(--ecosystem-alpha,0);transition:opacity .42s ease;filter:blur(calc(var(--ecosystem-blur,1.4px) * .35));}
+#brainSpatialGuide::before,#brainSpatialGuide::after{content:"";position:absolute;top:50%;width:43%;height:78%;transform:translateY(-50%);border:1px solid rgba(95,171,214,.055);}
+#brainSpatialGuide::before{background:radial-gradient(ellipse at center,rgba(255,154,53,.05),transparent 68%);}
+#brainSpatialGuide::after{background:radial-gradient(ellipse at center,rgba(140,116,255,.055),transparent 68%);}
+#brainSpatialGuide::before{left:5%;border-radius:55% 42% 48% 58% / 48% 52% 58% 42%;box-shadow:inset -28px 0 55px rgba(255,154,53,.05)}
+#brainSpatialGuide::after{right:5%;border-radius:42% 55% 58% 48% / 52% 48% 42% 58%;box-shadow:inset 28px 0 55px rgba(140,116,255,.06)}
+body.galaxy-active #brainSpatialGuide{opacity:.32!important;filter:none!important}
+
+/* Top/bottom chrome is intentionally constant through both depth states. */
+#top,#dock{opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+@media(max-width:760px){.brainInternalLabel{min-width:92px;padding:6px}.brainInternalLabel strong{font-size:9px}.brainInternalLabel span{font-size:7px}.brainInternalLabel.system{left:36%}.brainInternalLabel.user{left:64%}}
+
+
+/* v6.3: single canonical whole-brain identity; duplicate center heading/helper suppressed at galaxy root. */
+#crumbs .crumb{white-space:nowrap}
+
+</style>
+
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/controls/OrbitControls.js":"./vendor/OrbitControls.js"}}</script>
+<style id="leewayLivePreviewStyles">
+/* LeeWay live content preview layer: visual-only, does not alter graph topology. */
+.nodeFileTag{display:inline-flex;margin-top:5px;padding:2px 6px;border:1px solid rgba(102,184,255,.36);border-radius:999px;background:rgba(2,13,23,.76);color:#a9eaff;font-size:8px;font-weight:800;letter-spacing:.05em}
+.leewayAttachments{margin:10px 0 12px;border:1px solid rgba(80,230,255,.4);border-radius:14px;overflow:hidden;background:rgba(3,10,18,.94);box-shadow:0 0 24px rgba(80,230,255,.08)}
+.leewayAttachmentsHead{display:flex;justify-content:space-between;gap:8px;padding:9px 11px;border-bottom:1px solid rgba(80,230,255,.22);color:#84edff;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.leewayAttachmentList{display:flex;gap:6px;padding:8px;overflow-x:auto;border-bottom:1px solid rgba(80,230,255,.16)}
+.leewayAttachmentBtn{display:inline-flex;align-items:center;gap:6px;min-width:max-content;padding:6px 8px;border:1px solid rgba(100,139,173,.38);border-radius:9px;background:rgba(8,19,31,.9);color:#dceaff;font-size:9px;cursor:pointer}
+.leewayAttachmentBtn.active{border-color:#50e6ff;box-shadow:0 0 12px rgba(80,230,255,.22)}
+.leewayFileType{display:inline-grid;place-items:center;min-width:34px;padding:2px 5px;border-radius:6px;background:rgba(80,230,255,.12);color:#7eeaff;font-weight:900}
+.leewayPreviewMeta{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:8px 10px;border-bottom:1px solid rgba(80,230,255,.12)}
+.leewayPreviewMeta div{min-width:0}.leewayPreviewMeta b{display:block;color:#7990a5;font-size:8px;text-transform:uppercase}.leewayPreviewMeta span{display:block;margin-top:2px;color:#dce9f5;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.leewayPreviewViewport{padding:10px;min-height:165px;background:rgba(1,5,10,.72)}
+.leewayPreviewViewport img{display:block;width:100%;max-height:360px;object-fit:contain;border-radius:9px;background:#070b10}
+.leewayPreviewViewport video{display:block;width:100%;max-height:420px;border-radius:9px;background:#000;outline:1px solid rgba(80,230,255,.25)}
+.leewayDirectoryTree{display:grid;gap:7px}.leewayDirectoryHead{display:flex;align-items:center;gap:8px;margin-bottom:9px;padding:9px 10px;border:1px solid rgba(80,230,255,.28);border-radius:9px;background:rgba(4,18,31,.72);color:#e9f8ff;font-size:11px;font-weight:900}.leewayDirectoryRows{display:grid;gap:6px}.leewayDirectoryRow{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;padding:8px 9px;border:1px solid rgba(91,132,168,.28);border-radius:9px;background:rgba(5,14,25,.65)}.leewayDirectorySymbol{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;border:1px solid rgba(80,230,255,.25);color:#79eaff;font:700 17px Cambria Math,Segoe UI Symbol,sans-serif}.leewayDirectoryRow strong{display:block;color:#eef8ff;font-size:10px}.leewayDirectoryRow small{display:block;margin-top:2px;color:#8fa7ba;font-size:8px;line-height:1.35}.leewayDirectoryCount{color:#8fdfff;font-size:8px;white-space:nowrap}.leewayVideoCallout{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px;padding:7px 9px;border:1px solid rgba(255,110,82,.35);border-radius:9px;background:rgba(58,15,10,.42);color:#ffd8cf;font-size:9px;font-weight:800}.leewayAttachmentBtn[data-kind="video"]{border-color:rgba(255,116,76,.65);box-shadow:0 0 12px rgba(255,95,54,.13)}.leewayAttachmentBtn[data-kind="directory"]{border-color:rgba(80,230,255,.65);box-shadow:0 0 12px rgba(80,230,255,.13)}
+.leewayPreviewViewport audio{display:block;width:100%}
+.leewayMediaTitle{margin-bottom:8px;color:#eef8ff;font-size:12px;font-weight:800}.leewayMediaNote{margin-top:7px;color:#8ca4b9;font-size:9px;line-height:1.45}
+.leewayPdfPages img{margin-bottom:8px;background:#fff}.leewayPdfObject{display:block;width:100%;height:360px;border:0;border-radius:9px;background:#fff}
+.leewayCodeHead{display:flex;justify-content:space-between;gap:10px;margin-bottom:7px;color:#83eaff;font-size:9px;font-weight:900}.leewayCodeStage pre,.leewayBinaryStage pre{margin:0;max-height:360px;overflow:auto;padding:10px;border:1px solid rgba(90,127,160,.28);border-radius:9px;background:#02070d;color:#d8e8f5;font:10px/1.5 Consolas,monospace;white-space:pre-wrap;word-break:break-word}
+.leewayPreviewProof{padding:7px 10px;border-top:1px solid rgba(80,230,255,.13);color:#7f98ac;font-size:8px;overflow-wrap:anywhere}.leewayPreviewProof code{color:#b5cde0}
+.leewayPreviewActions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:9px;border-top:1px solid rgba(80,230,255,.16)}
+.leewayPreviewActions a,.leewayPreviewActions button{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:5px 10px;border:1px solid rgba(93,153,205,.5);border-radius:8px;background:rgba(7,21,35,.9);color:#e8f7ff;text-decoration:none;font:700 10px/1 system-ui,sans-serif;cursor:pointer}
+.leewayPreviewActions a:hover,.leewayPreviewActions button:hover{border-color:#64e8ff;background:rgba(10,39,59,.95);box-shadow:0 0 12px rgba(80,230,255,.18)}
+@media(max-width:760px){.leewayPreviewMeta{grid-template-columns:1fr}.leewayPdfObject{height:280px}}
+</style>
+
+<style id="leewayUnifiedSpectrumPreviewStyles">
+.leewayAttachmentList{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:6px!important;overflow:visible!important;max-height:185px;overflow-y:auto!important}
+.leewayAttachmentBtn{min-width:0!important;width:100%;justify-content:flex-start;overflow:hidden}
+.leewayAttachmentBtn>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.leewaySpectrumNote{padding:7px 10px;border-bottom:1px solid rgba(80,230,255,.12);color:#8fa8bb;font-size:9px;line-height:1.45}
+.leewayDirAction{width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.leewayDirAction:hover{border-color:rgba(80,230,255,.7);background:rgba(10,31,49,.85)}
+.leewayMixedDirectory{border-color:rgba(80,230,255,.55)!important;box-shadow:0 0 16px rgba(80,230,255,.08)}
+.leewayMediaCallout{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;padding:7px 9px;border:1px solid rgba(80,230,255,.35);border-radius:9px;background:rgba(8,24,38,.8);color:#80ecff;font-size:9px;font-weight:900;letter-spacing:.05em}
+.leewayPreviewViewport audio{width:100%;min-height:44px}
+.leewayPreviewViewport video{min-height:240px}
+@media(max-width:760px){.leewayAttachmentList{grid-template-columns:repeat(2,minmax(0,1fr));max-height:220px}}
+</style>
+
+<style id="leewayCardDesignV70">
+/* ============================================================
+   LeeWay Cognitive Fabric v7.0 — presentation-only card upgrade
+   - preserves graph data, connections, click behavior and packets
+   - strengthens left/right brain readability
+   - Formula is presented as pervasive execution, not a galaxy node
+   ============================================================ */
+
+:root{
+  --card-ink:rgba(3,10,20,.94);
+  --card-ink-2:rgba(5,18,34,.91);
+  --card-edge:rgba(123,205,255,.22);
+  --card-shadow:0 18px 42px rgba(0,0,0,.48);
+}
+
+#brainSpatialGuide::before,
+#brainSpatialGuide::after{
+  top:51%;
+  width:44%;
+  height:82%;
+  border:1px solid rgba(91,194,255,.075);
+}
+#brainSpatialGuide::before{
+  left:3.5%;
+  background:
+    radial-gradient(ellipse at 62% 47%,rgba(255,154,53,.065),transparent 66%),
+    linear-gradient(90deg,rgba(255,154,53,.025),transparent 72%);
+  box-shadow:inset -42px 0 80px rgba(255,154,53,.045);
+}
+#brainSpatialGuide::after{
+  right:3.5%;
+  background:
+    radial-gradient(ellipse at 38% 47%,rgba(140,116,255,.075),transparent 66%),
+    linear-gradient(270deg,rgba(140,116,255,.03),transparent 72%);
+  box-shadow:inset 42px 0 80px rgba(140,116,255,.05);
+}
+
+#leewayBrainLabels{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  opacity:var(--ecosystem-alpha,0);
+  transition:opacity .42s ease;
+}
+body.galaxy-active #leewayBrainLabels{opacity:1!important}
+.brainSideLabel{
+  position:absolute;
+  top:22px;
+  letter-spacing:.22em;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  text-shadow:0 0 16px currentColor;
+}
+.brainSideLabel::after{
+  content:"";
+  display:block;
+  width:74px;
+  height:1px;
+  margin-top:7px;
+  background:currentColor;
+  opacity:.42;
+}
+.brainSideLabel.left{left:28px;color:#ffae58}
+.brainSideLabel.right{right:28px;color:#a995ff;text-align:right}
+.brainSideLabel.right::after{margin-left:auto}
+.brainSideLabel span{
+  display:block;
+  margin-top:6px;
+  color:#7f9ab2;
+  font-size:7px;
+  letter-spacing:.19em;
+  font-weight:750;
+}
+.formulaPervasive{
+  position:absolute;
+  top:12px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:7px 17px;
+  border:1px solid rgba(201,120,255,.72);
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(41,11,69,.78),rgba(5,19,36,.88),rgba(41,11,69,.78));
+  box-shadow:0 0 26px rgba(201,120,255,.19),inset 0 1px 0 rgba(255,255,255,.07);
+  color:#dca8ff;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.13em;
+  white-space:nowrap;
+}
+.formulaPervasive b{color:#fff}
+.formulaPervasive::before{content:"∞";margin-right:8px;color:#c978ff;font-size:14px;vertical-align:-1px}
+
+/* Card body — intentionally does not touch node position or graph topology. */
+.node{
+  width:172px;
+  min-height:76px;
+  padding:0;
+  overflow:hidden;
+  text-align:left;
+  border:1px solid color-mix(in srgb,var(--zone) 74%,#d8f4ff 12%);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 13% 18%,color-mix(in srgb,var(--zone) 13%,transparent),transparent 44%),
+    linear-gradient(145deg,rgba(6,18,32,.97),rgba(2,9,18,.94));
+  box-shadow:
+    var(--card-shadow),
+    0 0 0 1px color-mix(in srgb,var(--zone) 10%,transparent),
+    0 0 18px color-mix(in srgb,var(--zone) 12%,transparent),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  backdrop-filter:blur(9px) saturate(118%);
+  transition:opacity .15s,filter .18s,box-shadow .18s,border-color .18s;
+}
+.node:hover{
+  filter:brightness(1.10);
+  border-color:color-mix(in srgb,var(--zone) 90%,#fff 16%);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.55),
+    0 0 24px color-mix(in srgb,var(--zone) 24%,transparent),
+    inset 0 1px 0 rgba(255,255,255,.07);
+}
+.nodeCard{
+  min-height:74px;
+  display:grid;
+  grid-template-columns:43px minmax(0,1fr) 15px;
+  align-items:center;
+  gap:9px;
+  padding:10px 9px 10px 10px;
+}
+.nodeIcon{
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  border:1px solid color-mix(in srgb,var(--zone) 76%,#fff 10%);
+  border-radius:11px;
+  background:
+    radial-gradient(circle at 45% 36%,color-mix(in srgb,var(--zone) 27%,transparent),rgba(5,15,27,.75));
+  box-shadow:
+    0 0 16px color-mix(in srgb,var(--zone) 19%,transparent),
+    inset 0 0 14px color-mix(in srgb,var(--zone) 8%,transparent);
+  color:var(--zone);
+  font:800 23px/1 "Segoe UI Symbol","Cambria Math",system-ui,sans-serif;
+  text-shadow:0 0 10px color-mix(in srgb,var(--zone) 55%,transparent);
+}
+.nodeText{min-width:0}
+.node b{
+  display:block;
+  margin:0;
+  color:#f4f9ff;
+  font-size:calc(12.5px * var(--label-scale,1));
+  line-height:1.08;
+  letter-spacing:-.01em;
+  overflow-wrap:anywhere;
+  text-shadow:0 1px 2px #000,0 0 13px rgba(255,255,255,.045);
+}
+.node small{
+  display:block;
+  margin-top:5px;
+  color:#95abc0;
+  font-size:calc(8.6px * var(--label-scale,1));
+  line-height:1.15;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.node .count{
+  margin-top:5px;
+  color:color-mix(in srgb,var(--zone) 88%,#fff 10%);
+  font-size:calc(8.4px * var(--label-scale,1));
+  line-height:1;
+  font-weight:850;
+  text-shadow:0 0 10px color-mix(in srgb,var(--zone) 32%,transparent);
+}
+.nodeKebab{
+  align-self:start;
+  color:color-mix(in srgb,var(--zone) 72%,#cceeff 20%);
+  font-size:17px;
+  line-height:1;
+  opacity:.83;
+}
+.nodeReality{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  margin-top:5px;
+  padding:2px 5px;
+  border:1px solid rgba(103,226,255,.18);
+  border-radius:999px;
+  background:rgba(2,17,28,.54);
+  color:#78eaff;
+  font-size:6.4px;
+  font-weight:900;
+  letter-spacing:.08em;
+}
+.nodeReality::before{
+  content:"";
+  width:4px;height:4px;border-radius:50%;
+  background:#54e0be;
+  box-shadow:0 0 7px #54e0be;
+}
+
+/* Runtime is the visual center; Formula is shown as an execution band within it. */
+.node.runtimeCore{
+  width:230px;
+  min-height:104px;
+  border-width:2px;
+  background:
+    radial-gradient(circle at 50% 5%,rgba(80,230,255,.16),transparent 50%),
+    linear-gradient(145deg,rgba(7,26,44,.985),rgba(3,9,20,.965));
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.62),
+    0 0 34px rgba(80,230,255,.27),
+    0 0 0 1px rgba(80,230,255,.22),
+    inset 0 1px 0 rgba(255,255,255,.07);
+}
+.node.runtimeCore .nodeCard{min-height:100px;grid-template-columns:51px minmax(0,1fr) 16px;padding:12px}
+.node.runtimeCore .nodeIcon{width:47px;height:47px;font-size:27px}
+.node.runtimeCore b{font-size:calc(17px * var(--label-scale,1))}
+.node.runtimeCore small::after{
+  content:"  ·  FORMULA V2";
+  color:#c978ff;
+  font-weight:900;
+}
+.node.runtimeCore .count{font-size:calc(9px * var(--label-scale,1))}
+
+/* Standards and proof axis. */
+.node.standardsCore{
+  width:214px;
+  min-height:82px;
+  border-width:1.8px;
+  box-shadow:0 16px 45px rgba(0,0,0,.52),0 0 26px rgba(147,168,186,.18);
+}
+.node.trustCore,.node.veritasCore{width:168px;min-height:72px}
+
+/* Hemisphere navigation anchors stay real/clickable but stop dominating the brain. */
+.node.hemisphereAnchor{
+  width:156px;
+  min-height:66px;
+  opacity:.80;
+  border-style:solid;
+  background:linear-gradient(145deg,rgba(6,16,28,.86),rgba(2,8,15,.76));
+}
+.node.hemisphereAnchor .nodeIcon{width:34px;height:34px;font-size:18px}
+.node.hemisphereAnchor .nodeCard{grid-template-columns:36px minmax(0,1fr) 12px;padding:8px}
+
+/* Context nodes remain distinguishable without looking unfinished. */
+.node.context{
+  opacity:.73;
+  width:150px;
+  min-height:62px;
+  border-style:solid;
+  filter:saturate(.76);
+}
+.node.context:hover{opacity:1;filter:none}
+
+/* Selected state retains existing behavior but matches the new cards. */
+.node.sel{
+  outline:1px solid rgba(255,255,255,.92);
+  outline-offset:3px;
+  z-index:12;
+  box-shadow:
+    0 20px 58px rgba(0,0,0,.62),
+    0 0 30px color-mix(in srgb,var(--zone) 36%,transparent),
+    0 0 0 1px color-mix(in srgb,var(--zone) 40%,transparent);
+}
+
+/* Keep filename/attachment chips compact inside richer cards. */
+.node .nodeFileTag{
+  margin-top:5px;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* Mobile keeps the exact same graph, only compresses cards. */
+@media(max-width:760px){
+  .brainSideLabel{font-size:8px;top:13px}
+  .brainSideLabel span{font-size:6px}
+  .formulaPervasive{top:7px;font-size:6.5px;padding:5px 10px}
+  .node{width:142px;min-height:64px}
+  .nodeCard{grid-template-columns:34px minmax(0,1fr) 10px;gap:6px;padding:7px}
+  .nodeIcon{width:31px;height:31px;font-size:17px;border-radius:8px}
+  .node.runtimeCore{width:178px;min-height:88px}
+  .node.runtimeCore .nodeCard{grid-template-columns:38px minmax(0,1fr) 10px;min-height:84px;padding:9px}
+  .node.runtimeCore .nodeIcon{width:36px;height:36px;font-size:20px}
+  .node.standardsCore{width:164px}
+}
+</style>
+
+
+<style id="leewayRealOrganizationV71Styles">
+/* v7.1 — live organization/inventory evidence. No topology rewrite. */
+#organizationStatus,#inventoryStatus{
+  display:inline-flex;align-items:center;gap:5px;min-height:24px;padding:3px 7px;
+  border:1px solid rgba(80,230,255,.18);border-radius:999px;
+  background:rgba(4,17,29,.72);color:#8faabd;font-size:7px;font-weight:800;
+  letter-spacing:.04em;white-space:nowrap
+}
+#organizationStatus.live{color:#6fe7aa;border-color:rgba(111,231,170,.28)}
+#organizationStatus.warn{color:#ffc072;border-color:rgba(255,192,114,.3)}
+#inventoryStatus{color:#7fdfff}
+.orgEvidence{
+  margin-top:9px;padding:9px;border:1px solid rgba(80,230,255,.2);
+  border-radius:11px;background:rgba(4,15,26,.7)
+}
+.orgEvidenceHead{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin-bottom:7px;color:#72e7ff;font-size:9px;font-weight:900;
+  letter-spacing:.1em;text-transform:uppercase
+}
+.orgEvidenceGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.orgEvidenceCell{padding:7px;border:1px solid rgba(48,80,107,.55);border-radius:9px;background:rgba(2,9,16,.68)}
+.orgEvidenceCell b{display:block;color:#7e95aa;font-size:7px;text-transform:uppercase;letter-spacing:.06em}
+.orgEvidenceCell span{display:block;margin-top:3px;color:#e6f2fb;font-size:9px;line-height:1.3;overflow-wrap:anywhere}
+.orgBindingList{display:grid;gap:5px;margin-top:7px}
+.orgBindingRow{padding:7px 8px;border-left:2px solid #50e6ff;background:rgba(4,16,26,.7);border-radius:0 8px 8px 0}
+.orgBindingRow strong{display:block;font-size:9px;color:#eef8ff}
+.orgBindingRow small{display:block;margin-top:3px;font-size:7.5px;color:#87a1b6;line-height:1.35;overflow-wrap:anywhere}
+.node[data-org-side="system"]{--side-halo:rgba(255,154,53,.07)}
+.node[data-org-side="user"]{--side-halo:rgba(140,116,255,.08)}
+.node[data-org-side]{
+  background:
+    radial-gradient(circle at 13% 18%,color-mix(in srgb,var(--zone) 13%,transparent),transparent 44%),
+    linear-gradient(145deg,var(--side-halo),transparent 42%),
+    linear-gradient(145deg,rgba(6,18,32,.97),rgba(2,9,18,.94))
+}
+@media(max-width:1100px){#organizationStatus,#inventoryStatus{display:none}}
+</style>
+
+
+<style id="leewayContinuousUniverseV11Styles">
+.fsUniverseGuide{position:absolute;z-index:24;left:12px;right:min(520px,32vw);bottom:10px;transform:none;width:auto;min-width:420px;padding:7px 9px;border:1px solid rgba(80,230,255,.34);border-radius:12px;background:linear-gradient(180deg,rgba(3,13,24,.93),rgba(2,8,15,.96));box-shadow:0 14px 42px rgba(0,0,0,.46),0 0 22px rgba(80,230,255,.08);backdrop-filter:blur(13px);pointer-events:auto}
+.fsUniverseGuide.hidden{display:none}.fsUniverseGuideTop{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#76e8ff;font-size:7px;font-weight:900;letter-spacing:.12em}.fsUniverseGuideTop strong{color:#fff;font-size:8px}
+.fsUniverseTiers{display:flex;gap:4px;overflow-x:auto;margin-top:5px;padding-bottom:2px;scrollbar-width:none}.fsUniverseTiers::-webkit-scrollbar{display:none}.fsUniverseTiers span{flex:0 0 auto;padding:3px 5px;border:1px solid rgba(82,120,151,.34);border-radius:999px;background:rgba(5,18,30,.76);color:#6f899e;font-size:5.8px;font-weight:800;white-space:nowrap}.fsUniverseTiers span.active{border-color:#52dcff;color:#dff9ff;background:rgba(20,92,126,.28);box-shadow:0 0 10px rgba(80,230,255,.12)}
+.fsUniverseWindow{display:grid;grid-template-columns:28px 1fr 28px;gap:5px;align-items:center;margin-top:5px}.fsUniverseWindow button{width:28px;min-width:28px;height:23px;min-height:23px;padding:0;border-radius:6px;font-size:14px}.fsUniverseWindow button:disabled{opacity:.25;cursor:not-allowed}.fsUniverseWindow span{text-align:center;color:#b8d6e8;font-size:6.8px;font-weight:800;letter-spacing:.06em}
+.node.fsUniverseDense{width:112px;min-height:58px}.node.fsUniverseDense .nodeCard{grid-template-columns:29px minmax(0,1fr) 8px;gap:5px;min-height:56px;padding:6px}.node.fsUniverseDense .nodeIcon{width:27px;height:27px;border-radius:7px;font-size:15px}.node.fsUniverseDense b{font-size:calc(9.5px * var(--label-scale,1))}.node.fsUniverseDense small{font-size:calc(6.8px * var(--label-scale,1));margin-top:3px}.node.fsUniverseDense .count{font-size:calc(6.5px * var(--label-scale,1));margin-top:3px}.node.fsUniverseDense .nodeReality,.node.fsUniverseDense .nodeFileTag{display:none}.node.fsUniverseDense .nodeKebab{font-size:11px}
+.node.fsUniverseCompact{width:142px;min-height:66px}.node.fsUniverseCompact .nodeCard{grid-template-columns:34px minmax(0,1fr) 10px;gap:6px;min-height:64px;padding:7px}.node.fsUniverseCompact .nodeIcon{width:32px;height:32px;font-size:18px}
+@media(max-width:1100px) and (min-width:761px){.fsUniverseGuide{left:8px;right:calc(min(438px,47vw) + 16px);width:auto;min-width:0;transform:none;bottom:8px}.fsUniverseTiers{display:none}}
+@media(max-width:760px){.fsUniverseGuide{left:6px;right:6px;bottom:64px;width:auto;min-width:0}.fsUniverseGuideTop{font-size:6px}.fsUniverseWindow span{font-size:6px}}
+</style>
+
+<style id="leewayV24InteractionAndTrafficStyles">
+/* LeeWay v24: background pan is opt-in. The center nucleus never steals node interaction. */
+#lw22Demo .lw22-worldClip{cursor:default!important}
+#lw22Demo .lw22-worldClip.lw24-pan-armed{cursor:grab!important}
+#lw22Demo .lw22-worldClip.dragging{cursor:grabbing!important}
+#lw22Demo .lw22-center,#lw22Demo .lw22-center::before,#lw22Demo .lw22-center::after{pointer-events:none!important}
+#lw22Demo .lw22-node,#lw22Demo .lw22-portal,#lw22Demo .lw22-roomBtn{pointer-events:auto!important}
+#lw22Demo .lw24-trafficStatus{align-self:center;padding:5px 8px;border:1px solid rgba(71,160,210,.35);border-radius:999px;background:rgba(3,14,23,.86);color:#82a9bf;font:800 7px/1 system-ui;white-space:nowrap}
+#lw22Demo.lw24-traffic-visible .lw24-trafficStatus{color:#67efff;border-color:rgba(80,230,255,.65);box-shadow:0 0 14px rgba(80,230,255,.12)}
+/* Every moving FILE icon is an SVG child of the same line coordinate system and follows the exact M→L geometry. */
+#lw22Demo .lw24-fileTraffic{opacity:0;pointer-events:none;transition:opacity .18s;filter:drop-shadow(0 0 5px currentColor)}
+#lw22Demo.lw24-traffic-visible .lw24-fileTraffic{opacity:.96}
+#lw22Demo .lw23-demoPacket{display:none!important}
+/* Lines themselves retain a subtle marching cue at normal zoom without pretending a file is off-path. */
+#lw22Demo .lw22-line.lw23-fileLine{stroke-dasharray:4 7;animation:lw24LineFlow 1.5s linear infinite}
+@keyframes lw24LineFlow{to{stroke-dashoffset:-22}}
+/* The fixed directory nucleus is never a transport payload. */
+#lw22Demo .lw22-centerIcon{cursor:default!important}
+</style>
+
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<style>
+/* Native viewport adaptation only; original geometry, node cards, graph and renderer remain. */
+html,body,#absoluteNucleusBackground{background:transparent!important}
+#nucleusFallbackImage,#nucleusWaveCanvas{opacity:.24}
+#top{background:rgba(2,5,10,.62)!important}
+#localControls{position:fixed;z-index:12000;left:8px;right:8px;bottom:58px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:rgba(3,9,17,.62);padding:6px;border-radius:12px;backdrop-filter:blur(12px)}
+#localSearch{flex:1;min-width:130px}#localSearchResults{position:absolute;bottom:100%;left:0;right:0;display:flex;flex-direction:column;max-height:240px;overflow:auto}
+#localPageStatus{font-size:11px}#localEnter{border-color:#50e6ff}#hud dl{overflow-wrap:anywhere}#hud dt{color:#8aa5b9}#hud dd{margin:3px 0 9px}
+@media(max-width:760px){#hud{width:calc(100% - 24px);max-height:50vh;top:110px;right:12px}#stage{bottom:142px}.filesystemMatrixGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style>
+</head>
+<body>
+<div id="absoluteNucleusBackground" aria-hidden="true">
+  <img id="nucleusFallbackImage" alt="" src="nucleus.png">
+  <canvas id="nucleusWaveCanvas"></canvas>
+</div>
+<div id="top">
+  <div class="brand">LEEWAY <span>COGNITIVE FABRIC</span></div><span id="inventoryStatus" title="Live directory/file count for the canonical filesystem root">FILES 0 · DIRECTORIES 0</span>
+  <button id="homeBtn">Whole Brain</button><button id="backBtn">← Back</button><button id="harnessBtn">Harnesses</button><button id="dataBtn">Databases</button><button id="legendBtn">Legend</button><button id="settingsBtn">Settings</button><button id="wdDiagBtn" title="Inspect this device hardware records">Device diagnostics</button>
+  <button id="rotateBtn">Rotate 3D</button><button id="pulseBtn">Pause Pulses</button>
+  <input id="search" class="wide" placeholder="Find anything…">
+</div>
+<div id="crumbs"></div>
+<div id="stage">
+  <div id="brainUniverseLayer" aria-label="LeeWay 3D brain overview">
+    <div id="brain3DCanvas"></div>
+    <div id="brainInternalLabels" aria-hidden="true">
+      <div class="brainInternalLabel system"><strong>SYSTEM / LEEWAY</strong><span>system universe</span></div>
+      <div class="brainInternalLabel runtime"><strong>RUNTIME FABRIC</strong><span>central nexus</span></div>
+      <div class="brainInternalLabel user"><strong>USER</strong><span>user universe</span></div>
+    </div>
+    <div id="brainDepthHint">Scroll inward to reveal the LeeWay ecosystem inside the brain</div>
+  </div>
+  <div id="brainSpatialGuide" aria-hidden="true"></div>
+
+  <div id="scopeLabel"></div><div id="hint">single click directory = center + enter · file = preview · behavior continues at every depth</div>
+  <canvas id="signalCanvas"></canvas><div id="nodes"></div><div class="packetHint">Scroll to zoom · moving FILE / SIGNAL icons travel on relationships · directories remain fixed</div>
+  <div id="fsUniverseGuide" class="fsUniverseGuide hidden" aria-live="polite">
+    <div class="fsUniverseGuideTop"><span>DIRECTORY UNIVERSE SCALE</span><strong id="fsUniverseMode">CENTER</strong></div>
+    <div class="fsUniverseTiers" aria-label="Directory child count display ranges">
+      <span data-fs-tier="empty">0 · CENTER</span><span data-fs-tier="orbit">1–32 · ORBIT</span><span data-fs-tier="rings">33–128 · RINGS</span><span data-fs-tier="dense">129–256 · 256-MAP</span><span data-fs-tier="continuum">257–1K · CONTINUUM</span><span data-fs-tier="massive">1K–10K+ · CONTINUUM</span>
+    </div>
+    <div class="fsUniverseWindow"><button id="fsUniversePrev" type="button" aria-label="Previous 256 filesystem entries">‹</button><span id="fsUniverseWindowLabel">0 items</span><button id="fsUniverseNext" type="button" aria-label="Next 256 filesystem entries">›</button></div>
+  </div>
+</div>
+<div id="zoom">Zoom</div>
+<aside id="legend" class="hidden" aria-label="LeeWay Signal Language legend">
+  <div class="legendHead">
+    <div class="legendTitleWrap">
+      <div class="legendMark">◇</div>
+      <div><h3>LeeWay Signal Language</h3><div class="legendSubtitle">A visual key for understanding what the colors, moving math-symbol packets, nodes, and relationships mean throughout the Recursive Universe.</div></div>
+    </div>
+    <button id="closeLegend" class="legendClose" type="button">✕ Close</button>
+  </div>
+
+  <section class="legendSection">
+    <div class="legendSectionTitle">● Category Colors</div>
+    <div class="legendGrid">
+      <div class="legendItem"><i class="swatch" style="background:#93a8ba;color:#93a8ba"></i><span><strong>Authority / Standards</strong><small>Constitutional and governance authority</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#50e6ff;color:#50e6ff"></i><span><strong>Runtime Fabric</strong><small>Runtime routing, execution and system flow</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#6f9cff;color:#6f9cff"></i><span><strong>Agent Lee / Agents</strong><small>Agent identity and delegated workers</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#c978ff;color:#c978ff"></i><span><strong>Formula</strong><small>Formula architecture and decision routing</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#57e49a;color:#57e49a"></i><span><strong>Harnesses</strong><small>Governed operational organs and capabilities</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#55efba;color:#55efba"></i><span><strong>Memory</strong><small>Memory, context and persistence</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#62a8ff;color:#62a8ff"></i><span><strong>Kernels / Capabilities</strong><small>Deterministic and callable capability layers</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#ffad52;color:#ffad52"></i><span><strong>MCP / Tools</strong><small>Tool bindings and MCP interactions</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#e6d75a;color:#e6d75a"></i><span><strong>Skills</strong><small>Registered LeeWay skills</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#a67cff;color:#a67cff"></i><span><strong>Models / Intelligence</strong><small>Models, inference and intelligence work</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#ff6577;color:#ff6577"></i><span><strong>Security</strong><small>Identity, policy and security boundaries</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#4de0cf;color:#4de0cf"></i><span><strong>Veritas / Evidence</strong><small>Verification, receipts and evidence</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#e273ff;color:#e273ff"></i><span><strong>Employment / Workers</strong><small>Employment and worker systems</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#6fc4ff;color:#6fc4ff"></i><span><strong>Presence / Devices</strong><small>Devices, presence and communications</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#8b9dff;color:#8b9dff"></i><span><strong>Digital Brain</strong><small>Digital Brain knowledge and state</small></span></div>
+      <div class="legendItem"><i class="swatch" style="background:#56c7ff;color:#56c7ff"></i><span><strong>Data / Databases</strong><small>Data plane and database objects</small></span></div>
+    </div>
+  </section>
+
+  <section class="legendSection">
+    <div class="legendSectionTitle purple">◇ Signal Symbols</div>
+    <div class="legendGrid">
+      <div class="legendItem"><svg class="shapeSvg" style="color:#56c7ff" viewBox="-10 -10 20 20"><text x="0" y="3" text-anchor="middle" font-size="14" fill="#56c7ff">⊞</text></svg><span><strong>⊞</strong><small>Directory / scope</small></span></div>
+      <div class="legendItem"><svg class="shapeSvg" style="color:#62a8ff" viewBox="-10 -10 20 20"><text x="0" y="3" text-anchor="middle" font-size="14" fill="#62a8ff">□</text></svg><span><strong>□</strong><small>File / record</small></span></div>
+      <div class="legendItem"><svg class="shapeSvg" style="color:#a67cff" viewBox="-10 -10 20 20"><text x="0" y="3" text-anchor="middle" font-size="15" fill="#a67cff">Δ</text></svg><span><strong>Δ</strong><small>Model / skill / job</small></span></div>
+      <div class="legendItem"><svg class="shapeSvg" style="color:#57e49a" viewBox="-10 -10 20 20"><polygon points="0,-8 7,-2 4,7 -4,7 -7,-2" fill="#57e49a"/></svg><span><strong>Pentagon</strong><small>Capability / Harness work</small></span></div>
+      <div class="legendItem"><svg class="shapeSvg" style="color:#4de0cf" viewBox="-10 -10 20 20"><polygon points="0,-8 8,0 0,8 -8,0" fill="#4de0cf"/></svg><span><strong>Diamond</strong><small>Receipt / evidence</small></span></div>
+      <div class="legendItem"><svg class="shapeSvg" style="color:#56c7ff" viewBox="-10 -10 20 20"><polygon points="0,-8 6,-6 8,0 6,6 0,8 -6,6 -8,0 -6,-6" fill="#56c7ff"/></svg><span><strong>Octagon</strong><small>Database / data object</small></span></div>
+      <div class="legendItem"><svg class="shapeSvg" style="color:#50e6ff" viewBox="-10 -10 20 20"><circle r="6" fill="#50e6ff"/></svg><span><strong>Circle</strong><small>Runtime event / signal</small></span></div>
+      <div class="legendItem"><svg class="shapeSvg" style="color:#ffad52" viewBox="-10 -10 20 20"><text x="0" y="3" text-anchor="middle" font-size="15" fill="#ffad52">∑</text></svg><span><strong>∑</strong><small>Tool / MCP call</small></span></div>
+    </div>
+    <div class="legendNote"><b>Read color and shape together.</b> Color tells you which LeeWay category owns the signal. Shape tells you what kind of object is visually moving along the relationship. Each packet now also carries a stronger outline, a distinct inner marker, and optional initials so the moving geometry is recognizable at a glance.</div>
+  </section>
+
+  <section class="legendSection">
+    <div class="legendSectionTitle orange">↔ How To Read The Universe</div>
+    <div class="legendHow">
+      <div class="legendStep"><div class="legendStepNum">1</div><div><b>Nodes are components or scopes.</b> Select a node to open its detailed Inspector card.</div></div>
+      <div class="legendStep"><div class="legendStepNum">2</div><div><b>Lines are relationships.</b> They show how two visible components are connected in the graph.</div></div>
+      <div class="legendStep"><div class="legendStepNum">3</div><div><b>Moving shapes are visual packets.</b> Their geometry identifies the kind of object being represented.</div></div>
+      <div class="legendStep"><div class="legendStepNum">4</div><div><b>Click a moving shape.</b> Its Inspector will identify what you clicked and expose available source / destination information.</div></div>
+      <div class="legendStep"><div class="legendStepNum">5</div><div><b>Zoom for inspection.</b> Use the mouse wheel or zoom controls to distinguish individual packets and components.</div></div>
+    </div>
+  </section>
+
+  <section class="legendSection">
+    <div class="legendSectionTitle green">✓ Interpretation Boundary</div>
+    <div class="legendNote" style="margin-top:0">The universe is a visualization of graph objects, relationships and available telemetry. A visible moving shape does <b>not by itself prove</b> that a physical file transfer or runtime execution occurred. Execution claims require corresponding live telemetry, Veritas evidence or receipts.</div>
+  </section>
+</aside>
+<aside id="hud" class="hidden"></aside>
+<aside id="settingsPanel" class="hidden" aria-label="Visualization settings, signal legend, and knowledge guide">
+  <div style="display:flex;justify-content:space-between;gap:10px;align-items:start"><div><h3>Universe Settings + Signal Guide</h3><p class="settingsLead">Controls the visualization and explains the LeeWay moving-signal language. Shape tells you <b>what is moving</b>; color tells you <b>which LeeWay category owns it</b>.</p></div><button id="closeSettings" style="min-height:32px">✕ Close</button></div>
+  <section class="settingsSection"><h4>Signal Legend — Moving Symbols</h4><div class="shapeGuide">
+    <div class="shapeGuideItem" style="color:#56c7ff"><svg viewBox="-12 -12 24 24"><polygon points="-8,-7 8,-7 10,0 8,7 -8,7 -10,0" fill="currentColor"/></svg><div><b>⊞ Scope / Directory</b><span>Scoped container, region, hemisphere, folder, or directory object in motion.</span></div></div>
+    <div class="shapeGuideItem" style="color:#62a8ff"><svg viewBox="-12 -12 24 24"><rect x="-8" y="-8" width="16" height="16" rx="1" fill="currentColor"/></svg><div><b>□ File / Record</b><span>A file-backed record or source-path object. Click it to inspect identity, path, and preview.</span></div></div>
+    <div class="shapeGuideItem" style="color:#a67cff"><svg viewBox="-12 -12 24 24"><polygon points="0,-10 9,8 -9,8" fill="currentColor"/></svg><div><b>Δ Model / Skill / Job</b><span>Model activity, skill execution, inference flow, or job/work movement between components.</span></div></div>
+    <div class="shapeGuideItem" style="color:#57e49a"><svg viewBox="-12 -12 24 24"><polygon points="0,-10 9,-3 6,9 -6,9 -9,-3" fill="currentColor"/></svg><div><b>⊕ Capability / Harness</b><span>Capability, harness, worker, or coordinated governed activity.</span></div></div>
+    <div class="shapeGuideItem" style="color:#4de0cf"><svg viewBox="-12 -12 24 24"><polygon points="0,-10 10,0 0,10 -10,0" fill="currentColor"/></svg><div><b>∴ Receipt / Evidence</b><span>Veritas evidence, receipt, proof, or auditable artifact.</span></div></div>
+    <div class="shapeGuideItem" style="color:#56c7ff"><svg viewBox="-12 -12 24 24"><polygon points="0,-10 7,-7 10,0 7,7 0,10 -7,7 -10,0 -7,-7" fill="currentColor"/></svg><div><b>⌬ Database / Data Object</b><span>Database, SQL/data-store, storage, or governed data object.</span></div></div>
+    <div class="shapeGuideItem" style="color:#ffad52"><svg viewBox="-12 -12 24 24"><polygon points="0,-10 9,-5 9,5 0,10 -9,5 -9,-5" fill="currentColor"/></svg><div><b>∑ MCP / Tool Call</b><span>A tool, MCP, connector, adapter, or callable action traversing a graph relationship.</span></div></div>
+    <div class="shapeGuideItem" style="color:#50e6ff"><svg viewBox="-12 -12 24 24"><circle r="8" fill="currentColor"/></svg><div><b>○ Runtime Event / Signal</b><span>Generic runtime event only. Structured objects use the symbols above.</span></div></div>
+  </div><div class="settingsNote">The geometry is semantic, not decorative. Clicking a visible packet opens a packet inspector showing its source object, destination, relationship, direction, type, and source path when the graph record has one.</div></section>
+  <section class="settingsSection"><h4>Readability + Navigation</h4>
+    <div class="settingRow"><label for="labelScaleRange">Node text size</label><input id="labelScaleRange" type="range" min="0.9" max="1.8" step="0.1" value="1.2"></div>
+    <div class="settingRow"><label for="packetSizeRange">Moving shape size</label><input id="packetSizeRange" type="range" min="8" max="24" step="0.5" value="14"></div>
+    <div class="settingRow"><label for="packetSpeedRange">Packet speed</label><input id="packetSpeedRange" type="range" min="0.25" max="2.4" step="0.05" value="0.8"></div>
+    <div class="settingRow"><label for="glowRange">Shape glow intensity</label><input id="glowRange" type="range" min="4" max="34" step="1" value="22"></div>
+    <div class="settingRow"><label for="packetOutlineRange">Shape outline thickness</label><input id="packetOutlineRange" type="range" min="1" max="4.5" step="0.1" value="2.2"></div>
+    <div class="settingRow"><label for="shapeGlyphsToggle">Show inner symbols</label><input id="shapeGlyphsToggle" type="checkbox" checked></div>
+    <div class="settingRow"><label for="shapeLabelsToggle">Show symbol labels</label><input id="shapeLabelsToggle" type="checkbox" checked></div>
+    <div class="settingRow"><label for="shapeBadgeToggle">Show secondary badges</label><input id="shapeBadgeToggle" type="checkbox" checked></div>
+    <div class="settingRow"><label for="reversePackets">Bidirectional traffic</label><input id="reversePackets" type="checkbox" checked></div>
+    <div class="settingRow"><label for="eventCircles">Show circular generic events</label><input id="eventCircles" type="checkbox" checked></div>
+    <div class="settingsButtons"><button id="zoomInBtn">Zoom In</button><button id="zoomOutBtn">Zoom Out</button><button id="fitBtn">Fit Universe</button></div>
+    <div class="settingsNote">Moving packets are now rendered as the actual math symbols themselves, with glow, outline, optional labels, and optional secondary badges for combined meanings.</div>
+  </section>
+  <section class="settingsSection"><h4>Absolute Nucleus Background</h4>
+    <div class="settingRow"><label for="nucleusSpeedRange">Wave speed</label><input id="nucleusSpeedRange" type="range" min="0" max="2.5" step="0.01" value="0.58"></div>
+    <div class="settingRow"><label for="nucleusHorizontalRange">Horizontal wave movement</label><input id="nucleusHorizontalRange" type="range" min="0" max="30" step="0.5" value="11"></div>
+    <div class="settingRow"><label for="nucleusVerticalRange">Vertical wave movement</label><input id="nucleusVerticalRange" type="range" min="0" max="24" step="0.5" value="7"></div>
+    <div class="settingRow"><label for="nucleusHueRange">Background hue shift</label><input id="nucleusHueRange" type="range" min="0" max="360" step="1" value="0"></div>
+    <div class="settingRow"><label for="nucleusSaturationRange">Background saturation</label><input id="nucleusSaturationRange" type="range" min="0" max="2" step="0.02" value="1"></div>
+    <div class="settingRow"><label for="nucleusBrightnessRange">Background brightness</label><input id="nucleusBrightnessRange" type="range" min="0.25" max="1.45" step="0.01" value="1"></div>
+    <div class="settingRow"><label for="nucleusDotColor">Dot color center</label><input id="nucleusDotColor" type="color" value="#51eaff"></div>
+    <div class="settingRow"><label for="nucleusDotVariationRange">Dot color variation</label><input id="nucleusDotVariationRange" type="range" min="0" max="90" step="1" value="20"></div>
+    <div class="settingRow"><label for="nucleusDotStrengthRange">Dot color strength</label><input id="nucleusDotStrengthRange" type="range" min="0" max="1" step="0.01" value="0.30"></div>
+    <div class="settingsButtons"><button class="nucleusPreset" data-nucleus="original">Original Blue</button><button class="nucleusPreset" data-nucleus="midnight">Midnight Black</button><button class="nucleusPreset" data-nucleus="storm">Stormy Red</button></div>
+    <div class="settingsNote">This is one continuous background authority. The same moving image remains behind the whole brain and every inner galaxy/scope. Presets recolor the image; they do not replace it.</div>
+  </section>
+  <section class="settingsSection"><h4>How To Read This Universe</h4><div class="kbList">
+    <div class="kbItem"><b>1. Nodes are components or governed objects.</b><span>Single-click a node for its inspector. Double-click or press Enter on expandable nodes to enter that universe.</span></div>
+    <div class="kbItem"><b>2. Lines are graph relationships.</b><span>The line connects source and destination components. Its moving objects show activity or object flow over that relationship.</span></div>
+    <div class="kbItem"><b>3. Symbol answers “what is moving?”</b><span>⊞=scope/directory, □=file/record, Δ=model/skill/job, ⊕=capability/harness, ∴=receipt/evidence, ⌬=database/data, ∑=MCP/tool, ○=generic runtime event.</span></div>
+    <div class="kbItem"><b>4. Color answers “who owns it?”</b><span>Category colors remain consistent with the LeeWay Signal Language legend.</span></div>
+    <div class="kbItem"><b>5. Moving geometry is inspectable.</b><span>Zoom in, click the moving shape, and the right-side inspector identifies the graph object and its route. A file-backed object shows its known source path.</span></div>
+    <div class="kbItem"><b>6. Presentation is not proof.</b><span>The visualization reflects embedded/live graph records; appearance alone does not prove runtime health, execution, or Veritas approval.</span></div>
+  </div></section>
+</aside>
+<div id="dock" style="grid-template-columns:repeat(8,1fr)">
+  <button id="leftM">LeeWay</button><button id="harnessM">Harnesses</button><button id="dataM">Databases</button><button id="appsM">Applications</button>
+  <button id="runtimeM">Runtime</button><button id="rightM">User</button><button id="rotateM">Rotate</button><button id="pulseM">Pulses</button>
+</div>
+
+<div id="localControls" aria-label="Local Digital Brain navigation">
+<button id="localClose">Agent Lee</button><button id="localEnter">Enter Brain</button><button id="localPrev" disabled>Previous</button><button id="localNext" disabled>Next</button><span id="localPageStatus">Binding local Brain</span><button id="localRefresh">Refresh</button>
+<input id="localSearch" placeholder="Search this device's Brain" aria-label="Search this device's Brain"><div id="localSearchResults"></div>
+</div>
+<script src="local-brain-binding.js"></script>
+<script>
+
+const DATA={nodes:Object.create(null),children:Object.create(null),rels:Object.create(null)};
+
+const N=DATA.nodes,C=DATA.children,R=DATA.rels;window.__LEEWAY_NODE_INDEX=N;window.__LEEWAY_CHILD_INDEX=C;
+
+const stage=document.getElementById("stage"),canvas=document.getElementById("signalCanvas"),ctx=canvas.getContext("2d"),nodesLayer=document.getElementById("nodes"),hud=document.getElementById("hud"),zoomEl=document.getElementById("zoom"),crumbs=document.getElementById("crumbs"),scopeLabel=document.getElementById("scopeLabel");
+let scope="__GALAXY__",history=[],selected=null,pulsesPaused=false,rotateMode=false,startTime=performance.now(),lastFrame=0,raf=0,drag=false,last={x:0,y:0};
+let camera={x:0,y:0,z:.72,yaw:0,pitch:0};window.__leewayGraphCamera=camera;
+let visible=[],links=[],positions={},nodeEls={};
+
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function hemisphereFor(id){
+  if(id==="scope::hemi::L") return "L";
+  if(id==="scope::hemi::R") return "R";
+  const orgSide=organizationSideForNode(id);
+  if(orgSide==="system")return "L";
+  if(orgSide==="user")return "R";
+  let cur=N[id], guard=0;
+  while(cur && guard++<20){
+    if(cur.parent==="scope::hemi::L") return "L";
+    if(cur.parent==="scope::hemi::R") return "R";
+    cur = cur.parent ? N[cur.parent] : null;
+  }
+  return null;
+}
+function colorFor(id){
+  const n=N[id]; if(!n)return"#789";
+  if(id==="runtime::nexus"||id==="arch::runtime-fabric")return"#50e6ff";
+  const hemi=hemisphereFor(id);
+  const t=((n.type||"")+" "+(n.label||"")+" "+(n.domain||"")).toLowerCase();
+  if(id==="scope::hemi::L") return "#ff9a35";
+  if(id==="scope::hemi::R") return "#8c74ff";
+  if(n.domain==="standards"||n.type==="standards-root"||n.type==="standards-area"||n.type==="law"||n.type==="proof-rule")return"#93a8ba";
+  if(t.includes("formula"))return"#c978ff";
+  if(t.includes("harness"))return"#57e49a";
+  if(t.includes("memory"))return hemi==="R"?"#71d7ff":"#55efba";
+  if(t.includes("kernel")||t.includes("capability"))return hemi==="R"?"#7ea9ff":"#62a8ff";
+  if(t.includes("mcp")||t.includes("tool"))return hemi==="R"?"#8c74ff":"#ffad52";
+  if(t.includes("skill"))return"#e6d75a";
+  if(t.includes("model")||t.includes("inference"))return hemi==="R"?"#a991ff":"#a67cff";
+  if(t.includes("security")||t.includes("shield")||t.includes("sentinel")||t.includes("permission"))return"#ff6577";
+  if(n.domain==="evidence"||t.includes("veritas")||t.includes("receipt")||t.includes("evidence")||t.includes("ledger"))return"#4de0cf";
+  if(t.includes("worker")||t.includes("employment"))return"#e273ff";
+  if(t.includes("device")||t.includes("presence")||t.includes("desktop"))return hemi==="R"?"#78c6ff":"#6fc4ff";
+  if(t.includes("brain"))return"#8b9dff";
+  if(t.includes("database")||t.includes("data")||t.includes("sqlite")||t.includes("trino")||t.includes("gravitino")||t.includes("seafile")||t.includes("sql server")||t.includes("storage"))return hemi==="R"?"#69bfff":"#56c7ff";
+  if(t.includes("agent lee")||t.includes("agent"))return hemi==="R"?"#8a8fff":"#6f9cff";
+  if(n.domain==="user-data")return"#8c74ff";
+  if(n.domain==="runtime")return"#50e6ff";
+  if(n.domain==="system")return hemi==="L"?"#ff9a35":"#50e6ff";
+  if(hemi==="R") return (n.type==="scope"||n.type==="cluster"||n.type==="history"||n.type==="project"||n.type==="document"||n.type==="conversation"||n.type==="task") ? "#8c74ff" : "#74b8ff";
+  if(hemi==="L") return "#ff9a35";
+  return n.origin==="ARCHITECTURE"||n.origin==="STANDARDS KNOWLEDGE"?"#ff9a35":"#ff9a35";
+}
+function ancestry(id){
+  const a=[];let cur=N[id];let guard=0;
+  while(cur&&guard++<20){a.unshift(cur.id);cur=cur.parent?N[cur.parent]:null}
+  return a;
+}
+function hasKids(id){return (C[id]||[]).length>0}
+function canEnterUniverse(id){
+  const n=N[id]||{};
+  if(n.domain==="fs"&&n.type==="file")return false;
+  if(isFilesystemNavigationNode(id))return n.type!=="file";
+  return hasKids(id)||Number(n.child_count||0)>0||n.expandable===true;
+}
+function contextNeighbors(id){
+  // Relationship neighbors are inspector/relationship data only.
+  // They are deliberately excluded from recursive universe membership.
+  const out=[];for(const r of (R[id]||[])){if(N[r.other]&&!(C[id]||[]).includes(r.other))out.push(r.other)}
+  return [...new Set(out)].slice(0,14);
+}
+
+/* ============================================================
+   v7.1 LIVE ORGANIZATION CONTRACT
+   /brain/organization = hemisphere/organ/canonical mapping authority
+   /brain/inventory    = reference inventory evidence
+   /brain/files        = live filesystem existence/content authority
+   ============================================================ */
+let ORGANIZATION_CONTRACT=null;
+let INVENTORY_REFERENCE=null;
+
+function orgNorm(v){
+  return String(v??"").trim().toLowerCase().replace(/[^a-z0-9]+/g,"");
+}
+function orgArray(v){return Array.isArray(v)?v:[]}
+function orgEntries(){
+  return orgArray(ORGANIZATION_CONTRACT?.organs);
+}
+function resolveOrgToken(token){
+  if(!token)return null;
+  if(typeof token==="object"){
+    const direct=token.graph_id||token.id;
+    if(direct&&N[direct])return direct;
+    token=token.key||token.label||direct||"";
+  }
+  const raw=String(token);
+  if(N[raw])return raw;
+  const key=orgNorm(raw);
+  const match=orgEntries().find(o=>
+    orgNorm(o?.key)===key||orgNorm(o?.label)===key||orgNorm(o?.graph_id)===key
+  );
+  return match?.graph_id&&N[match.graph_id]?match.graph_id:null;
+}
+function organizationGraphIds(side){
+  const hemi=ORGANIZATION_CONTRACT?.hemispheres?.[side];
+  const tokens=orgArray(hemi?.organs);
+  const ids=[];
+  tokens.forEach(t=>{const id=resolveOrgToken(t);if(id&&!ids.includes(id))ids.push(id)});
+  return ids;
+}
+function organizationOrganForNode(id){
+  return orgEntries().find(o=>o?.graph_id===id) || null;
+}
+function organizationSideForNode(id){
+  if(!ORGANIZATION_CONTRACT)return null;
+  if(organizationGraphIds("system").includes(id))return "system";
+  if(organizationGraphIds("user").includes(id))return "user";
+  const organ=organizationOrganForNode(id);
+  const hemi=String(organ?.hemisphere||"").toLowerCase();
+  if(hemi==="system"||hemi==="l"||hemi==="left")return "system";
+  if(hemi==="user"||hemi==="r"||hemi==="right")return "user";
+  return null;
+}
+function bindingTargets(binding){
+  if(!binding)return [];
+  if(typeof binding==="string")return [binding];
+  if(Array.isArray(binding))return binding.flatMap(bindingTargets);
+  return [binding.graph_id,binding.target,binding.node_id,binding.organ,binding.key,binding.label].filter(Boolean);
+}
+function physicalBindingsForNode(id){
+  const organ=organizationOrganForNode(id);
+  const candidates=orgArray(ORGANIZATION_CONTRACT?.physical_children);
+  const keys=new Set([id,organ?.key,organ?.label].filter(Boolean).map(orgNorm));
+  return candidates.filter(p=>{
+    const state=String(p?.mapping_state||"").toUpperCase();
+    if(state==="UNRESOLVED")return false;
+    const bindings=orgArray(p?.graph_bindings).flatMap(bindingTargets).map(orgNorm);
+    return bindings.some(x=>keys.has(x));
+  });
+}
+function physicalIdentityForNode(id){
+  const organ=organizationOrganForNode(id);
+  if(!organ)return null;
+  return {
+    side:organizationSideForNode(id),
+    key:organ.key||"",
+    graph_id:organ.graph_id||id,
+    graph_present:organ.graph_present,
+    bindings:physicalBindingsForNode(id)
+  };
+}
+function organizationHudSection(id){
+  if(!ORGANIZATION_CONTRACT)return "";
+  const info=physicalIdentityForNode(id);
+  if(!info)return "";
+  const side=info.side==="system"?"SYSTEM / ARCHITECTURE":info.side==="user"?"USER / WORK":"UNASSIGNED";
+  const rows=info.bindings.slice(0,8).map(p=>`
+    <div class="orgBindingRow">
+      <strong>⊞ ${esc(p.label||p.id||"physical directory")}</strong>
+      <small>${esc(p.canonical_path||p.runtime_path||p.physical_path||"canonical path unavailable")}</small>
+    </div>`).join("");
+  return `<section class="hudSection" style="--section-accent:#50e6ff">
+    <div class="hudSectionTitle">◎ Live Organization Contract</div>
+    <div class="orgEvidence">
+      <div class="orgEvidenceHead"><span>ORGAN / STORAGE SEPARATION</span><span>${esc(side)}</span></div>
+      <div class="orgEvidenceGrid">
+        <div class="orgEvidenceCell"><b>Organ key</b><span>${esc(info.key||"—")}</span></div>
+        <div class="orgEvidenceCell"><b>Graph identity</b><span>${esc(info.graph_id||id)}</span></div>
+        <div class="orgEvidenceCell"><b>Graph present</b><span>${info.graph_present===false?"NO":"YES"}</span></div>
+        <div class="orgEvidenceCell"><b>Evidence-backed physical bindings</b><span>${info.bindings.length}</span></div>
+      </div>
+      ${rows?`<div class="orgBindingList">${rows}</div>`:`<div class="muted" style="margin-top:8px">No physical directory is promoted into this organ unless the backend supplies an evidence-backed graph binding.</div>`}
+    </div>
+  </section>`;
+}
+async function syncOrganizationContract(){
+  const st=document.getElementById("organizationStatus");
+  try{
+    const res=await fetch("/brain/organization",{cache:"no-store"});
+    if(!res.ok)throw new Error("organization "+res.status);
+    ORGANIZATION_CONTRACT=await res.json();
+    window.__leewayOrganization=ORGANIZATION_CONTRACT;
+    if(st){
+      st.textContent="ORGANIZATION · LIVE";
+      st.classList.add("live");st.classList.remove("warn");
+      st.title=`${ORGANIZATION_CONTRACT?.identity||"LeeWay"} · host paths are deployment evidence: ${String(ORGANIZATION_CONTRACT?.host_paths_are_deployment_evidence??"unknown")}`;
+    }
+    return true;
+  }catch(err){
+    ORGANIZATION_CONTRACT=null;
+    if(st){st.textContent="ORGANIZATION · FALLBACK";st.classList.add("warn");st.classList.remove("live")}
+    console.warn("Organization contract unavailable; existing graph hierarchy remains active",err);
+    return false;
+  }
+}
+function inventoryCountValue(obj,names){
+  for(const n of names){
+    const parts=n.split(".");
+    let cur=obj;
+    for(const p of parts)cur=cur?.[p];
+    if(cur!==undefined&&cur!==null&&!Number.isNaN(Number(cur)))return Number(cur);
+  }
+  return null;
+}
+function paintInventoryStatus(){
+  const st=document.getElementById("inventoryStatus");
+  if(!st)return;
+  const live = window.__leewayLiveFilesystemCounts || {files:0,dirs:0};
+  const files = Number(live.files || 0);
+  const dirs = Number(live.dirs || 0);
+  st.textContent = `FILES ${files.toLocaleString()} · DIRECTORIES ${dirs.toLocaleString()}`;
+  st.title = `Live canonical filesystem counts: ${files.toLocaleString()} files, ${dirs.toLocaleString()} directories.`;
+  st.style.color = '#dfeeff';
+  st.style.borderColor = 'rgba(80,230,255,.35)';
+}
+async function refreshLiveFilesystemCounts(){
+  try{
+    const res=await fetch('/brain/files?path=&count_only=true&recursive=true',{cache:'no-store'});
+    if(!res.ok)throw new Error('filesystem '+res.status);
+    const payload=await res.json();
+    const files = Number(payload.files || 0);
+    const dirs = Number(payload.directories || 0);
+    window.__leewayLiveFilesystemCounts = {files, dirs, total: Number(payload.total || (files + dirs))};
+    paintInventoryStatus();
+    return true;
+  }catch(err){
+    console.warn('Failed to refresh live filesystem counts', err);
+    return false;
+  }
+}
+async function syncInventoryReference(){
+  try{
+    const res=await fetch("/brain/inventory",{cache:"no-store"});
+    if(!res.ok)throw new Error("inventory "+res.status);
+    INVENTORY_REFERENCE=await res.json();
+    window.__leewayInventory=INVENTORY_REFERENCE;
+  }catch(err){
+    INVENTORY_REFERENCE=null;
+    window.__leewayInventory=null;
+    console.error("Live inventory endpoint unavailable; refusing to display a fallback inventory",err);
+  }
+  await refreshLiveFilesystemCounts();
+  return true;
+}
+// Physical paths are observations. Navigation consumes opaque local Brain IDs only.
+function filesystemPathForNode(id){return N[id]?.source_path||null;}
+function isFilesystemNavigationNode(id){return N[id]?.type==='directory'||N[id]?.type==='file';}
+async function expandFilesystemNode(){throw Error('LOCAL_BRAIN_BINDING_NOT_READY');}
+async function hydratePhysicalFilePreview(){return false;}
+const LEEWAY_FS_UNIVERSE_WINDOW=128;
+window.LEEWAY_FS_UNIVERSE_WINDOW=128;
+window.__leewayFilesystemWindows=Object.create(null);
+function isWholeBrainSuppressed(id){
+  const n=N[id]||{};
+  const key=orgNorm(`${id} ${n.label||""}`);
+  // The UI itself is the Digital Brain projection; do not repeat it as a Whole-Brain organ card.
+  if(key.includes("digitalbrain"))return true;
+  // Formula stays in the graph/search/inspect model but is pervasive execution, not a Whole-Brain card.
+  if(id==="arch::formula")return true;
+  return false;
+}
+
+function buildScope(){
+  if(scope==="__GALAXY__"){
+    buildGalaxy();
+    return;
+  }
+
+  // v21 STRICT CONTAINMENT LAW:
+  // A recursive universe contains only its nucleus + its DIRECT children.
+  // Relationship neighbors are not children and must never leak into the orbit.
+  const kids=(C[scope]||[]).filter(id=>N[id]);
+  const scopeNode=N[scope]||{};
+  const ctxs=[];
+  visible=[scope,...kids];
+  links=[];
+
+  kids.forEach(id=>links.push([scope,id,"child"]));
+
+
+
+  // Preserve relationships only when BOTH endpoints are already legitimate
+  // members of this universe. External neighbors stay in the Relations inspector.
+  const vis=new Set(visible);
+  for(const id of visible){
+    for(const r of (R[id]||[])){
+      if(vis.has(r.other) && id<r.other)links.push([id,r.other,"relation",r.predicate]);
+    }
+  }
+
+  const seen=new Set();
+  links=links.filter(e=>{const k=[e[0],e[1],e[2]].join("|");if(seen.has(k))return false;seen.add(k);return true});
+  layout(kids,ctxs);renderNodes();updateCrumbs();fitScope();
+  scopeLabel.textContent=(N[scope]?.label||scope).toUpperCase();
+  scopeLabel.style.display="";
+  const scopeHint=document.getElementById("hint");if(scopeHint)scopeHint.style.display="";
+  if(typeof updateFilesystemUniverseGuide==="function")updateFilesystemUniverseGuide();
+}
+
+function getFilesystemChildrenForScope(scopeId){
+  const children=(C[scopeId]||[]).map(id=>N[id]).filter(Boolean).filter(node => node.domain === 'fs' || node.origin === 'PHYSICAL_STORAGE' || node.type === 'directory' || node.type === 'file');
+  return children.slice().sort((a,b)=>String(a.label||'').localeCompare(String(b.label||'')));
+}
+
+function makeFilesystemCard(node, onOpen, selectedId){
+  const kind=(node.type === 'directory' ? 'DIR' : 'FILE');
+  const ext=(node.subtype || fileExt(node.fs_path || node.source_path || node.label || '')) || 'item';
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='filesystemDocumentCard' + (selectedId === node.id ? ' selected' : '');
+  btn.innerHTML=`
+    <div class="filesystemDocumentTop">
+      <span class="filesystemDocumentType">${kind}</span>
+      <span class="filesystemDocumentType" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);color:#dfeefb;font-size:9px;min-width:28px;">${(node.child_count || 0) > 0 ? node.child_count : ext.toUpperCase()}</span>
+    </div>
+    <div class="filesystemDocumentName">${esc(node.label || 'Untitled')}</div>
+    <div class="filesystemDocumentMeta">
+      ${node.type || 'item'}
+      <small>${esc(node.mime || ext || 'record')}</small>
+    </div>`;
+  btn.addEventListener('click', ()=> onOpen(node));
+  return btn;
+}
+
+function renderScaleAwareFilesystemView(){
+  const scopeNode=N[scope]||{};
+  const isFsDirectory=scopeNode.domain === 'fs' && scopeNode.type === 'directory' && Array.isArray(C[scope]) && C[scope].length > 0;
+  let host=document.getElementById('filesystemCarouselHost');
+  if(!isFsDirectory){
+    if(host) host.remove();
+    return;
+  }
+  if(!host){
+    host=document.createElement('div');
+    host.id='filesystemCarouselHost';
+    host.className='filesystemCarouselHost';
+    stage.appendChild(host);
+  }
+
+  const allChildren=getFilesystemChildrenForScope(scope);
+  let filterValue = (host.querySelector('.filesystemCarouselSearch')?.value || '').trim().toLowerCase();
+  const filtered=allChildren.filter(node => {
+    const text = `${node.label || ''} ${node.type || ''} ${node.mime || ''} ${node.subtype || ''}`.toLowerCase();
+    return !filterValue || text.includes(filterValue);
+  });
+
+  const renderMatrix = () => {
+    const cols=Math.min(16, Math.max(6, Math.ceil(Math.sqrt(filtered.length))));
+    const cards=filtered.map(node => makeFilesystemCard(node, (item) => {
+      const target = (C[scope] || []).find(id => N[id] && N[id].label === item.label && N[id].id === item.id) || null;
+      if(target){
+        if(item.type === 'directory') enterNode(target);
+        else { selectNode(target); }
+      }
+    }, selected)).map(card => card.outerHTML).join('');
+    host.innerHTML=`
+      <div class="filesystemCarouselToolbar">
+        <div class="filesystemCarouselTitle"><span>◫</span> Dense Matrix View</div>
+        <input class="filesystemCarouselSearch" type="search" placeholder="Search these files..." value="${escAttr(filterValue)}" aria-label="Search files" />
+        <div class="filesystemCarouselCount">${filtered.length} items</div>
+      </div>
+      <div class="filesystemMatrixGrid" style="display:grid;grid-template-columns:repeat(${cols},minmax(0,1fr));gap:8px;max-height:250px;overflow:auto;padding-right:4px;">${cards || '<div class="filesystemCarouselEmpty">No matching files in this view.</div>'}</div>`;
+  };
+
+  const renderPaged = (page=0) => {
+    const pageSize=20; const totalPages=Math.max(1, Math.ceil(filtered.length / pageSize));
+    const safePage=Math.min(page, totalPages-1);
+    const pageItems=filtered.slice(safePage * pageSize, safePage * pageSize + pageSize);
+    const cards=pageItems.map(node => makeFilesystemCard(node, (item) => {
+      const target = (C[scope] || []).find(id => N[id] && N[id].label === item.label && N[id].id === item.id) || null;
+      if(target){
+        if(item.type === 'directory') enterNode(target); else selectNode(target);
+      }
+    }, selected)).map(card => card.outerHTML).join('');
+    host.innerHTML=`
+      <div class="filesystemCarouselToolbar">
+        <div class="filesystemCarouselTitle"><span>▣</span> Paged Grid View</div>
+        <input class="filesystemCarouselSearch" type="search" placeholder="Search these files..." value="${escAttr(filterValue)}" aria-label="Search files" />
+        <div class="filesystemCarouselCount">${filtered.length} items · page ${safePage + 1}/${totalPages}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;max-height:240px;overflow:auto;padding-right:4px;">${cards || '<div class="filesystemCarouselEmpty">No matching files in this view.</div>'}</div>
+      <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;">
+        <button type="button" class="filesystemPageBtn" data-page="${safePage - 1}" ${safePage === 0 ? 'disabled' : ''}>Previous</button>
+        ${Array.from({length: Math.min(5, totalPages)}, (_, i) => {
+          const start = Math.max(0, Math.min(safePage - 2, totalPages - 5));
+          const idx = start + i;
+          return `<button type="button" class="filesystemPageBtn ${idx === safePage ? 'active' : ''}" data-page="${idx}">${idx + 1}</button>`;
+        }).join('')}
+        <button type="button" class="filesystemPageBtn" data-page="${safePage + 1}" ${safePage >= totalPages - 1 ? 'disabled' : ''}>Next</button>
+      </div>`;
+    host.querySelectorAll('.filesystemPageBtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newPage = Number(btn.dataset.page || 0);
+        if(Number.isFinite(newPage) && newPage >= 0 && newPage < totalPages) renderPaged(newPage);
+      });
+    });
+  };
+
+  const renderCluster = () => {
+    const groups = [
+      {label:'A-C', key:'A'}, {label:'D-F', key:'D'}, {label:'G-I', key:'G'}, {label:'J-L', key:'J'},
+      {label:'M-O', key:'M'}, {label:'P-R', key:'P'}, {label:'S-U', key:'S'}, {label:'V-Z', key:'V'},
+      {label:'0-9', key:'0'}
+    ];
+    const clusterCards = groups.map(group => {
+      const groupItems=filtered.filter(node => {
+        const first = String(node.label || '').trim().charAt(0).toUpperCase();
+        const inGroup = group.key === '0' ? /[0-9]/.test(first) : /[A-Z]/.test(first) && first >= group.key && first <= (group.key === 'V' ? 'Z' : String.fromCharCode(group.key.charCodeAt(0) + 2));
+        return inGroup;
+      });
+      const count = groupItems.length;
+      return `<button type="button" class="filesystemDocumentCard" style="flex:0 0 160px;max-width:160px;" data-cluster="${group.label}"><div class="filesystemDocumentTop"><span class="filesystemDocumentType">CL</span><span class="filesystemDocumentType" style="background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.08);color:#dfeefb;font-size:9px;min-width:28px;">${count}</span></div><div class="filesystemDocumentName">${group.label}</div><div class="filesystemDocumentMeta">${count} items<small>cluster view</small></div></button>`;
+    }).join('');
+    host.innerHTML=`
+      <div class="filesystemCarouselToolbar">
+        <div class="filesystemCarouselTitle"><span>◎</span> Cluster Map View</div>
+        <input class="filesystemCarouselSearch" type="search" placeholder="Search these files..." value="${escAttr(filterValue)}" aria-label="Search files" />
+        <div class="filesystemCarouselCount">${filtered.length} items</div>
+      </div>
+      <div style="display:flex;gap:10px;overflow-x:auto;padding:4px 0 8px;">${clusterCards}</div>`;
+    host.querySelectorAll('[data-cluster]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const label = btn.getAttribute('data-cluster');
+        const groupKey = label.charAt(0);
+        const groupItems = filtered.filter(node => {
+          const first = String(node.label || '').trim().charAt(0).toUpperCase();
+          return groupKey === '0' ? /[0-9]/.test(first) : first>=groupKey && first<=String.fromCharCode(groupKey.charCodeAt(0)+2);
+        });
+        if(groupItems.length){
+          const open = groupItems[0];
+          const target=(C[scope]||[]).find(id => N[id] && N[id].label === open.label && N[id].id === open.id) || null;
+          if(target){
+            if(open.type === 'directory') enterNode(target); else selectNode(target);
+          }
+        }
+      });
+    });
+  };
+
+  const renderGalaxy = () => {
+    const overall = filtered.slice(0, 9).map(node => makeFilesystemCard(node, (item) => {
+      const target = (C[scope] || []).find(id => N[id] && N[id].label === item.label && N[id].id === item.id) || null;
+      if(target){
+        if(item.type === 'directory') enterNode(target); else selectNode(target);
+      }
+    }, selected).outerHTML).join('');
+    host.innerHTML=`
+      <div class="filesystemCarouselToolbar">
+        <div class="filesystemCarouselTitle"><span>✦</span> Hierarchical Galaxy View</div>
+        <input class="filesystemCarouselSearch" type="search" placeholder="Search these files..." value="${escAttr(filterValue)}" aria-label="Search files" />
+        <div class="filesystemCarouselCount">${filtered.length} items</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:10px;max-height:240px;overflow:auto;padding-right:4px;">${overall || '<div class="filesystemCarouselEmpty">No matching files in this view.</div>'}</div>`;
+  };
+
+  const mode = filtered.length <= 256 ? 'matrix' : filtered.length <= 1000 ? 'paged' : filtered.length <= 10000 ? 'cluster' : 'galaxy';
+  const modeLabel = mode === 'matrix' ? renderMatrix() : mode === 'paged' ? renderPaged(0) : mode === 'cluster' ? renderCluster() : renderGalaxy();
+  host.querySelectorAll('.filesystemCarouselSearch').forEach(input => {
+    input.addEventListener('input', (event) => {
+      const q = event.target.value.trim().toLowerCase();
+      const live = host.querySelector('.filesystemCarouselSearch');
+      if (live) live.value = event.target.value;
+      renderScaleAwareFilesystemView();
+    });
+  });
+  return modeLabel;
+}
+
+function buildGalaxy(){return;}
+function leewaySquareRingSlots(count){
+  const out=[];
+  for(let ring=1;out.length<count;ring++){
+    for(let x=-ring;x<=ring&&out.length<count;x++)out.push({x,y:-ring,ring});
+    for(let y=-ring+1;y<=ring&&out.length<count;y++)out.push({x:ring,y,ring});
+    for(let x=ring-1;x>=-ring&&out.length<count;x--)out.push({x,y:ring,ring});
+    for(let y=ring-1;y>-ring&&out.length<count;y--)out.push({x:-ring,y,ring});
+  }
+  return out;
+}
+function layout(kids,ctxs){
+  positions={};positions[scope]={x:0,y:0,z:220};
+  const scopeNode=N[scope]||{};
+  if(scopeNode.domain==="fs" && scopeNode.type==="directory"){
+    const total=Math.max(Number(scopeNode.child_count||0),kids.length);
+    const slots=leewaySquareRingSlots(kids.length);
+    const gapX=total>128?250:total>64?285:total>32?325:400;
+    const gapY=total>128?138:total>64?158:total>32?180:220;
+    const centerGapX=total>128?560:total>64?520:total>32?480:430;
+    const centerGapY=total>128?300:total>64?280:total>32?255:235;
+    kids.forEach((id,i)=>{
+      const slot=slots[i]||{x:0,y:0,ring:1};
+      const px=slot.x===0?0:Math.sign(slot.x)*(centerGapX+(Math.abs(slot.x)-1)*gapX);
+      const py=slot.y===0?0:Math.sign(slot.y)*(centerGapY+(Math.abs(slot.y)-1)*gapY);
+      positions[id]={x:px,y:py,z:90+((slot.ring+i)%5)*16};
+    });
+    // Context stays outside the child universe so the centered branch is legible.
+    ctxs.forEach((id,i)=>{positions[id]={x:-((Math.max(4,Math.ceil(Math.sqrt(kids.length+1))))*gapX+520),y:-330+i*145,z:-100}});
+    return;
+  }
+  const ring1=420, ring2=650;
+  kids.forEach((id,i)=>{const a=(i/Math.max(1,kids.length))*Math.PI*2-Math.PI/2;positions[id]={x:Math.cos(a)*ring1,y:Math.sin(a)*ring1,z:150*Math.sin(a*2)}});
+  ctxs.forEach((id,i)=>{const a=(i/Math.max(1,ctxs.length))*Math.PI*2-Math.PI/2+.18;positions[id]={x:Math.cos(a)*ring2,y:Math.sin(a)*ring2,z:-120*Math.sin(a*2)}});
+}
+function rotatePoint(p){let{x,y,z}=p;const cy=Math.cos(camera.yaw),sy=Math.sin(camera.yaw),cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);let x1=x*cy-z*sy,z1=x*sy+z*cy;let y1=y*cp-z1*sp,z2=y*sp+z1*cp;return{x:x1,y:y1,z:z2}}
+function screenPos(id){const r=stage.getBoundingClientRect(),p=rotatePoint(positions[id]||{x:0,y:0,z:0}),pers=Math.max(.48,1+p.z/2600);return{x:r.width/2+camera.x+p.x*camera.z*pers,y:r.height/2+camera.y+p.y*camera.z*pers,z:p.z,pers}}
+function renderNodes(){
+  nodesLayer.innerHTML="";nodeEls={};
+  const kidSet=new Set(scope==="__GALAXY__"?visible.filter(id=>id!==scope):(C[scope]||[]));
+
+  function cardIconFor(id){
+    const n=N[id]||{};
+    const t=((n.label||"")+" "+(n.type||"")+" "+(n.domain||"")).toLowerCase();
+    if(id==="runtime::nexus")return "⬡";
+    if(id==="arch::standards")return "▤";
+    if(id==="arch::roottrust"||id==="arch::veritas")return "◇";
+    if(id==="scope::hemi::L"||id==="scope::hemi::R")return "◌";
+    if(t.includes("harness"))return "⊕";
+    if(t.includes("database")||t.includes("data"))return "⌬";
+    if(t.includes("mcp")||t.includes("tool"))return "∑";
+    if(t.includes("model")||t.includes("skill"))return "Δ";
+    if(t.includes("agent"))return "◎";
+    if(t.includes("project")||t.includes("directory")||t.includes("folder"))return "⊞";
+    if(t.includes("document")||t.includes("file")||t.includes("record"))return "□";
+    if(t.includes("memory")||t.includes("evidence")||t.includes("receipt"))return "∴";
+    return nodeIcon(packetKind(id));
+  }
+
+  for(const id of visible){
+    const n=N[id],el=document.createElement("button");
+    el.type="button";
+
+    const isGalaxy=scope==="__GALAXY__";
+    const isRuntime=id==="runtime::nexus";
+    const isStandards=id==="arch::standards";
+    const isTrust=id==="arch::roottrust";
+    const isVeritas=id==="arch::veritas";
+    const isHemi=id==="scope::hemi::L"||id==="scope::hemi::R";
+
+    let cls=(isGalaxy&&(isHemi||isRuntime||isStandards))?" center":
+      (id===scope?" center":(!kidSet.has(id)?" context":""));
+
+    if(isRuntime)cls+=" runtimeCore";
+    if(isStandards)cls+=" standardsCore";
+    if(isTrust)cls+=" trustCore";
+    if(isVeritas)cls+=" veritasCore";
+    if(isHemi)cls+=" hemisphereAnchor";
+    if(isGalaxy&&isHemi)cls+=" hemisphereCore";
+    const fsScopeNode=N[scope]||{};
+    if(fsScopeNode.domain==="fs"&&fsScopeNode.type==="directory"&&id!==scope&&kidSet.has(id)){
+      const fsTotal=Math.max(Number(fsScopeNode.child_count||0),(C[scope]||[]).length);
+      if(fsTotal>128)cls+=" fsUniverseDense";
+      else if(fsTotal>32)cls+=" fsUniverseCompact";
+    }
+
+    const hemi=hemisphereFor(id);
+    el.className="node"+cls;
+    el.dataset.id=id;
+    if(hemi)el.dataset.hemi=hemi;
+    const orgSide=organizationSideForNode(id);
+    if(orgSide)el.dataset.orgSide=orgSide;
+    el.dataset.kind=packetKind(id);
+    el.style.setProperty("--zone",colorFor(id));
+
+    const cnt=(isGalaxy&&isHemi&&Number.isFinite(Number(N[id]?.display_child_count)))?Number(N[id].display_child_count):
+      ((N[id]?.domain==="fs"&&N[id]?.type==="directory")?Math.max(Number(N[id]?.child_count||0),(C[id]||[]).length):(C[id]||[]).length);
+    const typeLabel=(isGalaxy&&id==="scope::hemi::L")?"SYSTEM CORE":
+      (isGalaxy&&id==="scope::hemi::R")?"USER CORE":
+      (n.type||n.status||"node");
+
+    // Only claim ACTUAL when the graph record itself says it is actual.
+    const isActual=String(n.origin||"").toUpperCase().includes("ACTUAL");
+    const reality=isActual?`<span class="nodeReality">ACTUAL</span>`:"";
+
+    const runtimeCount=isRuntime&&cnt?`${cnt} inside`:(cnt?`${cnt} inside`:"");
+    const countHtml=runtimeCount?`<div class="count">${esc(runtimeCount)}</div>`:"";
+
+    el.innerHTML=`
+      <span class="nodeCard">
+        <span class="nodeIcon" aria-hidden="true">${esc(cardIconFor(id))}</span>
+        <span class="nodeText">
+          <b>${esc(n.label)}</b>
+          <small>${esc(typeLabel)}</small>
+          ${countHtml}
+          ${reality}
+          ${window.attachmentTagHtml?window.attachmentTagHtml(id):""}
+        </span>
+        <span class="nodeKebab" aria-hidden="true">⋮</span>
+      </span>`;
+
+    if(n.source_path)el.title=`${n.label}\n${n.source_path}`;
+    else if(n.desc)el.title=n.desc;
+
+    if(isGalaxy&&isHemi){
+      el.setAttribute("aria-disabled","true");el.tabIndex=-1;el.dataset.coreHub="true";
+    }else{
+      el.addEventListener("click",ev=>{ev.stopPropagation();selectNode(id)});
+      el.addEventListener("dblclick",ev=>{
+        ev.preventDefault();ev.stopPropagation();
+        const node=N[id]||{};
+        const fileLeaf=node.domain==="fs"&&node.type==="file"&&isFilesystemNavigationNode(id);
+        if(fileLeaf){
+          selectNode(id);
+          window.LeeWayFileFocusV16?.openNode(id);
+        }else enterNode(id);
+      });
+      el.addEventListener("keydown",ev=>{if(ev.key==="Enter"){ev.preventDefault();enterNode(id)}});
+    }
+
+    nodesLayer.appendChild(el);nodeEls[id]=el;
+  }
+  positionNodes();
+}
+
+function positionNodes(){
+  const fsScope=N[scope]?.domain==="fs"&&N[scope]?.type==="directory";
+  const total=fsScope?Math.max(Number(N[scope]?.child_count||0),(C[scope]||[]).length):0;
+  for(const id of visible){
+    const el=nodeEls[id];if(!el)continue;const p=screenPos(id);
+    el.style.left=p.x+"px";el.style.top=p.y+"px";
+    const base=Math.max(.48,Math.min(1.18,camera.z*.9+.43))*p.pers;
+    const density=fsScope&&id!==scope?(total>128?.70:total>64?.82:total>32?.92:1):1;
+    const s=base*density;
+    el.style.transform=`translate(-50%,-50%) scale(${s})`;el.style.zIndex=String(Math.round(1000+p.z));
+  }
+  zoomEl.textContent=`Zoom ${Math.round(camera.z*100)}% · yaw ${Math.round(camera.yaw*57.3)}° · pitch ${Math.round(camera.pitch*57.3)}°`;
+}
+
+const vizSettings={packetSize:14,packetSpeed:.8,glow:22,packetOutline:2.2,shapeGlyphs:true,shapeLabels:true,shapeBadges:true,reverse:true,eventCircles:true,labelScale:1.2};
+let lastPackets=[];
+function applyLabelScale(){document.documentElement.style.setProperty("--label-scale",String(vizSettings.labelScale))}
+applyLabelScale();
+function inferPacketKinds(id){
+  const n=N[id]||{}, t=((n.type||"")+" "+(n.label||"")+" "+(n.domain||"")+" "+(n.subtype||"")).toLowerCase();
+  const hits=[];const add=k=>{if(k&&!hits.includes(k))hits.push(k)};
+  if((C[id]||[]).length||n.expandable||Number(n.child_count||0)>0)add("directory");
+  if(t.includes("directory")||t.includes("folder")||t.includes("scope")||t.includes("region")||t.includes("hemisphere")||t.includes("cluster")||t.includes("universe"))add("directory");
+  if(t.includes("database")||t.includes("sqlite")||t.includes("trino")||t.includes("gravitino")||t.includes("sql server")||t.includes("sql")||t.includes("postgres")||t.includes("mysql")||t.includes("supabase")||t.includes("data store")||t.includes("storage")||t.includes("vault"))add("database");
+  if(t.includes("receipt")||t.includes("evidence")||t.includes("veritas")||t.includes("audit")||t.includes("proof"))add("receipt");
+  if(t.includes("model")||t.includes("inference")||t.includes("job")||t.includes("intelligence")||t.includes("llm")||t.includes("qwen")||t.includes("ollama")||t.includes("skill"))add("model");
+  if(t.includes("harness")||t.includes("capability")||t.includes("worker")||t.includes("employment")||t.includes("agent"))add("capability");
+  if(t.includes("mcp")||t.includes("tool")||t.includes("adapter")||t.includes("connector")||t.includes("binding")||t.includes("integration"))add("tool");
+  if(t.includes("file")||t.includes("record")||t.includes("registry")||t.includes("manifest")||t.includes("document")||t.includes("artifact")||n.source_path)add("file");
+  if(!hits.length)add("event");
+  return hits.slice(0,2);
+}
+function packetKind(id){return inferPacketKinds(id)[0]||"event"}
+window.__packetKindForPreview=packetKind;
+function packetSecondaryKind(id){return inferPacketKinds(id)[1]||null}
+function poly(x,y,r,sides,rot=0){
+  ctx.beginPath();
+  for(let i=0;i<sides;i++){const a=rot+i*Math.PI*2/sides,px=x+Math.cos(a)*r,py=y+Math.sin(a)*r;i?ctx.lineTo(px,py):ctx.moveTo(px,py)}
+  ctx.closePath();
+}
+function drawPacket(kind,x,y,size,color,alpha=1,rot=0,secondary=null){
+  const glyphMap={directory:"⊞",file:"□",receipt:"∴",model:"Δ",capability:"⊕",database:"⌬",tool:"∑",event:"○"};
+  const shortMap={directory:"DIR",file:"FILE",receipt:"REC",model:"MODEL",capability:"CAP",database:"DB",tool:"MCP",event:"EVT"};
+  const badgeColorMap={directory:"#8bd6ff",file:"#8ab8ff",receipt:"#7ff4eb",model:"#d39aff",capability:"#87f3b0",database:"#7fc9ff",tool:"#ffc36f",event:"#7aefff"};
+  const scaleMap={directory:1.12,file:1.08,receipt:0.92,model:1.18,capability:1.10,database:1.06,tool:1.10,event:1.02};
+  const yFix={directory:0,file:0,receipt:-1,model:1,capability:0,database:0,tool:0,event:0};
+  const s=size*(scaleMap[kind]||1);
+  const outline=vizSettings.packetOutline||2.2;
+  const glyph=glyphMap[kind]||'?';
+
+  ctx.save();
+  ctx.globalAlpha=alpha;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.lineJoin='round';
+  ctx.lineCap='round';
+  ctx.shadowColor=color;
+  ctx.shadowBlur=vizSettings.glow;
+  ctx.font=`700 ${Math.max(15,Math.round(s*1.55))}px Cambria Math, STIX Two Math, Segoe UI Symbol, Noto Sans Symbols, system-ui, sans-serif`;
+  ctx.lineWidth=Math.max(2.2,outline*1.05);
+  ctx.strokeStyle='rgba(8,16,28,.96)';
+  ctx.fillStyle='rgba(255,255,255,.16)';
+  ctx.strokeText(glyph,x,y+(yFix[kind]||0));
+  ctx.fillText(glyph,x,y+(yFix[kind]||0));
+  ctx.lineWidth=Math.max(1.3,outline*.64);
+  ctx.strokeStyle='rgba(245,250,255,.96)';
+  ctx.fillStyle=color;
+  ctx.strokeText(glyph,x,y+(yFix[kind]||0));
+  ctx.fillText(glyph,x,y+(yFix[kind]||0));
+  ctx.shadowBlur=0;
+
+  if(vizSettings.shapeBadges && secondary && secondary!==kind){
+    const sg=glyphMap[secondary]||'?';
+    const bx=x+s*.72, by=y-s*.52;
+    const bs=Math.max(8,s*.62);
+    ctx.save();
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.font=`700 ${Math.round(bs)}px Cambria Math, STIX Two Math, Segoe UI Symbol, Noto Sans Symbols, system-ui, sans-serif`;
+    ctx.lineWidth=Math.max(1.6,outline*.5);
+    ctx.strokeStyle='rgba(5,12,22,.96)';
+    ctx.fillStyle='rgba(255,255,255,.12)';
+    ctx.strokeText(sg,bx,by);
+    ctx.fillText(sg,bx,by);
+    ctx.lineWidth=Math.max(1.1,outline*.3);
+    ctx.strokeStyle='rgba(245,250,255,.88)';
+    ctx.fillStyle=badgeColorMap[secondary]||'#fff';
+    ctx.strokeText(sg,bx,by);
+    ctx.fillText(sg,bx,by);
+    ctx.restore();
+  }
+
+  if(vizSettings.shapeLabels){
+    ctx.save();
+    ctx.font=`700 ${Math.max(7,Math.round(s*.34))}px system-ui, Segoe UI, Arial, sans-serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.lineWidth=Math.max(2,outline*.88);
+    ctx.strokeStyle='rgba(2,5,10,.92)';
+    ctx.fillStyle='rgba(255,255,255,.98)';
+    const yOff=s*1.10;
+    const txt=shortMap[kind]||kind.toUpperCase();
+    ctx.strokeText(txt,x,y+yOff);ctx.fillText(txt,x,y+yOff);
+    ctx.restore();
+  }
+  ctx.restore();
+}
+function drawGalaxyBackground(t,r){
+  // Absolute background authority lives below this transparent graph canvas.
+  // Never repaint the nucleus with black, nebula, or stars when scope/zoom changes.
+  ctx.clearRect(0,0,r.width,r.height);
+}
+function draw(t){
+  const r=stage.getBoundingClientRect();drawGalaxyBackground(t,r);ctx.lineCap="round";lastPackets=[];
+  const highDensity=visible.length>96||links.length>128;
+  const forwardPackets=highDensity?1:3;
+  const reversePackets=highDensity?0:2;
+  links.forEach((e,i)=>{const[a,b,kind,pred]=e;if(!positions[a]||!positions[b])return;const p1=screenPos(a),p2=screenPos(b),ca=colorFor(a),cb=colorFor(b),active=!selected||a===selected||b===selected;
+    const shimmer=.88+.12*Math.sin(t*.0015+i*.7);ctx.globalAlpha=(active?(kind==="bridge"?.9:kind==="governance"?.76:kind==="transfer"?.48:kind==="child"?.62:kind==="relation"?.52:.28):.05)*shimmer;ctx.lineWidth=kind==="bridge"?3.0:kind==="governance"?2.35:kind==="transfer"?1.55:kind==="child"?2.0:kind==="relation"?1.6:1.1;
+    const g=ctx.createLinearGradient(p1.x,p1.y,p2.x,p2.y);g.addColorStop(0,ca);g.addColorStop(1,cb);ctx.strokeStyle=g;ctx.beginPath();ctx.moveTo(p1.x,p1.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();
+    if(!pulsesPaused && kind!=="context"){
+      const sec=((t-startTime)/1000)*vizSettings.packetSpeed,base=.072+(i%5)*.009;
+      const kindsA=inferPacketKinds(a),kindsB=inferPacketKinds(b);
+      for(let q=0;q<forwardPackets;q++){
+        const f=(sec*base+(i*.137)+q*.29)%1,x=p1.x+(p2.x-p1.x)*f,y=p1.y+(p2.y-p1.y)*f;
+        const k1=kindsA[q%kindsA.length]||"event",s1=kindsA.length>1?(kindsA[(q+1)%kindsA.length]||null):null;
+        const size=active?vizSettings.packetSize:Math.max(4.5,vizSettings.packetSize*.62);drawPacket(k1,x,y,size,ca,active?.98:.15,sec+q,s1);lastPackets.push({x,y,size:Math.max(12,size+7),objectId:a,from:a,to:b,kind:k1,secondaryKind:s1,predicate:pred||kind,direction:"forward",color:ca});
+      }
+      if(vizSettings.reverse&&reversePackets)for(let q=0;q<reversePackets;q++){
+        const f=1-((sec*(base*.86)+(i*.173)+q*.41)%1),x=p1.x+(p2.x-p1.x)*f,y=p1.y+(p2.y-p1.y)*f;
+        const k2=kindsB[q%kindsB.length]||"event",s2=kindsB.length>1?(kindsB[(q+1)%kindsB.length]||null):null;
+        const size=active?Math.max(8,vizSettings.packetSize*.9):Math.max(4.5,vizSettings.packetSize*.56);drawPacket(k2,x,y,size,cb,active?.88:.12,-sec-q,s2);lastPackets.push({x,y,size:Math.max(12,size+7),objectId:b,from:b,to:a,kind:k2,secondaryKind:s2,predicate:pred||kind,direction:"reverse",color:cb});
+      }
+    }
+  });ctx.globalAlpha=1
+}
+function loop(t){const dense=visible.length>96||links.length>128;const frameMs=dense?66:33;if(t-lastFrame>=frameMs){lastFrame=t;draw(t)}raf=requestAnimationFrame(loop)}
+function markNodeSelectionVisual(id){
+  selected=id;
+  for(const [nid,el] of Object.entries(nodeEls)){
+    const near=nid===id||links.some(e=>(e[0]===id&&e[1]===nid)||(e[1]===id&&e[0]===nid));
+    el.classList.toggle("sel",nid===id);el.classList.toggle("dim",!!selected&&!near);
+  }
+}
+async function focusFilesystemDirectory(id,{offset=null}={}){
+  const node=N[id]||{};
+  const requested=offset===null?Number(node.filesystemWindowOffset||0):Number(offset||0);
+  const needsLoad=!node.filesystemExpanded||offset!==null;
+
+  // v18 continuity: recenter immediately. Filesystem I/O populates the orbit after the nucleus is already visible.
+  if(scope!==id)history.push(scope);
+  scope=id;selected=id;hud.classList.add("hidden");camera.yaw=0;camera.pitch=0;buildScope();
+  markNodeSelectionVisual(id);
+
+  if(needsLoad){
+    await expandFilesystemNode(id,{enter:false,offset:requested});
+    scope=id;selected=id;buildScope();markNodeSelectionVisual(id);
+  }
+  if(typeof updateFilesystemUniverseGuide==="function")updateFilesystemUniverseGuide();
+  if(window.renderAttachmentPreview)await window.renderAttachmentPreview(id,packetKind(id));
+  return true;
+}
+async function selectNode(id){
+  const node=N[id]||{};
+  const filesystemBacked=isFilesystemNavigationNode(id);
+  const fileLeaf=node.domain==="fs"&&node.type==="file";
+
+  if(filesystemBacked&&!fileLeaf){
+    try{return await focusFilesystemDirectory(id)}
+    catch(error){console.warn("Filesystem directory focus failed",error)}
+  }
+
+  markNodeSelectionVisual(id);
+  if(window.renderAttachmentPreview)await window.renderAttachmentPreview(id,packetKind(id));
+  else renderHud(id);
+  if(fileLeaf)return hydratePhysicalFilePreview(id);
+}
+function nodeIcon(kind){
+  const map={directory:"⊞",file:"□",receipt:"∴",model:"Δ",capability:"⊕",database:"⌬",tool:"∑",event:"○"};
+  return map[kind]||"◇";
+}
+function fileExt(path){const s=(path||"").split(/[\\/]/).pop()||"";const i=s.lastIndexOf(".");return i>=0?s.slice(i+1).toLowerCase():""}
+function pathToFileUrl(path){
+  if(!path) return "";
+  if(/^https?:\/\//i.test(path)||/^file:\/\//i.test(path)) return path;
+  let p=String(path).replace(/\\/g,'/');
+  if(/^[A-Za-z]:\//.test(p)) return 'file:///'+encodeURI(p);
+  return 'file://'+encodeURI(p);
+}
+function escAttr(s){return String(s||"").replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function previewSectionForNode(id){
+  const n=N[id]||{}, kids=(C[id]||[]), kind=packetKind(id), path=n.fs_path!==undefined?n.fs_path:(n.source_path||""), ext=fileExt(path), url=n.fs_path!==undefined?`/brain/files/content?path=${encodeURIComponent(path)}`:pathToFileUrl(path);
+  const imageExts=['png','jpg','jpeg','gif','webp','svg','bmp','avif'];
+  const textExts=['txt','md','markdown','json','js','mjs','ts','tsx','css','html','htm','ps1','psm1','py','yml','yaml','xml','csv','log'];
+  const docExts=['pdf'];
+  const mediaExts=['mp4','webm','ogg','mp3','wav'];
+  let media='';
+  if(path && imageExts.includes(ext)){
+    media=`<img class="previewMedia" alt="preview" src="${escAttr(url)}" onerror="this.outerHTML='<div class=\"previewFallback\">Image preview could not be loaded directly by the browser from this path. The recorded source path and file identity are still shown below as proof metadata.</div>'">`;
+  } else if(path && docExts.includes(ext)){
+    media=`<iframe class="previewFrame" src="${escAttr(url)}"></iframe>`;
+  } else if(path && textExts.includes(ext)){
+    media=`<iframe class="previewFrame" src="${escAttr(url)}"></iframe>`;
+  } else if(path && ['mp4','webm','ogg'].includes(ext)){
+    media=`<video class="previewMedia" controls src="${escAttr(url)}"></video>`;
+  } else if(path && ['mp3','wav'].includes(ext)){
+    media=`<audio controls style="width:100%" src="${escAttr(url)}"></audio>`;
+  }
+  const facts=`<div class="previewMeta">      <div class="hudFact"><b>Resolved kind</b><span>${esc(packetKindLabel(kind))}</span></div>      <div class="hudFact"><b>Extension</b><span>${esc(ext||'none')}</span></div>      <div class="hudFact"><b>Child count</b><span>${esc(String(kids.length))}</span></div>      <div class="hudFact"><b>Preview path</b><span>${esc(path||'not recorded')}</span></div>    </div>`;
+  if(kind==='directory' || kids.length || n.expandable){
+    const childRows=kids.slice(0,10).map(cid=>{const c=N[cid]||{};const pk=packetKind(cid);return `<div class="previewChild"><span><strong>${esc(c.label||cid)}</strong><small>${esc(packetKindLabel(pk))} · ${esc(c.type||'object')} · ${esc(c.domain||'domain unknown')}</small></span><span class="previewBadge">${esc((c.child_count||((C[cid]||[]).length)||0)+' in')}</span></div>`}).join('');
+    return `<section class="hudSection" style="--section-accent:#62a8ff"><div class="hudSectionTitle">▣ Open Preview</div><div class="previewPanel"><div class="previewCard"><p>This scope/directory preview shows the first children you will enter if you open this node. It is a structural preview derived from the current graph, not guessed content.</p></div>${facts}<div class="previewChildren">${childRows||'<div class="previewFallback">No child preview entries are available in the current graph record.</div>'}</div>${path?`<div class="previewActions"><a class="previewBtn" href="${escAttr(url)}" target="_blank" rel="noopener">Open recorded path</a></div>`:''}</div></section>`;
+  }
+  if(n.domain==='fs'&&n.type==='file'){
+    const textExts=['txt','md','markdown','json','jsonl','ndjson','yaml','yml','xml','csv','log','ps1','psm1','py','js','mjs','ts','tsx','jsx','html','htm','css','sh','bat','cmd','toml','env'];
+    const textPreview=textExts.includes(ext)?`<pre id="physicalFileText" class="leewayLiveText">Loading ${esc(n.label||path)}...</pre>`:(media||'<div class="previewFallback">PREVIEW NOT AVAILABLE FOR THIS FILE TYPE</div>');
+    return `<section class="hudSection" style="--section-accent:#62a8ff"><div class="hudSectionTitle">▣ FILE INSPECTOR / PREVIEW</div><div class="previewPanel"><div class="previewCard"><p><b>${esc(n.label||path)}</b><br>Physical file · ${esc(n.canonical_path||`<LEEWAY_ROOT>/${path}`)}</p></div>${facts}${textPreview}</div></section>`;
+  }
+  if(kind==='file' || path){
+    return `<section class="hudSection" style="--section-accent:#62a8ff"><div class="hudSectionTitle">▣ File Preview</div><div class="previewPanel"><div class="previewCard"><p>This preview attempts to render the recorded source file directly when the browser allows access. If the browser blocks direct local access, the recorded source path, extension, and provenance remain visible as proof metadata.</p></div>${facts}${media||'<div class="previewFallback">No inline preview renderer is available for this file type, or the browser cannot load the source directly from the recorded path.</div>'}${path?`<div class="previewActions"><a class="previewBtn" href="${escAttr(url)}" target="_blank" rel="noopener">Open recorded file</a></div>`:''}</div></section>`;
+  }
+  return '';
+}
+function inferredResponsibilities(n,kids,rel){
+  const rows=[];
+  if(n.desc) rows.push(n.desc);
+  if(kids.length) rows.push(`Contains and organizes ${kids.length} governed child node${kids.length===1?"":"s"}.`);
+  const outs=rel.filter(r=>r.dir==="out").slice(0,2);
+  const ins=rel.filter(r=>r.dir==="in").slice(0,2);
+  outs.forEach(r=>rows.push(`${String(r.predicate||"CONNECTS_TO").replaceAll("_"," ")} → ${N[r.other]?.label||r.other}.`));
+  ins.forEach(r=>rows.push(`${N[r.other]?.label||r.other} → ${String(r.predicate||"CONNECTED_FROM").replaceAll("_"," ")}.`));
+  if(!rows.length) rows.push("Registered LeeWay graph component. No additional descriptive responsibility is present in the current source record.");
+  return [...new Set(rows)].slice(0,5);
+}
+function renderHud(id){
+  const n=N[id],kids=C[id]||[],rel=R[id]||[],accent=colorFor(id),kind=packetKind(id),parent=n.parent&&N[n.parent]?N[n.parent]:null;
+  const responsibilities=inferredResponsibilities(n,kids,rel);
+  const overview=n.desc||`${n.label} is a ${n.type||"graph component"} in the ${n.domain||"LeeWay"} domain. This inspector shows only metadata and relationships present in the current embedded/live graph.`;
+  const classFacts=[
+    ["Type",n.type||"—"],["Domain",n.domain||"—"],["Subtype",n.subtype||"—"],["Status",n.status||"UNSPECIFIED"]
+  ];
+  const metaFacts=[
+    ["ID",n.id||id],["Origin",n.origin||"—"],["Parent",parent?.label||n.parent||"—"],["Children",String(kids.length)]
+  ];
+  hud.style.setProperty("--hud-accent",accent);hud.classList.remove("hidden");
+  hud.innerHTML=`
+    <div class="hudHeader">
+      <div class="hudIcon" aria-hidden="true">${nodeIcon(kind)}</div>
+      <div class="hudTitle"><h2>${esc(n.label)}</h2><div class="hudSubtitle">${esc(n.desc||`${n.type||"Component"} · ${n.domain||"LeeWay graph"}`)}</div>
+        <div class="badges"><span class="badge">${esc(n.type||"component")}</span><span class="badge">${esc(n.domain||"domain unspecified")}</span>${n.status?`<span class="badge"><span class="statusDot"></span>${esc(n.status)}</span>`:""}</div>
+      </div>
+      <button id="closeHud" class="hudClose" aria-label="Close inspector">✕ Close</button>
+    </div>
+    <section class="hudSection" style="--section-accent:#62a8ff"><div class="hudSectionTitle">◉ Overview</div><p>${esc(overview)}</p></section>
+    <section class="hudSection" style="--section-accent:${accent}"><div class="hudSectionTitle">⬡ Key Responsibilities / Role</div><div class="responsibilityList">${responsibilities.map(x=>`<div class="responsibility"><i>✓</i><span>${esc(x)}</span></div>`).join("")}</div></section>
+    ${organizationHudSection(id)}
+    ${rel.length?`<section class="hudSection" style="--section-accent:#c978ff"><div class="hudSectionTitle">⛓ Connected Nodes</div><div class="connList">${rel.slice(0,12).map(r=>`<button class="connRow jump" data-jump="${esc(r.other)}"><span><strong>${esc(N[r.other]?.label||r.other)}</strong><small>${esc(r.predicate||"CONNECTED")}</small></span><span class="connMeta">${r.dir==="out"?"outgoing":"incoming"}<br>${esc(r.kind||"graph")}</span></button>`).join("")}</div></section>`:""}
+    <div class="hudFacts">
+      <section class="hudSection" style="margin-top:0;--section-accent:#50e6ff"><div class="hudSectionTitle">⬢ Classification</div>${classFacts.map(([a,b])=>`<div class="hudFact"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join("")}</section>
+      <section class="hudSection" style="margin-top:0;--section-accent:#6f9cff"><div class="hudSectionTitle">▣ Metadata</div>${metaFacts.map(([a,b])=>`<div class="hudFact"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join("")}</section>
+    </div>
+    ${(n.source||n.source_path)?`<section class="hudSection" style="--section-accent:#4de0cf"><div class="hudSectionTitle">◆ Source / Provenance</div><p>${esc(n.source||"Source not named")}</p>${n.source_path?`<p class="sourcePath" style="margin-top:7px">${esc(n.source_path)}</p>`:""}</section>`:""}
+    ${previewSectionForNode(id)}
+    ${kids.length?`<button id="enterBtn" class="enterAction">Enter ${esc(n.label)} · ${kids.length} child node${kids.length===1?"":"s"}</button>`:""}`;
+  document.getElementById("closeHud").onclick=()=>hud.classList.add("hidden");
+  const enter=document.getElementById("enterBtn");if(enter)enter.onclick=()=>enterNode(id);
+  hud.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>jumpToRelated(b.dataset.jump));
+}
+function packetKindLabel(kind){return {directory:"⊞ Scope / Directory",file:"□ File / Record",model:"Δ Model / Skill / Job",capability:"⊕ Capability / Harness",receipt:"∴ Receipt / Evidence",database:"⌬ Database / Data Object",tool:"∑ MCP / Tool Call",event:"○ Runtime Event / Signal"}[kind]||kind}
+function renderPacketHud(p){
+  const n=N[p.objectId]||{},to=N[p.to]||{},accent=p.color||colorFor(p.objectId),path=n.source_path||"";
+  hud.style.setProperty("--hud-accent",accent);hud.classList.remove("hidden");
+  hud.innerHTML=`<div class="hudHeader"><div class="hudIcon">${nodeIcon(p.kind)}</div><div class="hudTitle"><h2>${esc(n.label||p.objectId)}</h2><div class="hudSubtitle">Moving ${esc(packetKindLabel(p.kind))}</div><div class="badges"><span class="badge">LIVE VISUAL PACKET</span><span class="badge">${esc(p.direction)}</span><span class="badge">${esc(p.kind)}</span></div></div><button id="closeHud" class="hudClose">✕ Close</button></div>
+  <section class="hudSection" style="--section-accent:${accent}"><div class="hudSectionTitle">◆ What You Clicked</div><p>This moving shape represents <b>${esc(n.label||p.objectId)}</b> traveling visually from <b>${esc(N[p.from]?.label||p.from)}</b> toward <b>${esc(to.label||p.to)}</b> over the relationship <b>${esc(p.predicate||"CONNECTED")}</b>.</p></section>
+  <section class="hudSection" style="--section-accent:#50e6ff"><div class="hudSectionTitle">⬢ Signal Identity</div><div class="hudFacts"><div class="hudFact"><b>Primary shape</b><span>${esc(packetKindLabel(p.kind))}</span></div><div class="hudFact"><b>Secondary badge</b><span>${esc(p.secondaryKind?packetKindLabel(p.secondaryKind):"none")}</span></div><div class="hudFact"><b>Object type</b><span>${esc(n.type||"unspecified")}</span></div><div class="hudFact"><b>Domain</b><span>${esc(n.domain||"unspecified")}</span></div><div class="hudFact"><b>Status</b><span>${esc(n.status||"unspecified")}</span></div></div></section>
+  <section class="hudSection" style="--section-accent:#c978ff"><div class="hudSectionTitle">⛓ Route</div><div class="connList"><button id="packetSource" class="connRow"><span><strong>${esc(N[p.from]?.label||p.from)}</strong><small>source object</small></span><span class="connMeta">inspect</span></button><button id="packetDest" class="connRow"><span><strong>${esc(to.label||p.to)}</strong><small>${esc(p.predicate||"CONNECTED")}</small></span><span class="connMeta">destination</span></button></div></section>
+  ${(n.source||path)?`<section class="hudSection" style="--section-accent:#4de0cf"><div class="hudSectionTitle">▣ Source / File Identity</div><p>${esc(n.source||"Source recorded in graph")}</p>${path?`<p class="sourcePath" style="margin-top:8px">${esc(path)}</p>`:""}</section>`:""}
+  ${previewSectionForNode(p.objectId)}
+  <section class="hudSection" style="--section-accent:#ffad52"><div class="hudSectionTitle">◉ Interpretation Boundary</div><p>The moving geometry is a visualization of the current graph object/relationship. It does not by itself prove that a physical file transfer or runtime execution occurred unless live telemetry explicitly establishes that event.</p></section>`;
+  document.getElementById("closeHud").onclick=()=>hud.classList.add("hidden");
+  document.getElementById("packetSource").onclick=()=>selectNode(p.from);
+  document.getElementById("packetDest").onclick=()=>jumpToRelated(p.to);
+  if(window.renderAttachmentPreview)window.renderAttachmentPreview(p.objectId,p.kind);
+}
+function packetAt(clientX,clientY){const r=stage.getBoundingClientRect(),x=clientX-r.left,y=clientY-r.top;let best=null,bd=Infinity;for(const p of lastPackets){const d=Math.hypot(x-p.x,y-p.y);if(d<=p.size&&d<bd){best=p;bd=d}}return best}
+async function enterNode(id){
+  const node=N[id]||{};
+  const filesystemBacked=isFilesystemNavigationNode(id);
+  const fileLeaf=node.domain==="fs"&&node.type==="file";
+  if(filesystemBacked&&!fileLeaf){
+    try{return await focusFilesystemDirectory(id)}
+    catch(error){console.warn("Filesystem enter failed",error)}
+  }
+  if(!canEnterUniverse(id)){selectNode(id);return}
+  if(scope!==id)history.push(scope);
+  scope=id;selected=null;hud.classList.add("hidden");camera.yaw=0;camera.pitch=0;buildScope();
+}
+function jumpToRelated(id){
+  // If related node is not in current scope, open its parent scope so it becomes spatial.
+  const parent=N[id]?.parent;
+  if(parent && parent!==scope){history.push(scope);scope=parent;buildScope();setTimeout(()=>selectNode(id),80)}
+  else selectNode(id)
+}
+function goBack(){if(!history.length)return;scope=history.pop();selected=null;hud.classList.add("hidden");camera.yaw=0;camera.pitch=0;buildScope()}
+function goHome(){scope="__GALAXY__";history=[];selected=null;hud.classList.add("hidden");camera.yaw=0;camera.pitch=0;buildScope()}
+function updateCrumbs(){
+  if(scope==="__GALAXY__"){crumbs.innerHTML='<button class="crumb">WHOLE DIGITAL BRAIN · LEEWAY ↔ RUNTIME FABRIC ↔ USER</button>';return}
+  const path=ancestry(scope);crumbs.innerHTML="";
+  path.forEach((id,i)=>{const b=document.createElement("button");b.className="crumb";b.textContent=N[id]?.label||id;b.onclick=()=>{scope=id;history=path.slice(0,i);selected=null;hud.classList.add("hidden");buildScope()};crumbs.appendChild(b);if(i<path.length-1){const s=document.createElement("span");s.className="sep";s.textContent="›";crumbs.appendChild(s)}})
+}
+function fitScope(){
+  const scopeNode=N[scope]||{};
+  const r=stage.getBoundingClientRect();
+  camera.y=0;
+  if(scopeNode.domain==="fs"&&scopeNode.type==="directory"){
+    const kidCount=(C[scope]||[]).length;
+    const maxRing=kidCount?Math.ceil((Math.sqrt(kidCount+1)-1)/2):1;
+    const total=Math.max(Number(scopeNode.child_count||0),kidCount);
+    const gapX=total>128?250:total>64?285:total>32?325:400;
+    const gapY=total>128?138:total>64?158:total>32?180:220;
+    const inspectorReserve=window.innerWidth>760?Math.min(500,window.innerWidth<1100?window.innerWidth*.47:window.innerWidth*.31):0;
+    const usableW=Math.max(360,r.width-inspectorReserve-54),usableH=Math.max(240,r.height-70);
+    const centerGapX=total>128?560:total>64?520:total>32?480:430;
+    const centerGapY=total>128?300:total>64?280:total>32?255:235;
+    const extentX=Math.max(centerGapX,centerGapX+Math.max(0,maxRing-1)*gapX),extentY=Math.max(centerGapY,centerGapY+Math.max(0,maxRing-1)*gapY);
+    const fit=Math.min(usableW/(extentX*2+250),usableH/(extentY*2+170));
+    camera.z=Math.max(.16,Math.min(.76,fit));
+    camera.x=inspectorReserve?-(inspectorReserve*.48):0;
+  }else{
+    // Ordinary graph scopes also fit the ACTUAL stage, not a fixed child-count zoom.
+    // This prevents lower nodes such as Documents from landing behind the dock.
+    const kids=(C[scope]||[]).filter(id=>N[id]);
+    const extent=kids.length>24?650:kids.length>12?540:420;
+    const usableW=Math.max(360,r.width-70),usableH=Math.max(240,r.height-70);
+    const fit=Math.min(usableW/(extent*2+250),usableH/(extent*2+170));
+    camera.z=Math.max(.28,Math.min(.76,fit));
+    camera.x=0;
+  }
+  positionNodes();
+}
+function flyToScope(id){const parent=N[id]?.parent;if(parent){history=ancestry(parent).slice(0,-1);scope=parent;buildScope();setTimeout(()=>selectNode(id),80)}}
+function toggleRotate(){rotateMode=!rotateMode;document.getElementById("rotateBtn").classList.toggle("active",rotateMode);document.getElementById("rotateM").classList.toggle("active",rotateMode)}
+function togglePulses(){pulsesPaused=!pulsesPaused;document.getElementById("pulseBtn").textContent=pulsesPaused?"Resume Pulses":"Pause Pulses";document.getElementById("pulseM").textContent=pulsesPaused?"Resume":"Pulses";if(!pulsesPaused)startTime=performance.now()}
+function resize(){const dpr=Math.min(2,devicePixelRatio||1),r=stage.getBoundingClientRect();canvas.width=Math.max(1,Math.round(r.width*dpr));canvas.height=Math.max(1,Math.round(r.height*dpr));canvas.style.width=r.width+"px";canvas.style.height=r.height+"px";ctx.setTransform(dpr,0,0,dpr,0,0);positionNodes();draw(performance.now())}
+stage.addEventListener("wheel",e=>{if(window.__leewayBrainIntroActive)return;e.preventDefault();camera.z=Math.max(.10,Math.min(8,camera.z*Math.exp(-e.deltaY*.0017)));positionNodes()},{passive:false});
+stage.addEventListener("dblclick",e=>{if(e.target.closest&&e.target.closest(".node"))return;camera.z=Math.min(8,camera.z*1.55);positionNodes()});
+stage.addEventListener("pointerdown",e=>{const nodeTarget=e.target.closest&&e.target.closest(".node");if(nodeTarget)return;const p=packetAt(e.clientX,e.clientY);if(p){e.preventDefault();renderPacketHud(p);return}drag=true;last={x:e.clientX,y:e.clientY};try{stage.setPointerCapture(e.pointerId)}catch{}});
+stage.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-last.x,dy=e.clientY-last.y;last={x:e.clientX,y:e.clientY};if(rotateMode||e.shiftKey||e.altKey){camera.yaw+=dx*.006;camera.pitch=Math.max(-1.35,Math.min(1.35,camera.pitch+dy*.005))}else{camera.x+=dx;camera.y+=dy}positionNodes()});
+stage.addEventListener("pointerup",()=>drag=false);stage.addEventListener("pointercancel",()=>drag=false);
+document.getElementById("homeBtn").onclick=goHome;document.getElementById("backBtn").onclick=goBack;
+document.getElementById("harnessBtn").onclick=()=>{history=["__GALAXY__","scope::hemi::L"];scope="scope::region::harness-fabric";buildScope()};
+document.getElementById("dataBtn").onclick=()=>{history=["__GALAXY__","scope::hemi::L"];scope="scope::region::data-fabric";buildScope()};
+document.getElementById("harnessM").onclick=()=>{history=["__GALAXY__","scope::hemi::L"];scope="scope::region::harness-fabric";buildScope()};
+document.getElementById("dataM").onclick=()=>{history=["__GALAXY__","scope::hemi::L"];scope="scope::region::data-fabric";buildScope()};
+document.getElementById("legendBtn").onclick=()=>document.getElementById("legend").classList.toggle("hidden");
+const closeLegend=document.getElementById("closeLegend");if(closeLegend)closeLegend.onclick=()=>document.getElementById("legend").classList.add("hidden");
+const settingsPanel=document.getElementById("settingsPanel");
+document.getElementById("settingsBtn").onclick=()=>settingsPanel.classList.toggle("hidden");
+document.getElementById("closeSettings").onclick=()=>settingsPanel.classList.add("hidden");
+document.getElementById("labelScaleRange").oninput=e=>{vizSettings.labelScale=Number(e.target.value);applyLabelScale()};
+document.getElementById("packetSizeRange").oninput=e=>vizSettings.packetSize=Number(e.target.value);
+document.getElementById("packetSpeedRange").oninput=e=>vizSettings.packetSpeed=Number(e.target.value);
+document.getElementById("glowRange").oninput=e=>vizSettings.glow=Number(e.target.value);
+document.getElementById("packetOutlineRange").oninput=e=>vizSettings.packetOutline=Number(e.target.value);
+document.getElementById("shapeGlyphsToggle").onchange=e=>vizSettings.shapeGlyphs=e.target.checked;
+document.getElementById("shapeLabelsToggle").onchange=e=>vizSettings.shapeLabels=e.target.checked;
+document.getElementById("shapeBadgeToggle").onchange=e=>vizSettings.shapeBadges=e.target.checked;
+document.getElementById("reversePackets").onchange=e=>vizSettings.reverse=e.target.checked;
+document.getElementById("eventCircles").onchange=e=>vizSettings.eventCircles=e.target.checked;
+document.getElementById("zoomInBtn").onclick=()=>{camera.z=Math.min(8,camera.z*1.45);positionNodes()};
+document.getElementById("zoomOutBtn").onclick=()=>{camera.z=Math.max(.1,camera.z/1.45);positionNodes()};
+document.getElementById("fitBtn").onclick=fitScope;
+document.getElementById("rotateBtn").onclick=toggleRotate;document.getElementById("rotateM").onclick=toggleRotate;document.getElementById("pulseBtn").onclick=togglePulses;document.getElementById("pulseM").onclick=togglePulses;
+document.getElementById("leftM").onclick=()=>{if(scope!=="scope::hemi::L")history.push(scope);scope="scope::hemi::L";buildScope()};document.getElementById("rightM").onclick=()=>{if(scope!=="scope::hemi::R")history.push(scope);scope="scope::hemi::R";buildScope()};document.getElementById("appsM").onclick=()=>{history=["__GALAXY__","scope::hemi::L"];scope="scope::region::applications";buildScope()};document.getElementById("runtimeM").onclick=()=>{if(scope==="__GALAXY__"){selectNode("runtime::nexus")}else flyToScope("runtime::nexus")};
+document.getElementById("search").addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();if(q.length<2)return;const id=Object.keys(N).find(id=>(N[id].label||"").toLowerCase().includes(q)||id.toLowerCase().includes(q));if(id)flyToScope(id)});
+
+
+/*
+REGION: LEEWAY.BRAIN.VIEWER
+TAG: NATIVE_DATA_ADAPTATION_OF_ORIGINAL_GALAXY
+WHO: Owner-local viewer; WHAT: Bind the retained renderer to opaque Brain identities.
+WHEN: Viewer initialization; WHERE: same original page, no new graph authority.
+WHY: Remove old physical-root assumptions and embedded machine data without redrawing the Brain.
+HOW: Original layout, renderNodes, draw and HUD; replace data ingress and navigation only.
+LICENSE: MIT
+*/
+let VIEW_ROOT=null;
+let localBinding=null;
+let historyTraversal=false;
+function mapLocalNode(n){return {id:n.id,label:n.label||n.title||n.id,desc:n.type||'object',
+ domain:n.type==='file'||n.type==='directory'?'fs':'system',type:n.type,status:n.status,
+ parent:n.parent_id,child_count:n.child_count,expandable:n.expandable,source:'This device Digital Brain',
+ source_path:n.source_path||'',metadata:n.metadata||{},origin:'OWNER_LOCAL_BRAIN_SQLITE'};}
+function currentViewNode(id){return N[id];}
+function viewFailure(error){const st=document.getElementById('liveStatus');if(st){st.textContent=error.message||'LOCAL_BRAIN_BLOCKED';st.style.color='#ff6577';}}
+function safeView(promise){Promise.resolve(promise).catch(viewFailure);}
+// These are renderer projection identities, never replacement device or filesystem identities.
+buildGalaxy=function(){if(VIEW_ROOT){scope=VIEW_ROOT;buildScope();}};
+hemisphereFor=function(id){let cur=N[id];const seen=new Set();while(cur&&!seen.has(cur.id)){seen.add(cur.id);if(cur.id===VIEW_ROOT+':system')return'L';if(cur.id===VIEW_ROOT+':user')return'R';cur=cur.parent?N[cur.parent]:null;}return null;};
+filesystemPathForNode=function(id){return N[id]?.source_path||null;};
+isFilesystemNavigationNode=function(id){return N[id]?.type==='directory'||N[id]?.type==='file';};
+expandFilesystemNode=async function(id,{offset=0}={}){return localBinding.load(id,offset??0);};
+hydratePhysicalFilePreview=async function(id){const el=document.getElementById('physicalFileText');if(el)el.textContent='Metadata record only. File content access is not bound to this read-only viewer.';};
+const originalSelectNode=selectNode;
+selectNode=function(id){if(!N[id])return;originalSelectNode(id);if(localBinding)safeView(localBinding.inspect(id));};
+enterNode=async function(id){if(!N[id])throw Error('VIEWER_NODE_NOT_CACHED');if(!canEnterUniverse(id)){selectNode(id);return;}return localBinding.load(id);};
+goHome=function(){if(localBinding){history=[];historyTraversal=true;safeView(localBinding.home().finally(()=>historyTraversal=false));}};
+goBack=function(){const id=history.pop();if(id&&localBinding){historyTraversal=true;safeView(localBinding.load(id).finally(()=>historyTraversal=false));}};
+updateCrumbs=function(){crumbs.replaceChildren();if(!scope||!N[scope])return;for(const id of ancestry(scope)){const b=document.createElement('button');b.className='crumb';b.textContent=N[id]?.label||id;b.onclick=()=>safeView(localBinding.load(id));crumbs.appendChild(b);}};
+// Keep original card geometry. Narrow touch layouts enter expandable nodes on one tap.
+nodesLayer.addEventListener('click',event=>{
+  const node=event.target.closest?.('.node');
+  if(innerWidth>760||!node)return;
+  const id=node.dataset.id;
+  if(id&&canEnterUniverse(id)){event.preventDefault();event.stopImmediatePropagation();safeView(enterNode(id));}
+},true);
+previewSectionForNode=function(id){
+  const n=N[id];if(!n||n.type!=='file')return '';
+  return '<section class="hudSection"><div class="hudSectionTitle">FILE METADATA RECORD</div><p>'+esc(n.label)+'</p><p class="sourcePath">'+esc(n.source_path||'Source location not supplied in this record')+'</p><p>Content preview is not bound. No file contents or content hash are claimed.</p></section>';
+};
+const hardwareButton=document.getElementById('wdDiagBtn');if(hardwareButton)hardwareButton.onclick=()=>safeView(localBinding.load(VIEW_ROOT+':system:hardware'));
+const originalHud=renderHud;
+renderHud=function(id){originalHud(id);const button=document.getElementById('enterBtn');if(button)button.onclick=()=>safeView(enterNode(id));};
+window.__leewayOriginalRenderer={source:'RECOVERED_GALAXY_RENDERER',nativeReadOnly:true};
+localBinding=window.LeeWayLocalBrainBinding({
+ upsert(n){N[n.id]=mapLocalNode(n);},
+ children(id,children,total,offset){C[id]=children;N[id].child_count=total;N[id].filesystemWindowOffset=offset;},
+ root(id){VIEW_ROOT=id;scope=id;history=[];},
+ enter(id){if(!historyTraversal&&scope&&scope!==id)history.push(scope);scope=id;selected=null;hud.classList.add('hidden');camera.yaw=0;camera.pitch=0;buildScope();},
+ select(id){selectNode(id);},
+ relationships(id,links){
+  R[id]=[];
+  for(const edge of links){const other=edge.source===id?edge.target:edge.source;if(other&&N[other])R[id].push({other,predicate:edge.predicate,dir:edge.source===id?'out':'in',kind:'LOCAL_RECORDED',confidence:null});}
+ }
+});
+window.__leewayLocalBrain=localBinding;
+document.getElementById('homeBtn').onclick=goHome;document.getElementById('backBtn').onclick=goBack;
+for(const id of ['harnessBtn','harnessM','dataBtn','dataM']){const button=document.getElementById(id);if(button){button.disabled=true;button.title='Capability binding is not supplied by this read-only Brain projection';}}
+for(const [button,suffix] of [['leftM',':system'],['rightM',':user'],['appsM',':system:applications'],['runtimeM',':system:runtime']]){
+ const el=document.getElementById(button);if(el)el.onclick=()=>safeView(localBinding.load(VIEW_ROOT+suffix));
+}
+const oldSearch=document.getElementById('search');if(oldSearch){oldSearch.disabled=true;oldSearch.hidden=true;}
+const formulaStatus=document.getElementById('formulaV2Status');if(formulaStatus)formulaStatus.textContent='FORMULA · NOT EXECUTED';
+const inventoryStatus=document.getElementById('inventoryStatus');if(inventoryStatus)inventoryStatus.textContent='OWNER-LOCAL RECORDS · BOUNDED VIEW';
+const organizationStatus=document.getElementById('organizationStatus');if(organizationStatus)organizationStatus.textContent='DIRECT PARENT/CHILD RECORDS';
+pulsesPaused=true;
+document.getElementById('pulseBtn').textContent='Animate relationships';
+document.getElementById('pulseM').textContent='Animate';
+window.addEventListener('resize',resize);
+localBinding.start().then(()=>{resize();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);}).catch(viewFailure);
+
+</script>
+<script id="absoluteNucleusRuntime">
+(() => {
+  const img=document.getElementById('nucleusFallbackImage');
+  const canvas=document.getElementById('nucleusWaveCanvas');
+  if(!img||!canvas)return;
+  const ctx=canvas.getContext('2d',{alpha:true});
+  const base=document.createElement('canvas');
+  const bctx=base.getContext('2d',{alpha:false,willReadFrequently:true});
+
+  const state={
+    speed:.58,
+    horizontal:11,
+    vertical:7,
+    secondary:.34,
+    stripHeight:4,
+    hue:0,
+    saturation:1,
+    brightness:1,
+    dotColor:'#51eaff',
+    dotVariation:20,
+    dotStrength:.30
+  };
+
+  let w=1,h=1,dpr=1,brightPoints=[],raf=0,started=false;
+
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+  function cover(sw,sh,dw,dh){const s=Math.max(dw/sw,dh/sh),rw=sw*s,rh=sh*s;return{x:(dw-rw)/2,y:(dh-rh)/2,w:rw,h:rh}}
+  function hexToHsl(hex){
+    let s=String(hex||'#51eaff').replace('#','');if(s.length===3)s=s.split('').map(c=>c+c).join('');
+    let r=parseInt(s.slice(0,2),16)/255,g=parseInt(s.slice(2,4),16)/255,b=parseInt(s.slice(4,6),16)/255;
+    const max=Math.max(r,g,b),min=Math.min(r,g,b);let h=0,ss=0,l=(max+min)/2,d=max-min;
+    if(d){ss=l>.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4}h*=60}
+    return{h, s:ss*100, l:l*100};
+  }
+  function waveOffset(y,t){
+    const i=y/state.stripHeight,p=i*.078;
+    return{
+      dx:Math.sin(t*1.72+p)*state.horizontal+Math.sin(t*.83+p*.43)*state.horizontal*state.secondary,
+      dy:Math.cos(t*1.16+p*.67)*state.vertical+Math.sin(t*.64+p*.31)*state.vertical*.22
+    };
+  }
+  function rebuildBase(){
+    if(!img.naturalWidth)return;
+    bctx.setTransform(dpr,0,0,dpr,0,0);
+    bctx.fillStyle='#061427';bctx.fillRect(0,0,w,h);
+    const r=cover(img.naturalWidth,img.naturalHeight,w,h);
+    bctx.filter=`hue-rotate(${state.hue}deg) saturate(${state.saturation}) brightness(${state.brightness})`;
+    bctx.drawImage(img,r.x,r.y,r.w,r.h);bctx.filter='none';
+    detectBrightPoints();
+  }
+  function detectBrightPoints(){
+    brightPoints=[];
+    if(w<2||h<2)return;
+    const scale=.22,sw=Math.max(1,Math.round(w*scale)),sh=Math.max(1,Math.round(h*scale));
+    const sample=document.createElement('canvas');sample.width=sw;sample.height=sh;
+    const sctx=sample.getContext('2d',{willReadFrequently:true});sctx.drawImage(base,0,0,base.width,base.height,0,0,sw,sh);
+    let data;try{data=sctx.getImageData(0,0,sw,sh).data}catch(_e){return}
+    const candidates=[];
+    for(let y=2;y<sh-2;y+=2){for(let x=2;x<sw-2;x+=2){
+      const k=(y*sw+x)*4,r=data[k],g=data[k+1],b=data[k+2];
+      const lum=.2126*r+.7152*g+.0722*b,cyan=Math.min(g,b)-r*.35;
+      if(lum>150&&cyan>48)candidates.push({x:x/scale,y:y/scale,score:lum+cyan});
+    }}
+    candidates.sort((a,b)=>b.score-a.score);
+    const minDist=Math.max(13,Math.min(w,h)*.014),limit=Math.min(150,Math.max(42,Math.round(w*h/17500)));
+    for(const c of candidates){
+      if(brightPoints.length>=limit)break;
+      let ok=true;for(const p of brightPoints){const dx=p.x-c.x,dy=p.y-c.y;if(dx*dx+dy*dy<minDist*minDist){ok=false;break}}
+      if(ok)brightPoints.push({x:c.x,y:c.y,phase:((c.x*17+c.y*29)%628)/100});
+    }
+  }
+  function resize(){
+    dpr=Math.min(window.devicePixelRatio||1,2);w=Math.max(1,innerWidth);h=Math.max(1,innerHeight);
+    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);
+    base.width=Math.round(w*dpr);base.height=Math.round(h*dpr);rebuildBase();
+  }
+  function render(ms){
+    const t=ms*.001*state.speed;ctx.clearRect(0,0,w,h);
+    const sh=state.stripHeight,count=Math.ceil(h/sh)+2;
+    for(let i=0;i<count;i++){
+      const y=i*sh,p=i*.078;
+      const dx=Math.sin(t*1.72+p)*state.horizontal+Math.sin(t*.83+p*.43)*state.horizontal*state.secondary;
+      const dy=Math.cos(t*1.16+p*.67)*state.vertical+Math.sin(t*.64+p*.31)*state.vertical*.22;
+      ctx.drawImage(base,0,Math.max(0,Math.round(y*dpr)),base.width,Math.max(1,Math.round((sh+2)*dpr)),dx,y+dy,w,sh+3);
+    }
+
+    // Recolor only detected bright points from the source image. The image geometry remains the authority.
+    if(state.dotStrength>0&&brightPoints.length){
+      const c=hexToHsl(state.dotColor);ctx.save();ctx.globalCompositeOperation='screen';
+      for(let i=0;i<brightPoints.length;i++){
+        const p=brightPoints[i],o=waveOffset(p.y,t),pulse=.5+.5*Math.sin(ms*.0013+p.phase),hue=(c.h+Math.sin(ms*.00055+p.phase)*state.dotVariation+360)%360;
+        const alpha=state.dotStrength*(.22+.34*pulse),rad=1.25+2.2*pulse;
+        ctx.shadowColor=`hsla(${hue},100%,66%,${Math.min(1,alpha*1.8)})`;ctx.shadowBlur=8+10*pulse;
+        ctx.fillStyle=`hsla(${hue},${Math.max(65,c.s)}%,${Math.max(58,c.l)}%,${alpha})`;
+        ctx.beginPath();ctx.arc(p.x+o.dx,p.y+o.dy,rad,0,Math.PI*2);ctx.fill();
+      }
+      ctx.restore();ctx.shadowBlur=0;
+    }
+    raf=requestAnimationFrame(render);
+  }
+  function start(){if(started)return;started=true;resize();raf=requestAnimationFrame(render)}
+  if(img.complete&&img.naturalWidth)start();else img.addEventListener('load',start,{once:true});
+  window.addEventListener('resize',resize);
+
+  const bind=(id,key,transform=Number,rebuild=false)=>{const el=document.getElementById(id);if(!el)return;el.addEventListener('input',e=>{state[key]=transform(e.target.value);if(rebuild)rebuildBase()})};
+  bind('nucleusSpeedRange','speed');bind('nucleusHorizontalRange','horizontal');bind('nucleusVerticalRange','vertical');
+  bind('nucleusHueRange','hue',Number,true);bind('nucleusSaturationRange','saturation',Number,true);bind('nucleusBrightnessRange','brightness',Number,true);
+  bind('nucleusDotColor','dotColor',String,false);bind('nucleusDotVariationRange','dotVariation');bind('nucleusDotStrengthRange','dotStrength');
+
+  const controlMap={hue:'nucleusHueRange',saturation:'nucleusSaturationRange',brightness:'nucleusBrightnessRange',dotColor:'nucleusDotColor',dotVariation:'nucleusDotVariationRange',dotStrength:'nucleusDotStrengthRange'};
+  const presets={
+    original:{hue:0,saturation:1,brightness:1,dotColor:'#51eaff',dotVariation:20,dotStrength:.30},
+    midnight:{hue:0,saturation:.72,brightness:.48,dotColor:'#78bfff',dotVariation:12,dotStrength:.25},
+    storm:{hue:145,saturation:1.34,brightness:.72,dotColor:'#ff515e',dotVariation:25,dotStrength:.38}
+  };
+  document.querySelectorAll('.nucleusPreset').forEach(btn=>btn.addEventListener('click',()=>{
+    const p=presets[btn.dataset.nucleus];if(!p)return;
+    Object.entries(p).forEach(([k,v])=>{state[k]=v;const el=document.getElementById(controlMap[k]);if(el)el.value=String(v)});rebuildBase();
+  }));
+
+  window.__leewayNucleusBackground={state,rebuildBase,resize,presets,imageSha256:'D81DF8E5C08B7782D36692559EC4A1C896ED260C4E7494D657D52CA6427D337F'};
+})();
+</script>
+<script type="module" id="brainUniverseRuntime">
+
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const stageEl=document.getElementById('stage');
+const brainLayer=document.getElementById('brainUniverseLayer');
+const brainHost=document.getElementById('brain3DCanvas');
+const depthHint=document.getElementById('brainDepthHint');
+window.__leewayBrainIntroActive=true;
+
+const scene=new THREE.Scene();
+scene.fog=new THREE.FogExp2(0x040812,0.017);
+const brainCamera=new THREE.PerspectiveCamera(46,1,.1,1000);
+brainCamera.position.set(0,.65,18.8);
+const renderer3D=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer3D.setPixelRatio(Math.min(devicePixelRatio||1,2));
+renderer3D.setClearColor(0x040812,0);
+renderer3D.toneMapping=THREE.ACESFilmicToneMapping;
+renderer3D.toneMappingExposure=1.16;
+brainHost.appendChild(renderer3D.domElement);
+const orbit=new OrbitControls(brainCamera,renderer3D.domElement);
+orbit.enableDamping=true;orbit.dampingFactor=.055;orbit.enableZoom=false;orbit.minDistance=5.7;orbit.maxDistance=50;orbit.autoRotate=false;orbit.target.set(0,0,0);
+
+function createBrainHemisphereGeometry(isLeft){
+  const sphere=new THREE.SphereGeometry(4.4,96,72),pos=sphere.attributes.position,sign=isLeft?-1:1;
+  for(let i=0;i<pos.count;i++){
+    let x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
+    if((isLeft&&x>.04)||(!isLeft&&x<-.04))x*=.1;
+    x=x*.9+(sign*.42);y*=.86;z*=1.16;
+    if(y<.2&&z>-.8&&z<2.2){x*=1.2;y*=.94}
+    if(y<-.8&&z<-1.2){y*=.72;z*=.88}
+    if(y>-.4&&y<.8&&Math.abs(x)>2&&z>-.2&&z<2){const s=Math.sin((y+.4)*Math.PI/1.2);x-=sign*s*.35}
+    const g1=Math.sin(x*2.4)*Math.cos(y*2.4)*Math.sin(z*2.4),g2=Math.sin(x*5.2+1.2)*Math.sin(y*5.2)*Math.cos(z*5.2+.8),g3=Math.cos(x*10.4)*Math.sin(y*10.4*.8)*Math.cos(z*10.4+.5)*.35;
+    const d=g1*.44+g2*.24+g3*.1,len=Math.sqrt(x*x+y*y+z*z)||1;
+    x+=(x/len)*d;y+=(y/len)*d;z+=(z/len)*d;pos.setXYZ(i,x,y,z);
+  }
+  sphere.computeVertexNormals();return sphere;
+}
+
+scene.add(new THREE.AmbientLight(0x0b2545,2.7));
+const key=new THREE.DirectionalLight(0x00f0ff,3.9);key.position.set(16,22,18);scene.add(key);
+const rim=new THREE.DirectionalLight(0x8a2be2,3.1);rim.position.set(-18,-12,-16);scene.add(rim);
+const warm=new THREE.DirectionalLight(0xff8a16,1.0);warm.position.set(-12,3,15);scene.add(warm);
+const root=new THREE.Group();scene.add(root);
+const hg=new THREE.Group();root.add(hg);
+const leftGeo=createBrainHemisphereGeometry(true),rightGeo=createBrainHemisphereGeometry(false);
+const cortexMat=new THREE.MeshPhysicalMaterial({color:0x051d36,emissive:0x003d66,emissiveIntensity:.82,roughness:.32,metalness:.12,clearcoat:.5,clearcoatRoughness:.2,transparent:true,opacity:.57,depthWrite:false,side:THREE.DoubleSide});
+const wireMat=new THREE.MeshBasicMaterial({color:0x00b4d8,wireframe:true,transparent:true,opacity:.30,blending:THREE.AdditiveBlending});
+hg.add(new THREE.Mesh(leftGeo,cortexMat),new THREE.Mesh(rightGeo,cortexMat),new THREE.Mesh(leftGeo,wireMat),new THREE.Mesh(rightGeo,wireMat));
+const coreLight=new THREE.PointLight(0x50e6ff,4.0,16);root.add(coreLight);
+const runtimeCore=new THREE.Mesh(new THREE.IcosahedronGeometry(.54,2),new THREE.MeshPhysicalMaterial({color:0x50e6ff,emissive:0x00b8d4,emissiveIntensity:2.0,transparent:true,opacity:.76,roughness:.2}));root.add(runtimeCore);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(1.02,.022,12,96),new THREE.MeshBasicMaterial({color:0x50e6ff,transparent:true,opacity:.48,blending:THREE.AdditiveBlending}));ring.rotation.x=Math.PI/2;root.add(ring);
+const particleCount=4200,pGeo=new THREE.BoxGeometry(.06,.06,.06),pMat=new THREE.MeshBasicMaterial({color:0x00ffff,transparent:true,opacity:.66,blending:THREE.AdditiveBlending}),particles=new THREE.InstancedMesh(pGeo,pMat,particleCount),dummy=new THREE.Object3D();
+for(let i=0;i<particleCount;i++){const r=2.35*Math.cbrt(Math.random()),th=Math.random()*Math.PI*2,ph=Math.acos((Math.random()-.5)*2);dummy.position.set(r*Math.sin(ph)*Math.cos(th)*.85,r*Math.sin(ph)*Math.sin(th)*.75,r*Math.cos(ph)*1.15);dummy.scale.setScalar(.55+Math.random()*.8);dummy.updateMatrix();particles.setMatrixAt(i,dummy.matrix)}particles.instanceMatrix.needsUpdate=true;root.add(particles);
+
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function depth(){return brainCamera.position.distanceTo(orbit.target)}
+function applyDepth(){
+  const d=depth();
+  // Nothing but the brain at startup. Reveal begins only after deliberate inward travel.
+  const reveal=clamp((15.7-d)/7.4,0,1);
+  const late=clamp((reveal-.18)/.82,0,1);
+  const labelPulse=clamp(1-Math.abs(reveal-.58)/.30,0,1);
+  document.documentElement.style.setProperty('--ecosystem-alpha',String(late));
+  document.documentElement.style.setProperty('--ecosystem-scale',String(.83+late*.17));
+  document.documentElement.style.setProperty('--ecosystem-blur',String((1-late)*1.4)+'px');
+  document.documentElement.style.setProperty('--ecosystem-bright',String(.68+late*.32));
+  document.documentElement.style.setProperty('--brain-shell-alpha',String(1-late*.96));
+  document.documentElement.style.setProperty('--brain-label-alpha',String(labelPulse*.92));
+  document.documentElement.style.setProperty('--brain-hint-alpha','0');
+  if(reveal>=.985 && window.__leewayBrainIntroActive){
+    window.__leewayBrainIntroActive=false;
+    document.body.classList.add('galaxy-active');
+    brainLayer.style.pointerEvents='none';
+    try{document.getElementById('search')?.focus({preventScroll:true})}catch(_e){}
+  }
+}
+function enterBrainOverview(){
+  window.__leewayBrainIntroActive=true;
+  document.body.classList.remove('galaxy-active');
+  brainLayer.style.pointerEvents='auto';
+  const dir=new THREE.Vector3(0,.65,18.8).normalize();
+  brainCamera.position.copy(dir.multiplyScalar(18.8));
+  orbit.target.set(0,0,0);orbit.update();
+  applyDepth();
+}
+window.__leewayEnterBrainOverview=enterBrainOverview;
+
+brainLayer.addEventListener('wheel',e=>{
+  if(!window.__leewayBrainIntroActive)return;
+  e.preventDefault();e.stopPropagation();
+  const off=brainCamera.position.clone().sub(orbit.target);
+  const next=clamp(off.length()*Math.exp(e.deltaY*.00115),5.75,42);
+  off.setLength(next);brainCamera.position.copy(orbit.target).add(off);orbit.update();applyDepth();
+},{passive:false});
+
+// At the minimum inner-graph zoom, continuing outward returns to the same brain stage.
+stageEl.addEventListener('wheel',e=>{
+  if(window.__leewayBrainIntroActive)return;
+  const gc=window.__leewayGraphCamera;
+  if(gc && gc.z<=.112 && e.deltaY>0){e.preventDefault();e.stopImmediatePropagation();enterBrainOverview()}
+},{capture:true,passive:false});
+
+// "Whole Brain" means the absolute brain overview when already at galaxy root.
+const wholeBrain=document.getElementById('homeBtn');
+if(wholeBrain){
+  const existing=wholeBrain.onclick;
+  wholeBrain.addEventListener('contextmenu',e=>e.preventDefault());
+  wholeBrain.addEventListener('dblclick',e=>{e.preventDefault();e.stopPropagation();enterBrainOverview()});
+}
+
+function resizeBrain(){const r=stageEl.getBoundingClientRect();brainCamera.aspect=Math.max(.1,r.width/r.height);brainCamera.updateProjectionMatrix();renderer3D.setSize(Math.max(1,r.width),Math.max(1,r.height),false)}
+window.addEventListener('resize',resizeBrain);resizeBrain();applyDepth();
+const clock3D=new THREE.Clock();
+let __lw16LastBrainFrame=0;
+function animateBrain(ts=0){
+  requestAnimationFrame(animateBrain);
+  if(document.hidden||document.body.classList.contains('galaxy-active'))return;
+  if(ts-__lw16LastBrainFrame<50)return;
+  __lw16LastBrainFrame=ts;
+  orbit.update();
+  const t=clock3D.getElapsedTime(),breath=1+Math.sin(t*1.6)*.012;
+  hg.scale.setScalar(breath);coreLight.intensity=3.0+Math.sin(t*2.5)*1.0;cortexMat.emissiveIntensity=.62+Math.sin(t*2)*.22;runtimeCore.rotation.x=t*.32;runtimeCore.rotation.y=t*.48;ring.rotation.z=t*.22;renderer3D.render(scene,brainCamera);
+}
+animateBrain();
+
+window.addEventListener('leeway-enter-local-brain',()=>{
+  if(!window.__leewayLocalBrainReady)return;
+  const direction=brainCamera.position.clone().sub(orbit.target).normalize();
+  brainCamera.position.copy(orbit.target).add(direction.multiplyScalar(5.75));orbit.update();applyDepth();
+});
+// Fit the original sculpted mesh to the viewport; do not change vertex geometry.
+function fitLocalBrainViewport(){
+  if(!window.__leewayBrainIntroActive)return;
+  const bounds=new THREE.Box3().setFromObject(root),size=bounds.getSize(new THREE.Vector3());
+  const tangent=Math.tan(THREE.MathUtils.degToRad(brainCamera.fov)*.5);
+  const distance=Math.max(18.8,Math.max(size.y/(2*tangent),size.x/(2*tangent*Math.max(.1,brainCamera.aspect)))*1.18);
+  const direction=brainCamera.position.clone().sub(orbit.target).normalize();
+  brainCamera.position.copy(orbit.target).add(direction.multiplyScalar(distance));orbit.update();applyDepth();
+}
+window.addEventListener('resize',fitLocalBrainViewport);fitLocalBrainViewport();
+window.__leewayOriginalBrain3D={geometrySource:'RECOVERED_ORIGINAL_HEMISPHERE_GEOMETRY',renderer:'THREE.WebGLRenderer',ready:true};
+</script>
+</body></html>

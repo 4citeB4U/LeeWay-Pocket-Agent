@@ -17,7 +17,7 @@ if((& git -C $root remote get-url origin|Out-String).Trim() -ne 'https://github.
 $run='portable-qualification-'+[DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ')
 $dir=Join-Path $root ('qualification/'+$run)
 $null=[IO.Directory]::CreateDirectory($dir)
-$inputs=@(Get-ChildItem (Join-Path $root 'app/src'),(Join-Path $root 'brain-core/src'),(Join-Path $root 'contracts'),(Join-Path $root 'tests') -Recurse -File|Where-Object {$_.Extension -in '.kt','.java','.html','.json','.xml','.mjs'})
+$inputs=@(Get-ChildItem (Join-Path $root 'app/src'),(Join-Path $root 'brain-core/src'),(Join-Path $root 'contracts'),(Join-Path $root 'tests') -Recurse -File|Where-Object {$_.Extension -in '.kt','.java','.html','.json','.xml','.mjs','.js','.png','.txt'})
 $inputs+=@('build.gradle.kts','settings.gradle.kts','app/build.gradle.kts','brain-core/build.gradle.kts','scripts/golden-release-gate.mjs','Verify-SingleApk.ps1'|ForEach-Object{Get-Item (Join-Path $root $_)})
 $before=@($inputs|Sort-Object FullName -Unique|ForEach-Object{[ordered]@{path=$_.FullName.Substring($root.Length+1).Replace('\','/');sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash}})
 $before|ConvertTo-Json -Depth 5|Set-Content (Join-Path $dir 'source-hashes.json') -Encoding UTF8
@@ -25,7 +25,7 @@ $receipt=[ordered]@{schemaVersion='leeway.portable-brain-qualification.v1';runId
 Push-Location $root
 try {
  $oldPreference=$ErrorActionPreference;$ErrorActionPreference='Continue'
- & node --test --test-reporter=tap tests/golden-release-gate.test.mjs tests/sphere-voice-boundary.test.mjs tests/portable-brain-wiring.test.mjs *> (Join-Path $dir 'node-tests.tap')
+ & node --test --test-reporter=tap tests/golden-release-gate.test.mjs tests/sphere-voice-boundary.test.mjs tests/portable-brain-wiring.test.mjs tests/original-brain-viewer.test.mjs *> (Join-Path $dir 'node-tests.tap')
  $receipt.nodeTestExit=$LASTEXITCODE;$ErrorActionPreference=$oldPreference
  if($receipt.nodeTestExit -ne 0){throw 'NODE_REGRESSIONS_FAILED'}
  & '.\Verify-SingleApk.ps1' -SourceOnly

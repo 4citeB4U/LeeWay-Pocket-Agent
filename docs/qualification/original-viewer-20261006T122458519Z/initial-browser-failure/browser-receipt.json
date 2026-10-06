@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "leeway.original-viewer-browser-qualification.v1",
+  "status": "FAILED",
+  "tests": [
+    {
+      "name": "desktop-browser: original 3D renderer initialized",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: strict child containment",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: recursive directory and bounded page",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: complete multi-page navigation without flattening",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: search and read-only evidence inspector",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: return to Agent Lee native boundary",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: no uncaught browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: original sculpted geometry retained",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: original 3D renderer initialized",
+      "status": "PASS"
+    }
+  ],
+  "errors": [
+    {
+      "error": "page.waitForFunction: Timeout 30000ms exceeded.\n    at E:\\LeeWay-Work\\agent-lee-fold6-unified\\scripts\\Qualify-OriginalBrainViewer.mjs:69:14"
+    }
+  ],
+  "requests": [
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:64886/brain.html"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:64886/nucleus.png"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:64886/local-brain-binding.js"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:64886/vendor/three.module.js"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:64886/vendor/OrbitControls.js"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:64886/brain.html"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:64886/nucleus.png"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:64886/local-brain-binding.js"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:64886/vendor/three.module.js"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:64886/vendor/OrbitControls.js"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "desktop-browser-brain.png",
+      "sha256": "5f1c001ca2515944042edb2bf4fe20dbe44bae08aaf7fb73a859e9964dd5ff9c"
+    },
+    {
+      "name": "desktop-browser-recursive.png",
+      "sha256": "7ae0a2c0e7a0db2b9b244abfebd1423f6f455735534f96905144a2863da6b640"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID-brain.png",
+      "sha256": "10ccf10963f62fc08e17e6a717ae311b0eb516ea4a035d329e28b0291aa47d07"
+    }
+  ],
+  "fixtureRecords": true,
+  "androidRuntimeExecuted": false,
+  "sqliteRuntimeExecuted": false,
+  "phoneInstalled": false,
+  "formulaExecuted": false
+}

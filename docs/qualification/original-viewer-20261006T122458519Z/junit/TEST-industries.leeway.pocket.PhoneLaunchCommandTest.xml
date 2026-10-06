@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="industries.leeway.pocket.PhoneLaunchCommandTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-06T12:23:20" hostname="AGENT-LEE" time="0.001">
+  <properties/>
+  <testcase name="onlyExplicitBoundedCommandsDispatch" classname="industries.leeway.pocket.PhoneLaunchCommandTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

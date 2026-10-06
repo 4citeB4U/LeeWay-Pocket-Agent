@@ -34,6 +34,7 @@
             android:exported="false"
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".DigitalBrainActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
         <service
             android:name=".PocketOverlayService"
             android:exported="false"

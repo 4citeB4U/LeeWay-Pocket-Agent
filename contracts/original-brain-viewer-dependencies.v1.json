@@ -1,0 +1,28 @@
+﻿{
+    "schemaVersion":  "leeway.viewer-dependency-lock.v1",
+    "threeVersion":  "0.160.0",
+    "runtimeNetworkRequired":  false,
+    "dependencies":  [
+                         {
+                             "gitBlob":  "0bcc7a286da2c115853ceec9deea19923e10ddc1",
+                             "sha256":  "76DEA8151BC9352AEF3528B4262E249B2604F62543828328DB978D060D61A495",
+                             "source":  "https://raw.githubusercontent.com/mrdoob/three.js/r160/build/three.module.js",
+                             "target":  "vendor/three.module.js",
+                             "bytes":  1272972
+                         },
+                         {
+                             "gitBlob":  "f29e7feb0fe53082099bf718233e2c1baa8a5627",
+                             "sha256":  "5A44A9E86A2A0FB11933EED69BC2CD33C76A496854C1AED6ED776EFA87D7B064",
+                             "source":  "https://raw.githubusercontent.com/mrdoob/three.js/r160/examples/jsm/controls/OrbitControls.js",
+                             "target":  "vendor/OrbitControls.js",
+                             "bytes":  29868
+                         },
+                         {
+                             "gitBlob":  "d07e209686512b9ac93d7df5481a4a6f622093e7",
+                             "sha256":  "852E0E8699169BF9F6FDC6BDA3E682D078DCBC738B5D33E74DF594721BFF271D",
+                             "source":  "https://raw.githubusercontent.com/mrdoob/three.js/r160/LICENSE",
+                             "target":  "vendor/THREE-LICENSE.txt",
+                             "bytes":  1081
+                         }
+                     ]
+}

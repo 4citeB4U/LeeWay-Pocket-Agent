@@ -1,0 +1,76 @@
+﻿{
+    "schemaVersion":  "leeway.original-brain-viewer-checkpoint.v1",
+    "status":  "SCOPED_SOFTWARE_AND_BROWSER_PASS_PRODUCT_BLOCKED",
+    "sourceBase":  "11bc1bcc7aef4de646a7ff125f90aeb7b1c38066",
+    "sourceManifestSha256":  "3DC34A16DC3D140EC97486D88359F038C5C18382D8F6835909A8A26F5980D06E",
+    "qualificationReceiptSha256":  "C53862AF2884EBA805E2C60416AC1F0ADA918F5CC9477CD014C09EED213F9085",
+    "browserReceiptSha256":  "1D7D60E14251DF6C74E53A29141674BEBD4297C86EAF96FA9858121BBC8A43BF",
+    "nodeTestsPassed":  47,
+    "jvmTestsPassed":  105,
+    "browserChecksPassed":  23,
+    "aggregateChecksPassed":  175,
+    "skipped":  0,
+    "failures":  0,
+    "browserData":  "EXPLICIT_FIXTURE_RECORDS_NOT_PHONE_DATABASE",
+    "hostSql":  "ACTUAL_ADAPTER_SQL_EXECUTED_WITH_FIXTURE_ROWS_NOT_ANDROID_SQLITE",
+    "androidNativeBridge":  "COMPILED_AND_PACKAGED_NOT_EXECUTED_ON_PHONE",
+    "shapeReuse":  "ORIGINAL_3D_SCRIPT_RETAINED_BYTE_FOR_BYTE_WITH_VIEWPORT_ADAPTER_EXTENSION",
+    "recoveredRendererSha256":  "0130D8ECB65F28F4D615D08D8498227DE1CD841B545BEDD81154508B753E46F9",
+    "originalNucleusSha256":  "D81DF8E5C08B7782D36692559EC4A1C896ED260C4E7494D657D52CA6427D337F",
+    "olderGoldenLockMismatchRemains":  true,
+    "visualPromotion":  "CANDIDATE_NOT_GOLDEN_OR_CREATOR_DEVICE_PARITY_APPROVAL",
+    "readonlyViewer":  "ROOT_CHILDREN_NODE_RELATIONSHIP_PROVENANCE_SEARCH_ONLY",
+    "externalRuntimeNetworkRequired":  false,
+    "voiceIdentityChanged":  false,
+    "fullCustomerCasesAdmitted":  0,
+    "apkSha256":  "14126AC850D68498C05348EA7DC83A107E5BBB72F7BCACACD67D4F5FF603E6C4",
+    "apkBytes":  46019742,
+    "packagedClasses":  {
+                            "Lindustries/leeway/brain/BrainViewer;":  true,
+                            "Lindustries/leeway/pocket/AndroidBrainViewer;":  true,
+                            "Lindustries/leeway/pocket/DigitalBrainActivity;":  true
+                        },
+    "packagedAssets":  [
+                           {
+                               "path":  "brain.html",
+                               "sha256":  "8B19053DB28F51D55CB51D7CA89EDDBDC5D5FFAD3C012852E2651FE317D3C164",
+                               "uncompressedBytes":  152801,
+                               "apkCompressedBytes":  50681
+                           },
+                           {
+                               "path":  "local-brain-binding.js",
+                               "sha256":  "AD21BF34F02ABDB383AA14CCA1AF21B24F49FF214B6468B6A9E4CC1E1A6B7ED6",
+                               "uncompressedBytes":  7782,
+                               "apkCompressedBytes":  2993
+                           },
+                           {
+                               "path":  "nucleus.png",
+                               "sha256":  "D81DF8E5C08B7782D36692559EC4A1C896ED260C4E7494D657D52CA6427D337F",
+                               "uncompressedBytes":  3329641,
+                               "apkCompressedBytes":  3329641
+                           },
+                           {
+                               "path":  "vendor/three.module.js",
+                               "sha256":  "76DEA8151BC9352AEF3528B4262E249B2604F62543828328DB978D060D61A495",
+                               "uncompressedBytes":  1272972,
+                               "apkCompressedBytes":  329921
+                           },
+                           {
+                               "path":  "vendor/OrbitControls.js",
+                               "sha256":  "5A44A9E86A2A0FB11933EED69BC2CD33C76A496854C1AED6ED776EFA87D7B064",
+                               "uncompressedBytes":  29868,
+                               "apkCompressedBytes":  7882
+                           },
+                           {
+                               "path":  "vendor/THREE-LICENSE.txt",
+                               "sha256":  "852E0E8699169BF9F6FDC6BDA3E682D078DCBC738B5D33E74DF594721BFF271D",
+                               "uncompressedBytes":  1081,
+                               "apkCompressedBytes":  651
+                           }
+                       ],
+    "leewayCondensationApplied":  false,
+    "installed":  false,
+    "releasePromoted":  false,
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false
+}

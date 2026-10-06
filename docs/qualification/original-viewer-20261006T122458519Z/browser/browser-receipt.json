@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "leeway.original-viewer-browser-qualification.v1",
+  "status": "BROWSER_FIXTURE_PASS_NOT_DEVICE_ACCEPTANCE",
+  "tests": [
+    {
+      "name": "desktop-browser: original 3D renderer initialized",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: transparent body surface",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: strict child containment",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: recursive directory and bounded page",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: complete multi-page navigation without flattening",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: search selects the actual containing page and inspector",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: back navigation has no history loop",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: whole Brain returns to the same local identity",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: return to Agent Lee native boundary",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: no uncaught browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-browser: original sculpted geometry retained",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: original 3D renderer initialized",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: transparent body surface",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: strict child containment",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: recursive directory and bounded page",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: complete multi-page navigation without flattening",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: search selects the actual containing page and inspector",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: back navigation has no history loop",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: whole Brain returns to the same local identity",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: return to Agent Lee native boundary",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: no uncaught browser errors",
+      "status": "PASS"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID: original sculpted geometry retained",
+      "status": "PASS"
+    },
+    {
+      "name": "No external requests from packaged viewer",
+      "status": "PASS"
+    }
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:60274/brain.html"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:60274/nucleus.png"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:60274/local-brain-binding.js"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:60274/vendor/three.module.js"
+    },
+    {
+      "viewport": "desktop-browser",
+      "url": "http://127.0.0.1:60274/vendor/OrbitControls.js"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:60274/brain.html"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:60274/nucleus.png"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:60274/local-brain-binding.js"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:60274/vendor/three.module.js"
+    },
+    {
+      "viewport": "phone-sized-browser-NOT-ANDROID",
+      "url": "http://127.0.0.1:60274/vendor/OrbitControls.js"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "desktop-browser-brain.png",
+      "sha256": "38af8f513307257e962472c7eb513bef360f7c9368c9b1edeb4d7a9773583fdc"
+    },
+    {
+      "name": "desktop-browser-recursive.png",
+      "sha256": "c29838b14c80c34bf54d3d3f40d4b10577ff920e3035999f522009ec3e3a05d5"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID-brain.png",
+      "sha256": "2c202a81efce1c0fd9b3f1e71d53004c103d4100ede7b4918a2debe145a1a3e0"
+    },
+    {
+      "name": "phone-sized-browser-NOT-ANDROID-recursive.png",
+      "sha256": "1954fdaeedb909ac8a2a758dd659c35edec3c3bf97ef1b6704f8002a9b67a24b"
+    }
+  ],
+  "fixtureRecords": true,
+  "androidRuntimeExecuted": false,
+  "sqliteRuntimeExecuted": false,
+  "phoneInstalled": false,
+  "formulaExecuted": false
+}

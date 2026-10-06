@@ -1,0 +1,9 @@
+# REGION: LEEWAY.BRAIN.PACKAGING; TAG: ORIGINAL_VIEWER_BYTE_INTEGRITY
+# WHO: LeeWay build; WHAT: Keep pinned renderer/dependency text stable across host checkouts.
+# WHEN: Checkout/build; WHERE: viewer assets only; WHY: Preserve hashes; HOW: LF scripts, byte-pinned generated HTML and binary image.
+# LICENSE: MIT
+app/src/main/assets/digital-brain/*.html -text
+app/src/main/assets/digital-brain/*.js text eol=lf
+app/src/main/assets/digital-brain/vendor/*.js text eol=lf
+app/src/main/assets/digital-brain/vendor/*.txt text eol=lf
+app/src/main/assets/digital-brain/*.png -text

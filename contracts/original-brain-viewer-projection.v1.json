@@ -1,0 +1,40 @@
+﻿{
+    "status":  "DERIVED_VIEWER_CREATED_TESTS_REQUIRED",
+    "sourceBase":  "11bc1bcc7aef4de646a7ff125f90aeb7b1c38066",
+    "recoveredOriginalSha256":  "0130D8ECB65F28F4D615D08D8498227DE1CD841B545BEDD81154508B753E46F9",
+    "originalNucleusSha256":  "D81DF8E5C08B7782D36692559EC4A1C896ED260C4E7494D657D52CA6427D337F",
+    "originalHtmlBytes":  5995379,
+    "derivedHtmlBytes":  152801,
+    "retainedRenderer":  "ORIGINAL_GRAPH_LAYOUT_CARDS_HUD_AND_3D_GEOMETRY",
+    "dataSource":  "NATIVE_OWNER_LOCAL_BRAIN",
+    "embeddedOriginalNodeCount":  268,
+    "embeddedOriginalRecordsShipped":  0,
+    "recoveredOldLockMatchesCurrentFile":  false,
+    "scope":  "READ_ONLY_VIEWER_CANDIDATE_NOT_GOLDEN_UI_PROMOTION",
+    "changedPaths":  [
+                         "app/src/main/assets/digital-brain/brain.html",
+                         "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+                         "app/src/main/AndroidManifest.xml",
+                         "app/src/main/assets/agent_lee_sphere_transparent.html"
+                     ],
+    "installed":  false,
+    "files":  [
+                  {
+                      "sha256":  "8B19053DB28F51D55CB51D7CA89EDDBDC5D5FFAD3C012852E2651FE317D3C164",
+                      "path":  "app/src/main/assets/digital-brain/brain.html"
+                  },
+                  {
+                      "sha256":  "6D34D73AF098F5090A718EC0DB6940C9802C0F0B89D0B8A1D3BC74B8707F211B",
+                      "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt"
+                  },
+                  {
+                      "sha256":  "BDEF7E06D3597F1BCC3A19B02E058F3B6EF937D6A49F67CB76E9F9BE5057E6DE",
+                      "path":  "app/src/main/AndroidManifest.xml"
+                  },
+                  {
+                      "sha256":  "CB0258C435C53297FCC7D66E11DEE1BDEE0F789908233E7DADA736F2EF2B8998",
+                      "path":  "app/src/main/assets/agent_lee_sphere_transparent.html"
+                  }
+              ],
+    "original3DScriptSha256":  "7211EC45C71E689E50D8599BC542D1B5ACACD32ECEE7FC45A40C8633DEF93FB9"
+}

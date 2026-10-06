@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="industries.leeway.brain.BrainViewerTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2026-10-06T12:23:19" hostname="AGENT-LEE" time="0.015">
+  <properties/>
+  <testcase name="outsideBodyAndMissingNodesAreRejected" classname="industries.leeway.brain.BrainViewerTest" time="0.003"/>
+  <testcase name="inconsistentChildCountIsRejected" classname="industries.leeway.brain.BrainViewerTest" time="0.001"/>
+  <testcase name="tombstonedRecordsCannotBeRendered" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="exactSiblingRankSelectsTheCorrectPage" classname="industries.leeway.brain.BrainViewerTest" time="0.001"/>
+  <testcase name="duplicateChildRowsAreRejected" classname="industries.leeway.brain.BrainViewerTest" time="0.001"/>
+  <testcase name="titleInjectionRemainsRawTextDataNotExecutedCode" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="ownerMismatchBlocksRootAndSearch" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="unrootedNodeCannotClaimBrainAncestry" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="foreignRelationEndpointIsRejected" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="ancestryCycleCannotHangViewer" classname="industries.leeway.brain.BrainViewerTest" time="0.001"/>
+  <testcase name="oversizedMetadataIsRejected" classname="industries.leeway.brain.BrainViewerTest" time="0.004"/>
+  <testcase name="rootComesFromTheSameBrainIdentity" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="returnedNodeMustMatchRequestedIdentity" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="evidenceIsReadWithoutInventingFormulaPassports" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="ancestryRetainsExactRecursiveParentChain" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="relationshipNeighborsCannotLeakIntoChildren" classname="industries.leeway.brain.BrainViewerTest" time="0.001"/>
+  <testcase name="paginationPreservesCountAndHasMore" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <testcase name="pageAndSearchBoundsAreEnforced" classname="industries.leeway.brain.BrainViewerTest" time="0.001"/>
+  <testcase name="directChildrenDoNotIncludeGrandchildren" classname="industries.leeway.brain.BrainViewerTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
