@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="industries.leeway.pocket.AgentVoiceBindingTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-06T04:37:24" hostname="AGENT-LEE" time="0.008">
+  <properties/>
+  <testcase name="androidVoiceCannotSubstituteForSelectedSpeaker" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.006"/>
+  <testcase name="arbitraryAuthorityIsRejected" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.0"/>
+  <testcase name="explicitSelectionResolvesWithoutBodySpecificDefaults" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.0"/>
+  <testcase name="unavailablePackageIsRejected" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.001"/>
+  <testcase name="previewDoesNotBecomeProductionSelection" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.0"/>
+  <testcase name="missingAndDuplicatePackagesAreRejected" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.0"/>
+  <testcase name="missingPersonaIsRejected" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.0"/>
+  <testcase name="missingSelectionIsBlocked" classname="industries.leeway.pocket.AgentVoiceBindingTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

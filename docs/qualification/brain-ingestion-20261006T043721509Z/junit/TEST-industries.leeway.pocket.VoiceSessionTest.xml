@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="industries.leeway.pocket.VoiceSessionTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-06T04:37:25" hostname="AGENT-LEE" time="0.001">
+  <properties/>
+  <testcase name="closingWhilePreparingDropsQueuedSpeech" classname="industries.leeway.pocket.VoiceSessionTest" time="0.001"/>
+  <testcase name="stoppingDropsQueuedSpeechWithoutDetachingOwner" classname="industries.leeway.pocket.VoiceSessionTest" time="0.0"/>
+  <testcase name="oldActivityCannotStopOrReceiveNewConversation" classname="industries.leeway.pocket.VoiceSessionTest" time="0.0"/>
+  <testcase name="newerSpeechInvalidatesEarlierCompletion" classname="industries.leeway.pocket.VoiceSessionTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

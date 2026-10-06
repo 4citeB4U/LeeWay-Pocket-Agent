@@ -43,6 +43,11 @@ class MainActivity : Activity() {
 
     private fun bootstrapDeviceBrain(){
         AndroidDigitalBrainAdapter.bootstrap(this)
+        val app=applicationContext
+        kotlin.concurrent.thread(name="leeway-brain-initial-census",isDaemon=true){
+            runCatching{AndroidBrainIngestion.reconcilePrivateFiles(app)}
+                .onFailure{android.util.Log.w("LeeWayBrain","Initial metadata census blocked: "+it.javaClass.simpleName)}
+        }
     }
 
     inner class LeeWayBridge {

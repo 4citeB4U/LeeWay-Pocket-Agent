@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="industries.leeway.brain.DigitalBrainTest" tests="18" skipped="0" failures="0" errors="0" timestamp="2026-10-06T04:34:28" hostname="AGENT-LEE" time="0.008">
+  <properties/>
+  <testcase name="unownedNonemptyBrainRequiresExplicitMigration" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <testcase name="authorizedResourceResolves" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="invalidObservationTimeRejected" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <testcase name="changedLocationRequiresNewRevision" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="repeatedBootstrapDoesNotDuplicateOrResetCreatedTime" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <testcase name="missingOrWithdrawnResourceFailsClosed" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="invalidBodyIdentityRejected" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <testcase name="relocationKeepsIdentityAndInvalidatesOldHandle" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="bindingCannotCrossBodies" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="recursiveHierarchyIsRetained" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <testcase name="freshBrainUsesSuppliedIdentity" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="sameBindingIsIdempotent" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="unapprovedResourceNeverBecomesBound" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <testcase name="duplicateApplicationIdentityRejected" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="twoInstallationsHaveIndependentRoots" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="handleCannotCrossBodies" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <testcase name="resourceLocationCanContainSpacesAndUnicode" classname="industries.leeway.brain.DigitalBrainTest" time="0.0"/>
+  <testcase name="existingOtherOwnerBlocksBeforeMutation" classname="industries.leeway.brain.DigitalBrainTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

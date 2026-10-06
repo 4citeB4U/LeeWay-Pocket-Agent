@@ -18,10 +18,10 @@ import kotlin.math.abs
 class PocketOverlayService:Service(){
     private var windowManager:WindowManager?=null
     private var tab:View?=null
-    override fun onCreate(){super.onCreate();createChannel();val n=buildNotification();if(Build.VERSION.SDK_INT>=34)startForeground(7141,n,ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)else startForeground(7141,n);attach()}
+    override fun onCreate(){super.onCreate();createChannel();val n=buildNotification();if(Build.VERSION.SDK_INT>=34)startForeground(7141,n,ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)else startForeground(7141,n);attach();if(isEnabled(this))AndroidBrainIngestion.start(this)}
     override fun onStartCommand(intent:Intent?,flags:Int,startId:Int):Int{if(!isEnabled(this)){stopSelf();return START_NOT_STICKY};attach();return START_STICKY}
     override fun onBind(intent:Intent?):IBinder?=null
-    override fun onDestroy(){detach();super.onDestroy()}
+    override fun onDestroy(){AndroidBrainIngestion.stop();detach();super.onDestroy()}
     private fun attach(){
         if(tab!=null||!Settings.canDrawOverlays(this))return
         val wm=getSystemService(WINDOW_SERVICE) as WindowManager;windowManager=wm;val d=resources.displayMetrics.density;fun dp(v:Int)=(v*d).toInt()

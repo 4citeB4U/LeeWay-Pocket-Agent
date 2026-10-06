@@ -20,7 +20,7 @@ class LeeWayBodyDatabases(context:Context): java.io.Closeable {
     val continuum=ContinuumDb(context)
     val ldwmd=LdwmdDb(context)
 
-    class BrainDb(c:Context):SQLiteOpenHelper(c,BRAIN_NAME,null,2){
+    class BrainDb(c:Context):SQLiteOpenHelper(c,BRAIN_NAME,null,3){
         override fun onCreate(db:SQLiteDatabase){ createOwnership(db); db.execSQL("""
           CREATE TABLE nodes(id TEXT PRIMARY KEY,parent_id TEXT,type TEXT,subtype TEXT,title TEXT,status TEXT,source_path TEXT,content_hash TEXT,metadata_json TEXT,created_at INTEGER,updated_at INTEGER)
         """); db.execSQL("CREATE TABLE edges(id TEXT PRIMARY KEY,source_id TEXT,target_id TEXT,predicate TEXT,provenance_kind TEXT,metadata_json TEXT)");
@@ -30,12 +30,24 @@ class LeeWayBodyDatabases(context:Context): java.io.Closeable {
           db.execSQL("CREATE TABLE node_tombstones(node_id TEXT PRIMARY KEY,deleted_at INTEGER,reason TEXT,metadata_json TEXT)");
           db.execSQL("CREATE TABLE experiences(experience_id TEXT PRIMARY KEY,timestamp INTEGER,scope TEXT,capability_id TEXT,agent_id TEXT,goal TEXT,formula_version TEXT,outcome TEXT,veritas_status TEXT,hardware_state_json TEXT,provenance TEXT,learning_eligibility TEXT)");
           db.execSQL("CREATE TABLE hardware_stats(id INTEGER PRIMARY KEY AUTOINCREMENT,captured_at INTEGER,cpu_json TEXT,memory_json TEXT,storage_json TEXT,battery_json TEXT,thermal_json TEXT,display_json TEXT,sensors_json TEXT,network_json TEXT)");
+          createIngestion(db)
         }
+        override fun onConfigure(db: SQLiteDatabase){super.onConfigure(db)}
         private fun createOwnership(db:SQLiteDatabase){
             db.execSQL("CREATE TABLE IF NOT EXISTS brain_owner(singleton INTEGER PRIMARY KEY CHECK(singleton=1),device_id TEXT NOT NULL UNIQUE,key_fingerprint TEXT NOT NULL)")
             db.execSQL("CREATE TABLE IF NOT EXISTS brain_resource_bindings(logical_id TEXT PRIMARY KEY,body_id TEXT NOT NULL,resource_uri TEXT NOT NULL,revision INTEGER NOT NULL CHECK(revision>0),owner_authorized INTEGER NOT NULL CHECK(owner_authorized IN (0,1)))")
         }
-        override fun onUpgrade(db:SQLiteDatabase,o:Int,n:Int){if(o<2)createOwnership(db)}
+        private fun createIngestion(db: SQLiteDatabase) {
+            fun columns(table: String): Set<String> = db.rawQuery("PRAGMA table_info("+table+")",null).use { c ->
+                val names=mutableSetOf<String>();while(c.moveToNext())names.add(c.getString(1));names
+            }
+            if("source_root" !in columns("nodes")) db.execSQL("ALTER TABLE nodes ADD COLUMN source_root TEXT")
+            if("detail_json" !in columns("sync_events")) db.execSQL("ALTER TABLE sync_events ADD COLUMN detail_json TEXT")
+            db.execSQL("CREATE INDEX IF NOT EXISTS brain_nodes_source_root ON nodes(source_root)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS brain_nodes_parent ON nodes(parent_id)")
+        }
+        override fun onOpen(db: SQLiteDatabase){super.onOpen(db)}
+        override fun onUpgrade(db:SQLiteDatabase,o:Int,n:Int){if(o<2)createOwnership(db);if(o<3)createIngestion(db)}
     }
     class ContinuumDb(c:Context):SQLiteOpenHelper(c,CONTINUUM_NAME,null,1){
         override fun onCreate(db:SQLiteDatabase){

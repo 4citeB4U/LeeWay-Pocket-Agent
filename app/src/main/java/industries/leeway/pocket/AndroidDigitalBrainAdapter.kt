@@ -99,11 +99,11 @@ object AndroidDigitalBrainAdapter {
             JSONObject().put("schemaVersion","leeway.digital-brain.context.v1").put("bodyId",body.deviceId)
                 .put("state","LOCAL_BOOTSTRAP_ONLY_NOT_FULL_BRAIN_ACCEPTANCE").put("counts",counts).put("universes",nodes)
                 .put("informationBrain",JSONObject().put("counts",counts).put("universes",nodes))
-                .put("deviceBrain",JSONObject(deviceObservation())).put("runtimeBrain",JSONObject(runtimeObservation())).toString()
+                .put("deviceBrain",JSONObject(deviceObservation())).put("runtimeBrain",JSONObject(runtimeObservation())).put("ingestion",JSONObject(AndroidBrainIngestion.status())).toString()
         }
     }
 
-    private class SqliteBrainStore(private val db: SQLiteDatabase): BrainStore {
+    internal class SqliteBrainStore(private val db: SQLiteDatabase): BrainIngestionStore {
         override fun <T> atomic(operation: () -> T): T {
             db.beginTransaction()
             try {val value=operation();db.setTransactionSuccessful();return value} finally {db.endTransaction()}
@@ -125,6 +125,56 @@ object AndroidDigitalBrainAdapter {
         }
         override fun binding(logicalId: String): ResourceBinding? = db.rawQuery("SELECT body_id,resource_uri,revision,owner_authorized FROM brain_resource_bindings WHERE logical_id=?",arrayOf(logicalId)).use {c->
             if(c.moveToFirst())ResourceBinding(logicalId,c.getString(0),c.getString(1),c.getLong(2),c.getInt(3)==1)else null
+        }
+        private fun encode(entry: FileObservation): JSONObject = JSONObject()
+            .put("objectKey",entry.objectKey).put("parentKey",entry.parentKey ?: JSONObject.NULL)
+            .put("title",entry.title).put("directory",entry.directory).put("sourceUri",entry.sourceUri)
+            .put("metadataVersion",entry.metadataVersion).put("sizeBytes",entry.sizeBytes ?: JSONObject.NULL)
+            .put("sourceModifiedAtMs",entry.sourceModifiedAtMs ?: JSONObject.NULL)
+            .put("contentState","METADATA_ONLY_CONTENT_NOT_READ")
+        private fun decode(value: String): FileObservation {
+            val o=JSONObject(value)
+            return FileObservation(o.getString("objectKey"),if(o.isNull("parentKey"))null else o.getString("parentKey"),
+                o.getString("title"),o.getBoolean("directory"),o.getString("sourceUri"),o.getString("metadataVersion"),
+                if(o.isNull("sizeBytes"))null else o.getLong("sizeBytes"),if(o.isNull("sourceModifiedAtMs"))null else o.getLong("sourceModifiedAtMs"))
+        }
+        override fun resourceFiles(resourceId: String): List<StoredFileObservation> =
+            db.rawQuery("SELECT id,metadata_json,updated_at,status FROM nodes WHERE source_root=?",arrayOf(resourceId)).use { c ->
+                val rows=mutableListOf<StoredFileObservation>()
+                while(c.moveToNext()) rows.add(StoredFileObservation(c.getString(0),resourceId,decode(c.getString(1)),c.getLong(2),c.getString(3)!="tombstoned"))
+                rows
+            }
+        override fun putFile(record: StoredFileObservation,parentNodeId: String) {
+            val e=record.observation
+            val values=ContentValues().apply {
+                put("parent_id",parentNodeId);put("type",if(e.directory)"directory" else "file");put("title",e.title)
+                put("source_path",e.sourceUri);put("source_root",record.resourceId);put("status",if(record.active)"observed" else "tombstoned")
+                put("metadata_json",encode(e).toString());put("updated_at",record.observedAtMs);putNull("content_hash")
+            }
+            if(db.update("nodes",values,"id=?",arrayOf(record.nodeId))==0){values.put("id",record.nodeId);values.put("created_at",record.observedAtMs);db.insertOrThrow("nodes",null,values)}
+        }
+        override fun retainTombstone(record: StoredFileObservation,reason: String,capturedAtMs: Long) {
+            val values=ContentValues().apply{put("status","tombstoned");put("updated_at",capturedAtMs)}
+            check(db.update("nodes",values,"id=? AND source_root=?",arrayOf(record.nodeId,record.resourceId))==1) { "TOMBSTONE_SOURCE_SCOPE_MISMATCH" }
+            val tombstone=ContentValues().apply{put("deleted_at",capturedAtMs);put("reason",reason);put("metadata_json",encode(record.observation).toString())}
+            if(db.update("node_tombstones",tombstone,"node_id=?",arrayOf(record.nodeId))==0){tombstone.put("node_id",record.nodeId);db.insertOrThrow("node_tombstones",null,tombstone)}
+        }
+        override fun clearTombstone(nodeId: String){db.delete("node_tombstones","node_id=?",arrayOf(nodeId))}
+        override fun appendFileChange(change: BrainFileChange) {
+            val current=change.current;val previous=change.previous
+            val detail=JSONObject().put("resourceId",current.resourceId).put("contentState","METADATA_ONLY_CONTENT_NOT_READ")
+                .put("metadataVersion",current.observation.metadataVersion).put("previousMetadataVersion",previous?.observation?.metadataVersion ?: JSONObject.NULL)
+                .put("sourceModifiedAtMs",current.observation.sourceModifiedAtMs ?: JSONObject.NULL)
+                .put("freshnessState","SOURCE_CHANGE_TO_COMMIT_NOT_MEASURED").put("formulaState","NOT_EXECUTED")
+            db.insertOrThrow("sync_events",null,ContentValues().apply {
+                put("event_id",change.eventId);put("op",change.operation);put("node_id",current.nodeId)
+                put("prev_node_id",previous?.nodeId);put("path",current.observation.sourceUri);put("prev_path",previous?.observation?.sourceUri)
+                putNull("hash");putNull("prev_hash");put("captured_at",change.capturedAtMs);put("detail_json",detail.toString())
+            })
+            db.insertOrThrow("provenance",null,ContentValues().apply {
+                put("node_id",current.nodeId);put("kind","AUTHORIZED_FILE_METADATA");put("source",current.observation.sourceUri)
+                put("description",change.operation+"; scan-event="+change.eventId);put("captured_at",change.capturedAtMs)
+            })
         }
         override fun putBinding(binding: ResourceBinding) {
             val v=ContentValues().apply{put("body_id",binding.bodyId);put("resource_uri",binding.resourceUri);put("revision",binding.revision);put("owner_authorized",if(binding.ownerAuthorized)1 else 0)}
