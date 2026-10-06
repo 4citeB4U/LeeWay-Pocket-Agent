@@ -18,17 +18,18 @@ import kotlin.math.abs
 class PocketOverlayService:Service(){
     private var windowManager:WindowManager?=null
     private var tab:View?=null
-    override fun onCreate(){super.onCreate();createChannel();val n=buildNotification();if(Build.VERSION.SDK_INT>=34)startForeground(7141,n,ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)else startForeground(7141,n);attach();if(isEnabled(this))AndroidBrainIngestion.start(this)}
+    override fun onCreate(){super.onCreate();createChannel();val n=buildNotification();if(Build.VERSION.SDK_INT>=34)startForeground(7141,n,ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)else startForeground(7141,n);if(isEnabled(this)){attach();AndroidBrainIngestion.start(this)}}
     override fun onStartCommand(intent:Intent?,flags:Int,startId:Int):Int{if(!isEnabled(this)){stopSelf();return START_NOT_STICKY};attach();return START_STICKY}
     override fun onBind(intent:Intent?):IBinder?=null
     override fun onDestroy(){AndroidBrainIngestion.stop();detach();super.onDestroy()}
     private fun attach(){
         if(tab!=null||!Settings.canDrawOverlays(this))return
         val wm=getSystemService(WINDOW_SERVICE) as WindowManager;windowManager=wm;val d=resources.displayMetrics.density;fun dp(v:Int)=(v*d).toInt()
-        val badge=TextView(this).apply{text="◉";textSize=28f;setTextColor(Color.WHITE);gravity=Gravity.CENTER;background=GradientDrawable().apply{setColor(Color.argb(92,5,10,18));cornerRadius=dp(28).toFloat();setStroke(dp(1),Color.argb(150,255,255,255))};contentDescription="Talk to Agent Lee"}
-        val lp=WindowManager.LayoutParams(dp(58),dp(58),WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,PixelFormat.TRANSLUCENT).apply{gravity=Gravity.END or Gravity.CENTER_VERTICAL;y=getSharedPreferences(PREFS,MODE_PRIVATE).getInt(KEY_Y,0)}
+        val badge=ElementalEmblemView(this).apply{contentDescription="Open Agent Lee"}
+
+        val lp=WindowManager.LayoutParams(dp(68),dp(68),WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,PixelFormat.TRANSLUCENT).apply{gravity=Gravity.END or Gravity.CENTER_VERTICAL;y=getSharedPreferences(PREFS,MODE_PRIVATE).getInt(KEY_Y,0)}
         var sy=0f;var iy=0;var moved=false
-        badge.setOnTouchListener{_,e->when(e.actionMasked){MotionEvent.ACTION_DOWN->{sy=e.rawY;iy=lp.y;moved=false;true};MotionEvent.ACTION_MOVE->{val delta=(e.rawY-sy).toInt();if(abs(delta)>dp(5))moved=true;lp.y=iy+delta;runCatching{wm.updateViewLayout(badge,lp)};true};MotionEvent.ACTION_UP->{getSharedPreferences(PREFS,MODE_PRIVATE).edit().putInt(KEY_Y,lp.y).apply();if(!moved)startActivity(PocketVoiceActivity.launchIntent(this,true));true};else->false}}
+        badge.setOnTouchListener{_,e->when(e.actionMasked){MotionEvent.ACTION_DOWN->{sy=e.rawY;iy=lp.y;moved=false;true};MotionEvent.ACTION_MOVE->{val delta=(e.rawY-sy).toInt();if(abs(delta)>dp(5))moved=true;lp.y=iy+delta;runCatching{wm.updateViewLayout(badge,lp)};true};MotionEvent.ACTION_UP->{getSharedPreferences(PREFS,MODE_PRIVATE).edit().putInt(KEY_Y,lp.y).apply();if(!moved)startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));true};else->false}}
         wm.addView(badge,lp);tab=badge
     }
     private fun detach(){tab?.let{runCatching{windowManager?.removeView(it)}};tab=null;windowManager=null}

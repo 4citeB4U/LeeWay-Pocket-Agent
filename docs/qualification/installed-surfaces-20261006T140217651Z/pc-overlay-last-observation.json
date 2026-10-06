@@ -1,0 +1,13 @@
+﻿{
+    "state":  "NATIVE_WPF_TAB_RUNNING",
+    "pid":  36508,
+    "left":  1638.6666666666665,
+    "top":  766,
+    "width":  68,
+    "height":  68,
+    "visible":  true,
+    "frame":  2,
+    "artworkSha256":  "31CB7CFB845524A19202ED49E42B0FEC71D8BCC4A5462E52469E98A3CCA6B3FA",
+    "animation":  "IDLE_ARTWORK_COLOR_ONLY_NOT_SPEECH_OR_HEALTH",
+    "capturedAt":  "2026-10-06T14:02:16.8527238Z"
+}

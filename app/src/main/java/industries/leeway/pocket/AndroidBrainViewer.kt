@@ -22,6 +22,7 @@ object AndroidBrainViewer {
         return try {
             val args=JSONObject(arguments)
             val identity=AndroidDigitalBrainAdapter.identity(context)
+            if(operation=="root" || args.optString("id").contains(":system:hardware"))industries.leeway.pocket.devices.DeviceDiagnostics.refresh(context)
             LeeWayBodyDatabases(context).use { databases ->
                 val db=databases.brain.readableDatabase
                 db.beginTransaction()

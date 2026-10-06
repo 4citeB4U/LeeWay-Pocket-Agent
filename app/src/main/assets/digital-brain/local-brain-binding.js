@@ -100,6 +100,10 @@ window.LeeWayLocalBrainBinding = function installLocalBrainBinding(renderer) {
         catch(error){show(error.message,true);}
       });
       window.__leewayLocalBrainReady={bodyId,rootId,scope:'READ_ONLY_LOCAL_SQLITE_PROJECTION'};
+      if(native.initialSurface?.()==='hardware'){
+        await load(rootId+':system:hardware');
+        const started=performance.now();const wait=setInterval(()=>{if(window.__leewayOriginalBrain3D?.ready){clearInterval(wait);window.dispatchEvent(new Event('leeway-enter-local-brain'));}else if(performance.now()-started>10000)clearInterval(wait);},50);
+      }
       return {bodyId,rootId};
     }catch(error){show(error.message,true);window.__leewayLocalBrainFailure=error.message;throw error;}
   }

@@ -53,6 +53,7 @@ class DigitalBrainActivity:Activity() {
     private fun deny()=WebResourceResponse("text/plain","UTF-8",403,"Blocked",mapOf("Cache-Control" to "no-store"),ByteArrayInputStream("LOCAL_BRAIN_ASSET_ORIGIN_REQUIRED".toByteArray()))
     private inner class LocalBrainBridge {
         @JavascriptInterface fun query(operation:String,arguments:String):String=AndroidBrainViewer.request(this@DigitalBrainActivity,operation,arguments)
+        @JavascriptInterface fun initialSurface():String=if(intent.getBooleanExtra("hardware",false))"hardware" else "brain"
         @JavascriptInterface fun close(){runOnUiThread{finish()}}
     }
     override fun onPause(){if(::web.isInitialized){web.onPause()};super.onPause()}

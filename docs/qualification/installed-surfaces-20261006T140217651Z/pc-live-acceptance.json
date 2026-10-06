@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "leeway.installed-pc-surfaces.v1",
+  "status": "VERIFIED_INSTALLED_PC_UI_AND_HARDWARE_SCOPE",
+  "fixtures": false,
+  "replacedNetworkResponses": false,
+  "checks": [
+    {
+      "name": "Installed PC page shows the approved emblem",
+      "status": "PASS"
+    },
+    {
+      "name": "Installed PC emblem cycles colors",
+      "status": "PASS",
+      "filter0": "hue-rotate(4.33094deg)",
+      "filter1": "hue-rotate(14.6719deg)"
+    },
+    {
+      "name": "Actual hamburger Digital Brain opens original renderer with existing local database",
+      "status": "PASS",
+      "bodyId": "pc-primary",
+      "rootId": "brain:pc-primary",
+      "scope": "READ_ONLY_LOCAL_SQLITE_PROJECTION"
+    },
+    {
+      "name": "Brain returns to same installed Agent Lee",
+      "status": "PASS"
+    },
+    {
+      "name": "Actual Diagnostics button enters physical-device Brain universe",
+      "status": "PASS"
+    },
+    {
+      "name": "Device Brain contains current native memory observations",
+      "status": "PASS",
+      "totalBytes": 33752997888,
+      "availableBytes": 10977914880,
+      "capturedAtMs": 1791294972424
+    },
+    {
+      "name": "Motherboard inspector shows native observation provenance",
+      "status": "PASS"
+    },
+    {
+      "name": "Foreign-origin Brain queries rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "Unstructured GET queries rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "Other-body node requests rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught JavaScript errors in actual installed navigation",
+      "status": "PASS"
+    }
+  ],
+  "faults": [],
+  "data": [
+    {
+      "bodyId": "pc-primary",
+      "source": "OWNER_LOCAL_BRAIN_SQLITE",
+      "hardwareSections": [
+        "batteries",
+        "cpu",
+        "firmware",
+        "gpu",
+        "memory",
+        "memoryModules",
+        "motherboard",
+        "storage",
+        "system",
+        "temperatures"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "name": "pc-agent-lee.png",
+      "sha256": "016bfece0da85b35a4846eefbd67feec8bc80956fd16d2dbf65462d7b0791bcf"
+    },
+    {
+      "name": "pc-device-diagnostics.png",
+      "sha256": "4961397f3ef2c1afe3d23d128aae1f6da40d7a203e34ec3386f959a66c3c6dca"
+    },
+    {
+      "name": "pc-digital-brain.png",
+      "sha256": "d2cd33bc37ae10c75d9d838a6a841fbab7d1bc838c7e81afbb8e92241a1fb111"
+    }
+  ],
+  "phoneVisualVerification": false,
+  "fullGoldenRelease": false,
+  "formulaExecution": "NOT_EXECUTED"
+}

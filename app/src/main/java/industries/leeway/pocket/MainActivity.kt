@@ -29,12 +29,19 @@ class MainActivity : Activity() {
             loadUrl("file:///android_asset/agent_lee_sphere_transparent.html")
         }
         setContentView(web)
-        if(intent?.getStringExtra("leeway_action")=="TALK_TO_AGENT_LEE") startActivity(PocketVoiceActivity.launchIntent(this))
+        when(intent?.getStringExtra("leeway_action")){
+            "TALK_TO_AGENT_LEE"->startActivity(PocketVoiceActivity.launchIntent(this))
+            "OPEN_DIGITAL_BRAIN"->openBrain(false)
+            "OPEN_DIAGNOSTICS"->openBrain(true)
+        }
     }
 
+    private fun openBrain(hardware:Boolean){startActivity(Intent(this,DigitalBrainActivity::class.java).putExtra("hardware",hardware))}
+    override fun onNewIntent(intent:Intent){super.onNewIntent(intent);setIntent(intent);when(intent.getStringExtra("leeway_action")){"OPEN_DIGITAL_BRAIN"->openBrain(false);"OPEN_DIAGNOSTICS"->openBrain(true)}}
     override fun onResume(){
         super.onResume()
         val prefs=getSharedPreferences("leeway-pocket-overlay",MODE_PRIVATE)
+        if(Settings.canDrawOverlays(this))PocketOverlayService.setEnabled(this,true)
         if(prefs.getBoolean("permission_pending",false) && Settings.canDrawOverlays(this)){
             prefs.edit().putBoolean("permission_pending",false).apply()
             PocketOverlayService.setEnabled(this,true)
@@ -43,6 +50,7 @@ class MainActivity : Activity() {
 
     private fun bootstrapDeviceBrain(){
         AndroidDigitalBrainAdapter.bootstrap(this)
+        industries.leeway.pocket.devices.DeviceDiagnostics.refresh(this,true)
         val app=applicationContext
         kotlin.concurrent.thread(name="leeway-brain-initial-census",isDaemon=true){
             runCatching{AndroidBrainIngestion.reconcilePrivateFiles(app)}
@@ -61,7 +69,8 @@ class MainActivity : Activity() {
                 }
             }
         }
-        @JavascriptInterface fun openDigitalBrain(){runOnUiThread{startActivity(Intent(this@MainActivity,DigitalBrainActivity::class.java))}}
+        @JavascriptInterface fun openDigitalBrain(){runOnUiThread{openBrain(false)}}
+        @JavascriptInterface fun openDiagnostics(){runOnUiThread{openBrain(true)}}
         @JavascriptInterface fun digitalBrain():String = AndroidDigitalBrainAdapter.snapshot(this@MainActivity)
         @JavascriptInterface fun bodyId():String = AndroidDigitalBrainAdapter.identity(this@MainActivity).deviceId
     }

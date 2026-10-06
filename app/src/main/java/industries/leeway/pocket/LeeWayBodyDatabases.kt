@@ -11,6 +11,7 @@ class LeeWayBodyDatabases(context:Context): java.io.Closeable {
         const val WORKING_NAME="leeway-working-memory.db"
     }
     init {
+        OwnerDatabaseUpgrade.apply(context)
         val expected=setOf(BRAIN_NAME,CONTINUUM_NAME,WORKING_NAME)
         val other=context.databaseList().filter { name -> name.startsWith("leeway-") && name.endsWith(".db") && name !in expected }
         check(other.isEmpty()) { "EXISTING_DATABASE_SET_REQUIRES_OWNER_MIGRATION" }

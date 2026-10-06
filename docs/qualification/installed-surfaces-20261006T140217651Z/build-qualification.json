@@ -1,0 +1,147 @@
+﻿{
+    "schemaVersion":  "leeway.portable-brain-qualification.v1",
+    "runId":  "portable-qualification-20261006T134312887Z",
+    "sourceBase":  "b2f62c1fc72b06a039fb86d0375fb84cd66f9a04",
+    "sourceManifestSha256":  "A3751A31AC26518D35074F25EA0D1D6341C6482E0CD318B80255FC55B67CB6D1",
+    "scope":  "PORTABLE_BOOTSTRAP_AND_BUILD_NOT_FULL_PRODUCT_OR_DEVICE_ACCEPTANCE",
+    "status":  "PASS_SCOPED_SOFTWARE_QUALIFICATION_ONLY",
+    "nodeTestExit":  0,
+    "gradleExit":  0,
+    "fixedIdentityHits":  0,
+    "phoneModified":  false,
+    "installed":  false,
+    "releasePromoted":  false,
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false,
+    "junitSuites":  [
+                        {
+                            "suite":  "industries.leeway.brain.BrainIngestionTest",
+                            "tests":  19,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "E240AD13CB4FE4A1AD7E9B3B7D32DF6782813784627ADCFF12ED0770AC27BA12"
+                        },
+                        {
+                            "suite":  "industries.leeway.brain.BrainViewerTest",
+                            "tests":  19,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "DC5062039674C832930E8F4C7C48776C8092770AB9778757DA9F4D083EB7D9E3"
+                        },
+                        {
+                            "suite":  "industries.leeway.brain.DigitalBrainTest",
+                            "tests":  18,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "39996C58EBAA3C62C2E5CA77FA2601D9D39510EC24C815153C5F99B761AF5C4D"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.AgentVoiceBindingTest",
+                            "tests":  8,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "D078F82FBA4B8313B937F14094A49409B5BC073AC41707B7A326A6ADD9FFEA5E"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.EnglishVoicePolicyTest",
+                            "tests":  3,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "ECC6A80A59BF6B2A407340F0C56BE0217F37075F6ECD687B79E693C6ABFB2722"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.FabricVoiceCatalogTest",
+                            "tests":  3,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "FA3E95513304F702C424637E8409A4A84966542EDBFDFEAA719B55619903B8E3"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.NativeDecoderContractTest",
+                            "tests":  5,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "ABB9C8022EC2C5D987DD6F410F6055479DF4D2E035FFEBC46319421B890CB328"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.NativeFileCensusTest",
+                            "tests":  15,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "2A33EBE4D02E4CE3CC3ADEAEA92C9BF260AC8542DC7AA43AD1BFE7359AB89C09"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.PhoneActionCommandTest",
+                            "tests":  2,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "748F851065E689CED3D93665DEA52203125FD5EB6EA39F0023B539B12390563E"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.PhoneLaunchCommandTest",
+                            "tests":  1,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "5104359823925AFAD8B3F378D1E196702B0ED9F3070598CA6058F8ACA24D2871"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.RecognitionSessionTest",
+                            "tests":  2,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "A0F8DD1A46AC9F5CBC998DD7C2D853DF9646CD4BC9B57647EF9EA675C322FC65"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.SpokenPromptTest",
+                            "tests":  2,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "932FDE4934231EBCE10AFEBD4E87F55D5D8CC9F932D4D3DEF728FF7234F37F34"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.VoiceProgressTest",
+                            "tests":  2,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "D624C125E1826A0CC2DBA75F0135C046DE320215D742A59007737B2CF3796FF2"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.VoiceReadinessTest",
+                            "tests":  2,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "9FFB2764F862668AAD770E02D2F4AD087E28B5957ED39AC1FC4D001A42B8D4DB"
+                        },
+                        {
+                            "suite":  "industries.leeway.pocket.VoiceSessionTest",
+                            "tests":  4,
+                            "failures":  0,
+                            "errors":  0,
+                            "skipped":  0,
+                            "reportSha256":  "325D8F855ABF4CB38FC6F57EBBA9769B621BF0CF2B05DF72D1F15755891D903F"
+                        }
+                    ],
+    "apkSha256":  "74C7BBD83A2FBC59CEA74FC64934C568A75E99052DA3030290D8DF0B7845C029",
+    "apkBytes":  46998251,
+    "artifactKind":  "DEBUG_CANDIDATE_NOT_CUSTOMER_RELEASE",
+    "apkCorePresent":  true,
+    "apkAdapterPresent":  true,
+    "apkFixedIdentityPresent":  false,
+    "sourceStable":  true,
+    "node-tests.tapSha256":  "1B67625F8CA76685F81E3AE3E3D7CEDAAE584E7F6433B49D68F798AC9FD8D9EB",
+    "gradle.logSha256":  "87FDE6B4DD11F931A2801DAF7E7AF3FB59A2CD9B1B7611F2C242D17F3AF26093"
+}
