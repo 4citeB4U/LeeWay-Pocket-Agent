@@ -1,5 +1,22 @@
 <#
 REGION: LEEWAY.POCKET.RELEASE_QUALIFICATION
+TAG: EXTEND_EXISTING_SINGLE_APK_GATE
+WHO: Creator-authorized Agent Lee
+WHAT: Extend, not replace, the current single-APK qualification entrypoint.
+WHEN: Golden customer package definition; WHERE: existing Pocket repository.
+WHY: Fail with explicit missing artifact/profile/evidence requirements instead of a misleading score.
+HOW: Verify source hash, parse replacement, preserve rollback and rehash.
+LICENSE: MIT
+#>
+$ErrorActionPreference='Stop'
+$root=Split-Path $PSScriptRoot -Parent
+if((& git -C $root remote get-url origin|Out-String).Trim() -ne 'https://github.com/4citeB4U/LeeWay-Pocket-Agent.git'){throw 'POCKET_ORIGIN_REQUIRED'}
+$path=Join-Path $root 'Verify-SingleApk.ps1'
+if((Get-FileHash $path -Algorithm SHA256).Hash -ne '5A9310DD12810629885ECEECA4BF7D2CFE5C5CF97FBF0B665123B295CD2D8DFF'){throw 'EXISTING_GATE_CHANGED_REVIEW_REQUIRED'}
+$old=[IO.File]::ReadAllText($path)
+$new=@'
+<#
+REGION: LEEWAY.POCKET.RELEASE_QUALIFICATION
 TAG: SINGLE_APK_SOURCE_AND_GOLDEN_EVIDENCE_GATE
 WHO: Creator-authorized release harness; WHAT: Preserve source checks and require golden evidence.
 WHEN: Before distribution; WHERE: Pocket build tooling, never a new runtime.
@@ -40,3 +57,10 @@ $code=$LASTEXITCODE
 if($code -ne 0){throw 'GOLDEN_CUSTOMER_RELEASE_BLOCKED_SEE_ASSESSMENT'}
 # This source entrypoint never signs, publishes, merges, installs or overrides the existing Veritas release authority.
 'GOLDEN_EVIDENCE_ASSESSED_RELEASE_PROMOTION_NOT_EXECUTED'
+'@
+$t=$null;$e=$null;$null=[System.Management.Automation.Language.Parser]::ParseInput($new,[ref]$t,[ref]$e)
+if($e.Count){throw 'GOLDEN_GATE_PARSE_FAILED'}
+$backup=Join-Path $root ('qualification\gate-rollback-'+[DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ')+'.ps1')
+[IO.File]::WriteAllText($backup,$old,(New-Object Text.UTF8Encoding($false)))
+[IO.File]::WriteAllText($path,$new,(New-Object Text.UTF8Encoding($false)))
+[pscustomobject]@{state='SOURCE_GATE_EXTENDED_NOT_RELEASE_ACCEPTED';beforeSha256='5A9310DD12810629885ECEECA4BF7D2CFE5C5CF97FBF0B665123B295CD2D8DFF';afterSha256=(Get-FileHash $path -Algorithm SHA256).Hash;backup=$backup;phoneModified=$false}|ConvertTo-Json
