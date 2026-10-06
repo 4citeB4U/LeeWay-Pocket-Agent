@@ -15,15 +15,16 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
-import {assessGoldenEvidence,evaluateFreshnessTrace,loadGoldenPolicy,requiredCases} from '../scripts/golden-release-gate.mjs';
+import {assessGoldenEvidence,evaluateFreshnessTrace,loadGoldenPolicy,requiredCases,loadPlatformProfile} from '../scripts/golden-release-gate.mjs';
 const sha=b=>createHash('sha256').update(b).digest('hex');
 function fixture(t,profiles=['test-fixture-profile']){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'leeway-golden-gate-unit-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  const {policy,sha256:policySha256}=loadGoldenPolicy();const artifactSha256='a'.repeat(64),sourceCommit='b'.repeat(40);
+ const {profile:platformProfile,sha256:platformProfileSha256}=loadPlatformProfile(new URL('../contracts/platforms/android.v1.json',import.meta.url));
  const bytes=Buffer.from(JSON.stringify({TEST_FIXTURE_NOT_DEVICE_EVIDENCE:true,changes:[{authorized:true,clockDomain:'SOURCE_TO_DURABLE_COMMIT_MONOTONIC',sourceChangeObserved:true,versionCommitted:true,sourceChangeMs:1000,durableCommitMs:121000}]}));
  fs.writeFileSync(path.join(root,'fixture.json'),bytes);
- const evidence=profiles.flatMap(profileId=>requiredCases(policy).map(caseId=>({TEST_FIXTURE_NOT_DEVICE_EVIDENCE:true,profileId,caseId,artifactSha256,sourceCommit,policySha256,status:'PASS',testsExecuted:true,skipped:0,failures:0,errors:0,assertions:1,executionKind:'PHYSICAL_DEVICE',evidenceSha256:sha(bytes),evidencePath:'fixture.json'})));
- return{policy,policySha256,artifactSha256,sourceCommit,expectedProfiles:profiles,dossier:{evidence},evidenceRoot:root,verifyEvidence:async()=>true};
+ const evidence=profiles.flatMap(profileId=>requiredCases(policy).map(caseId=>({TEST_FIXTURE_NOT_DEVICE_EVIDENCE:true,profileId,caseId,platformId:platformProfile.id,platformProfileSha256,artifactSha256,sourceCommit,policySha256,status:'PASS',testsExecuted:true,skipped:0,failures:0,errors:0,assertions:1,executionKind:'PHYSICAL_DEVICE',evidenceSha256:sha(bytes),evidencePath:'fixture.json'})));
+ return{policy,policySha256,platformProfile,platformProfileSha256,artifactSha256,sourceCommit,expectedProfiles:profiles,dossier:{evidence},evidenceRoot:root,verifyEvidence:async()=>true};
 }
 const has=(result,code)=>result.blockers.some(b=>b.code===code);
 test('all ten groups and customer-retained Brain obligations remain required',()=>{
@@ -49,3 +50,24 @@ test('receipt symlink cannot escape the scoped evidence directory',async t=>{con
 test('Veritas refusal or exception blocks release',async t=>{const f=fixture(t);f.verifyEvidence=async()=>false;assert.ok(has(await assessGoldenEvidence(f),'VERITAS_EVIDENCE_REJECTED'));f.verifyEvidence=async()=>{throw Error('offline')};assert.ok(has(await assessGoldenEvidence(f),'VERITAS_EVIDENCE_VERIFICATION_FAILED'))});
 test('freshness measures source event to durable commit, not poll-to-commit',()=>{assert.equal(evaluateFreshnessTrace([]).status,'BLOCKED');assert.equal(evaluateFreshnessTrace([{authorized:true,sourceChangeMs:0,durableCommitMs:10}]).status,'BLOCKED');const event={authorized:true,clockDomain:'SOURCE_TO_DURABLE_COMMIT_MONOTONIC',sourceChangeObserved:true,versionCommitted:true,sourceChangeMs:0,durableCommitMs:180000};assert.equal(evaluateFreshnessTrace([event]).status,'PASS');assert.equal(evaluateFreshnessTrace([{...event,durableCommitMs:180001}]).status,'FAIL');assert.equal(evaluateFreshnessTrace([{...event,sourceChangeObserved:false}]).status,'BLOCKED')});
 test('late file trace cannot be hidden by a signed PASS label',async t=>{const f=fixture(t);const bytes=Buffer.from(JSON.stringify({changes:[{authorized:true,clockDomain:'SOURCE_TO_DURABLE_COMMIT_MONOTONIC',sourceChangeObserved:true,versionCommitted:true,sourceChangeMs:0,durableCommitMs:180001}]}));fs.writeFileSync(path.join(f.evidenceRoot,'late.json'),bytes);Object.assign(f.dossier.evidence.find(e=>e.caseId==='digital-brain/new-file-record-within-180s'),{evidencePath:'late.json',evidenceSha256:sha(bytes)});assert.ok(has(await assessGoldenEvidence(f),'FILE_FRESHNESS_ACCEPTANCE_NOT_MET'))});
+
+test('master release policy is platform-neutral and retains all 46 cases',()=>{
+ const {policy}=loadGoldenPolicy();assert.equal(policy.schemaVersion,'leeway.golden-system-release.v1');
+ assert.equal('oneAndroidApk' in policy.distribution,false);assert.equal(requiredCases(policy).length,46);
+ assert.equal(policy.architecture.core,'PLATFORM_NEUTRAL');
+ const {profile}=loadPlatformProfile(new URL('../contracts/platforms/android.v1.json',import.meta.url));
+ assert.equal(profile.packaging.oneAndroidApk,true);assert.equal(profile.platformTested,false);
+});
+test('old Android master schema is no longer accepted',()=>{
+ const {policy}=loadGoldenPolicy();policy.schemaVersion='leeway.golden-apk-release.v1';assert.throws(()=>requiredCases(policy),/GOLDEN_POLICY_INVALID/);
+});
+test('missing platform adapter profile cannot admit the master product',async t=>{
+ const f=fixture(t);delete f.platformProfile;assert.ok(has(await assessGoldenEvidence(f),'HASH_BOUND_PLATFORM_PROFILE_REQUIRED'));
+});
+test('platform policy change invalidates otherwise matching evidence',async t=>{
+ const f=fixture(t);f.platformProfileSha256='d'.repeat(64);assert.ok(has(await assessGoldenEvidence(f),'EVIDENCE_IS_FOR_DIFFERENT_PLATFORM'));
+});
+test('Android evidence cannot certify another platform',async t=>{
+ const f=fixture(t);f.platformProfile={...f.platformProfile,id:'different-platform-test-only',nativeArtifactType:'TEST'};
+ assert.ok(has(await assessGoldenEvidence(f),'EVIDENCE_IS_FOR_DIFFERENT_PLATFORM'));
+});

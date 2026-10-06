@@ -16,7 +16,7 @@ $hits=Get-ChildItem $root -Recurse -File|Select-String -Pattern $forbidden -Erro
 if($hits){$hits|Format-Table Path,LineNumber,Pattern -AutoSize;throw 'SINGLE_APK_EXTERNAL_DEPENDENCY_FAIL'}
 $required=@(
  'assets\agent_lee_sphere_transparent.html',
- 'java\industries\leeway\pocket\FoldDigitalBrain.kt',
+ 'java\industries\leeway\pocket\AndroidDigitalBrainAdapter.kt',
  'java\industries\leeway\pocket\LeeWayBodyDatabases.kt',
  'java\industries\leeway\pocket\LeeWayDeviceService.kt',
  'java\industries\leeway\pocket\LeeWayAutomation.kt',
@@ -27,10 +27,11 @@ foreach($r in $required){if(!(Test-Path (Join-Path $root $r))){throw "SINGLE_APK
 $db=Get-Content (Join-Path $root 'java\industries\leeway\pocket\LeeWayBodyDatabases.kt') -Raw
 # Relative implementation structure only. A particular device's database filename is not a universal requirement.
 foreach($name in @('BrainDb','ContinuumDb','LdwmdDb')){if($db -notmatch ('class\s+'+[regex]::Escape($name)+'\b')){throw "SINGLE_APK_DATABASE_STRUCTURE_MISSING:$name"}}
+if(!(Test-Path (Join-Path $PSScriptRoot 'brain-core/src/main/kotlin/industries/leeway/brain/DigitalBrain.kt'))){throw 'PORTABLE_BRAIN_CORE_MISSING'}
 'LEEWAY_SINGLE_APK_SOURCE_STRUCTURE_PASS_NOT_RUNTIME_ACCEPTANCE'
 if($SourceOnly){return}
 if(!$ApkPath -or !$SourceCommit){throw 'GOLDEN_ARTIFACT_AND_SOURCE_IDENTITY_REQUIRED'}
-$args=@((Join-Path $PSScriptRoot 'scripts\golden-release-gate.mjs'),'--apk',$ApkPath,'--source-commit',$SourceCommit)
+$args=@((Join-Path $PSScriptRoot 'scripts\golden-release-gate.mjs'),'--artifact',$ApkPath,'--platform-profile',(Join-Path $PSScriptRoot 'contracts\platforms\android.v1.json'),'--source-commit',$SourceCommit)
 if($SupportedProfiles.Count){$args+=@('--profiles',($SupportedProfiles -join ','))}
 if($EvidenceDossier){$args+=@('--dossier',$EvidenceDossier)}
 if($EvidenceRoot){$args+=@('--evidence-root',$EvidenceRoot)}

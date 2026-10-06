@@ -18,7 +18,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         window.statusBarColor=Color.TRANSPARENT
         window.navigationBarColor=Color.TRANSPARENT
-        bootstrapFoldBrain()
+        bootstrapDeviceBrain()
         web=WebView(this).apply {
             setBackgroundColor(Color.TRANSPARENT)
             settings.javaScriptEnabled=true
@@ -41,8 +41,8 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun bootstrapFoldBrain(){
-        FoldDigitalBrain.bootstrap(this)
+    private fun bootstrapDeviceBrain(){
+        AndroidDigitalBrainAdapter.bootstrap(this)
     }
 
     inner class LeeWayBridge {
@@ -56,7 +56,7 @@ class MainActivity : Activity() {
                 }
             }
         }
-        @JavascriptInterface fun digitalBrain():String = FoldDigitalBrain.snapshot(this@MainActivity)
-        @JavascriptInterface fun bodyId():String = "phone-fold6"
+        @JavascriptInterface fun digitalBrain():String = AndroidDigitalBrainAdapter.snapshot(this@MainActivity)
+        @JavascriptInterface fun bodyId():String = AndroidDigitalBrainAdapter.identity(this@MainActivity).deviceId
     }
 }

@@ -23,7 +23,7 @@ class PocketVoiceActivity:Activity(){
     }
     override fun onCreate(b:Bundle?){super.onCreate(b);window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         container=FrameLayout(this);val panel=LinearLayout(this).apply{orientation=LinearLayout.VERTICAL;gravity=Gravity.CENTER;setPadding(32,32,32,32);setBackgroundColor(Color.argb(170,3,8,16))}
-        status=TextView(this).apply{text="Agent Lee · phone-fold6";setTextColor(Color.WHITE);textSize=18f};transcript=TextView(this).apply{text="Speak when prompted.";setTextColor(Color.LTGRAY);textSize=15f;gravity=Gravity.CENTER}
+        status=TextView(this).apply{text="Agent Lee";setTextColor(Color.WHITE);textSize=18f};transcript=TextView(this).apply{text="Speak when prompted.";setTextColor(Color.LTGRAY);textSize=15f;gravity=Gravity.CENTER}
         panel.addView(status);panel.addView(transcript);panel.addView(Button(this).apply{text="LISTEN";setOnClickListener{startListening()}});panel.addView(Button(this).apply{text="CLOSE";setOnClickListener{finish()}})
         container.addView(panel);setContentView(container);PocketSpeech.attach(applicationContext,voiceListener,container)
         if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)!=PackageManager.PERMISSION_GRANTED)requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),701)else startListening()
@@ -49,7 +49,7 @@ class PocketVoiceActivity:Activity(){
         status.text="Speaking"
         PocketSpeech.speak(voiceListener,reply)
     }
-    private fun appendContinuum(actor:String,text:String){val db=LeeWayBodyDatabases(this).continuum.writableDatabase;val v=android.content.ContentValues();v.put("universe_id","continuum:phone-fold6:conversation");v.put("event_type","conversation.turn");v.put("payload_json",JSONObject().put("actor",actor).put("text",text).toString());v.put("captured_at",System.currentTimeMillis());db.insert("continuum_events",null,v)}
+    private fun appendContinuum(actor:String,text:String){val db=LeeWayBodyDatabases(this).continuum.writableDatabase;val v=android.content.ContentValues();v.put("universe_id",(industries.leeway.brain.DigitalBrain.continuumRootId(AndroidDigitalBrainAdapter.identity(this))+":conversation"));v.put("event_type","conversation.turn");v.put("payload_json",JSONObject().put("actor",actor).put("text",text).toString());v.put("captured_at",System.currentTimeMillis());db.insert("continuum_events",null,v)}
     override fun onRequestPermissionsResult(r:Int,p:Array<out String>,g:IntArray){super.onRequestPermissionsResult(r,p,g);if(r==701&&g.firstOrNull()==PackageManager.PERMISSION_GRANTED)startListening()}
     override fun onDestroy(){recognizer?.destroy();PocketSpeech.stop(voiceListener);PocketSpeech.detach(voiceListener);super.onDestroy()}
     companion object{fun launchIntent(c:Context,newTask:Boolean=false)=Intent(c,PocketVoiceActivity::class.java).apply{addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_SINGLE_TOP);if(newTask)addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)}}

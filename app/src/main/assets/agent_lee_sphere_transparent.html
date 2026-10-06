@@ -253,7 +253,7 @@
       <button class="close-btn" id="close-drawer">&times;</button>
     </div>
 
-    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#38bdf8;margin-top:10px;">AGENT LEE · PHONE-FOLD6</div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#38bdf8;margin-top:10px;">AGENT LEE · THIS DEVICE</div>
     <div class="element-card" onclick="openDigitalBrain()"><div><div class="element-name">Digital Brain</div><div class="element-motto">This Device · Connected Devices</div></div><div class="element-action">OPEN</div></div>
     <div class="element-card" onclick="openWorkstation()"><div><div class="element-name">Workstation</div><div class="element-motto">Agent VT · Notebook · Sandbox</div></div><div class="element-action">OPEN</div></div>
     <div class="element-card"><div><div class="element-name">Continuum</div><div class="element-motto">Body-local governed state</div></div><div class="element-action">BIND</div></div>
@@ -616,7 +616,7 @@
       closeDrawer();
       const raw = window.LeeWayAndroid?.digitalBrain?.() || '{"state":"UNAVAILABLE"}';
       const data = JSON.parse(raw);
-      document.body.innerHTML = '<div style="position:fixed;inset:0;overflow:auto;padding:28px;background:rgba(3,10,18,.48);backdrop-filter:blur(20px);color:white;font-family:Segoe UI,Arial"><button onclick="location.reload()" style="position:fixed;right:20px;top:20px;border-radius:22px;padding:10px 16px;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.25)">Back</button><h1>Digital Brain · phone-fold6</h1><h3>Information Brain</h3><pre>'+escapeHtml(JSON.stringify(data.informationBrain||{},null,2))+'</pre><h3>Device Brain</h3><pre>'+escapeHtml(JSON.stringify(data.deviceBrain||{},null,2))+'</pre><h3>Runtime Brain</h3><pre>'+escapeHtml(JSON.stringify(data.runtimeBrain||{},null,2))+'</pre></div>';
+      document.body.innerHTML = '<div style="position:fixed;inset:0;overflow:auto;padding:28px;background:rgba(3,10,18,.48);backdrop-filter:blur(20px);color:white;font-family:Segoe UI,Arial"><button onclick="location.reload()" style="position:fixed;right:20px;top:20px;border-radius:22px;padding:10px 16px;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.25)">Back</button><h1>Digital Brain</h1><h3>Information Brain</h3><pre>'+escapeHtml(JSON.stringify(data.informationBrain||{},null,2))+'</pre><h3>Device Brain</h3><pre>'+escapeHtml(JSON.stringify(data.deviceBrain||{},null,2))+'</pre><h3>Runtime Brain</h3><pre>'+escapeHtml(JSON.stringify(data.runtimeBrain||{},null,2))+'</pre></div>';
     }
     function openWorkstation(){ closeDrawer(); alert('Agent VT Workstation binding is being restored through the LeeWay capability fabric.'); }
     function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}

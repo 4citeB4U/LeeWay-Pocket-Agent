@@ -9,7 +9,7 @@ import org.json.JSONObject
 class LeeWayDeviceService(private val context:Context) {
     fun status():JSONObject=JSONObject()
         .put("authority","INTERNAL_LEEWAY_DEVICE_FABRIC")
-        .put("bodyId","phone-fold6")
+        .put("bodyId",AndroidDigitalBrainAdapter.identity(context).deviceId)
         .put("commanderProvider","LEEWAY_COMMANDER_ADAPTER")
         .put("externalDeviceBridgeRequired",false)
 

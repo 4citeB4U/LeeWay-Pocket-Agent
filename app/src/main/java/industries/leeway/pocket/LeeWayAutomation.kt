@@ -7,7 +7,7 @@ class LeeWayAutomation(private val context:Context){
     fun status()=JSONObject()
         .put("authority","4citeB4U/Leeway-Runtime-Fabric")
         .put("formulaFamily","F8")
-        .put("bodyId","phone-fold6")
+        .put("bodyId",AndroidDigitalBrainAdapter.identity(context).deviceId)
         .put("externalWebhookRequired",false)
         .put("canonicalFormulaState","NOT_EXECUTED")
     fun classify(request:String):String = when {

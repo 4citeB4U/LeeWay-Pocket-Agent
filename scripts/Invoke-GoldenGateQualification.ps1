@@ -17,7 +17,7 @@ if((& git -C $root remote get-url origin|Out-String).Trim() -ne 'https://github.
 $runId='golden-gate-'+[DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffZ')
 $dir=Join-Path $root ('qualification\'+$runId)
 $null=New-Item -ItemType Directory -Path $dir
-$paths=@('contracts\golden-apk-release.v1.json','scripts\golden-release-gate.mjs','tests\golden-release-gate.test.mjs','tests\sphere-voice-boundary.test.mjs','Verify-SingleApk.ps1')
+$paths=@('contracts\golden-system-release.v1.json','scripts\golden-release-gate.mjs','tests\golden-release-gate.test.mjs','tests\sphere-voice-boundary.test.mjs','Verify-SingleApk.ps1')
 $before=@(foreach($p in $paths){[pscustomobject]@{path=$p;sha256=(Get-FileHash -LiteralPath (Join-Path $root $p) -Algorithm SHA256).Hash}})
 $policy=Get-Content -LiteralPath (Join-Path $root $paths[0]) -Raw|ConvertFrom-Json
 $count=0;foreach($p in $policy.requiredGroups.PSObject.Properties){$count+=@($p.Value).Count}
@@ -29,7 +29,7 @@ try {
  $testExit=$LASTEXITCODE
  if($testExit -ne 0){Get-Content $testsLog -Tail 100;throw 'GOLDEN_GATE_REGRESSIONS_FAILED'}
  $gateLog=Join-Path $dir 'candidate-assessment.log'
- & node scripts/golden-release-gate.mjs --apk $ApkPath --source-commit $ArtifactSourceCommit --profiles android-reference-candidate --out $assessment *> $gateLog
+ & node scripts/golden-release-gate.mjs --artifact $ApkPath --platform-profile contracts/platforms/android.v1.json --source-commit $ArtifactSourceCommit --profiles android-reference-candidate --out $assessment *> $gateLog
  $gateExit=$LASTEXITCODE
  if($gateExit -ne 2){throw 'INCOMPLETE_GOLDEN_CANDIDATE_MUST_BE_REJECTED'}
  $result=Get-Content $assessment -Raw|ConvertFrom-Json

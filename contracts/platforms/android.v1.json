@@ -1,0 +1,9 @@
+{
+  "schemaVersion":"leeway.platform-release-profile.v1",
+  "id":"android",
+  "nativeArtifactType":"APK",
+  "packaging":{"oneAndroidApk":true,"oneLauncher":true,"releaseSigningRequired":true,"companionLeewayPackagesRequired":false},
+  "qualification":"REQUIRES_ALL_SHARED_CASES_AND_ACTUAL_ANDROID_ARTIFACT_AND_DEVICE_EVIDENCE",
+  "platformTested":false,
+  "universalInstallerClaim":false
+}

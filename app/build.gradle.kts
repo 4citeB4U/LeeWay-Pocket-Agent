@@ -15,13 +15,14 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 26
-        versionName = "1.0.0-unified-body-fold6-rc1"
+        versionCode = 27
+        versionName = "1.0.0-portable-body-candidate"
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 }
 
 dependencies {
+    implementation(project(":brain-core"))
     implementation("com.microsoft.onnxruntime:onnxruntime-android:1.30.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20240303")
