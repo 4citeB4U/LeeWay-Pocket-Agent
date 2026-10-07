@@ -534,7 +534,8 @@ html,body,#absoluteNucleusBackground{background:transparent!important}
 #leewayReturnAgent:hover{border-color:#72e7ff;background:rgba(4,22,34,.64)}
 @media(max-width:760px){#leewayReturnAgent{right:7px;top:7px;min-height:34px;padding:6px 10px;font-size:11px}#top{padding-right:92px!important}}
 </style>
-<link rel="stylesheet" href="brain-live-overrides.css">\n<style id="leeway-owner-local-window-shell">
+<link rel="stylesheet" href="brain-live-overrides.css">
+<style id="leeway-owner-local-window-shell">
 html,body,#absoluteNucleusBackground{background:transparent!important}
 body{background:transparent!important}
 #absoluteNucleusBackground{opacity:.18!important}
@@ -545,13 +546,30 @@ body{background:transparent!important}
 #localControls{background:rgba(3,10,18,.48)!important;border:1px solid rgba(125,175,210,.22);backdrop-filter:blur(12px)}
 #localClose{position:fixed;left:10px;top:62px;z-index:13000;border-color:rgba(113,228,255,.42)!important;background:rgba(5,16,28,.62)!important;backdrop-filter:blur(10px)}
 #localClose::before{content:"← "}
+#localControlsTrack{display:contents}
 button,input,.node{backdrop-filter:blur(8px)}
 #stage,#brainUniverseLayer,#brain3DCanvas{background:transparent!important}
 #hud,#settingsPanel,#legend{background:linear-gradient(155deg,rgba(5,11,20,.88),rgba(3,8,15,.84))!important}
 @media(max-width:760px){
- #top{padding-left:70px}
- #localClose{top:8px;left:8px}
- #localControls{left:6px;right:6px;bottom:62px}
+ /* Keep the existing controls reachable without covering the Brain stage. */
+ #top{right:92px;height:62px;min-height:62px;padding:4px 8px!important;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:rgba(114,231,255,.55) transparent;overscroll-behavior-x:contain;touch-action:pan-x}
+ #top>*{flex:0 0 auto}
+ #top .brand{order:1;white-space:nowrap}
+ #top button,#crumbs button,#localControls button,#dock button{min-height:44px;min-width:44px;white-space:nowrap}
+ #localSearch{min-height:44px}
+ #top::-webkit-scrollbar,#crumbs::-webkit-scrollbar,#localControlsTrack::-webkit-scrollbar,#dock::-webkit-scrollbar{height:6px}
+ #top::-webkit-scrollbar-thumb,#crumbs::-webkit-scrollbar-thumb,#localControlsTrack::-webkit-scrollbar-thumb,#dock::-webkit-scrollbar-thumb{background:rgba(114,231,255,.55);border-radius:999px}
+ #crumbs{top:66px;height:52px;align-items:flex-start;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:rgba(114,231,255,.45) transparent;overscroll-behavior-x:contain;touch-action:pan-x}
+ #crumbs>*{flex:0 0 auto}
+ #stage{top:122px}
+ #zoom{top:130px}
+ #leewayReturnAgent{min-height:44px;min-width:44px;max-width:84px;padding:6px 8px;font-size:11px;white-space:nowrap}
+ #dock{display:flex;height:62px;align-items:center;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:rgba(114,231,255,.45) transparent;overscroll-behavior-x:contain;touch-action:pan-x}
+ #dock>*{flex:0 0 auto}
+ #localClose{position:static}
+ #localControls{left:6px;right:6px;bottom:68px;height:62px;padding:0;display:block}
+ #localControlsTrack{display:flex;height:100%;padding:4px 6px;gap:6px;align-items:center;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:rgba(114,231,255,.45) transparent;overscroll-behavior-x:contain;touch-action:pan-x}
+ #localControlsTrack>*{flex:0 0 auto}
 }
 </style>
 </head>
@@ -560,7 +578,7 @@ button,input,.node{backdrop-filter:blur(8px)}
   <img id="nucleusFallbackImage" alt="" src="nucleus.png">
   <canvas id="nucleusWaveCanvas"></canvas>
 </div>
-<div id="top">
+<div id="top" role="group" aria-label="Digital Brain controls" tabindex="0">
   <div class="brand">LEEWAY <span>COGNITIVE FABRIC</span></div><span id="inventoryStatus" title="Live directory/file count for the canonical filesystem root">FILES 0 · DIRECTORIES 0</span>
   <button id="homeBtn">Whole Brain</button><button id="backBtn">← Back</button><button id="harnessBtn">Harnesses</button><button id="dataBtn">Databases</button><button id="legendBtn">Legend</button><button id="settingsBtn">Settings</button><button id="wdDiagBtn" title="Inspect this device hardware records">Device diagnostics</button>
   <button id="rotateBtn">Rotate 3D</button><button id="pulseBtn">Pause Pulses</button>
@@ -707,8 +725,10 @@ button,input,.node{backdrop-filter:blur(8px)}
 </div>
 
 <div id="localControls" aria-label="Local Digital Brain navigation">
+<div id="localControlsTrack" role="group" aria-label="Local Brain controls" tabindex="0">
 <button id="localClose">Agent Lee</button><button id="localEnter">Enter Brain</button><button id="localPrev" disabled>Previous</button><button id="localNext" disabled>Next</button><span id="localPageStatus">Binding local Brain</span><button id="localRefresh">Refresh</button>
-<input id="localSearch" placeholder="Search this device's Brain" aria-label="Search this device's Brain"><div id="localSearchResults"></div>
+<input id="localSearch" placeholder="Search this device's Brain" aria-label="Search this device's Brain">
+</div><div id="localSearchResults"></div>
 </div>
 <script src="local-brain-binding.js"></script>
 <script>
@@ -2046,6 +2066,7 @@ window.__leewayOriginalBrain3D={geometrySource:'RECOVERED_ORIGINAL_HEMISPHERE_GE
 <script id="leeway-live-brain-return">
 (()=>{if(document.getElementById('leewayReturnAgent'))return;const b=document.createElement('button');b.id='leewayReturnAgent';b.type='button';b.textContent='Agent Lee';b.setAttribute('aria-label','Return to Agent Lee');b.addEventListener('click',()=>{try{window.LeeWayBrainView?.close?.()}catch{};});document.body.appendChild(b);window.addEventListener('keydown',e=>{if(e.key==='Escape')b.click()});})();
 </script>
-<script src="brain-live-return.js"></script>\n</body></html>
+<script src="brain-live-return.js"></script>
+</body></html>
 
 
