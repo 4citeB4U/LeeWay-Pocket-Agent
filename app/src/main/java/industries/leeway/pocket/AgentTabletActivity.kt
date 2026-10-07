@@ -18,6 +18,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.WindowInsets
 import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -38,7 +39,7 @@ class AgentTabletActivity : Activity() {
     companion object { const val EXTRA_SURFACE = "leeway_surface" }
     private val continuumMode get() = intent.getStringExtra(EXTRA_SURFACE) == "continuum"
     private val entry get() = if (continuumMode) "/agent-vt/continuum/index.html" else "/agent-vt/standalone.html"
-    private var continuumAdmitted = false
+    @Volatile private var continuumAdmitted = false
     private var bundleResources = JSONObject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +47,12 @@ class AgentTabletActivity : Activity() {
         val layout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setBackgroundColor(Color.rgb(24, 25, 31))
+            setOnApplyWindowInsetsListener { view, insets ->
+                // Keep toolbar and WebView controls clear of the system bars and cutout.
+                val safe = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+                view.setPadding(safe.left, safe.top, safe.right, safe.bottom)
+                insets.inset(safe.left, safe.top, safe.right, safe.bottom)
+            }
         }
         val toolbar = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         toolbar.addView(Button(this).apply {
@@ -65,6 +72,7 @@ class AgentTabletActivity : Activity() {
         }, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         layout.addView(toolbar)
         setContentView(layout)
+        layout.requestApplyInsets()
         val payload = runCatching { verifiedPayload() }.getOrElse { error ->
             layout.addView(TextView(this).apply {
                 text = "Agent VT is not admitted in this package.\n" +
@@ -202,6 +210,17 @@ class AgentTabletActivity : Activity() {
         val actual = MessageDigest.getInstance("SHA-256").digest(bytes).joinToString("") { "%02x".format(it) }
         require(actual == expected) { "VT_PAYLOAD_HASH_MISMATCH" }
         return bytes
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        val surfaceChanged = continuumMode != (intent.getStringExtra(EXTRA_SURFACE) == "continuum")
+        if (surfaceChanged) {
+            continuumAdmitted = false
+            web?.stopLoading()
+        }
+        setIntent(intent)
+        if (surfaceChanged) recreate()
     }
 
     override fun onPause() { web?.onPause(); super.onPause() }
