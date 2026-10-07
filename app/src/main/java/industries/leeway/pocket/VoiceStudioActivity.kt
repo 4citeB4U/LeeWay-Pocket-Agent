@@ -15,6 +15,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.view.WindowInsets
 import android.webkit.*
 import android.widget.*
 import org.json.JSONObject
@@ -34,9 +35,17 @@ class VoiceStudioActivity:Activity(){
     private val entry="https://appassets.androidplatform.net/voice-studio/studio.html"
     override fun onCreate(state:Bundle?){
         super.onCreate(state)
-        val layout=LinearLayout(this).apply{orientation=LinearLayout.VERTICAL;setBackgroundColor(Color.rgb(8,14,22))}
+        val layout=LinearLayout(this).apply{
+            orientation=LinearLayout.VERTICAL;setBackgroundColor(Color.rgb(8,14,22))
+            setOnApplyWindowInsetsListener { view, insets ->
+                val safe=insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+                view.setPadding(safe.left,safe.top,safe.right,safe.bottom)
+                insets.inset(safe.left,safe.top,safe.right,safe.bottom)
+            }
+        }
         layout.addView(Button(this).apply{text="Return to Agent Lee";setOnClickListener{finish()}})
         setContentView(layout)
+        layout.requestApplyInsets()
         val lock=runCatching{JSONObject(assets.open("voice-studio/SOURCE.json").bufferedReader(Charsets.UTF_8).use{it.readText()})}.getOrNull()
         if(lock==null||lock.optString("repository")!="4citeB4U/LeeWay-Voice-Fabric"||lock.optString("schemaVersion")!="leeway.voice-studio-bundle.v1"){
             layout.addView(TextView(this).apply{text="Canonical Voice Studio package is not admitted.";setTextColor(Color.WHITE)});return

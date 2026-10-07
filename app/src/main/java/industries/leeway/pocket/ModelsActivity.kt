@@ -12,6 +12,7 @@ package industries.leeway.pocket
 import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
+import android.view.WindowInsets
 import android.webkit.JavascriptInterface
 import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
@@ -20,6 +21,7 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import android.widget.TextView
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
@@ -37,9 +39,19 @@ class ModelsActivity:Activity(){
     private val entry="https://appassets.androidplatform.net/models-ui/index.html"
     override fun onCreate(state:Bundle?){
         super.onCreate(state)
+        val layout=FrameLayout(this).apply{
+            setBackgroundColor(Color.rgb(9,15,23))
+            setOnApplyWindowInsetsListener { view, insets ->
+                val safe=insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+                view.setPadding(safe.left,safe.top,safe.right,safe.bottom)
+                insets.inset(safe.left,safe.top,safe.right,safe.bottom)
+            }
+        }
+        setContentView(layout)
+        layout.requestApplyInsets()
         val lock=runCatching{JSONObject(assets.open("models-ui/SOURCE.json").bufferedReader(Charsets.UTF_8).use{it.readText()})}.getOrNull()
         if(lock==null||lock.optString("repository")!="4citeB4U/Leeway-Runtime-Fabric"||lock.optString("schemaVersion")!="leeway.models-ui-bundle.v1"){
-            setContentView(TextView(this).apply{text="The Models interface package could not be verified.";setTextColor(Color.WHITE);setBackgroundColor(Color.rgb(9,15,23));setPadding(24,48,24,24)});return
+            layout.addView(TextView(this).apply{text="The Models interface package could not be verified.";setTextColor(Color.WHITE);setBackgroundColor(Color.rgb(9,15,23));setPadding(24,48,24,24)});return
         }
         files=lock.getJSONObject("files")
         if(files.length()!=2||!files.has("index.html")||!files.has("native-models-bridge.js")){finish();return}
@@ -68,7 +80,7 @@ class ModelsActivity:Activity(){
             if(BuildConfig.DEBUG)WebView.setWebContentsDebuggingEnabled(true)
             loadUrl(entry)
         }
-        setContentView(web)
+        layout.addView(web,FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.MATCH_PARENT))
     }
     private fun verifiedAsset(name:String,expected:String):ByteArray{
         require(expected.matches(Regex("[0-9a-f]{64}")))
