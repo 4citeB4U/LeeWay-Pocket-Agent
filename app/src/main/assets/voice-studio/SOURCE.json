@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "leeway.voice-studio-bundle.v1",
+  "repository": "4citeB4U/LeeWay-Voice-Fabric",
+  "sourceCommit": "31e49ccc1c2d748708262623b33b2aeade7f8b3c",
+  "sourceState": "EXISTING_STUDIO_WITH_UNCOMMITTED_P0_TRANSPORT_PATCH",
+  "htmlSha256": "83be8e0614a66f14b14bf56883ab8013e0b0d5126ef400a43d52be54b28a18a9",
+  "files": {
+    "studio.html": {
+      "sha256": "83be8e0614a66f14b14bf56883ab8013e0b0d5126ef400a43d52be54b28a18a9",
+      "mime": "text/html"
+    },
+    "src/android-bridge.js": {
+      "sha256": "333df580da67feca8f9e5ab4d960af52f924ccc2dd2ed8b726122c565c341f0c",
+      "mime": "text/javascript"
+    },
+    "src/bridge-runtime.js": {
+      "sha256": "1e0741c98112ce094851424faafdab4223483cdcaa3e0d2d6f1c2e4e5a56f872",
+      "mime": "text/javascript"
+    },
+    "src/browser-voice.js": {
+      "sha256": "48b17960d66b9d486664d7623b8bf382ee9d81931ec348d9a86995c768b49e5a",
+      "mime": "text/javascript"
+    },
+    "src/chatterbox.worker.js": {
+      "sha256": "343ac712b626f96d93acd4d8a8b1936acac44c8e7e65005fb3a3ffc3ae88bc11",
+      "mime": "text/javascript"
+    },
+    "src/formula-voice-adapter.js": {
+      "sha256": "2c82fb6b2e5e1899756ef41238a95e00ec5248731b97ca1135bd0ab1c786b35f",
+      "mime": "text/javascript"
+    },
+    "src/lab.js": {
+      "sha256": "624de442794cf7abb39e10f8cd2b0a858926f4fca12caa65f314ce188a30e832",
+      "mime": "text/javascript"
+    },
+    "src/native-decoder-client.js": {
+      "sha256": "458aaa57c55e1e90c28a864e1e7745b7554abb909b501d9f9d7fb6c244f7df11",
+      "mime": "text/javascript"
+    },
+    "src/speech-pipeline.js": {
+      "sha256": "83d4ebbdc0ed39f394080cd25166d72cd08dc854350c04b01bdfab4e966dd049",
+      "mime": "text/javascript"
+    },
+    "src/studio-audio.js": {
+      "sha256": "b384c20acabc79d0e597a81ee7b2ba6df237b699a4757ae931f328309c438daf",
+      "mime": "text/javascript"
+    },
+    "src/studio-render.worker.js": {
+      "sha256": "1805821f00b8376ab54f98290367d43fb705357308f4a21e4f8694fc25733035",
+      "mime": "text/javascript"
+    },
+    "src/studio.css": {
+      "sha256": "e267e1ae2fe6c1e90ee93b39444093fb816edab1db695115cdb56907bc9175c4",
+      "mime": "text/css"
+    },
+    "src/studio.js": {
+      "sha256": "94ae567f36a9a8ebada1176bd5303367f537fe2288893c8786728d26042168db",
+      "mime": "text/javascript"
+    },
+    "src/voice-cpu-sessions.js": {
+      "sha256": "0e1607d5af7a539477853a5b0eabc660cad714cad31ed0274bb7f64d8379feec",
+      "mime": "text/javascript"
+    },
+    "src/voice-model-cache.js": {
+      "sha256": "5afff6968b598e059eaceada85a5ec519577d53d6ac15fb2f6a3580c484730f6",
+      "mime": "text/javascript"
+    },
+    "src/voice-package-core.js": {
+      "sha256": "e740d75d2305dbe30801dda52c795989707f99dbb1a7f027cdd51334e6506aa7",
+      "mime": "text/javascript"
+    },
+    "src/voice-registry.js": {
+      "sha256": "d751abb9a06324c704aa91d1c259798e4bd63ac22fd2c749a20e82f12ee15bb7",
+      "mime": "text/javascript"
+    },
+    "src/voice-sdk.js": {
+      "sha256": "5d51cf409d496c8a5fc7768f2d5a7abafcd78ff7859d8069a74f890d2fdd9f2a",
+      "mime": "text/javascript"
+    },
+    "voices/agent-lee-preview.json": {
+      "sha256": "1604ab083867751abbfb26da455e15307a3df3ee6126a37f43a98bc709db88ae",
+      "mime": "application/json"
+    },
+    "voices/agent-lee-preview.wav": {
+      "sha256": "a8a2a8f45bb6b3e9330661c1fb30c18d836f16cccc3e7ccd1d86f4b67585b2c4",
+      "mime": "audio/wav"
+    },
+    "voices/agent-lee-reference.json": {
+      "sha256": "169729c58cd4438ba8bad9c98e0561df913582d6889f8d540f6406cc797eb643",
+      "mime": "application/json"
+    },
+    "voices/agent-lee-reference.wav": {
+      "sha256": "638c88b332ecc7a21950511871c724f68f3eb566c59157e46493ee79ec55970e",
+      "mime": "audio/wav"
+    },
+    "voices/catalog.v1.json": {
+      "sha256": "2e56fd4390757b7ad76c44f0ca42d03d5ebf6f9c6507a9a2fbca5eaff7f5f298",
+      "mime": "application/json"
+    },
+    "voices/chatterbox-default-reference.wav": {
+      "sha256": "3ebc531cdaba358a327099c1c4f0448026719957bcf4d8e9868767f227e02f4e",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_alloy.wav": {
+      "sha256": "f48b374cbaab1b99e1ee8e9655d9579e2bf44071741da45e709af3e3ba388164",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_aoede.wav": {
+      "sha256": "234e20e6690b73317c9bcef38376017db70096ad0b403c817e28908e5dcb7037",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_bella.wav": {
+      "sha256": "45589e7967a67ba0f901d0c0df663c86ec19863c7979332d93dbd332a595e75a",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_heart.wav": {
+      "sha256": "accfb5d2852b4a6e407abd492a36b4b59a2cc586ad4efd8ff4ac0d76604aab0a",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_jessica.wav": {
+      "sha256": "9c8fc7dc1eba7c1cf3ec27096e08e88100f542d8d866c9a1a50c8f4eaa8a42fb",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_kore.wav": {
+      "sha256": "8d0d6e98843c0fdbed80d22ff500f183a88f5be522d4ab99f1d2513983e7b1ce",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_nicole.wav": {
+      "sha256": "f765d67936aa8058e56d1ca33f89503469aab147e4fcddfaf140a154d2779e75",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_nova.wav": {
+      "sha256": "a4e82f01b0a5e309a2118e06eea5644fb10a45ca1e654ca99cd0da35b469b7e9",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_river.wav": {
+      "sha256": "cad99135fc90f014134b7038d2c66a437af0eff6a673be61170f349775ca496b",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_sarah.wav": {
+      "sha256": "c9dcf5cd4f93f192ac52c2e7e04b704e01583a6219369c36b54abf10c04470f2",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/af_sky.wav": {
+      "sha256": "fb79222cfeb0d9e376df760a9dab70c69a92cbf25e981444f2868f9a0de7e781",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_adam.wav": {
+      "sha256": "fcd29d2c9136c772382dd0c9080004b28e3f11a38b4a6b8e0f79a55b0579b33b",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_echo.wav": {
+      "sha256": "6d89d468730d79e69de52f134359f4ff44961ba65e04bec060ab891fc3141805",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_eric.wav": {
+      "sha256": "bf050262f11f3fd458ede52af6c344f4d5c8a5dae2e3a8931bd428d0d457d41a",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_fenrir.wav": {
+      "sha256": "2573709d29f55b9478bbaf18bfd8c2ed3bb643db4008dd70eac3d12b601bc114",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_liam.wav": {
+      "sha256": "31539fb76f9da85dbc15e4b88b32e3fa23cb7a6ee570268c67c14f46cae50a0f",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_michael.wav": {
+      "sha256": "22463f423dc2c8487914af5b8f74f5a37b07a8590c354c46ccab04a68881e404",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_onyx.wav": {
+      "sha256": "be0f5a97429501c64c5fc633cd104f8ffffbc6feff5574de67c28fceac9d866a",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_puck.wav": {
+      "sha256": "fdfb096a243637df1e7f5a222af23cd4ab0c3f2e16170fc31937ff0ce871a2f8",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/am_santa.wav": {
+      "sha256": "88f8680bcec022a37f8f18efdb4c6d028ca980749a1f7160dace286667664199",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bf_alice.wav": {
+      "sha256": "5ef56f32cd7ed12f9602be02bb75e3d643eee306c83f2a4a63d3ea4af5e6337b",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bf_emma.wav": {
+      "sha256": "b0ca6f708dd2b072e4b90a727dc814f33e14bf11f6d51bcc817d3fb3048b201f",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bf_isabella.wav": {
+      "sha256": "1e4b980338b6ba56ab4967a772fbf4817a843bcc7d2bf23d7cbffee768977aff",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bf_lily.wav": {
+      "sha256": "31ea3bd734590373669474fdea5165d53452673cb7ca1cdb7536632163aed090",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bm_daniel.wav": {
+      "sha256": "eb931365cbfa232d18b6fb788d84459a052bf151ae37ee43ee5a87ddcbf2db28",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bm_fable.wav": {
+      "sha256": "3aac68365d5df09561885ddae9f054dc14e4d353bd93d35a54c801d185655926",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bm_george.wav": {
+      "sha256": "1e1634701f1d038bba6fcb1531c70353df049e9eedb852b0856812618a30b2c1",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/bm_lewis.wav": {
+      "sha256": "46dada31d822da192ab7bf651b03c6dec8c7d30e64cf578ea39519f1bf957866",
+      "mime": "audio/wav"
+    },
+    "voices/kokoro-previews/generation.json": {
+      "sha256": "1564cce306057191258c72892e2c0f25c62f62464617bc73587368f55fbe789b",
+      "mime": "application/json"
+    },
+    "native-studio-bridge.js": {
+      "sha256": "a9d1e9b7a25cfe779a735a8d4adf1a87258e6d463a4934ccbff51828a89d56c4",
+      "mime": "text/javascript"
+    }
+  },
+  "runtimeProjection": "NATIVE_TRANSPORT_SCRIPT_INSERTED_AFTER_HTML_HASH_VERIFICATION",
+  "standalonePhoneInference": false
+}

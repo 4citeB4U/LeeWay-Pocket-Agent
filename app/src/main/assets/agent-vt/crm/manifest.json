@@ -1,0 +1,16 @@
+{
+  "name": "LeeWay Voice Scheduling Translator CRM",
+  "short_name": "LeeWay CRM",
+  "description": "Voice-first field outreach CRM for LeeWay Industries.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f8fc",
+  "theme_color": "#071f49",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

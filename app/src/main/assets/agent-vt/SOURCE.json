@@ -1,0 +1,83 @@
+{
+  "schema": "leeway.embedded-vt.source.v1",
+  "repository": "4citeB4U/LeeWay-Digital-Workforce",
+  "sourceCommit": "d6e87cdaea90d44b13a0e4edf16867f594e4d6d7",
+  "sourceTree": "0167be677eb3f653e1f27fc886a59140361f20dc",
+  "sourceState": "UNCOMMITTED_TEST_CANDIDATE",
+  "sha256": "320f3e09d7206ea8dd58c3cebbe4f39f58e20efccc5a699918ecdd0a8bd25b1c",
+  "entry": "standalone.html",
+  "resources": {
+    "crm/_leeway-upstream.json": {
+      "sha256": "5c2ad96262028b0ad7147fbcd911c8619b711d57cdf41af7593b0494e63cd318",
+      "bytes": 604,
+      "mime": "application/json"
+    },
+    "crm/icon.svg": {
+      "sha256": "7bedf83e9b4c62b6f32e2887169705f74f76531f4be31afc58aa26d4cb72ec7f",
+      "bytes": 726,
+      "mime": "image/svg+xml"
+    },
+    "crm/index.html": {
+      "sha256": "5139bc27ee699413955c85ebc7e736df171fca171a9d84ac91cef665d6b3c00e",
+      "bytes": 76197,
+      "mime": "text/html"
+    },
+    "crm/manifest.json": {
+      "sha256": "72864bd2e53a6ab458fa3856f29b22f9ea0fa82922ec96253c1cd80e80ae0aab",
+      "bytes": 385,
+      "mime": "application/json"
+    },
+    "crm/service-worker.js": {
+      "sha256": "086681ae97d9defa89b12a2f187bc3e74c94b85c3b26684f65e40ec11e25752f",
+      "bytes": 599,
+      "mime": "application/javascript"
+    },
+    "crm/data/leeway-crm-campaign-starter-data.json": {
+      "sha256": "4da5a2a4ec44f49c4139e0e7710a1dc562ec11034383d98dd23e2d904b84b165",
+      "bytes": 17929,
+      "mime": "application/json"
+    },
+    "licenses/HyperFrames-Apache-2.0.txt": {
+      "sha256": "4259155fb06f127687ee7b0a8a3682d45132db0f2da26cbc0b7a2d1e796436b8",
+      "bytes": 10763,
+      "mime": "text/plain"
+    },
+    "licenses/THIRD-PARTY-NOTICES.md": {
+      "sha256": "faf64c780c567df60849e4816e6a2324bce5d9ece522011dfd758891e060b17a",
+      "bytes": 1006,
+      "mime": "text/plain"
+    },
+    "continuum/index.html": {
+      "sha256": "268254ddbe2a968ccd5b93c6de6e3abf4248ee862d22a33eb9f9ef61ff717188",
+      "bytes": 4663,
+      "mime": "text/html"
+    },
+    "continuum/continuum.css": {
+      "sha256": "4520a1bc6871315a75f30c38c75e9b6d6e844093a086261eb3b808341bbc4ecd",
+      "bytes": 8325,
+      "mime": "text/css"
+    },
+    "continuum/continuum-app.mjs": {
+      "sha256": "4c5564b604b49d4ff71d5396838616cbe8e4d3fe586bd3d2d7bd1853b27b6f2c",
+      "bytes": 20309,
+      "mime": "text/javascript"
+    },
+    "continuum/continuum-sphere.mjs": {
+      "sha256": "c8c8e76e75e44d569bf202c3cfc6ae3a0677988c11ac6c3a7834e8819ac414be",
+      "bytes": 33450,
+      "mime": "text/javascript"
+    }
+  },
+  "publication": "BLOCKED_NOT_PUSHED",
+  "qualification": "BROWSER_TESTED_NOT_PHYSICAL_DEVICE_TESTED",
+  "runtimeProviders": "UNBOUND_UNTIL_SEPARATELY_ADMITTED",
+  "goldenRelease": "NOT_ADMITTED",
+  "formula": "NOT_EXECUTED",
+  "continuumIntegration": {
+    "state": "READ_ONLY_EXISTING_OWNER_PROVIDER_CANDIDATE",
+    "source": "Creator supplied continuum.zip; portable Canvas reconstruction and native owner storage adapter",
+    "formula": "NOT_EXECUTED",
+    "writeAdmission": "NATIVE_FILE_INTAKE_EXECUTOR_NOT_BOUND",
+    "sourceUniverseIds": "PRESERVED"
+  }
+}

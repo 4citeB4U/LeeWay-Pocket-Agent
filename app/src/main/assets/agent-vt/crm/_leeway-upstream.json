@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceRepository": "4citeB4U/LeeWay-Voice-Scheduling-Translator-CRM",
+  "sourceCommit": "48de547157bf3e63147a7570dccbaa4d983bd3ac",
+  "integrationRole": "Agent Tablet business operations suite",
+  "runtimeEntry": "index.html",
+  "importedFiles": [
+    "index.html",
+    "manifest.json",
+    "service-worker.js",
+    "icon.svg",
+    "data/leeway-crm-campaign-starter-data.json",
+    "README.md",
+    "security/leeway-crm-security-gate.md"
+  ],
+  "claimBoundary": "Repository presence does not prove external bridge, meeting, email, telephony, or provider connectivity."
+}

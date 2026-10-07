@@ -24,6 +24,18 @@ object DeviceIdentity {
     private const val PREFS="leeway_device_bridge"
     private const val ID_KEY="device_id"
 
+    /** Read the existing canonical identity without creating a key or persisting preferences. */
+    @Synchronized fun readExisting(context: Context): BodyIdentity {
+        val id = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(ID_KEY, null)
+            ?: error("DEVICE_IDENTITY_NOT_INITIALIZED")
+        val store = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+        check(store.containsAlias(ALIAS)) { "DEVICE_IDENTITY_INCOMPLETE_RECOVERY_REQUIRED" }
+        val cert = store.getCertificate(ALIAS) ?: error("DEVICE_IDENTITY_KEY_UNAVAILABLE")
+        val fingerprint = MessageDigest.getInstance("SHA-256").digest(cert.publicKey.encoded)
+            .joinToString("") { b -> "%02x".format(b) }
+        return BodyIdentity(id, fingerprint)
+    }
+
     @Synchronized fun ensure(context: Context): BodyIdentity {
         val prefs=context.getSharedPreferences(PREFS,Context.MODE_PRIVATE)
         var id=prefs.getString(ID_KEY,null)

@@ -92,7 +92,7 @@ window.LeeWayLocalBrainBinding = function installLocalBrainBinding(renderer) {
       document.getElementById('localPrev')?.addEventListener('click',()=>{if(active)load(active.id,Math.max(0,active.offset-128)).catch(()=>{});});
       document.getElementById('localNext')?.addEventListener('click',()=>{if(active?.hasMore)load(active.id,active.offset+active.size).catch(()=>{});});
       document.getElementById('localRefresh')?.addEventListener('click',()=>{if(active)load(active.id,active.offset).catch(()=>{});});
-      document.getElementById('localClose')?.addEventListener('click',()=>native.close?.());
+      document.getElementById('localClose')?.addEventListener('click',()=>{try{native.close?.();}catch(error){show('RETURN_TO_AGENT_LEE_FAILED: '+error.message,true);}});
       document.getElementById('localEnter')?.addEventListener('click',()=>window.dispatchEvent(new Event('leeway-enter-local-brain')));
       document.getElementById('localSearch')?.addEventListener('input',async event=>{
         const host=document.getElementById('localSearchResults');if(!host)return;host.replaceChildren();

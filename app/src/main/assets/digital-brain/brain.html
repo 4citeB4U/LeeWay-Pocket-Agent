@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -521,6 +523,36 @@ html,body,#absoluteNucleusBackground{background:transparent!important}
 #localSearch{flex:1;min-width:130px}#localSearchResults{position:absolute;bottom:100%;left:0;right:0;display:flex;flex-direction:column;max-height:240px;overflow:auto}
 #localPageStatus{font-size:11px}#localEnter{border-color:#50e6ff}#hud dl{overflow-wrap:anywhere}#hud dt{color:#8aa5b9}#hud dd{margin:3px 0 9px}
 @media(max-width:760px){#hud{width:calc(100% - 24px);max-height:50vh;top:110px;right:12px}#stage{bottom:142px}.filesystemMatrixGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style>
+<style id="leeway-live-brain-chrome">
+html,body,#absoluteNucleusBackground{background:transparent!important}
+#nucleusFallbackImage{opacity:.10!important}
+#nucleusWaveCanvas{opacity:.16!important}
+#top,#dock,#localControls{background:rgba(3,10,18,.42)!important;backdrop-filter:blur(10px) saturate(112%)!important;-webkit-backdrop-filter:blur(10px) saturate(112%)!important;border-color:rgba(183,215,238,.18)!important}
+#hud,#settingsPanel,#legend,.filesystemCarouselHost{background:rgba(3,10,18,.76)!important;backdrop-filter:blur(16px) saturate(118%)!important;-webkit-backdrop-filter:blur(16px) saturate(118%)!important}
+#leewayReturnAgent{position:fixed;right:10px;top:10px;z-index:14000;min-height:36px;padding:7px 12px;border-radius:999px;background:rgba(3,10,18,.46);border:1px solid rgba(155,211,239,.38);color:#f5fbff;font:700 12px/1 system-ui;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
+#leewayReturnAgent:hover{border-color:#72e7ff;background:rgba(4,22,34,.64)}
+@media(max-width:760px){#leewayReturnAgent{right:7px;top:7px;min-height:34px;padding:6px 10px;font-size:11px}#top{padding-right:92px!important}}
+</style>
+<link rel="stylesheet" href="brain-live-overrides.css">\n<style id="leeway-owner-local-window-shell">
+html,body,#absoluteNucleusBackground{background:transparent!important}
+body{background:transparent!important}
+#absoluteNucleusBackground{opacity:.18!important}
+#nucleusFallbackImage{opacity:.11!important;background:transparent!important}
+#nucleusWaveCanvas{opacity:.18!important}
+#top{background:rgba(3,10,18,.58)!important;border-bottom-color:rgba(105,155,190,.22)!important;backdrop-filter:blur(12px)}
+#dock{background:rgba(3,10,18,.54)!important;border-top-color:rgba(105,155,190,.20)!important;backdrop-filter:blur(12px)}
+#localControls{background:rgba(3,10,18,.48)!important;border:1px solid rgba(125,175,210,.22);backdrop-filter:blur(12px)}
+#localClose{position:fixed;left:10px;top:62px;z-index:13000;border-color:rgba(113,228,255,.42)!important;background:rgba(5,16,28,.62)!important;backdrop-filter:blur(10px)}
+#localClose::before{content:"← "}
+button,input,.node{backdrop-filter:blur(8px)}
+#stage,#brainUniverseLayer,#brain3DCanvas{background:transparent!important}
+#hud,#settingsPanel,#legend{background:linear-gradient(155deg,rgba(5,11,20,.88),rgba(3,8,15,.84))!important}
+@media(max-width:760px){
+ #top{padding-left:70px}
+ #localClose{top:8px;left:8px}
+ #localControls{left:6px;right:6px;bottom:62px}
+}
 </style>
 </head>
 <body>
@@ -2011,4 +2043,9 @@ function fitLocalBrainViewport(){
 window.addEventListener('resize',fitLocalBrainViewport);fitLocalBrainViewport();
 window.__leewayOriginalBrain3D={geometrySource:'RECOVERED_ORIGINAL_HEMISPHERE_GEOMETRY',renderer:'THREE.WebGLRenderer',ready:true};
 </script>
-</body></html>
+<script id="leeway-live-brain-return">
+(()=>{if(document.getElementById('leewayReturnAgent'))return;const b=document.createElement('button');b.id='leewayReturnAgent';b.type='button';b.textContent='Agent Lee';b.setAttribute('aria-label','Return to Agent Lee');b.addEventListener('click',()=>{try{window.LeeWayBrainView?.close?.()}catch{};});document.body.appendChild(b);window.addEventListener('keydown',e=>{if(e.key==='Escape')b.click()});})();
+</script>
+<script src="brain-live-return.js"></script>\n</body></html>
+
+
