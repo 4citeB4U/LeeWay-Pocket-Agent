@@ -1255,7 +1255,7 @@ function renderNodes(){
     el.style.setProperty("--zone",colorFor(id));
 
     const cnt=(isGalaxy&&isHemi&&Number.isFinite(Number(N[id]?.display_child_count)))?Number(N[id].display_child_count):
-      ((N[id]?.domain==="fs"&&N[id]?.type==="directory")?Math.max(Number(N[id]?.child_count||0),(C[id]||[]).length):(C[id]||[]).length);
+      Math.max(Number(N[id]?.child_count||0),(C[id]||[]).length);
     const typeLabel=(isGalaxy&&id==="scope::hemi::L")?"SYSTEM CORE":
       (isGalaxy&&id==="scope::hemi::R")?"USER CORE":
       (n.type||n.status||"node");
@@ -1621,6 +1621,7 @@ function fitOrdinaryCardsToStage() {
       visible.some(id => id !== scope && !children.has(id)) ||
       !visible.every(id => nodeEls[id])) return false;
   const padding = 16, clearance = 8;
+  const paged = Number(N[scope]?.child_count || 0) > 12;
   const sizes = visible.map(id => ({
     id, index: kids.indexOf(id), depth: positions[id]?.z || 0,
     width: nodeEls[id].offsetWidth, height: nodeEls[id].offsetHeight,
@@ -1635,14 +1636,34 @@ function fitOrdinaryCardsToStage() {
         width: item.width * base * perspective,
         height: item.height * base * perspective};
     });
-    const radiusX = (box.width - 2 * padding - Math.max(...cards.map(c => c.width))) / 2;
-    const radiusY = (box.height - 2 * padding - Math.max(...cards.map(c => c.height))) / 2;
-    if (radiusX <= 0 || radiusY <= 0) continue;
+    const maxWidth = Math.max(...cards.map(c => c.width));
+    const maxHeight = Math.max(...cards.map(c => c.height));
+    const radiusX = (box.width - 2 * padding - maxWidth) / 2;
+    const radiusY = (box.height - 2 * padding - maxHeight) / 2;
+    let slots = null;
+    if (paged) {
+      // A bounded ordinary-record page uses readable measured cells. The parent
+      // keeps the center; children retain their owner order around that cell.
+      for (let columns = 1; columns <= cards.length; columns += 2) {
+        let rows = Math.ceil(cards.length / columns);
+        if (rows % 2 === 0) rows++;
+        if (columns * maxWidth + (columns-1) * clearance > box.width - 2*padding ||
+            rows * maxHeight + (rows-1) * clearance > box.height - 2*padding) continue;
+        slots = [];
+        for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
+          if (row === (rows-1)/2 && col === (columns-1)/2) continue;
+          slots.push({x: (col-(columns-1)/2)*(maxWidth+clearance),
+            y: (row-(rows-1)/2)*(maxHeight+clearance)});
+        }
+        break;
+      }
+      if (!slots) continue;
+    } else if (radiusX <= 0 || radiusY <= 0) continue;
     const nextPositions = {}, rectangles = [];
     for (const card of cards) {
       const angle = card.index / kids.length * Math.PI * 2 - Math.PI / 2;
-      const x = card.id === scope ? 0 : Math.cos(angle) * radiusX;
-      const y = card.id === scope ? 0 : Math.sin(angle) * radiusY;
+      const x = card.id === scope ? 0 : slots ? slots[card.index].x : Math.cos(angle) * radiusX;
+      const y = card.id === scope ? 0 : slots ? slots[card.index].y : Math.sin(angle) * radiusY;
       nextPositions[card.id] = {x: x / (zoom * card.perspective),
         y: y / (zoom * card.perspective), z: card.depth};
       rectangles.push({left: x-card.width/2, right: x+card.width/2,
@@ -1785,6 +1806,7 @@ const originalHud=renderHud;
 renderHud=function(id){originalHud(id);const button=document.getElementById('enterBtn');if(button)button.onclick=()=>safeView(enterNode(id));};
 window.__leewayOriginalRenderer={source:'RECOVERED_GALAXY_RENDERER',nativeReadOnly:true};
 localBinding=window.LeeWayLocalBrainBinding({
+ pageSize(node){return node && node.type!=='directory' && node.type!=='file' && Number(node.child_count)>12?8:128;},
  upsert(n){N[n.id]=mapLocalNode(n);},
  children(id,children,total,offset){C[id]=children;N[id].child_count=total;N[id].filesystemWindowOffset=offset;},
  root(id){VIEW_ROOT=id;scope=id;history=[];},

@@ -51,3 +51,21 @@ button,input,.node{backdrop-filter:blur(8px)}
 .node[data-node-type="universe"] .nodeIcon{width:26px;height:26px;font-size:18px;border-radius:8px}
 .node[data-node-type="universe"] .nodeKebab{display:none}
 .node[data-node-type="universe"] b{overflow-wrap:normal;word-break:normal;hyphens:none;line-height:1.2}
+
+/* Task cards preview the original title; the inspector retains its complete text. */
+.node[data-node-type="task"]{width:240px;min-height:74px}
+.node[data-node-type="task"] .nodeCard{grid-template-columns:26px minmax(0,1fr);gap:8px;padding:9px;min-height:72px}
+.node[data-node-type="task"] .nodeIcon{width:26px;height:26px;font-size:18px;border-radius:8px}
+.node[data-node-type="task"] .nodeKebab{display:none}
+.node[data-node-type="task"] b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;overflow-wrap:break-word;word-break:normal;hyphens:none;line-height:1.2}
+
+/* Keep full inspector titles within the scrollable panel, including long tokens. */
+#hud .hudHeader{grid-template-columns:62px minmax(0,1fr) auto;align-items:start}
+#hud .hudTitle{min-width:0}
+#hud .hudSection{min-width:0;overflow-wrap:anywhere}
+#hud .hudTitle h2,#hud .hudSubtitle{max-width:100%;overflow-wrap:anywhere;word-break:normal}
+@media(max-width:760px){
+ #hud .hudHeader{grid-template-columns:50px minmax(0,1fr) auto}
+ #hud .hudTitle{grid-column:1/-1;grid-row:2}
+ #hud .hudClose{grid-column:3;grid-row:1}
+}

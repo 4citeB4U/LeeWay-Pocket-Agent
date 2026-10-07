@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 39
-        versionName = "1.0.0-brain-controls-rc12"
+        versionCode = 40
+        versionName = "1.0.0-brain-records-rc13"
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 }
