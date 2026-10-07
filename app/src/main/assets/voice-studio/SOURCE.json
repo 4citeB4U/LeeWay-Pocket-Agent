@@ -1,12 +1,12 @@
 {
   "schemaVersion": "leeway.voice-studio-bundle.v1",
   "repository": "4citeB4U/LeeWay-Voice-Fabric",
-  "sourceCommit": "31e49ccc1c2d748708262623b33b2aeade7f8b3c",
-  "sourceState": "EXISTING_STUDIO_WITH_UNCOMMITTED_P0_TRANSPORT_PATCH",
-  "htmlSha256": "83be8e0614a66f14b14bf56883ab8013e0b0d5126ef400a43d52be54b28a18a9",
+  "sourceCommit": "c5e261385dde7a0b1748593e506cf03c4f1bebfd",
+  "sourceState": "CANONICAL_SPATIAL_STUDIO_OVERLAY_PRESERVING_EXISTING_PAIRED_TRANSPORT_AND_RUNTIME_SUPPORT",
+  "htmlSha256": "99626bf6bd0335632fb33330ac4a178c37f50f7818fea9a292f118bd294f1c7a",
   "files": {
     "studio.html": {
-      "sha256": "83be8e0614a66f14b14bf56883ab8013e0b0d5126ef400a43d52be54b28a18a9",
+      "sha256": "99626bf6bd0335632fb33330ac4a178c37f50f7818fea9a292f118bd294f1c7a",
       "mime": "text/html"
     },
     "src/android-bridge.js": {
@@ -50,11 +50,11 @@
       "mime": "text/javascript"
     },
     "src/studio.css": {
-      "sha256": "e267e1ae2fe6c1e90ee93b39444093fb816edab1db695115cdb56907bc9175c4",
+      "sha256": "4dfe5110995412fd3db5e4926f55d162ea59da6e2ce0d871b59e5e657d5aaafd",
       "mime": "text/css"
     },
     "src/studio.js": {
-      "sha256": "94ae567f36a9a8ebada1176bd5303367f537fe2288893c8786728d26042168db",
+      "sha256": "add796a5ee6507e8534b08668fae7b814b079d2dbd81e6d7f3d47c04c9710212",
       "mime": "text/javascript"
     },
     "src/voice-cpu-sessions.js": {
@@ -220,8 +220,34 @@
     "native-studio-bridge.js": {
       "sha256": "a9d1e9b7a25cfe779a735a8d4adf1a87258e6d463a4934ccbff51828a89d56c4",
       "mime": "text/javascript"
+    },
+    "src/studio-console.js": {
+      "sha256": "3edad23a1f4382f30c3db47cba6006a9cd8aca004df50bad9f86c8191d6acbf3",
+      "mime": "text/javascript"
+    },
+    "src/studio-monitor.js": {
+      "sha256": "ac23b41faa2a145b5fc1427e534aa8e84ff2e728c6912724938f8ac41848cf1b",
+      "mime": "text/javascript"
+    },
+    "src/studio-visualizer.js": {
+      "sha256": "1a36041821afdfe5604f3de88b2a31a290657c566ab991e20108aa2bb652fafc",
+      "mime": "text/javascript"
+    },
+    "src/vendor/three-0.160.1/three.module.min.js": {
+      "sha256": "3e690ac7d180b0aadf0891bea39eec643e29e2d3e75c99b18689518665f69ba6",
+      "mime": "text/javascript"
+    },
+    "src/vendor/three-0.160.1/LICENSE": {
+      "sha256": "852e0e8699169bf9f6fdc6bda3e682d078dcbc738b5d33e74df594721bff271d",
+      "mime": "text/plain"
+    },
+    "src/vendor/three-0.160.1/provenance.json": {
+      "sha256": "1176dc042f24dbcb148c5eb81fc61c1d9fc51047097eb33a96e897e59ddacb00",
+      "mime": "application/json"
     }
   },
   "runtimeProjection": "NATIVE_TRANSPORT_SCRIPT_INSERTED_AFTER_HTML_HASH_VERIFICATION",
-  "standalonePhoneInference": false
+  "standalonePhoneInference": false,
+  "preservedSupportSourceCommit": "31e49ccc1c2d748708262623b33b2aeade7f8b3c",
+  "preservedSupportSourceState": "EXISTING_STUDIO_WITH_UNCOMMITTED_P0_TRANSPORT_PATCH"
 }

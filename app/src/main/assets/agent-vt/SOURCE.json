@@ -1,10 +1,10 @@
 {
   "schema": "leeway.embedded-vt.source.v1",
   "repository": "4citeB4U/LeeWay-Digital-Workforce",
-  "sourceCommit": "d6e87cdaea90d44b13a0e4edf16867f594e4d6d7",
-  "sourceTree": "0167be677eb3f653e1f27fc886a59140361f20dc",
-  "sourceState": "UNCOMMITTED_TEST_CANDIDATE",
-  "sha256": "320f3e09d7206ea8dd58c3cebbe4f39f58e20efccc5a699918ecdd0a8bd25b1c",
+  "sourceCommit": "4b0b8b6a8d5103ee0d4cd83db09424c4fed17b31",
+  "sourceTree": "4c563c50afef7742e473cd15c0e098ff0cf95a90",
+  "sourceState": "PUBLISHED_SOURCE_CANDIDATE",
+  "sha256": "353ebb9d0a24d49dc4cb6289a383dc1c6327d764d5cb19ea0677f60758742642",
   "entry": "standalone.html",
   "resources": {
     "crm/_leeway-upstream.json": {
@@ -68,7 +68,7 @@
       "mime": "text/javascript"
     }
   },
-  "publication": "BLOCKED_NOT_PUSHED",
+  "publication": "PUBLISHED_DRAFT_PR_4",
   "qualification": "BROWSER_TESTED_NOT_PHYSICAL_DEVICE_TESTED",
   "runtimeProviders": "UNBOUND_UNTIL_SEPARATELY_ADMITTED",
   "goldenRelease": "NOT_ADMITTED",

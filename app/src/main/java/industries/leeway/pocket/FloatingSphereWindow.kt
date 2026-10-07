@@ -114,6 +114,7 @@ internal class FloatingSphereWindow(private val service:Service) {
         @JavascriptInterface fun testVoice(){main.post{PocketVoiceHost.playVerifiedOutputSample(service)}}
         @JavascriptInterface fun stopVoice(){main.post{PocketVoiceHost.stopVerifiedOutputSample()}}
         @JavascriptInterface fun openVoiceStudio(){main.post{service.startActivity(Intent(service,VoiceStudioActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
+        @JavascriptInterface fun openModels(){main.post{service.startActivity(Intent(service,ModelsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
         @JavascriptInterface fun openWorkstation(){main.post{service.startActivity(Intent(service,AgentTabletActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
         @JavascriptInterface fun openContinuum(){main.post{service.startActivity(Intent(service,AgentTabletActivity::class.java).putExtra(AgentTabletActivity.EXTRA_SURFACE,"continuum").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
         @JavascriptInterface fun openDigitalBrain(){open(false)}

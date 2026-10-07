@@ -101,6 +101,7 @@ class MainActivity : Activity() {
         }}
         @JavascriptInterface fun overlayStatus():String=PocketOverlayService.status(this@MainActivity)
         @JavascriptInterface fun openVoiceStudio(){runOnUiThread{startActivity(Intent(this@MainActivity,VoiceStudioActivity::class.java))}}
+        @JavascriptInterface fun openModels(){runOnUiThread{startActivity(Intent(this@MainActivity,ModelsActivity::class.java))}}
         @JavascriptInterface fun openWorkstation(){runOnUiThread{this@MainActivity.openWorkstation()}}
         @JavascriptInterface fun openContinuum(){runOnUiThread{this@MainActivity.openContinuum()}}
         @JavascriptInterface fun openDigitalBrain(){runOnUiThread{openBrain(false)}}

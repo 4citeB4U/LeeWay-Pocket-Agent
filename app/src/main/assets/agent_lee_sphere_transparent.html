@@ -285,7 +285,7 @@ html,body{background:transparent!important;margin:0;overflow:hidden;color:#f6f9f
 
 <div class="settings-list"><button class="element-card setting-card" data-setting="digital-brain"><span><span class="element-name">Digital Brain</span><span class="element-motto">Your authorized files, objects and knowledge</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="continuum"><span><span class="element-name">Continuum</span><span class="element-motto">Your local database universes</span></span><span class="element-action">OPEN</span></button>
-<button class="element-card setting-card" data-setting="diagnostics"><span><span class="element-name">This device</span><span class="element-motto">Hardware observations and diagnostics</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="diagnostics"><span><span class="element-name">Diagnostics</span><span class="element-motto">Hardware observations and diagnostics</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="voice"><span><span class="element-name">Voice</span><span class="element-motto">One selected Agent Lee voice across your devices</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="workstation"><span><span class="element-name">Agent VT</span><span class="element-motto">Virtual Tablet · Notebook · Notepad · Sandbox</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="models"><span><span class="element-name">Models · optional</span><span class="element-motto">Core operation does not require an LLM</span></span><span class="element-action">OPEN</span></button>
@@ -866,6 +866,7 @@ window.addEventListener('leeway:open-surface',async event=>{
  if(key==='voice'&&window.LeeWayAndroid?.openVoiceStudio){window.LeeWayAndroid.openVoiceStudio();return;}
  if(key==='workstation'&&window.LeeWayAndroid?.openWorkstation){window.LeeWayAndroid.openWorkstation();return;}
  if(key==='continuum'&&window.LeeWayAndroid?.openContinuum){window.LeeWayAndroid.openContinuum();return;}
+ if(key==='models'&&window.LeeWayAndroid?.openModels){window.LeeWayAndroid.openModels();return;}
  if(key==='digital-brain'||key==='diagnostics'){
   if(window.LeeWayAndroid){if(key==='diagnostics')window.LeeWayAndroid.openDiagnostics();else window.LeeWayAndroid.openDigitalBrain();return;}
   const route='/brain-ui/brain.html'+(key==='diagnostics'?'?surface=hardware':'');
@@ -886,7 +887,7 @@ window.addEventListener('leeway:open-surface',async event=>{
   else{const p=document.createElement('p');p.className='state';p.textContent={workstation:'Canonical Agent VT located. Its live host binding is being restored; this is not a replacement workstation.',continuum:'The canonical local Continuum runtime is not yet bound to this view. No database cells or records are being invented.',evidence:'The owner-scoped receipt browser is not yet bound to this view. Stored engineering receipts remain preserved.'}[key]||'This surface is not bound.';article.appendChild(p);}
  }catch(error){const p=document.createElement('p');p.className='state';p.textContent='Unavailable: '+error.message;article.appendChild(p);}
 });
-(async()=>{try{const data=window.LeeWayAndroid?.deviceName?{deviceName:window.LeeWayAndroid.deviceName()}:await fetch('/owner-ui').then(r=>r.json());if(data.deviceName)document.querySelector('[data-setting="diagnostics"] .element-name').textContent=data.deviceName;}catch{}})();
+(async()=>{try{const data=window.LeeWayAndroid?.deviceName?{deviceName:window.LeeWayAndroid.deviceName()}:await fetch('/owner-ui').then(r=>r.json());if(data.deviceName)document.querySelector('[data-setting="diagnostics"] .element-motto').textContent='Hardware observations · '+data.deviceName;}catch{}})();
 
 </script>
 <script id="leeway-owner-menu-dispatch-v1">
@@ -900,7 +901,7 @@ AUTHORIZED ROLES: OWNER_UI. LICENSE: MIT. No new surface/runtime, synthesized te
  const drawer=document.getElementById('drawer');if(!drawer||drawer.dataset.leewayMenuDispatch==='v1')return;
  drawer.dataset.leewayMenuDispatch='v1';
  const known=new Set(['digital-brain','continuum','diagnostics','voice','workstation','models','skills','authority','evidence','about']);
- const phoneMethods={'digital-brain':'openDigitalBrain',continuum:'openContinuum',diagnostics:'openDiagnostics',voice:'openVoiceStudio',workstation:'openWorkstation'};
+ const phoneMethods={'digital-brain':'openDigitalBrain',continuum:'openContinuum',diagnostics:'openDiagnostics',voice:'openVoiceStudio',workstation:'openWorkstation',models:'openModels'};
  let busy=false;
  drawer.addEventListener('click',async event=>{
   const button=event.target?.closest?.('button[data-setting]');if(!button||!drawer.contains(button)||!known.has(button.dataset.setting))return;

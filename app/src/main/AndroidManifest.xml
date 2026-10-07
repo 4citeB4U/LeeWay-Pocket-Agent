@@ -39,6 +39,7 @@
         <activity android:name=".DigitalBrainActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
         <activity android:name=".AgentTabletActivity" android:exported="false" />
         <activity android:name=".VoiceStudioActivity" android:exported="false" />
+        <activity android:name=".ModelsActivity" android:exported="false" />
         <service
             android:name=".PocketOverlayService"
             android:exported="false"

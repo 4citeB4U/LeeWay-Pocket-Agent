@@ -89,8 +89,11 @@ class UnifiedAgentLeeRuntime(private val context:Context) {
         require("$method $path" in allowed && body.length<=8192 && csrf.length<=256){"STUDIO_REQUEST_NOT_ADMITTED"}
         return pairedRequest("/voice-studio/request",JSONObject().put("method",method).put("path",path).put("body",body).put("csrf",csrf),160000).toString()
     }
+    /** One read-only operation on the existing paired PC model service. */
+    fun modelInventory():String = pairedRequest("/models/inventory",JSONObject(),10000).toString()
+
     private fun pairedRequest(route:String,payload:JSONObject,timeoutMs:Int):JSONObject {
-        require(route in setOf("/turn","/voice-studio/request")){"PAIRED_ROUTE_NOT_ADMITTED"}
+        require(route in setOf("/turn","/voice-studio/request","/models/inventory")){"PAIRED_ROUTE_NOT_ADMITTED"}
         val prefs=context.getSharedPreferences("leeway-runtime-pairing",Context.MODE_PRIVATE)
         val endpoint=prefs.getString("endpoint",null)?.trim()?.removeSuffix("/") ?: error("CANONICAL_CONVERSATION_PROVIDER_NOT_BOUND")
         val token=prefs.getString("token",null)?.trim() ?: error("CANONICAL_CONVERSATION_PAIRING_TOKEN_MISSING")

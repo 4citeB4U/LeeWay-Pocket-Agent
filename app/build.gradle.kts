@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 34
-        versionName = "1.0.0-menu-dispatch-rc7"
+        versionCode = 35
+        versionName = "1.0.0-workstation-menu-rc8"
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 }
