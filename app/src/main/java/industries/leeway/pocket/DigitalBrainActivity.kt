@@ -1,3 +1,4 @@
+
 /*
 REGION: LEEWAY.BRAIN.ADAPTER.ANDROID
 TAG: ORIGINAL_VIEWER_LOCAL_ONLY_HOST
@@ -21,6 +22,7 @@ import java.io.ByteArrayInputStream
 
 class DigitalBrainActivity:Activity() {
     private lateinit var web:WebView
+    private val selectedEntry:String get()=if(intent.getBooleanExtra("hardware",false))DIAGNOSTICS_ENTRY else ENTRY
     override fun onCreate(state:Bundle?){
         super.onCreate(state)
         window.statusBarColor=Color.TRANSPARENT;window.navigationBarColor=Color.TRANSPARENT
@@ -34,21 +36,23 @@ class DigitalBrainActivity:Activity() {
             settings.mixedContentMode=android.webkit.WebSettings.MIXED_CONTENT_NEVER_ALLOW
             addJavascriptInterface(LocalBrainBridge(),"LeeWayBrainView")
             webViewClient=object:WebViewClient(){
-                override fun shouldOverrideUrlLoading(view:WebView,request:WebResourceRequest):Boolean = request.url.toString()!=ENTRY
+                override fun shouldOverrideUrlLoading(view:WebView,request:WebResourceRequest):Boolean = request.url.toString()!=selectedEntry
                 override fun shouldInterceptRequest(view:WebView,request:WebResourceRequest):WebResourceResponse {
                     val uri=request.url
                     if(request.method!="GET" || uri.scheme!="https" || uri.host!=HOST || uri.port!=-1 || uri.encodedQuery!=null || uri.encodedFragment!=null)return deny()
                     val name=uri.path?.removePrefix("/assets/digital-brain/") ?: return deny()
                     if(uri.encodedPath!="/assets/digital-brain/"+name || name !in ALLOWED)return deny()
                     return try {
-                        val mime=when{name.endsWith(".html")->"text/html";name.endsWith(".js")->"text/javascript";name.endsWith(".png")->"image/png";name.endsWith(".jpg")->"image/jpeg";else->"text/plain"}
+                        val mime=when{name.endsWith(".html")->"text/html";name.endsWith(".js")->"text/javascript";name.endsWith(".css")->"text/css";name.endsWith(".png")->"image/png";name.endsWith(".jpg")->"image/jpeg";else->"text/plain"}
                         WebResourceResponse(mime,if(mime.startsWith("text/"))"UTF-8" else null,200,"OK",mapOf("Cache-Control" to "no-store","X-Content-Type-Options" to "nosniff"),assets.open("digital-brain/"+name))
                     } catch(_:Exception){deny()}
                 }
             }
-            loadUrl(ENTRY)
+            loadUrl(selectedEntry)
         }
         setContentView(web)
+        // A floating translucent dialog otherwise measures this all-absolute WebView at zero height.
+        window.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.MATCH_PARENT)
     }
     private fun deny()=WebResourceResponse("text/plain","UTF-8",403,"Blocked",mapOf("Cache-Control" to "no-store"),ByteArrayInputStream("LOCAL_BRAIN_ASSET_ORIGIN_REQUIRED".toByteArray()))
     private inner class LocalBrainBridge {
@@ -62,7 +66,9 @@ class DigitalBrainActivity:Activity() {
     companion object {
         private const val HOST="appassets.androidplatform.net"
         private const val ENTRY="https://appassets.androidplatform.net/assets/digital-brain/brain.html"
+        private const val DIAGNOSTICS_ENTRY="https://appassets.androidplatform.net/assets/digital-brain/diagnostics/index.html"
         // Derived renderer inputs only. Native queries never accept a local file selector.
-        private val ALLOWED=setOf("brain.html","local-brain-binding.js","vendor/three.module.js","vendor/OrbitControls.js","nucleus.png")
+        private val ALLOWED=setOf("brain.html","local-brain-binding.js","brain-live-overrides.css","brain-live-return.js","vendor/three.module.js","vendor/OrbitControls.js","nucleus.png","diagnostics/index.html","diagnostics/app.js","diagnostics/app.css")
     }
 }
+

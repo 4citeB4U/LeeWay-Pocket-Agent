@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -512,29 +514,38 @@ body.galaxy-active #leewayBrainLabels{opacity:1!important}
 </style>
 
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
-<style>
-/* Native viewport adaptation only; original geometry, node cards, graph and renderer remain. */
-html,body,#absoluteNucleusBackground{background:transparent!important}
-#nucleusFallbackImage,#nucleusWaveCanvas{opacity:.24}
-#top{background:rgba(2,5,10,.62)!important}
-#localControls{position:fixed;z-index:12000;left:8px;right:8px;bottom:58px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:rgba(3,9,17,.62);padding:6px;border-radius:12px;backdrop-filter:blur(12px)}
-#localSearch{flex:1;min-width:130px}#localSearchResults{position:absolute;bottom:100%;left:0;right:0;display:flex;flex-direction:column;max-height:240px;overflow:auto}
-#localPageStatus{font-size:11px}#localEnter{border-color:#50e6ff}#hud dl{overflow-wrap:anywhere}#hud dt{color:#8aa5b9}#hud dd{margin:3px 0 9px}
-@media(max-width:760px){#hud{width:calc(100% - 24px);max-height:50vh;top:110px;right:12px}#stage{bottom:142px}.filesystemMatrixGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-</style>
+<link rel="stylesheet" href="brain-live-overrides.css">
 </head>
 <body>
 <div id="absoluteNucleusBackground" aria-hidden="true">
   <img id="nucleusFallbackImage" alt="" src="nucleus.png">
   <canvas id="nucleusWaveCanvas"></canvas>
 </div>
-<div id="top">
-  <div class="brand">LEEWAY <span>COGNITIVE FABRIC</span></div><span id="inventoryStatus" title="Live directory/file count for the canonical filesystem root">FILES 0 · DIRECTORIES 0</span>
-  <button id="homeBtn">Whole Brain</button><button id="backBtn">← Back</button><button id="harnessBtn">Harnesses</button><button id="dataBtn">Databases</button><button id="legendBtn">Legend</button><button id="settingsBtn">Settings</button><button id="wdDiagBtn" title="Inspect this device hardware records">Device diagnostics</button>
-  <button id="rotateBtn">Rotate 3D</button><button id="pulseBtn">Pause Pulses</button>
-  <input id="search" class="wide" placeholder="Find anything…">
-</div>
-<div id="crumbs"></div>
+<header id="top" aria-label="Digital Brain navigation">
+  <button id="backBtn" type="button" aria-label="Back" title="Back">←</button>
+  <nav id="crumbs" aria-label="Current Brain location"></nav>
+  <details id="brainControlsMenu">
+    <summary id="brainControlsToggle" aria-label="Search and Brain controls" title="Search and Brain controls"><span aria-hidden="true">☰</span></summary>
+    <section id="brainControlsPanel" aria-label="Brain controls">
+      <div id="localControls" aria-label="Local Digital Brain navigation">
+        <div id="localControlsTrack">
+          <label for="localSearch">Search this Brain</label>
+          <input id="localSearch" placeholder="Search this device’s Brain" aria-label="Search this device's Brain" autocomplete="off">
+          <div id="localSearchResults" aria-live="polite"></div>
+          <div class="brainPageState"><span id="localPageStatus" role="status">Binding local Brain</span><button id="localRefresh" type="button">Refresh</button></div>
+          <div id="brainPageNavigation" aria-label="Record pages"><button id="localPrev" type="button" disabled>Previous</button><button id="localNext" type="button" disabled>Next</button></div>
+        </div>
+      </div>
+      <div class="brainMenuSection"><span class="brainMenuLabel">Navigate</span><div class="brainMenuActions">
+        <button id="homeBtn">Whole Brain</button><button id="leftM">LeeWay</button><button id="rightM">User</button><button id="appsM">Applications</button><button id="runtimeM">Runtime</button><button id="wdDiagBtn" title="Inspect this device hardware records">Device diagnostics</button>
+      </div></div>
+      <div class="brainMenuSection"><span class="brainMenuLabel">View</span><div class="brainMenuActions">
+        <button id="legendBtn">Legend</button><button id="settingsBtn">Settings</button><button id="rotateBtn">Rotate 3D</button><button id="pulseBtn">Pause Pulses</button>
+      </div><div id="zoom">Zoom</div></div>
+      <p id="inventoryStatus" class="brainMenuStatus"></p>
+    </section>
+  </details>
+</header>
 <div id="stage">
   <div id="brainUniverseLayer" aria-label="LeeWay 3D brain overview">
     <div id="brain3DCanvas"></div>
@@ -547,8 +558,7 @@ html,body,#absoluteNucleusBackground{background:transparent!important}
   </div>
   <div id="brainSpatialGuide" aria-hidden="true"></div>
 
-  <div id="scopeLabel"></div><div id="hint">single click directory = center + enter · file = preview · behavior continues at every depth</div>
-  <canvas id="signalCanvas"></canvas><div id="nodes"></div><div class="packetHint">Scroll to zoom · moving FILE / SIGNAL icons travel on relationships · directories remain fixed</div>
+  <canvas id="signalCanvas"></canvas><div id="nodes"></div>
   <div id="fsUniverseGuide" class="fsUniverseGuide hidden" aria-live="polite">
     <div class="fsUniverseGuideTop"><span>DIRECTORY UNIVERSE SCALE</span><strong id="fsUniverseMode">CENTER</strong></div>
     <div class="fsUniverseTiers" aria-label="Directory child count display ranges">
@@ -557,7 +567,6 @@ html,body,#absoluteNucleusBackground{background:transparent!important}
     <div class="fsUniverseWindow"><button id="fsUniversePrev" type="button" aria-label="Previous 256 filesystem entries">‹</button><span id="fsUniverseWindowLabel">0 items</span><button id="fsUniverseNext" type="button" aria-label="Next 256 filesystem entries">›</button></div>
   </div>
 </div>
-<div id="zoom">Zoom</div>
 <aside id="legend" class="hidden" aria-label="LeeWay Signal Language legend">
   <div class="legendHead">
     <div class="legendTitleWrap">
@@ -669,14 +678,14 @@ html,body,#absoluteNucleusBackground{background:transparent!important}
     <div class="kbItem"><b>6. Presentation is not proof.</b><span>The visualization reflects embedded/live graph records; appearance alone does not prove runtime health, execution, or Veritas approval.</span></div>
   </div></section>
 </aside>
-<div id="dock" style="grid-template-columns:repeat(8,1fr)">
-  <button id="leftM">LeeWay</button><button id="harnessM">Harnesses</button><button id="dataM">Databases</button><button id="appsM">Applications</button>
-  <button id="runtimeM">Runtime</button><button id="rightM">User</button><button id="rotateM">Rotate</button><button id="pulseM">Pulses</button>
-</div>
-
-<div id="localControls" aria-label="Local Digital Brain navigation">
-<button id="localClose">Agent Lee</button><button id="localEnter">Enter Brain</button><button id="localPrev" disabled>Previous</button><button id="localNext" disabled>Next</button><span id="localPageStatus">Binding local Brain</span><button id="localRefresh">Refresh</button>
-<input id="localSearch" placeholder="Search this device's Brain" aria-label="Search this device's Brain"><div id="localSearchResults"></div>
+<div id="brainEntry"><button id="localEnter" type="button">Enter Brain</button></div>
+<!-- Retain inactive duplicate targets for the original listeners without a second toolbar. -->
+<div id="brainCompatibilityControls" hidden aria-hidden="true">
+  <button id="localClose" tabindex="-1">Agent Lee</button>
+  <button id="harnessBtn" tabindex="-1">Harnesses</button><button id="dataBtn" tabindex="-1">Databases</button>
+  <button id="harnessM" tabindex="-1">Harnesses</button><button id="dataM" tabindex="-1">Databases</button><button id="rotateM" tabindex="-1">Rotate</button><button id="pulseM" tabindex="-1">Pulses</button>
+  <input id="search" tabindex="-1" aria-label="Inactive legacy search">
+  <div id="scopeLabel"></div><div id="hint"></div>
 </div>
 <script src="local-brain-binding.js"></script>
 <script>
@@ -1238,6 +1247,7 @@ function renderNodes(){
     const hemi=hemisphereFor(id);
     el.className="node"+cls;
     el.dataset.id=id;
+    el.dataset.nodeType=n.type||"object";
     if(hemi)el.dataset.hemi=hemi;
     const orgSide=organizationSideForNode(id);
     if(orgSide)el.dataset.orgSide=orgSide;
@@ -1245,7 +1255,7 @@ function renderNodes(){
     el.style.setProperty("--zone",colorFor(id));
 
     const cnt=(isGalaxy&&isHemi&&Number.isFinite(Number(N[id]?.display_child_count)))?Number(N[id].display_child_count):
-      ((N[id]?.domain==="fs"&&N[id]?.type==="directory")?Math.max(Number(N[id]?.child_count||0),(C[id]||[]).length):(C[id]||[]).length);
+      Math.max(Number(N[id]?.child_count||0),(C[id]||[]).length);
     const typeLabel=(isGalaxy&&id==="scope::hemi::L")?"SYSTEM CORE":
       (isGalaxy&&id==="scope::hemi::R")?"USER CORE":
       (n.type||n.status||"node");
@@ -1602,6 +1612,84 @@ function updateCrumbs(){
   const path=ancestry(scope);crumbs.innerHTML="";
   path.forEach((id,i)=>{const b=document.createElement("button");b.className="crumb";b.textContent=N[id]?.label||id;b.onclick=()=>{scope=id;history=path.slice(0,i);selected=null;hud.classList.add("hidden");buildScope()};crumbs.appendChild(b);if(i<path.length-1){const s=document.createElement("span");s.className="sep";s.textContent="›";crumbs.appendChild(s)}})
 }
+function fitOrdinaryCardsToStage() {
+  const box = stage.getBoundingClientRect();
+  const kids = (C[scope] || []).filter(id => N[id]);
+  const children = new Set(kids);
+  if (!kids.length || visible.length !== children.size + 1 || !visible.includes(scope) ||
+      new Set(visible).size !== visible.length ||
+      visible.some(id => id !== scope && !children.has(id)) ||
+      !visible.every(id => nodeEls[id])) return false;
+  const padding = 16, clearance = 8;
+  const paged = Number(N[scope]?.child_count || 0) > 12;
+  const sizes = visible.map(id => ({
+    id, index: kids.indexOf(id), depth: positions[id]?.z || 0,
+    width: nodeEls[id].offsetWidth, height: nodeEls[id].offsetHeight,
+  }));
+  // 67 bounded candidates, largest existing card scale first. DOM is measured once.
+  for (let step = 0; step <= 66; step++) {
+    const zoom = .76 - step * .01;
+    const base = Math.max(.48, Math.min(1.18, zoom * .9 + .43));
+    const cards = sizes.map(item => {
+      const perspective = Math.max(.48, 1 + item.depth / 2600);
+      return {...item, perspective,
+        width: item.width * base * perspective,
+        height: item.height * base * perspective};
+    });
+    const maxWidth = Math.max(...cards.map(c => c.width));
+    const maxHeight = Math.max(...cards.map(c => c.height));
+    const radiusX = (box.width - 2 * padding - maxWidth) / 2;
+    const radiusY = (box.height - 2 * padding - maxHeight) / 2;
+    let slots = null;
+    if (paged) {
+      // A bounded ordinary-record page uses readable measured cells. The parent
+      // keeps the center; children retain their owner order around that cell.
+      for (let columns = 1; columns <= cards.length; columns += 2) {
+        let rows = Math.ceil(cards.length / columns);
+        if (rows % 2 === 0) rows++;
+        if (columns * maxWidth + (columns-1) * clearance > box.width - 2*padding ||
+            rows * maxHeight + (rows-1) * clearance > box.height - 2*padding) continue;
+        slots = [];
+        for (let row = 0; row < rows; row++) for (let col = 0; col < columns; col++) {
+          if (row === (rows-1)/2 && col === (columns-1)/2) continue;
+          slots.push({x: (col-(columns-1)/2)*(maxWidth+clearance),
+            y: (row-(rows-1)/2)*(maxHeight+clearance)});
+        }
+        break;
+      }
+      if (!slots) continue;
+    } else if (radiusX <= 0 || radiusY <= 0) continue;
+    const nextPositions = {}, rectangles = [];
+    for (const card of cards) {
+      const angle = card.index / kids.length * Math.PI * 2 - Math.PI / 2;
+      const x = card.id === scope ? 0 : slots ? slots[card.index].x : Math.cos(angle) * radiusX;
+      const y = card.id === scope ? 0 : slots ? slots[card.index].y : Math.sin(angle) * radiusY;
+      nextPositions[card.id] = {x: x / (zoom * card.perspective),
+        y: y / (zoom * card.perspective), z: card.depth};
+      rectangles.push({left: x-card.width/2, right: x+card.width/2,
+        top: y-card.height/2, bottom: y+card.height/2});
+    }
+    let collides = false;
+    for (let i = 0; i < rectangles.length && !collides; i++) {
+      for (let j = i + 1; j < rectangles.length; j++) {
+        const a = rectangles[i], b = rectangles[j];
+        if (a.left < b.right + clearance && a.right + clearance > b.left &&
+            a.top < b.bottom + clearance && a.bottom + clearance > b.top) {
+          collides = true; break;
+        }
+      }
+    }
+    if (collides) continue;
+    positions = nextPositions;
+    camera.x = 0; camera.y = 0; camera.yaw = 0; camera.pitch = 0; camera.z = zoom;
+    positionNodes();
+    return true;
+  }
+  // Do not claim success or drop nodes when the available viewport cannot fit them.
+  // Caller retains its existing bounded view/pan/zoom fallback.
+  return false;
+}
+
 function fitScope(){
   const scopeNode=N[scope]||{};
   const r=stage.getBoundingClientRect();
@@ -1621,6 +1709,7 @@ function fitScope(){
     camera.z=Math.max(.16,Math.min(.76,fit));
     camera.x=inspectorReserve?-(inspectorReserve*.48):0;
   }else{
+    if(fitOrdinaryCardsToStage())return;
     // Ordinary graph scopes also fit the ACTUAL stage, not a fixed child-count zoom.
     // This prevents lower nodes such as Documents from landing behind the dock.
     const kids=(C[scope]||[]).filter(id=>N[id]);
@@ -1635,7 +1724,7 @@ function fitScope(){
 function flyToScope(id){const parent=N[id]?.parent;if(parent){history=ancestry(parent).slice(0,-1);scope=parent;buildScope();setTimeout(()=>selectNode(id),80)}}
 function toggleRotate(){rotateMode=!rotateMode;document.getElementById("rotateBtn").classList.toggle("active",rotateMode);document.getElementById("rotateM").classList.toggle("active",rotateMode)}
 function togglePulses(){pulsesPaused=!pulsesPaused;document.getElementById("pulseBtn").textContent=pulsesPaused?"Resume Pulses":"Pause Pulses";document.getElementById("pulseM").textContent=pulsesPaused?"Resume":"Pulses";if(!pulsesPaused)startTime=performance.now()}
-function resize(){const dpr=Math.min(2,devicePixelRatio||1),r=stage.getBoundingClientRect();canvas.width=Math.max(1,Math.round(r.width*dpr));canvas.height=Math.max(1,Math.round(r.height*dpr));canvas.style.width=r.width+"px";canvas.style.height=r.height+"px";ctx.setTransform(dpr,0,0,dpr,0,0);positionNodes();draw(performance.now())}
+function resize(){const dpr=Math.min(2,devicePixelRatio||1),r=stage.getBoundingClientRect();canvas.width=Math.max(1,Math.round(r.width*dpr));canvas.height=Math.max(1,Math.round(r.height*dpr));canvas.style.width=r.width+"px";canvas.style.height=r.height+"px";ctx.setTransform(dpr,0,0,dpr,0,0);if(visible.length)fitScope();else positionNodes();draw(performance.now())}
 stage.addEventListener("wheel",e=>{if(window.__leewayBrainIntroActive)return;e.preventDefault();camera.z=Math.max(.10,Math.min(8,camera.z*Math.exp(-e.deltaY*.0017)));positionNodes()},{passive:false});
 stage.addEventListener("dblclick",e=>{if(e.target.closest&&e.target.closest(".node"))return;camera.z=Math.min(8,camera.z*1.55);positionNodes()});
 stage.addEventListener("pointerdown",e=>{const nodeTarget=e.target.closest&&e.target.closest(".node");if(nodeTarget)return;const p=packetAt(e.clientX,e.clientY);if(p){e.preventDefault();renderPacketHud(p);return}drag=true;last={x:e.clientX,y:e.clientY};try{stage.setPointerCapture(e.pointerId)}catch{}});
@@ -1717,6 +1806,7 @@ const originalHud=renderHud;
 renderHud=function(id){originalHud(id);const button=document.getElementById('enterBtn');if(button)button.onclick=()=>safeView(enterNode(id));};
 window.__leewayOriginalRenderer={source:'RECOVERED_GALAXY_RENDERER',nativeReadOnly:true};
 localBinding=window.LeeWayLocalBrainBinding({
+ pageSize(node){return node && node.type!=='directory' && node.type!=='file' && Number(node.child_count)>12?8:128;},
  upsert(n){N[n.id]=mapLocalNode(n);},
  children(id,children,total,offset){C[id]=children;N[id].child_count=total;N[id].filesystemWindowOffset=offset;},
  root(id){VIEW_ROOT=id;scope=id;history=[];},
@@ -2011,4 +2101,28 @@ function fitLocalBrainViewport(){
 window.addEventListener('resize',fitLocalBrainViewport);fitLocalBrainViewport();
 window.__leewayOriginalBrain3D={geometrySource:'RECOVERED_ORIGINAL_HEMISPHERE_GEOMETRY',renderer:'THREE.WebGLRenderer',ready:true};
 </script>
+<script id="leeway-live-brain-return">
+(()=>{if(document.getElementById('leewayReturnAgent'))return;const b=document.createElement('button');b.id='leewayReturnAgent';b.type='button';b.textContent='Agent Lee';b.setAttribute('aria-label','Return to Agent Lee');b.addEventListener('click',()=>{try{window.LeeWayBrainView?.close?.()}catch{};});document.body.appendChild(b);window.addEventListener('keydown',e=>{if(e.key==='Escape')b.click()});})();
+</script>
+<script src="brain-live-return.js"></script>
+<script id="leeway-compact-brain-controls">
+(()=>{
+  const header=document.getElementById('top'),menu=document.getElementById('brainControlsMenu'),toggle=document.getElementById('brainControlsToggle'),crumbs=document.getElementById('crumbs');
+  const agentReturn=document.getElementById('leewayReturnAgent');
+  if(agentReturn)header.appendChild(agentReturn); // Move the existing button with its existing owner callback.
+  const closeMenu=(restoreFocus=false)=>{if(!menu.open)return;menu.open=false;if(restoreFocus)toggle.focus({preventScroll:true});};
+  document.addEventListener('pointerdown',event=>{if(menu.open&&!menu.contains(event.target))closeMenu();});
+  window.addEventListener('keydown',event=>{if(event.key==='Escape'&&menu.open){event.preventDefault();event.stopImmediatePropagation();closeMenu(true);}},true);
+  const closeActions=new Set(['homeBtn','leftM','rightM','appsM','runtimeM','wdDiagBtn','legendBtn','settingsBtn']);
+  menu.addEventListener('click',event=>{const button=event.target.closest('button');if(button&&!button.disabled&&(closeActions.has(button.id)||event.composedPath().includes(document.getElementById('localSearchResults'))))closeMenu();});
+  const currentLocation=()=>{
+    const items=[...crumbs.querySelectorAll('button')];
+    items.forEach((item,index)=>{item.title=item.textContent;if(index===items.length-1)item.setAttribute('aria-current','page');else item.removeAttribute('aria-current');});
+    requestAnimationFrame(()=>{crumbs.scrollLeft=crumbs.scrollWidth;});
+  };
+  new MutationObserver(currentLocation).observe(crumbs,{childList:true});currentLocation();
+})();
+</script>
 </body></html>
+
+
