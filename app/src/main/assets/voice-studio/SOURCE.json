@@ -1,12 +1,12 @@
 {
   "schemaVersion": "leeway.voice-studio-bundle.v1",
   "repository": "4citeB4U/LeeWay-Voice-Fabric",
-  "sourceCommit": "c5e261385dde7a0b1748593e506cf03c4f1bebfd",
+  "sourceCommit": "3f85d5bc6916f4200e41482a2bd3570b05eb708e",
   "sourceState": "CANONICAL_SPATIAL_STUDIO_OVERLAY_PRESERVING_EXISTING_PAIRED_TRANSPORT_AND_RUNTIME_SUPPORT",
-  "htmlSha256": "99626bf6bd0335632fb33330ac4a178c37f50f7818fea9a292f118bd294f1c7a",
+  "htmlSha256": "8ef640099c5a1975cb9f592efd33a49c5f25cc6732e7546be820aa04bcf28ab2",
   "files": {
     "studio.html": {
-      "sha256": "99626bf6bd0335632fb33330ac4a178c37f50f7818fea9a292f118bd294f1c7a",
+      "sha256": "8ef640099c5a1975cb9f592efd33a49c5f25cc6732e7546be820aa04bcf28ab2",
       "mime": "text/html"
     },
     "src/android-bridge.js": {
@@ -222,7 +222,7 @@
       "mime": "text/javascript"
     },
     "src/studio-console.js": {
-      "sha256": "3edad23a1f4382f30c3db47cba6006a9cd8aca004df50bad9f86c8191d6acbf3",
+      "sha256": "bf152ed976e62dc52b298f36252c19fd1625c7677976ba6c500b6310dc909291",
       "mime": "text/javascript"
     },
     "src/studio-monitor.js": {
