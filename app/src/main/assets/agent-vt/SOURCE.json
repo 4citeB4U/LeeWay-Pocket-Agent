@@ -1,0 +1,105 @@
+{
+  "schema": "leeway.embedded-vt.source.v1",
+  "repository": "4citeB4U/LeeWay-Digital-Workforce",
+  "sourceCommit": "4b0b8b6a8d5103ee0d4cd83db09424c4fed17b31",
+  "sourceTree": "4c563c50afef7742e473cd15c0e098ff0cf95a90",
+  "sourceState": "PUBLISHED_SOURCE_CANDIDATE",
+  "sha256": "353ebb9d0a24d49dc4cb6289a383dc1c6327d764d5cb19ea0677f60758742642",
+  "entry": "standalone.html",
+  "resources": {
+    "crm/_leeway-upstream.json": {
+      "sha256": "5c2ad96262028b0ad7147fbcd911c8619b711d57cdf41af7593b0494e63cd318",
+      "bytes": 604,
+      "mime": "application/json"
+    },
+    "crm/icon.svg": {
+      "sha256": "7bedf83e9b4c62b6f32e2887169705f74f76531f4be31afc58aa26d4cb72ec7f",
+      "bytes": 726,
+      "mime": "image/svg+xml"
+    },
+    "crm/index.html": {
+      "sha256": "5139bc27ee699413955c85ebc7e736df171fca171a9d84ac91cef665d6b3c00e",
+      "bytes": 76197,
+      "mime": "text/html"
+    },
+    "crm/manifest.json": {
+      "sha256": "72864bd2e53a6ab458fa3856f29b22f9ea0fa82922ec96253c1cd80e80ae0aab",
+      "bytes": 385,
+      "mime": "application/json"
+    },
+    "crm/service-worker.js": {
+      "sha256": "086681ae97d9defa89b12a2f187bc3e74c94b85c3b26684f65e40ec11e25752f",
+      "bytes": 599,
+      "mime": "application/javascript"
+    },
+    "crm/data/leeway-crm-campaign-starter-data.json": {
+      "sha256": "4da5a2a4ec44f49c4139e0e7710a1dc562ec11034383d98dd23e2d904b84b165",
+      "bytes": 17929,
+      "mime": "application/json"
+    },
+    "licenses/HyperFrames-Apache-2.0.txt": {
+      "sha256": "4259155fb06f127687ee7b0a8a3682d45132db0f2da26cbc0b7a2d1e796436b8",
+      "bytes": 10763,
+      "mime": "text/plain"
+    },
+    "licenses/THIRD-PARTY-NOTICES.md": {
+      "sha256": "faf64c780c567df60849e4816e6a2324bce5d9ece522011dfd758891e060b17a",
+      "bytes": 1006,
+      "mime": "text/plain"
+    },
+    "continuum/index.html": {
+      "sha256": "9cd12824d6841d9f182ce626b86d8a7f9854c0f8165b0a10d2a8995432644e97",
+      "bytes": 7681,
+      "mime": "text/html"
+    },
+    "continuum/continuum.css": {
+      "sha256": "c33882c6c8e149613f68468f7b8aaffb89197ee7d6d9389efd8350c4a4f5b592",
+      "bytes": 30598,
+      "mime": "text/css"
+    },
+    "continuum/continuum-app.mjs": {
+      "sha256": "f0115c01fd2bd961dbabb963ce5808725bc55e42b1fcb15a840621fa2ec79878",
+      "bytes": 29659,
+      "mime": "text/javascript"
+    },
+    "continuum/continuum-sphere.mjs": {
+      "sha256": "17e3a28845a857e70ac2d6bea68786f885f78ced143d3b8f553eabdbef21cb4d",
+      "bytes": 36083,
+      "mime": "text/javascript"
+    },
+    "continuum/continuum-depth.mjs": {
+      "sha256": "9e26f051adc708421755483b90c1e643d65ed459927e5e1339308398620057ab",
+      "bytes": 6873,
+      "mime": "text/javascript"
+    },
+    "continuum/continuum-media.mjs": {
+      "sha256": "4180a36390541c65075c24575c29c56353b88768d4a663f2d80995fd60dfd4fb",
+      "bytes": 7991,
+      "mime": "text/javascript"
+    },
+    "continuum/mammoth.browser.min.js": {
+      "sha256": "92914a3708cfdf1e62cb553d1856a7fedab21da83d8ee82845de2f897b368cab",
+      "bytes": 405060,
+      "mime": "application/javascript"
+    },
+    "continuum/purify.min.js": {
+      "sha256": "2c90a9b46d6463f26038a29b686e82bc91de01fdac9d5229e7cfe3b360134ea2",
+      "bytes": 28885,
+      "mime": "application/javascript"
+    }
+  },
+  "publication": "LOCAL_RUNTIME_FABRIC_CURVED_CONTINUUM_CANDIDATE",
+  "qualification": "PENDING_PHYSICAL_PHONE_ACCEPTANCE",
+  "runtimeProviders": "EXISTING_ANDROID_OWNER_SCOPED_ONLY",
+  "goldenRelease": "NOT_ADMITTED_UNTIL_PHONE_INSTALL_AND_VERIFY",
+  "formula": "NOT_EXECUTED",
+  "continuumIntegration": {
+    "state": "LOCAL_HONEYCOMB_UI_ADMITTED_PENDING_PHONE_QUALIFICATION",
+    "scope": "EXISTING_OWNER_READONLY_BRIDGE",
+    "source": "Runtime Fabric Continuum nested curved UI; owner-local body remains independent",
+    "originalBytes": "ONLY_WHEN_EXISTING_ANDROID_PROVIDER_RETURNS_THEM",
+    "formula": "NOT_EXECUTED",
+    "noUnverifiedRecordSynthesis": true,
+    "v43Release": "PHONE_CONTINUUM_UI_SOURCE_BOUND"
+  }
+}

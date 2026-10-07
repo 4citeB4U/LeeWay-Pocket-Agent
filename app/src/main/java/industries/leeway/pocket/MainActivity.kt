@@ -1,3 +1,12 @@
+/*
+REGION: LEEWAY.POCKET.OWNER_NAVIGATION
+TAG: EXISTING_AGENT_VT_CONTINUUM_SURFACE
+5WH: WHAT=Open Continuum inside the existing Agent VT activity; WHY=Retained data needs an actual view;
+WHO=LeeWay Industries / installation owner; WHERE=Existing Pocket menu bridge; WHEN=Owner selects Continuum;
+HOW=An internal activity intent selects the hash-admitted, read-only Continuum surface.
+AUTHORIZED ROLES: OWNER_UI. This navigation does not grant ingestion, Formula or generic device execution.
+LICENSE: MIT
+*/
 package industries.leeway.pocket
 
 import android.app.Activity
@@ -19,6 +28,20 @@ class MainActivity : Activity() {
         window.statusBarColor=Color.TRANSPARENT
         window.navigationBarColor=Color.TRANSPARENT
         bootstrapDeviceBrain()
+        if(Settings.canDrawOverlays(this)&&PocketOverlayService.isEnabled(this)){
+            // The persistent sphere is the sole visual owner; dispatch requested tools directly.
+            PocketOverlayService.showSphere(this)
+            when(intent?.getStringExtra("leeway_action")){
+                "TALK_TO_AGENT_LEE"->startActivity(PocketVoiceActivity.launchIntent(this))
+                "OPEN_DIGITAL_BRAIN"->openBrain(false)
+                "OPEN_WORKSTATION"->openWorkstation()
+                "OPEN_CONTINUUM"->openContinuum()
+                "OPEN_DIAGNOSTICS"->openBrain(true)
+                "OPEN_SKILLS"->openSkills()
+            }
+            finish()
+            return
+        }
         web=WebView(this).apply {
             setBackgroundColor(Color.TRANSPARENT)
             settings.javaScriptEnabled=true
@@ -32,19 +55,25 @@ class MainActivity : Activity() {
         when(intent?.getStringExtra("leeway_action")){
             "TALK_TO_AGENT_LEE"->startActivity(PocketVoiceActivity.launchIntent(this))
             "OPEN_DIGITAL_BRAIN"->openBrain(false)
+            "OPEN_WORKSTATION"->openWorkstation()
+            "OPEN_CONTINUUM"->openContinuum()
             "OPEN_DIAGNOSTICS"->openBrain(true)
+            "OPEN_SKILLS"->openSkills()
         }
     }
 
+    private fun openWorkstation(){startActivity(Intent(this,AgentTabletActivity::class.java))}
+    private fun openContinuum(){startActivity(Intent(this,AgentTabletActivity::class.java).putExtra(AgentTabletActivity.EXTRA_SURFACE,"continuum"))}
     private fun openBrain(hardware:Boolean){startActivity(Intent(this,DigitalBrainActivity::class.java).putExtra("hardware",hardware))}
-    override fun onNewIntent(intent:Intent){super.onNewIntent(intent);setIntent(intent);when(intent.getStringExtra("leeway_action")){"OPEN_DIGITAL_BRAIN"->openBrain(false);"OPEN_DIAGNOSTICS"->openBrain(true)}}
+    private fun openSkills(){startActivity(Intent(this,SkillsActivity::class.java))}
+    override fun onNewIntent(intent:Intent){super.onNewIntent(intent);setIntent(intent);when(intent.getStringExtra("leeway_action")){"OPEN_DIGITAL_BRAIN"->openBrain(false);"OPEN_WORKSTATION"->openWorkstation();"OPEN_CONTINUUM"->openContinuum();"OPEN_DIAGNOSTICS"->openBrain(true);"OPEN_SKILLS"->openSkills()}}
     override fun onResume(){
         super.onResume()
         val prefs=getSharedPreferences("leeway-pocket-overlay",MODE_PRIVATE)
         val permitted=Settings.canDrawOverlays(this)
         if(prefs.getBoolean("permission_pending",false)&&permitted){
             prefs.edit().putBoolean("permission_pending",false).apply()
-            PocketOverlayService.setEnabled(this,true)
+            PocketOverlayService.setEnabled(this,true);PocketOverlayService.showSphere(this);finish()
         }else if(PocketOverlayService.isEnabled(this)){
             PocketOverlayService.start(this)
         }else if(!prefs.contains("enabled")&&!prefs.getBoolean("permission_explanation_shown",false)){
@@ -74,6 +103,9 @@ class MainActivity : Activity() {
         }else startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,Uri.parse("package:"+packageName)))
     }
     inner class LeeWayBridge {
+        @JavascriptInterface fun testVoice(){runOnUiThread{PocketVoiceHost.playVerifiedOutputSample(this@MainActivity)}}
+        @JavascriptInterface fun stopVoice(){runOnUiThread{PocketVoiceHost.stopVerifiedOutputSample()}}
+        @JavascriptInterface fun deviceName():String=android.os.Build.MODEL
         @JavascriptInterface fun talk(){ runOnUiThread{ startActivity(PocketVoiceActivity.launchIntent(this@MainActivity)) } }
         @JavascriptInterface fun enableOverlay(){runOnUiThread{requestOverlayPermission()}}
         @JavascriptInterface fun disableOverlay(){runOnUiThread{
@@ -81,9 +113,17 @@ class MainActivity : Activity() {
             PocketOverlayService.setEnabled(this@MainActivity,false)
         }}
         @JavascriptInterface fun overlayStatus():String=PocketOverlayService.status(this@MainActivity)
+        @JavascriptInterface fun openVoiceStudio(){runOnUiThread{startActivity(Intent(this@MainActivity,VoiceStudioActivity::class.java))}}
+        @JavascriptInterface fun openModels(){runOnUiThread{startActivity(Intent(this@MainActivity,ModelsActivity::class.java))}}
+        @JavascriptInterface fun openSkills(){runOnUiThread{this@MainActivity.openSkills()}}
+        @JavascriptInterface fun openWorkstation(){runOnUiThread{this@MainActivity.openWorkstation()}}
+        @JavascriptInterface fun openContinuum(){runOnUiThread{this@MainActivity.openContinuum()}}
         @JavascriptInterface fun openDigitalBrain(){runOnUiThread{openBrain(false)}}
         @JavascriptInterface fun openDiagnostics(){runOnUiThread{openBrain(true)}}
         @JavascriptInterface fun digitalBrain():String = AndroidDigitalBrainAdapter.snapshot(this@MainActivity)
+        @JavascriptInterface fun evidenceSummary():String=OwnerRecordsMenu.evidence(this@MainActivity)
+        @JavascriptInterface fun openPermissionSettings(){runOnUiThread{this@MainActivity.startActivity(android.content.Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,android.net.Uri.parse("package:"+this@MainActivity.packageName)).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))}}
+        @JavascriptInterface fun authoritySummary():String=OwnerRecordsMenu.authority(this@MainActivity)
         @JavascriptInterface fun bodyId():String = AndroidDigitalBrainAdapter.identity(this@MainActivity).deviceId
     }
 }

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,9 +38,9 @@
       width: 64px;
       min-height: 112px;
       border-radius: 28px;
-      background: rgba(255,255,255,0.055);
-      border: 1px solid rgba(255,255,255,0.20);
-      box-shadow: 0 10px 36px rgba(0,0,0,0.12), inset 0 0 24px rgba(56,189,248,0.06);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
       backdrop-filter: blur(20px) saturate(160%);
       -webkit-backdrop-filter: blur(20px) saturate(160%);
       z-index: 19;
@@ -56,10 +57,10 @@
       width: 46px;
       height: 46px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      backdrop-filter: blur(18px) saturate(150%);
-      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      background: transparent;
+      border: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -100,7 +101,7 @@
       border-radius: 20px;
       background: rgba(10, 14, 23, 0.65);
       border: 1px solid rgba(56, 189, 248, 0.25);
-      backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: none;
       pointer-events: none;
       transition: all 0.3s ease;
     }
@@ -223,8 +224,40 @@
   <script src="vendor/three-r128.min.js"></script>
 
 <style>.hamburger-btn{top:22px!important;left:22px!important;right:auto!important;transform:none!important}</style>
-</head>
+<style id="leeway-floating-repair">
+html,body{background:transparent!important;margin:0;overflow:hidden;color:#f6f9ff}
+.hamburger-btn{top:10px!important;left:10px!important;right:auto!important;transform:none!important;width:40px;height:40px;background:transparent;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.drawer{background:rgba(5,14,25,.96)!important;color:#f5f8ff!important;width:min(350px,96vw)!important;padding:18px!important;box-sizing:border-box;overflow:auto}
+.drawer-title{font-size:22px!important;color:#fff!important}.drawer-subtitle{font-size:13px!important;color:#c1d1e6!important}
+.element-card{color:#fff!important;background:rgba(32,48,70,.96)!important;padding:14px!important;min-height:58px;gap:12px;width:100%;border:1px solid rgba(179,205,231,.3)!important;box-sizing:border-box;text-align:left}
+.element-card>span:first-child{min-width:0}.element-name{display:block!important;font-size:16px!important;line-height:1.35!important;color:#fff!important}
+.element-motto{display:block!important;font-size:13px!important;line-height:1.5!important;color:#ccdaeb!important;margin-top:5px!important}
+.element-action{font-size:12px!important;letter-spacing:.7px;color:#97dcff!important;flex-shrink:0}.settings-list{display:flex;flex-direction:column;gap:10px}
+.drawer-overlay{background:transparent!important;backdrop-filter:none!important}.status-badge{font-size:11px;max-width:90vw;bottom:5px;pointer-events:none;background:rgba(4,12,21,.8);color:#fff;opacity:.85}
+
+#surface-panel{display:none;position:fixed;inset:12px;background:rgba(5,14,25,.97);color:#ecf4ff;z-index:50;padding:24px;overflow:auto;border:1px solid #739bbb;border-radius:16px;font:15px/1.65 system-ui}
+#surface-panel.open{display:block}#surface-panel button{font:inherit;color:#fff;background:#183752;border:1px solid #87b6d2;border-radius:8px;padding:8px 12px;margin:6px 3px}#surface-panel h2{font-size:23px;color:#fff;margin-top:10px}#surface-panel p{max-width:65ch}#surface-panel .state{border-left:3px solid #87b6d2;padding-left:12px;color:#d8e8f7}
+</style>
+<style id="leeway-living-brain-style">
+/* Presentation-only Formula notation; no Formula execution is implied by this animation. */
+#leeway-formula-thoughts{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.formula-thought{position:absolute;color:rgba(224,230,238,.48);font:500 clamp(10px,2.8vw,15px)/1.25 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.02em;text-shadow:0 0 12px rgba(186,220,244,.18);white-space:nowrap;opacity:0;transform:translate3d(0,8px,0) scale(.98);animation:leewayFormulaThought 5.8s ease-in-out forwards}
+@keyframes leewayFormulaThought{0%{opacity:0;transform:translate3d(0,8px,0) scale(.98)}18%,70%{opacity:.72;transform:translate3d(0,0,0) scale(1)}100%{opacity:0;transform:translate3d(0,-7px,0) scale(1.01)}}
+.hamburger-btn,.hamburger-btn:hover{background:rgba(4,12,22,.12)!important;border:1px solid rgba(220,238,250,.14)!important;box-shadow:none!important;backdrop-filter:blur(2px)!important;-webkit-backdrop-filter:blur(2px)!important}
+@media(prefers-reduced-motion:reduce){.formula-thought{display:none!important}}
+</style>
+<style>.drawer{touch-action:pan-y;overscroll-behavior:contain}.drawer-header,.settings-list{flex-shrink:0}.close-btn{min-width:44px;min-height:44px}.status-badge.active{display:flex!important;max-width:90%;white-space:normal;text-align:center}</style>
+<style id="leeway-hamburger-hit-target-v1">
+.hamburger-btn,.hamburger-btn:hover{width:64px!important;height:64px!important;min-width:64px!important;min-height:64px!important;top:0!important;left:0!important;right:auto!important;padding:12px!important;background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.hamburger-btn span{width:28px!important;pointer-events:none}
+</style><style id="leeway-drawer-scroll-repair">
+/* REGION: LEEWAY.UI.NAVIGATION; TAG: OWNER_DRAWER_SCROLL_REPAIR; LICENSE: MIT */
+#drawer.drawer{height:100dvh!important;max-height:100dvh!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain!important;-webkit-overflow-scrolling:touch;touch-action:pan-y!important;box-sizing:border-box!important;min-height:0!important;padding-bottom:max(32px,env(safe-area-inset-bottom))!important}
+#drawer .settings-list{flex:0 0 auto!important;min-height:max-content!important;padding-bottom:20px!important}
+#drawer .drawer-header{flex-shrink:0!important}
+</style></head>
 <body>
+  <div id="leeway-formula-thoughts" aria-hidden="true"></div>
   <!-- Floating translucent side tab -->
 
 
@@ -255,17 +288,16 @@
       <button class="close-btn" id="close-drawer">&times;</button>
     </div>
 
-    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#38bdf8;margin-top:10px;">AGENT LEE · THIS DEVICE</div>
-    <div class="element-card" onclick="openDigitalBrain()"><div><div class="element-name">Digital Brain</div><div class="element-motto">This Device · Connected Devices</div></div><div class="element-action">OPEN</div></div>
-    <div class="element-card" onclick="window.LeeWayAndroid.openDiagnostics()"><div><div class="element-name">Device Diagnostics</div><div class="element-motto">This device · live hardware Brain</div></div><div class="element-action">OPEN</div></div>
-    <div class="element-card" onclick="window.LeeWayAndroid.enableOverlay()"><div><div class="element-name">Floating Agent Lee</div><div class="element-motto">Enable the logo tab over other apps</div></div><div class="element-action">ENABLE</div></div>
-    <div class="element-card" onclick="openWorkstation()"><div><div class="element-name">Workstation</div><div class="element-motto">Agent VT · Notebook · Sandbox</div></div><div class="element-action">OPEN</div></div>
-    <div class="element-card"><div><div class="element-name">Continuum</div><div class="element-motto">Body-local governed state</div></div><div class="element-action">BIND</div></div>
-    <div class="element-card"><div><div class="element-name">LDWMD</div><div class="element-motto">Device Working-Memory Database</div></div><div class="element-action">BIND</div></div>
-    <div class="element-card"><div><div class="element-name">LeeWay Voice</div><div class="element-motto">Unified Agent Lee voice</div></div><div class="element-action">VOICE</div></div>
-    <div class="element-card"><div><div class="element-name">Skills</div><div class="element-motto">LeeWay Agent Skills capability fabric</div></div><div class="element-action">SKILLS</div></div>
-    <div class="element-card"><div><div class="element-name">Devices</div><div class="element-motto">Device Bridge · Commander providers</div></div><div class="element-action">DEVICES</div></div>
-    <div class="element-card"><div><div class="element-name">Formula / Veritas</div><div class="element-motto">Decision and proof authority</div></div><div class="element-action">STATUS</div></div>
+<div class="settings-list"><button class="element-card setting-card" data-setting="digital-brain"><span><span class="element-name">Digital Brain</span><span class="element-motto">Your authorized files, objects and knowledge</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="continuum"><span><span class="element-name">Continuum</span><span class="element-motto">Your local database universes</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="diagnostics"><span><span class="element-name">Diagnostics</span><span class="element-motto">Hardware observations and diagnostics</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="voice"><span><span class="element-name">Voice</span><span class="element-motto">One selected Agent Lee voice across your devices</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="workstation"><span><span class="element-name">Agent VT</span><span class="element-motto">Virtual Tablet · Notebook · Notepad · Sandbox</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="models"><span><span class="element-name">Models · optional</span><span class="element-motto">Core operation does not require an LLM</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="skills"><span><span class="element-name">Skills reference</span><span class="element-motto">Read-only capability inventory</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="authority"><span><span class="element-name">Authority & Permissions</span><span class="element-motto">Owner-controlled access and revocation</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="evidence"><span><span class="element-name">Evidence & Receipts</span><span class="element-motto">Your permitted activity and execution records</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="about"><span><span class="element-name">About LeeWay</span><span class="element-motto">Purpose, services and how Agent Lee works</span></span><span class="element-action">OPEN</span></button></div>
   </div>
 
   <script>
@@ -478,15 +510,16 @@
 
     const glassGeom = new THREE.SphereGeometry(globeRadius, 48, 36);
     const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x071e3d,
-      emissive: 0x0284c7,
-      emissiveIntensity: 0.18,
-      roughness: 0.08,
-      metalness: 0.1,
-      transmission: 0.72,
+      color: 0x9fc8df,
+      emissive: 0x0b6b98,
+      emissiveIntensity: 0.06,
+      roughness: 0.10,
+      metalness: 0.02,
+      transmission: 0.94,
       ior: 1.333,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.16,
+      depthWrite: false,
       side: THREE.FrontSide
     });
     const glassMesh = new THREE.Mesh(glassGeom, glassMaterial);
@@ -497,7 +530,7 @@
       color: 0x38bdf8,
       wireframe: true,
       transparent: true,
-      opacity: 0.18
+      opacity: 0.08
     });
     const wireframeGlobe = new THREE.Mesh(wireframeGlobeGeom, wireframeGlobeMaterial);
     sphereGroup.add(wireframeGlobe);
@@ -549,52 +582,8 @@
     const constellDotMat = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.05, transparent: true, opacity: 0.45 });
     constellGroup.add(new THREE.Points(constellDotGeom, constellDotMat));
 
-    // --- INTERACTIVE TOUCH & DRAG / CLICKABLE SPHERE ---
-    let isDragging = false;
-    let dragDistance = 0;
-    let prevMouseX = 0;
-    let prevMouseY = 0;
-    let startX = 0;
-    let startY = 0;
-    let yaw = 0.35;
-    let pitch = 0.12;
-
-    function onPointerDown(e) {
-      isDragging = true;
-      dragDistance = 0;
-      startX = e.clientX || (e.touches && e.touches[0].clientX);
-      startY = e.clientY || (e.touches && e.touches[0].clientY);
-      prevMouseX = startX;
-      prevMouseY = startY;
-    }
-
-    function onPointerMove(e) {
-      if (!isDragging) return;
-      const x = e.clientX || (e.touches && e.touches[0].clientX);
-      const y = e.clientY || (e.touches && e.touches[0].clientY);
-      const dx = x - prevMouseX;
-      const dy = y - prevMouseY;
-      dragDistance += Math.abs(dx) + Math.abs(dy);
-      yaw += dx * 0.006;
-      pitch = Math.max(-0.75, Math.min(0.75, pitch + dy * 0.006));
-      prevMouseX = x;
-      prevMouseY = y;
-    }
-
-    function onPointerUp(e) {
-      if (isDragging && dragDistance < 10) {
-        // Registered as a TAP/CLICK on the sphere!
-        toggleVoiceInteraction();
-      }
-      isDragging = false;
-    }
-
-    window.addEventListener('mousedown', onPointerDown);
-    window.addEventListener('mousemove', onPointerMove);
-    window.addEventListener('mouseup', onPointerUp);
-    window.addEventListener('touchstart', onPointerDown, { passive: true });
-    window.addEventListener('touchmove', onPointerMove, { passive: true });
-    window.addEventListener('touchend', onPointerUp, { passive: true });
+    // Input is owned by the shared pointer-boundary adapter, not the whole window.
+    let isDragging=false,yaw=0.35,pitch=0.12;
 
     // --- VOICE & TALKING ENGINE ---
     let isListening = false;
@@ -622,7 +611,7 @@
         window.LeeWayAndroid.openDigitalBrain();return;
       }
       voiceUnavailable('DIGITAL_BRAIN_NATIVE_VIEWER_UNBOUND');
-    }    function openWorkstation(){ closeDrawer(); alert('Agent VT Workstation binding is being restored through the LeeWay capability fabric.'); }
+    }    function openWorkstation(){ closeDrawer(); if(window.LeeWayAndroid && typeof window.LeeWayAndroid.openWorkstation==='function'){ window.LeeWayAndroid.openWorkstation(); return; } voiceUnavailable('WORKSTATION_NATIVE_BINDING_UNBOUND'); }
     function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
 
     async function startListening() {
@@ -728,6 +717,33 @@
 
     // --- ANIMATION LOOP (LIVELY TALKING ANIMATION) ---
     const clock = new THREE.Clock();
+    // Sparse visual notation from the LeeWay awareness adapter. This is avatar expression, NOT an executed Formula result.
+    const leewayFormulaThoughts = [
+      'PEₜ = εₜᵀ Πₜ εₜ',
+      'εₜ = oₜ − ôₜ',
+      'Vₜ = −(Fₜ − Fₜ₋₁)/Δₜ',
+      'IGₜ = D_KL(bₜ ∥ bₜ prior)',
+      'q(π) ∝ exp(−γ G(π))',
+      'Bₜ = acknowledged / required',
+      'EVB(k) = Gain(k) × Need(k)',
+      'belief stability = 1 − JSD(bₜ,bₜ₋₁)/ln(2)'
+    ];
+    let leewayFormulaTimer = null;
+    function emitLeeWayFormulaThoughts(){
+      const host=document.getElementById('leeway-formula-thoughts');
+      if(!host || document.hidden || document.getElementById('drawer')?.classList.contains('open')) return scheduleLeeWayFormulaThoughts();
+      const count=1+Math.floor(Math.random()*4), used=new Set();
+      for(let i=0;i<count;i++){
+        let index=Math.floor(Math.random()*leewayFormulaThoughts.length);while(used.has(index)&&used.size<leewayFormulaThoughts.length)index=Math.floor(Math.random()*leewayFormulaThoughts.length);used.add(index);
+        const el=document.createElement('span');el.className='formula-thought';el.textContent=leewayFormulaThoughts[index];
+        let left=8+Math.random()*76, top=12+Math.random()*70;if(left<30&&top<28){left+=28;top+=8;}
+        el.style.left=left+'%';el.style.top=top+'%';el.style.animationDelay=(i*.36)+'s';host.appendChild(el);setTimeout(()=>el.remove(),6800+i*360);
+      }
+      scheduleLeeWayFormulaThoughts();
+    }
+    function scheduleLeeWayFormulaThoughts(){clearTimeout(leewayFormulaTimer);leewayFormulaTimer=setTimeout(emitLeeWayFormulaThoughts,20000+Math.random()*10000)}
+    scheduleLeeWayFormulaThoughts();
+
 
     function animate() {
       requestAnimationFrame(animate);
@@ -761,10 +777,14 @@
 
       rimMesh.lookAt(camera.position);
 
-      // Lively Breathing & Talking Surface Expansion
-      const talkPulse = isSpeaking ? (0.04 * Math.sin(time * 9.0) + voiceAmplitude * 0.12) : (voiceAmplitude * 0.08);
-      const currentScale = 1.0 + talkPulse;
-      brainGroup.scale.set(currentScale, currentScale, currentScale);
+      // Living idle respiration plus speech-driven emphasis. Presentation only; never a health/consciousness claim.
+      const idleBreath = 0.022 * Math.sin(time * 1.18) + 0.007 * Math.sin(time * 0.43);
+      const talkPulse = isSpeaking ? (0.038 * Math.sin(time * 8.4) + voiceAmplitude * 0.11) : (voiceAmplitude * 0.06);
+      const currentScale = 1.0 + idleBreath + talkPulse;
+      brainGroup.scale.set(currentScale * (1.0 + 0.006 * Math.sin(time * 0.79)), currentScale * (1.0 + 0.012 * Math.sin(time * 1.07 + 0.8)), currentScale * (1.0 + 0.004 * Math.sin(time * 0.67)));
+      glassMesh.scale.setScalar(1.0 + 0.0035 * Math.sin(time * 0.91));
+      brainMaterial.emissiveIntensity = 0.82 + 0.12 * Math.sin(time * 1.31) + voiceAmplitude * 0.65;
+      wireframeMaterial.opacity = 0.48 + 0.10 * Math.sin(time * 0.87) + voiceAmplitude * 0.16;
 
       // Central Fissure Bridge Light Surge
       const fissureIntensity = isSpeaking ? (3.5 + voiceAmplitude * 6.0 + Math.sin(time * 10) * 1.5) : (2.5 + voiceAmplitude * 4.0);
@@ -793,5 +813,184 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
   </script>
+
+<section id="surface-panel" aria-live="polite"></section>
+<script>
+/* REGION: LEEWAY.UI.INTERACTION; TAG: NATIVE_SPHERE_INPUT_WITH_VOICE_FABRIC
+WHO: Owner-driven Agent Lee. WHAT: Separate sphere taps, native movement, menus and Voice Fabric dispatch.
+WHEN: Existing sphere UI. WHERE: shared DOM, native platform geometry adapters only.
+WHY: Global window listeners made menu touches speak; UI must not become the speech queue or speaker owner.
+HOW: Pointer capture, raycast, cancellation and canonical Voice SDK. LICENSE: MIT */
+(()=>{'use strict';
+const $=id=>document.getElementById(id),canvas=renderer.domElement;
+const native=()=>window.pywebview?.api||(window.LeeWayAndroid?.geometry?window.LeeWayAndroid:null);
+async function host(action,value=0,second=0){const n=native();if(!n)return{state:'NATIVE_HOST_UNBOUND'};const r=await n.geometry(action,typeof value==='boolean'?Number(value):value,second);return typeof r==='string'?JSON.parse(r):r;}
+let menu=false,gesture=null,movePending=null,moving=false,voice=null,loading=null;
+const counts=window.__leewayInteraction={sphereTaps:0,dragStarts:0,cancelled:0,menuBlocked:0,resizeActions:0,voiceErrors:0};
+function report(message){$('status-text').textContent=message;$('status-badge').classList.add('active');}
+function blocked(){return menu||$('drawer')?.classList.contains('open')||$('surface-panel')?.classList.contains('open');}
+function hit(e){const r=canvas.getBoundingClientRect();const p=new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);const ray=new THREE.Raycaster();ray.setFromCamera(p,camera);return ray.intersectObject(sphereGroup,true).length>0;}
+function cancel(){gesture=null;isDragging=false;counts.cancelled++;}
+async function flushMove(){if(moving||!movePending)return;moving=true;try{while(movePending){const [dx,dy]=movePending;movePending=null;await host('move',Math.max(-250,Math.min(250,dx)),Math.max(-250,Math.min(250,dy)));}}catch(e){report(e.message)}finally{moving=false;}}
+canvas.style.touchAction='none';
+canvas.addEventListener('pointerdown',e=>{if(e.button!==0||!e.isPrimary||blocked()){if(blocked())counts.menuBlocked++;return}if(!hit(e))return;gesture={id:e.pointerId,x:e.screenX,y:e.screenY,lastX:e.screenX,lastY:e.screenY,at:performance.now(),moved:false};canvas.setPointerCapture(e.pointerId);e.preventDefault()});
+canvas.addEventListener('pointermove',e=>{const g=gesture;if(!g||e.pointerId!==g.id)return;if(blocked()){cancel();return}if(Math.hypot(e.screenX-g.x,e.screenY-g.y)>7){if(!g.moved)counts.dragStarts++;g.moved=true;isDragging=true}if(g.moved){const dx=e.screenX-g.lastX,dy=e.screenY-g.lastY;movePending=movePending?[movePending[0]+dx,movePending[1]+dy]:[dx,dy];flushMove()}g.lastX=e.screenX;g.lastY=e.screenY});
+canvas.addEventListener('pointerup',e=>{const g=gesture;if(!g||g.id!==e.pointerId)return;gesture=null;isDragging=false;if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);if(!g.moved&&performance.now()-g.at<600&&!blocked()&&hit(e)){counts.sphereTaps++;Promise.resolve(toggleVoiceInteraction()).catch(e=>report(e.message))}});
+canvas.addEventListener('pointercancel',cancel);canvas.addEventListener('lostpointercapture',()=>{if(gesture)cancel()});window.addEventListener('blur',cancel);
+const oldOpen=openDrawer,oldClose=closeDrawer;
+openDrawer=function(){cancel();menu=true;oldOpen();$('drawer').scrollTop=0;host('panel',true).catch(e=>report(e.message));};
+closeDrawer=function(){oldClose();menu=false;host('panel',false).catch(e=>report(e.message));};
+hamburgerBtn.removeEventListener('click',oldOpen);hamburgerBtn.addEventListener('click',()=>openDrawer());closeDrawerBtn.removeEventListener('click',oldClose);closeDrawerBtn.addEventListener('click',()=>closeDrawer());drawerOverlay.removeEventListener('click',oldClose);drawerOverlay.addEventListener('click',()=>closeDrawer());
+$('drawer').addEventListener('pointerdown',e=>e.stopPropagation());$('drawer').addEventListener('pointerup',e=>e.stopPropagation());
+
+async function fabric(){if(voice)return voice;if(!loading)loading=import('/voice-fabric/src/voice-sdk.js').then(module=>voice=module.createLeeWayBoundVoice({runtimeOrigin:location.origin,onState:message=>{report(message);isSpeaking=message.startsWith('Speaking');},onError:e=>{isSpeaking=false;report('Voice unavailable: '+e.message);}})).catch(e=>{loading=null;throw e;});return loading;}
+window.stopAgentSpeech=()=>{voice?.stop();isSpeaking=false;voiceAmplitude=0;};
+$('stop-agent-voice')?.addEventListener('click',()=>{window.stopAgentSpeech();if(window.pywebview?.api?.listen)window.pywebview.api.listen(false);window.LeeWayAndroid?.stopVoice?.();isListening=false;});
+const originalToggle=toggleVoiceInteraction;
+toggleVoiceInteraction=async function(){if(blocked())return;window.stopAgentSpeech();
+ if(window.LeeWayAndroid?.talk){window.LeeWayAndroid.talk();return;}
+ if(window.pywebview?.api?.listen){const r=await window.pywebview.api.listen(!isListening);isListening=r.state==='LISTENING_OWNER_TAP';report(isListening?'Listening — tap sphere to stop':'Tap sphere to talk');return;}
+ return originalToggle();};
+window.addEventListener('leeway:native-transcript',e=>{isListening=false;if(!blocked()&&e.detail?.text)agentLeeSpeak(e.detail.text)});window.addEventListener('leeway:native-listening-ended',()=>{isListening=false});
+agentLeeSpeak=async function(prompt){if(typeof prompt!=='string'||!prompt.trim())return;try{const client=await fabric();client.stop();report('Preparing response…');const r=await fetch('/respond',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:prompt})});const reply=await r.json();if(!r.ok||!reply.text)throw Error(reply.error||'RESPONSE_PROVIDER_UNAVAILABLE');await client.speak(reply.text);isSpeaking=false;report('Tap sphere to talk');}catch(e){if(e.name!=='AbortError'){counts.voiceErrors++;isSpeaking=false;report('Voice unavailable: '+e.message);}}};
+async function testVoice(){if(window.LeeWayAndroid?.testVoice){window.LeeWayAndroid.testVoice();return;}const client=await fabric();await client.speak('Creator, this is LeeWay Voice. I am using the selected Agent Lee voice through this device speaker.');}
+window.addEventListener('leeway:voice-unbound',e=>report('Voice unavailable: '+(e.detail?.reason||'provider not bound')));
+function nativeTap(point){
+ const x=Number(point?.x),y=Number(point?.y);if(!Number.isFinite(x+y)||x<0||y<0||x>innerWidth||y>innerHeight)return false;
+ const target=document.elementFromPoint(x,y);const control=target?.closest?.('button');
+ if(control){counts.nativeControlTaps=(counts.nativeControlTaps||0)+1;counts.lastNativeTarget=control.id||control.dataset.setting||'button';control.click();return true;}
+ if(!blocked()&&(target===canvas||target?.closest?.('#canvas-container'))){const e={clientX:x,clientY:y};if(hit(e)){counts.sphereTaps++;counts.lastNativeTarget='sphere';Promise.resolve(toggleVoiceInteraction()).catch(err=>report(err.message));return true;}}
+ return false;
+}
+window.__leewayFloating={host,blocked,cancel,nativeTap,runText:agentLeeSpeak,testVoice,metrics:()=>voice?.metrics()||null};
+})();
+
+
+window.addEventListener('leeway:open-surface',async event=>{
+ const key=event.detail?.surface;const panel=document.getElementById('surface-panel');
+ if(key==='voice'&&window.LeeWayAndroid?.openVoiceStudio){window.LeeWayAndroid.openVoiceStudio();return;}
+ if(key==='workstation'&&window.LeeWayAndroid?.openWorkstation){window.LeeWayAndroid.openWorkstation();return;}
+ if(key==='continuum'&&window.LeeWayAndroid?.openContinuum){window.LeeWayAndroid.openContinuum();return;}
+ if(key==='models'&&window.LeeWayAndroid?.openModels){window.LeeWayAndroid.openModels();return;}
+ if(key==='skills'&&window.LeeWayAndroid?.openSkills){window.LeeWayAndroid.openSkills();return;}
+ if(key==='digital-brain'||key==='diagnostics'){
+  if(window.LeeWayAndroid){if(key==='diagnostics')window.LeeWayAndroid.openDiagnostics();else window.LeeWayAndroid.openDigitalBrain();return;}
+  const route='/brain-ui/brain.html'+(key==='diagnostics'?'?surface=hardware':'');
+  if(window.pywebview?.api){await window.pywebview.api.open_surface(route);return;}location.assign(route);return;
+ }
+ panel.replaceChildren();const close=document.createElement('button');close.textContent='Back to Agent Lee';close.onclick=()=>{panel.classList.remove('open');window.__leewayFloating.host('panel',false);};panel.appendChild(close);
+ const article=document.createElement('article');panel.appendChild(article);panel.classList.add('open');await window.__leewayFloating.host('panel',true);
+ if(key==='about'){article.innerHTML="<h2>About LeeWay</h2><p><strong>Logically Enhanced Engineering for Workload, Authority &amp; Yield.</strong></p><p>LeeWay is designed to increase human capability without replacing human responsibility. Agent Lee is the user-facing assistant and coordinator: a consistent identity and workspace across your authorized devices, with explicit permissions and inspectable results.</p><h3>Your device, your information</h3><p>Each device has its own Digital Brain to organize authorized file observations, relationships, provenance and physical-device information. The Brain should reflect what has actually been observed; missing permissions, unavailable sensors and incomplete indexing must remain visible.</p><p>Continuum is LeeWay\u2019s governed database fabric, organized as bounded cells and nested universes. Each device maintains local durable state; approved federation may relate that state across devices without making another customer\u2019s files or authority yours. Device working memory is separate and local.</p><h3>Models are optional</h3><p>The LeeWay architecture does not require an LLM to perform its implemented deterministic duties. An optional local or API-connected language model is a tool, not the owner of identity, data, permissions or voice. Zero-LLM operation does not mean every conversational request is already implemented: the assistant must disclose unsupported requests rather than invent completion.</p><h3>One Agent Lee voice</h3><p>Voice belongs to the shared LeeWay Voice system. Your selected voice should remain consistent across devices. Synchronization and audibility require their own verification; an unavailable provider must not silently become another speaker.</p><h3>Work and services</h3><p>The canonical Agent VT provides a sandboxed Virtual Tablet for documents, notebooks, shared notepad events and bounded work before promotion. Skills and authorized Device/Commander capabilities supply execution, while evidence and receipts record what actually happened. Optional ecosystem services and remote access remain permission-bound.</p><p class=\"state\">This installation is under qualification. A component\u2019s presence is not proof that every service is connected. Your private data, owner control, transparent failure reporting and tested recovery are part of the product requirements.</p>";return;}
+ const title=document.createElement('h2');title.textContent={voice:'LeeWay Voice',models:'Models · optional',skills:'Skills reference',authority:'Authority & Permissions',workstation:'Agent VT',continuum:'Continuum',evidence:'Evidence & Receipts'}[key]||key;article.appendChild(title);if(key==='authority'||key==='evidence'){await window.__leewayOwnerRecords(key,article);return;}
+ try{
+  if(key==='skills'){const data=await fetch('/owner-ui').then(r=>r.json());const p=document.createElement('p');p.textContent='Discovered skill documents: '+data.skillCount+'. This is a read-only inventory, not a claim that every skill has a qualified live executor.';article.appendChild(p);}
+  else if(key==='voice'){
+   if(window.LeeWayAndroid?.testVoice){const b=document.createElement('button');b.textContent='Test selected LeeWay Voice';b.onclick=()=>window.LeeWayAndroid.testVoice();article.appendChild(b);const p=document.createElement('p');p.textContent='Plays a current, verified Voice Fabric waveform through this phone speaker. This tests audio output, not the unbound conversation executor.';article.appendChild(p);return;}
+   const data=await fetch('/owner-ui').then(r=>r.json());const p=document.createElement('p');p.textContent='Current shared selection: '+(data.voiceBinding?.voicePackageId||'No voice selected')+'. Device-to-device update delivery is still unqualified; selection is not silently changed here.';article.appendChild(p);
+   const b=document.createElement('button');b.textContent='Test current voice';b.onclick=()=>{panel.classList.remove('open');window.__leewayFloating.host('panel',false);window.__leewayFloating.testVoice();};article.appendChild(b);
+  }else if(key==='models'){const p=document.createElement('p');p.textContent='No LLM is required by the core. Local-model discovery and API-provider connections must use the existing Model Execution Runtime and protected credential storage. That settings adapter is not yet bound here; no credentials are requested or stored in this page.';article.appendChild(p);}
+  else if(key==='authority'){const p=document.createElement('p');p.textContent='Overlay, microphone, camera and filesystem permissions remain owner controlled. No permission is implied by opening this menu.';article.appendChild(p);if(window.LeeWayAndroid?.enableOverlay){const b=document.createElement('button');b.textContent='Floating overlay permission';b.onclick=()=>window.LeeWayAndroid.enableOverlay();article.appendChild(b);}}
+  else{const p=document.createElement('p');p.className='state';p.textContent={workstation:'Canonical Agent VT located. Its live host binding is being restored; this is not a replacement workstation.',continuum:'The canonical local Continuum runtime is not yet bound to this view. No database cells or records are being invented.',evidence:'The owner-scoped receipt browser is not yet bound to this view. Stored engineering receipts remain preserved.'}[key]||'This surface is not bound.';article.appendChild(p);}
+ }catch(error){const p=document.createElement('p');p.className='state';p.textContent='Unavailable: '+error.message;article.appendChild(p);}
+});
+(async()=>{try{const data=window.LeeWayAndroid?.deviceName?{deviceName:window.LeeWayAndroid.deviceName()}:await fetch('/owner-ui').then(r=>r.json());if(data.deviceName)document.querySelector('[data-setting="diagnostics"] .element-motto').textContent='Hardware observations · '+data.deviceName;}catch{}})();
+
+</script>
+<script id="leeway-owner-menu-dispatch-v1">
+/* REGION: LEEWAY.UI.INTERACTION; TAG: RESTORE_EXISTING_MENU_DISPATCH
+WHO: Owner clicking Agent Lee. WHAT: Connect the existing drawer buttons to existing surface handlers.
+WHY: Real phone taps reached buttons with no click listeners. WHERE: Existing shared sphere page only.
+WHEN: Installed P0 regression repair. HOW: One bounded capture handler, known menu keys, existing native capabilities.
+AUTHORIZED ROLES: OWNER_UI. LICENSE: MIT. No new surface/runtime, synthesized telemetry or voice selection.
+*/
+(()=>{'use strict';
+ const drawer=document.getElementById('drawer');if(!drawer||drawer.dataset.leewayMenuDispatch==='v1')return;
+ drawer.dataset.leewayMenuDispatch='v1';
+ const known=new Set(['digital-brain','continuum','diagnostics','voice','workstation','models','skills','authority','evidence','about']);
+ const phoneMethods={'digital-brain':'openDigitalBrain',continuum:'openContinuum',diagnostics:'openDiagnostics',voice:'openVoiceStudio',workstation:'openWorkstation',models:'openModels',skills:'openSkills'};
+ let busy=false;
+ drawer.addEventListener('click',async event=>{
+  const button=event.target?.closest?.('button[data-setting]');if(!button||!drawer.contains(button)||!known.has(button.dataset.setting))return;
+  event.preventDefault();event.stopImmediatePropagation();if(busy)return;
+  const key=button.dataset.setting;busy=true;
+  window.__leewayMenuDispatch={surface:key,state:'REQUESTED_BY_OWNER_CLICK',at:Date.now()};
+  try{
+   closeDrawer();
+   if(window.__leewayFloating?.host)await window.__leewayFloating.host('panel',false);
+   const method=phoneMethods[key];
+   if(method&&typeof window.LeeWayAndroid?.[method]==='function'){
+    window.LeeWayAndroid[method]();window.__leewayMenuDispatch.state='NATIVE_SURFACE_REQUESTED_NOT_RENDER_VERIFIED';return;
+   }
+   if(key==='workstation'&&typeof window.pywebview?.api?.open_workstation==='function'){
+    await window.pywebview.api.open_workstation();window.__leewayMenuDispatch.state='EXISTING_VT_OPEN_REQUEST_RETURNED';return;
+   }
+   window.dispatchEvent(new CustomEvent('leeway:open-surface',{detail:{surface:key}}));
+   window.__leewayMenuDispatch.state='EXISTING_SURFACE_HANDLER_DISPATCHED';
+  }catch(error){
+   window.__leewayMenuDispatch.state='FAILED';window.__leewayMenuDispatch.error=String(error?.message||error);
+   const status=document.getElementById('status-text');if(status)status.textContent='Could not open '+key+': '+window.__leewayMenuDispatch.error;
+   const badge=document.getElementById('status-badge');if(badge)badge.style.setProperty('display','flex','important');
+  }finally{busy=false;}
+ },true);
+})();
+
+</script>
+<script id="leeway-owner-records-menu-v1">
+/* REGION: LEEWAY.UI; TAG: OWNER_EVIDENCE_AND_AUTHORITY_EXISTING_DATA_ONLY */
+window.__leewayOwnerRecords=async function(key,article){
+ const add=(tag,value,parent=article)=>{const n=document.createElement(tag);n.textContent=value;parent.appendChild(n);return n};
+ const action=(name,fn)=>{const b=add('button',name);b.type='button';b.onclick=fn;return b};
+ if(key==='authority'){
+  add('p','Device-specific owner permissions. Opening this page does not grant access.');
+  if(window.LeeWayAndroid?.authoritySummary){
+   const data=JSON.parse(window.LeeWayAndroid.authoritySummary());
+   for(const p of data.permissions||[]){add('p',p.label+': '+(p.granted?'GRANTED':'NOT GRANTED'));}
+   action('Android app permissions',()=>window.LeeWayAndroid.openPermissionSettings?.());
+   action('Floating overlay permission',()=>window.LeeWayAndroid.enableOverlay?.());
+  }else{
+   try{const x=await fetch('/health').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()});
+    for(const [name,p] of Object.entries(x.sources||{})){add('p',name+': '+(p.connected?'OBSERVED CONNECTED':'NOT CONNECTED'));}
+    add('p','Execution authority remains gated by the canonical Runtime Fabric and Veritas.');
+   }catch(e){add('p','Local authority source unavailable: '+e.message);}
+  }
+  return;
+ }
+ if(key==='evidence'){
+  add('p','Owner-scoped existing records, grouped by source. No fabricated receipts or invented remote device records.');
+  let data;
+  try{data=window.LeeWayAndroid?.evidenceSummary
+   ?JSON.parse(window.LeeWayAndroid.evidenceSummary())
+   :await fetch('/owner-evidence').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()});}
+  catch(e){add('p','Evidence index unavailable: '+e.message);return;}
+  add('p','Scope: '+data.scope+' â€¢ Read only');
+  const groups=data.groups||[];
+  add('p',groups.length+' categorized folders; '+(data.observedFiles||'local')+' observed files');
+  const query=document.createElement('input');
+  query.type='search';query.placeholder='Search receipt category or filename';query.setAttribute('aria-label','Search your evidence');
+  query.style.cssText='width:100%;background:#10263a;color:#fff;padding:12px;border:1px solid #6592ad;border-radius:8px';
+  article.appendChild(query);
+  const resultNote=add('p','');
+  const list=document.createElement('div');article.appendChild(list);
+  function display(){
+   list.replaceChildren();
+   const q=query.value.toLowerCase().trim();
+   const matches=groups.filter(g=>!q||g.category.toLowerCase().includes(q)||(g.recent||[]).some(f=>f.name.toLowerCase().includes(q)));
+   resultNote.textContent=matches.length+' matching categories; showing up to 80';
+   for(const g of matches.slice(0,80)){
+    const details=document.createElement('details');list.appendChild(details);
+    const summary=document.createElement('summary');summary.textContent=g.category+' ('+(g.observedFiles??(g.recent||[]).length)+' files)';details.appendChild(summary);
+    if(!(g.recent||[]).length)add('p','No indexed recent files.',details);
+    for(const f of g.recent||[]){
+     const n=add(f.url?'a':'p',f.name+' | '+(f.bytes??'?')+' bytes',details);
+     if(f.url){n.href=f.url;n.target='_blank';n.rel='noopener noreferrer';n.style.display='block';n.style.padding='8px';}
+    }
+   }
+  }
+  query.addEventListener('input',display);display();
+  for(const note of data.limitations||[]){add('p','Coverage: '+note);}
+ }
+};
+</script>
 </body>
 </html>
+

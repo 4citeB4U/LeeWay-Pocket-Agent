@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 29
-        versionName = "1.0.0-overlay-recovery-rc2"
+        versionCode = 43
+        versionName = "1.0.0-continuum-curved-rc16"
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 }

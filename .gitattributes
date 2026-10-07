@@ -7,3 +7,8 @@ app/src/main/assets/digital-brain/*.js text eol=lf
 app/src/main/assets/digital-brain/vendor/*.js text eol=lf
 app/src/main/assets/digital-brain/vendor/*.txt text eol=lf
 app/src/main/assets/digital-brain/*.png -text
+
+# Hash-admitted Android Continuum assets keep exact bytes across platforms
+app/src/main/assets/agent-vt/SOURCE.json -text
+app/src/main/assets/agent-vt/continuum/** -text
+app/src/main/assets/agent_lee_sphere_transparent.html -text

@@ -45,6 +45,8 @@ object PocketVoiceHost {
     private var selectedVoiceName="LeeWay Voice Fabric"
     private var selectionConfirmed=false
     private var catalogCallback:((List<FabricVoiceCatalog.Choice>?,String?)->Unit)?=null
+    fun playVerifiedOutputSample(context:Context){stopPlayback();VoiceOutputSample.play(context)}
+    fun stopVerifiedOutputSample(){VoiceOutputSample.stop()}
     fun description()="$selectedVoiceName Â· LeeWay Voice Fabric"
 
     private fun canonicalPage(url:String?):Boolean {
@@ -188,6 +190,7 @@ object PocketVoiceHost {
     }
 
     private fun stopPlayback() {
+        VoiceOutputSample.stop()
         // stop() advances the worker epoch. During prepare this can invalidate speaker
         // conditioning; queued speech is already revoked by VoiceSession on detach.
         if (pageReady && ready) view?.evaluateJavascript("window.LeeWayAndroidVoice?.stop?.()", null)

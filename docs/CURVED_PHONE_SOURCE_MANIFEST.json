@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "leeway.pocket.continuum.source.v43",
+  "owner": "4citeB4U/LeeWay-Pocket-Agent",
+  "versionCode": 43,
+  "included": [
+    "app/src/main/java",
+    "app/src/main/AndroidManifest.xml",
+    "app/build.gradle.kts",
+    "app/src/main/assets/agent-vt/continuum",
+    "app/src/main/assets/agent-vt/SOURCE.json",
+    "app/src/main/assets/agent_lee_sphere_transparent.html"
+  ],
+  "excluded": [
+    "qualification",
+    "model weights",
+    "personal databases",
+    "private voice reference WAVs",
+    "debug keystores"
+  ],
+  "sourceOnly": true
+}
