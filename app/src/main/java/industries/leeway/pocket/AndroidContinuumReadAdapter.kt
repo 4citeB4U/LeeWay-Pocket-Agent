@@ -46,7 +46,7 @@ object AndroidContinuumReadAdapter {
         val receipt: String?, val capturedAt: Long?, val storedBytes: Long?, val payloadNull: Boolean
     )
     private class Bound(
-        val db: SQLiteDatabase, val body: BodyIdentity, val binding: Binding,
+        val db: SQLiteDatabase, val brain: SQLiteDatabase, val body: BodyIdentity, val binding: Binding,
         val root: String = DigitalBrain.continuumRootId(body)
     )
 
@@ -62,8 +62,16 @@ object AndroidContinuumReadAdapter {
                     "/api/continuum/counts" -> json(200, counts(bound))
                     "/api/continuum/records" -> json(200, records(bound, uri, search = false))
                     "/api/continuum/search" -> json(200, records(bound, uri, search = true))
-                    "/api/continuum/record" -> json(200, descriptor(bound, event(bound, parameter(uri, "recordId", required = true)!!)))
-                    "/api/continuum/content" -> content(bound, event(bound, parameter(uri, "recordId", required = true)!!))
+                    "/api/continuum/record" -> {
+                        val id=parameter(uri,"recordId",required=true)!!
+                        if(id.startsWith("brain:"))json(200,brainDescriptor(bound,id).first)
+                        else json(200,descriptor(bound,event(bound,id)))
+                    }
+                    "/api/continuum/content" -> {
+                        val id=parameter(uri,"recordId",required=true)!!
+                        if(id.startsWith("brain:"))brainContent(bound,id)
+                        else content(bound,event(bound,id))
+                    }
                     else -> failure(404, "CONTINUUM_ROUTE_NOT_FOUND")
                 }
             }
@@ -105,7 +113,7 @@ object AndroidContinuumReadAdapter {
                 check(setOf("universes", "continuum_events", "universe_links", "federation_peers").all { it in tables }) {
                     "CONTINUUM_EXISTING_SCHEMA_REQUIRED"
                 }
-                val bound = Bound(db, identity, selected)
+                val bound = Bound(db, brain, identity, selected)
                 val rootAuthority = db.rawQuery("SELECT authority FROM universes WHERE id=?", arrayOf(bound.root)).use { c ->
                     check(c.moveToFirst()) { "CONTINUUM_ROOT_UNBOUND" }
                     val value = c.getString(0)
@@ -180,7 +188,7 @@ object AndroidContinuumReadAdapter {
         }
 
     private fun status(bound: Bound): JSONObject {
-        val count = number(bound, "count(*)", scope(bound))
+        val count = number(bound,"count(*)",scope(bound)) + brainCount(bound,"knowledge") + brainCount(bound,"devices")
         return JSONObject().put("ownerId", bound.body.deviceId).put("bodyId", bound.body.deviceId)
             .put("state", "OWNER_LOCAL_RETAINED_RECORDS_READABLE").put("recordCount", count).put("records", count)
             .put("writeAllowed", false).put("downloadAllowed", false).put("governanceState", GOVERNANCE).put("writeBlockReason", WRITE_REASON)
@@ -220,11 +228,128 @@ object AndroidContinuumReadAdapter {
         val view = JSONObject().put("id", "experience").put("count", number(bound, "count(*)", experience))
             .put("description", "Retained conversation events; original Continuum universe IDs preserved in each record")
             .put("sourceUniverseIds", sourceUniverseIds).put("mappingKind", "PRESENTATION_ONLY")
-        return JSONObject().put("total", total).put("totalRecords", total).put("records", total)
+        val knowledgeCount=brainCount(bound,"knowledge")
+        val devicesCount=brainCount(bound,"devices")
+        val expandedViews=JSONArray().put(view)
+            .put(JSONObject().put("id","knowledge").put("count",knowledgeCount)
+                .put("description","Owner-local Brain index records, original file bytes not implied")
+                .put("source","EXISTING_PHONE_BRAIN_SQLITE"))
+            .put(JSONObject().put("id","devices").put("count",devicesCount)
+                .put("description","Owner-local recorded hardware and device observations")
+                .put("source","EXISTING_PHONE_BRAIN_SQLITE"))
+        return JSONObject().put("total",total+knowledgeCount+devicesCount)
+            .put("totalRecords",total+knowledgeCount+devicesCount)
+            .put("records",total+knowledgeCount+devicesCount)
             .put("byteLength", number(bound, "COALESCE(sum(length(CAST(e.payload_json AS BLOB))),0)", all))
-            .put("universes", groups).put("universeMetadata", metadata).put("views", JSONArray().put(view))
+            .put("universes", groups).put("universeMetadata", metadata).put("views", expandedViews)
             .put("universeGroupsTruncated", ids.size > MAX_UNIVERSE_GROUPS).put("ownerId", bound.body.deviceId)
             .put("bodyId", bound.body.deviceId).put("writeAllowed", false).put("governanceState", GOVERNANCE)
+    }
+
+    // Owner-local node projection; data remains in the existing Brain.
+    private fun brainPredicate(view:String):String {
+        val active="COALESCE(n.status,'') != 'tombstoned'"
+        val devices="(n.type='hardware-component' OR n.id LIKE 'device-current:%')"
+        return when(view){
+            "knowledge"->"$active AND NOT $devices"
+            "devices"->"$active AND $devices"
+            else->error("CONTINUUM_BRAIN_VIEW_NOT_ADMITTED")
+        }
+    }
+    private fun brainCount(bound:Bound,view:String):Long =
+        bound.brain.rawQuery("SELECT count(*) FROM nodes n WHERE "+brainPredicate(view),null).use{c->
+            check(c.moveToFirst()){"CONTINUUM_BRAIN_COUNT_MISSING"};c.getLong(0)
+        }
+    private fun encodeBrainId(id:String):String=android.util.Base64.encodeToString(id.toByteArray(Charsets.UTF_8),
+        android.util.Base64.URL_SAFE or android.util.Base64.NO_WRAP or android.util.Base64.NO_PADDING)
+    private fun decodeBrainId(token:String):String {
+        check(token.matches(Regex("[A-Za-z0-9_-]{1,5500}"))){"CONTINUUM_BRAIN_ID_INVALID"}
+        val value=runCatching{android.util.Base64.decode(token,
+            android.util.Base64.URL_SAFE or android.util.Base64.NO_WRAP or android.util.Base64.NO_PADDING)}
+            .getOrElse{error("CONTINUUM_BRAIN_ID_INVALID")}.toString(Charsets.UTF_8)
+        check(value.length in 1..4096 && encodeBrainId(value)==token){"CONTINUUM_BRAIN_ID_INVALID"}
+        return value
+    }
+    private fun brainRecordId(bound:Bound,view:String,id:String):String =
+        "brain:"+bound.body.deviceId+":"+view+":"+encodeBrainId(id)
+    private fun resolveBrainId(bound:Bound,recordId:String):Pair<String,String>{
+        val prefix="brain:"+bound.body.deviceId+":"
+        check(recordId.startsWith(prefix)){"CONTINUUM_RECORD_OUTSIDE_BODY"}
+        val rest=recordId.removePrefix(prefix)
+        val pivot=rest.indexOf(':')
+        check(pivot>0){"CONTINUUM_BRAIN_ID_INVALID"}
+        val view=rest.substring(0,pivot)
+        brainPredicate(view)
+        return Pair(view,decodeBrainId(rest.substring(pivot+1)))
+    }
+    private fun brainDescriptor(bound:Bound,recordId:String):Pair<JSONObject,ByteArray>{
+        val (view,id)=resolveBrainId(bound,recordId)
+        val sql="SELECT n.id,n.parent_id,n.title,n.type,n.status,n.source_path,n.metadata_json,n.created_at,n.updated_at FROM nodes n WHERE n.id=? AND "+brainPredicate(view)+" LIMIT 2"
+        val row=bound.brain.rawQuery(sql,arrayOf(id)).use{c->
+            check(c.moveToFirst()){"CONTINUUM_RECORD_NOT_FOUND"}
+            val obj=JSONObject()
+            val keys=listOf("id","parent_id","title","type","status","source_path","metadata_json","created_at","updated_at")
+            for(i in keys.indices)obj.put(keys[i],if(c.isNull(i))JSONObject.NULL else if(i>=7)c.getLong(i) else c.getString(i))
+            check(!c.moveToNext()){"CONTINUUM_BRAIN_ID_AMBIGUOUS"}
+            obj
+        }
+        val bytes=row.toString(2).toByteArray(Charsets.UTF_8)
+        check(bytes.size<=MAX_CONTENT_BYTES){"CONTINUUM_CONTENT_PREVIEW_LIMIT"}
+        val parent=row.optString("parent_id").takeUnless{it.isBlank()||it=="null"}
+        val label=parent?.let{key->
+            bound.brain.rawQuery("SELECT title FROM nodes WHERE id=? LIMIT 1",arrayOf(key)).use{c->
+                if(c.moveToFirst())c.getString(0) else null
+            }
+        }
+        val src=JSONObject().put("kind","EXISTING_PHONE_BRAIN_SQLITE").put("table","nodes")
+            .put("sourceRecordId",id).put("bodyId",bound.body.deviceId).put("presentationOnly",true)
+            .put("representation","RETAINED_RECORD_JSON")
+            .put("recordedRelativePath",row.optString("source_path").takeUnless{it.isBlank()||it=="null"}?:JSONObject.NULL)
+            .put("parentSourceRecordId",parent?:JSONObject.NULL).put("parentLabel",label?:JSONObject.NULL)
+        val desc=JSONObject().put("recordId",recordId).put("viewId",view)
+            .put("collection",if(view=="devices")"Recorded device observations" else "Existing phone Brain index")
+            .put("title",row.optString("title").takeIf{it.isNotBlank()&&it!="null"}?:id)
+            .put("kind","index").put("mimeType","application/json").put("byteLength",bytes.size)
+            .put("contentSha256",sha256(bytes)).put("bodyId",bound.body.deviceId).put("ownerId",bound.body.deviceId)
+            .put("source",src).put("storageKind","INDEX_REFERENCE")
+            .put("verification",JSONObject().put("state","SOURCE_RECORD_READ").put("originalFileVerified",false)
+                .put("formulaExecution","NOT_EXECUTED"))
+        return Pair(desc,bytes)
+    }
+    private fun brainContent(bound:Bound,id:String):WebResourceResponse {
+        val (record,bytes)=brainDescriptor(bound,id)
+        return WebResourceResponse("application/json","UTF-8",200,"OK",
+            headers()+mapOf("X-Continuum-Record-Id" to id,
+               "X-Continuum-Content-SHA256" to record.getString("contentSha256")),
+            ByteArrayInputStream(bytes))
+    }
+    private fun brainRecords(bound:Bound,uri:Uri,view:String,search:Boolean):JSONObject {
+        val where=brainPredicate(view)
+        val limit=parameter(uri,"limit")?.toIntOrNull()?:MAX_PAGE
+        check(limit in 1..MAX_PAGE){"CONTINUUM_PAGE_INVALID"}
+        val q=if(search)parameter(uri,"query",required=true)?.trim() else null
+        if(q!=null)check(q.length in 2..160){"CONTINUUM_SEARCH_QUERY_INVALID"}
+        val cursor=parameter(uri,"cursor")
+        val prefix="node:"+view+":"
+        val after=if(cursor==null)null else {
+            check(cursor.startsWith(prefix)){"CONTINUUM_CURSOR_SCOPE_INVALID"}
+            decodeBrainId(cursor.removePrefix(prefix))
+        }
+        val sql=StringBuilder(where)
+        val args=mutableListOf<String>()
+        if(after!=null){sql.append(" AND n.id COLLATE BINARY > ?");args.add(after)}
+        if(q!=null){sql.append(" AND instr(lower(COALESCE(n.title,'')),lower(?))>0");args.add(q)}
+        args.add((limit+1).toString())
+        val ids=mutableListOf<String>()
+        bound.brain.rawQuery("SELECT n.id FROM nodes n WHERE "+sql+" ORDER BY n.id COLLATE BINARY LIMIT ?",args.toTypedArray()).use{c->
+            while(c.moveToNext())ids.add(c.getString(0))
+        }
+        val page=ids.take(limit)
+        val records=JSONArray()
+        for(id in page)records.put(brainDescriptor(bound,brainRecordId(bound,view,id)).first)
+        return JSONObject().put("records",records).put("total",brainCount(bound,view))
+            .put("nextCursor",if(ids.size>limit&&page.isNotEmpty())prefix+encodeBrainId(page.last()) else JSONObject.NULL)
+            .put("retrievalMode","OWNER_LOCAL_SQLITE_SOURCE_ID_KEYSET").put("llmUsed",false)
     }
 
     private const val COLUMNS = "e.id,e.universe_id,e.event_type,CASE WHEN length(CAST(e.payload_json AS BLOB)) <= 1048576 THEN e.payload_json ELSE NULL END,e.receipt_ref,e.captured_at,length(CAST(e.payload_json AS BLOB)),e.payload_json IS NULL"
@@ -232,6 +357,8 @@ object AndroidContinuumReadAdapter {
         if (c.isNull(4)) null else c.getString(4), if (c.isNull(5)) null else c.getLong(5), if (c.isNull(6)) null else c.getLong(6), c.getInt(7) == 1)
 
     private fun records(bound: Bound, uri: Uri, search: Boolean): JSONObject {
+        val sourceView=parameter(uri,"viewId")
+        if(sourceView=="knowledge"||sourceView=="devices")return brainRecords(bound,uri,sourceView,search)
         val query = if (search) parameter(uri, "query", required = true)!!.trim() else null
         val selected = scope(bound, parameter(uri, "universeId"), parameter(uri, "viewId"), query)
         val rawLimit = parameter(uri, "limit")
