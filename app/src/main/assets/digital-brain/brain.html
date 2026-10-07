@@ -516,8 +516,6 @@ body.galaxy-active #leewayBrainLabels{opacity:1!important}
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
 <style>
 /* Native viewport adaptation only; original geometry, node cards, graph and renderer remain. */
-html,body,#absoluteNucleusBackground{background:transparent!important}
-#nucleusFallbackImage,#nucleusWaveCanvas{opacity:.24}
 #top{background:rgba(2,5,10,.62)!important}
 #localControls{position:fixed;z-index:12000;left:8px;right:8px;bottom:58px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:rgba(3,9,17,.62);padding:6px;border-radius:12px;backdrop-filter:blur(12px)}
 #localSearch{flex:1;min-width:130px}#localSearchResults{position:absolute;bottom:100%;left:0;right:0;display:flex;flex-direction:column;max-height:240px;overflow:auto}
@@ -525,9 +523,6 @@ html,body,#absoluteNucleusBackground{background:transparent!important}
 @media(max-width:760px){#hud{width:calc(100% - 24px);max-height:50vh;top:110px;right:12px}#stage{bottom:142px}.filesystemMatrixGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 </style>
 <style id="leeway-live-brain-chrome">
-html,body,#absoluteNucleusBackground{background:transparent!important}
-#nucleusFallbackImage{opacity:.10!important}
-#nucleusWaveCanvas{opacity:.16!important}
 #top,#dock,#localControls{background:rgba(3,10,18,.42)!important;backdrop-filter:blur(10px) saturate(112%)!important;-webkit-backdrop-filter:blur(10px) saturate(112%)!important;border-color:rgba(183,215,238,.18)!important}
 #hud,#settingsPanel,#legend,.filesystemCarouselHost{background:rgba(3,10,18,.76)!important;backdrop-filter:blur(16px) saturate(118%)!important;-webkit-backdrop-filter:blur(16px) saturate(118%)!important}
 #leewayReturnAgent{position:fixed;right:10px;top:10px;z-index:14000;min-height:36px;padding:7px 12px;border-radius:999px;background:rgba(3,10,18,.46);border:1px solid rgba(155,211,239,.38);color:#f5fbff;font:700 12px/1 system-ui;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
@@ -536,11 +531,6 @@ html,body,#absoluteNucleusBackground{background:transparent!important}
 </style>
 <link rel="stylesheet" href="brain-live-overrides.css">
 <style id="leeway-owner-local-window-shell">
-html,body,#absoluteNucleusBackground{background:transparent!important}
-body{background:transparent!important}
-#absoluteNucleusBackground{opacity:.18!important}
-#nucleusFallbackImage{opacity:.11!important;background:transparent!important}
-#nucleusWaveCanvas{opacity:.18!important}
 #top{background:rgba(3,10,18,.58)!important;border-bottom-color:rgba(105,155,190,.22)!important;backdrop-filter:blur(12px)}
 #dock{background:rgba(3,10,18,.54)!important;border-top-color:rgba(105,155,190,.20)!important;backdrop-filter:blur(12px)}
 #localControls{background:rgba(3,10,18,.48)!important;border:1px solid rgba(125,175,210,.22);backdrop-filter:blur(12px)}
