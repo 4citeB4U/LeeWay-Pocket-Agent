@@ -37,6 +37,11 @@
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.TransparentVoice" />
         <activity android:name=".DigitalBrainActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".BrainFilePreviewActivity" android:exported="false" />
+        <activity android:name=".AgentTabletActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".VoiceStudioActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".ModelsActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".SkillsActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
         <service
             android:name=".PocketOverlayService"
             android:exported="false"

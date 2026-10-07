@@ -1,0 +1,104 @@
+<!doctype html>
+<!-- REGION: LEEWAY.CONTINUUM.UI
+TAG: LEEWAY.CONTINUUM.UI.INSPECTOR
+WHAT: Owner-facing Continuum inspection surface using the supplied honeycomb sphere.
+WHY: Let the owner inspect the same persisted records used by Agent Lee retrieval.
+WHO: Leeway Industries / Creator-authorized Agent Lee.
+WHERE: Existing workstation and Pocket package Continuum surface.
+WHEN: 2026-10-07. HOW: Same-origin capability adapter and source-derived Canvas renderer.
+AGENTS: ASSESS EXECUTE VERIFY. LICENSE: MIT -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="continuum-api" content="/api/continuum">
+  <title>Continuum · LeeWay</title>
+  <link rel="stylesheet" href="./continuum.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="return-agent" class="subtle" aria-label="Return to Agent Lee">← Agent Lee</button>
+    <div class="wordmark"><span class="brand-mark" aria-hidden="true">⬡</span><div>CONTINUUM<small>LEEWAY · YOUR INFORMATION WORLD</small></div></div>
+    <div id="connection" class="connection" role="status"><i></i><span>Connecting…</span></div>
+  </header>
+  <main id="workspace" class="sidebar-collapsed">
+    <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Expand Continuum sidebar" aria-controls="continuum-sidebar" aria-expanded="false" title="Open Continuum navigation"><span aria-hidden="true">☰</span><span id="sidebar-toggle-label">Explore</span></button>
+    <section class="sphere-stage" aria-label="Continuum universe sphere">
+      <canvas id="sphere" aria-label="Drag to rotate the honeycomb sphere. Use the universe buttons to navigate with a keyboard."></canvas>
+      <div class="sphere-caption"><strong id="sphere-heading">One place to see what you know.</strong><span>Drag to explore · Select a honeycomb to open</span></div>
+      <button id="motion" class="subtle motion" aria-pressed="false">Pause rotation</button>
+      <section id="honeycomb-focus" class="honeycomb-focus" aria-label="Expanded curved Continuum honeycombs" hidden>
+        <header class="focus-header">
+          <div class="focus-labels">
+            <nav id="focus-breadcrumbs" class="focus-breadcrumbs" aria-label="Universe hierarchy"></nav>
+            <p class="eyebrow">EXPANDED UNIVERSE · CONTINUUM</p>
+            <h2 id="focus-title">Universe</h2>
+            <p id="focus-description" class="focus-description"></p>
+          </div>
+          <div class="focus-nav-buttons">
+            <button id="focus-back" class="subtle" type="button" aria-label="Go back one honeycomb level">← Level up</button>
+            <button id="focus-close" class="subtle" type="button" aria-label="Collapse all honeycombs to the sphere">⬡ Sphere</button>
+          </div>
+        </header>
+        <div class="focus-status"><span id="focus-count">—</span><span id="focus-caption">Verified owner records · no sample files</span></div>
+        <div id="canopy-viewport" class="canopy-viewport">
+          <div class="canopy-aura" aria-hidden="true"></div>
+          <div id="canopy-ancestors" class="canopy-ancestors" aria-hidden="true"></div>
+          <div id="focus-grid" class="focus-grid" role="group" aria-label="Curved honeycomb universe with collections, directories and files"></div>
+          <p id="focus-empty" class="focus-empty" hidden></p>
+        </div>
+        <div class="focus-footer">
+          <span id="focus-page-label" aria-live="polite">Select a honeycomb to explore real records.</span>
+          <div class="focus-pages">
+            <button id="focus-prev" class="subtle" type="button" hidden>Previous</button>
+            <button id="focus-next" class="subtle" type="button" hidden>Next</button>
+            <button id="focus-load-more" class="subtle" type="button" hidden>Load source records</button>
+          </div>
+        </div>
+      </section>
+    </section>
+    <aside id="continuum-sidebar" class="glass-panel" aria-label="Continuum navigation and records" inert>
+      <nav class="breadcrumbs" aria-label="Location"><button id="home">Continuum</button><span id="crumb-current"></span></nav>
+      <div class="panel-heading"><div><p class="eyebrow" id="eyebrow">YOUR CONTINUUM</p><h1 id="heading">Explore your information</h1></div><span id="domain-mark" aria-hidden="true">⬡</span></div>
+      <p id="scope-description" class="supporting">Collections and records come from your connected, owner-scoped data providers.</p>
+      <div class="counts"><div><strong id="record-count">—</strong><span>available records</span></div><div><strong id="body-name">—</strong><span>device body</span></div></div>
+      <div id="gate" class="notice" role="status" hidden></div>
+      <form id="search-form" class="search"><input id="search" type="search" placeholder="Find in Continuum…" aria-label="Search stored records" maxlength="160"><button type="submit" aria-label="Search">⌕</button></form>
+      <div class="toolbar"><button id="back" class="subtle" disabled>← Back</button><button id="all-records" class="subtle">All records</button><button id="view-mode" class="subtle" aria-pressed="false">List view</button><button id="refresh" class="subtle">Refresh</button><button id="add" disabled>Add file</button></div>
+      <input id="file-input" type="file" hidden>
+      <div id="message" class="message" aria-live="polite"></div>
+      <section id="universes" class="universes" aria-label="Universes"></section>
+      <section id="records-region" hidden><div class="list-heading"><span id="list-caption">Records</span><span id="result-count"></span></div><div id="records" class="record-list"></div><button id="load-more" class="wide subtle" hidden>Load more</button></section>
+      <footer class="panel-footer"><span id="retrieval-mode">Source-linked retrieval</span><span>Owner controlled</span></footer>
+    </aside>
+    <section id="inspector" class="inspector glass-panel file-honeycomb" aria-label="File or record viewed inside selected honeycomb" hidden>
+      <div class="file-honeycomb-interior">
+        <div class="file-honeycomb-header">
+          <button id="close-record" class="subtle" type="button">← Back to honeycombs</button>
+          <span class="eyebrow" id="record-kind">RECORD</span>
+        </div>
+        <h2 id="record-title"></h2>
+        <div class="toolbar">
+          <button id="preview-record" type="button">Read stored content</button>
+          <button id="download-record" class="subtle" type="button">Download original</button>
+          <button id="receipt-record" class="subtle" type="button" disabled>Storage receipt</button>
+        </div>
+        <div id="record-media" class="record-media" hidden></div>
+        <pre id="record-content" tabindex="0" hidden></pre>
+        <p id="content-note" class="supporting"></p>
+        <details id="record-source-details" class="record-source-details">
+          <summary>Source, verification and record metadata</summary>
+          <p id="record-state" class="supporting"></p>
+          <dl id="record-metadata"></dl>
+          <pre id="record-receipt" aria-label="Storage and preflight receipt" tabindex="0" hidden></pre>
+        </details>
+      </div>
+    </section>
+  </main>
+  <noscript>This interface needs JavaScript. No database operation has been performed.</noscript>
+  <script defer src="./mammoth.browser.min.js"></script>
+  <script defer src="./purify.min.js"></script>
+  <script type="module" src="./continuum-app.mjs"></script>
+</body>
+</html>

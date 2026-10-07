@@ -29,6 +29,9 @@ class PocketOverlayService:Service(){
     private var tab:View?=null
     private var params:WindowManager.LayoutParams?=null
     private var foregroundReady=false
+    private var sphere:FloatingSphereWindow?=null
+    private fun toggleSphereOverlay(){if(sphere?.isVisible()==true){sphere?.close();sphere=null}else{sphere=FloatingSphereWindow(this);sphere?.show()}}
+    private fun showSphereOverlay(){if(sphere==null)sphere=FloatingSphereWindow(this);sphere?.show()}
     override fun onCreate(){
         super.onCreate();createChannel()
         try {
@@ -45,16 +48,17 @@ class PocketOverlayService:Service(){
         attach()
         if(tab==null){stopSelf();return START_NOT_STICKY}
         AndroidBrainIngestion.start(this)
+        if(intent?.action=="LEEWAY_SHOW_FLOATING_SPHERE")showSphereOverlay()
         return START_STICKY
     }
     override fun onBind(intent:Intent?):IBinder?=null
     override fun onDestroy(){
-        AndroidBrainIngestion.stop();detach()
+        sphere?.close();sphere=null;AndroidBrainIngestion.stop();detach()
         val state=runCatching{JSONObject(status(this)).optString("state")}.getOrDefault("")
         if(state !in setOf("OWNER_OVERLAY_PERMISSION_REQUIRED","START_FAILED","ATTACH_FAILED","POSITION_FAILED","SERVICE_START_BLOCKED"))record(this,if(isEnabled(this))"SERVICE_STOPPED" else "DISABLED_BY_OWNER")
         super.onDestroy()
     }
-    override fun onConfigurationChanged(configuration:Configuration){super.onConfigurationChanged(configuration);tab?.let{applyPosition(it)}}
+    override fun onConfigurationChanged(configuration:Configuration){super.onConfigurationChanged(configuration);tab?.let{applyPosition(it)};sphere?.relayout()}
     private fun requestedSize()=(68*resources.displayMetrics.density).toInt().coerceAtLeast(1)
     private fun frame():OverlayPlacement.Frame {
         val metrics=(windowManager?:getSystemService(WindowManager::class.java)).currentWindowMetrics
@@ -106,7 +110,7 @@ class PocketOverlayService:Service(){
                     MotionEvent.ACTION_UP->{
                         val click=pointer>=0&&OverlayPlacement.tapAllowed(cancelled,moved,SystemClock.elapsedRealtime()-began)
                         pointer=-1
-                        if(click){badge.performClick();startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))}
+                        if(click){badge.performClick();toggleSphereOverlay()}
                         true
                     }
                     else->false
@@ -136,6 +140,7 @@ class PocketOverlayService:Service(){
         private const val KEY_FRACTION="vertical_fraction_v1"
         private const val CHANNEL_ID="agent_lee_overlay"
         private const val NOTIFICATION_ID=7141
+        fun showSphere(context:Context){if(isEnabled(context)&&Settings.canDrawOverlays(context))ContextCompat.startForegroundService(context,Intent(context,PocketOverlayService::class.java).setAction("LEEWAY_SHOW_FLOATING_SPHERE"))}
         fun isEnabled(context:Context)=context.getSharedPreferences(PREFS,Context.MODE_PRIVATE).getBoolean(KEY_ENABLED,false)
         private fun record(context:Context,state:String,error:String?=null,attached:Boolean=false,geometry:JSONObject?=null){
             val payload=JSONObject().put("state",state).put("observedAtMs",System.currentTimeMillis()).put("ownerEnabled",isEnabled(context))
