@@ -98,6 +98,10 @@ function renderFocus(){
  $('focus-load-more').disabled=!state.cursor;
  const nodes=page.items;
  const grid=$('focus-grid');grid.replaceChildren();
+ const center=document.createElement('button');center.type='button';center.className='canopy-hex canopy-center';center.dataset.kind='center';center.setAttribute('aria-label','Return to parent honeycomb');
+ for(const [key,val] of Object.entries({'--tx':'50%','--ty':'50%','--tz':'110px','--ry':'0deg','--rx':'0deg','--node-opacity':'1','--hex-width':matchMedia('(max-width:600px)').matches?'134px':'186px','--hex-height':matchMedia('(max-width:600px)').matches?'132px':'180px'}))center.style.setProperty(key,val);
+ const centerIcon=document.createElement('span');centerIcon.className='canopy-hex-icon';centerIcon.textContent='⬢';const centerLabel=document.createElement('span');centerLabel.className='canopy-hex-title';centerLabel.textContent=state.focusPath.at(-1)?.label||universe.label;center.append(centerIcon,centerLabel);
+ center.onclick=()=>{if(state.focusPath.length){state.focusPath.pop();state.focusPage=0;renderFocus();}else goHome();};grid.append(center);
  const mobile=matchMedia('(max-width:600px)').matches;
  const positions=canopyPositions(nodes.length,mobile);
  const sceneHeight=Math.max(mobile?690:430,mobile?Math.ceil(nodes.length/2.4)*124+130:550);
@@ -107,11 +111,12 @@ function renderFocus(){
   const b=document.createElement('button');b.type='button';b.className='canopy-hex';b.dataset.kind=node.type;
   b.dataset.key=node.key;if(node.recordId)b.dataset.recordId=node.recordId;
   b.title=node.label;b.setAttribute('aria-label',(node.type==='record'?'Read ':'Expand ')+node.label);
-  b.style.setProperty('--tx',pos.x+'%');b.style.setProperty('--ty',pos.y+'%');
+  const angle=2*Math.PI*i/Math.max(1,nodes.length)-Math.PI/2;const ring=i<6?1:1.45;
+  b.style.setProperty('--tx',Math.max(8,Math.min(92,50+Math.cos(angle)*ring*31))+'%');b.style.setProperty('--ty',Math.max(10,Math.min(90,50+Math.sin(angle)*ring*(mobile?24:30)))+'%');
   b.style.setProperty('--tz',pos.z+'px');b.style.setProperty('--ry',pos.rotateY+'deg');b.style.setProperty('--rx',pos.rotateX+'deg');
   b.style.setProperty('--node-opacity',String(pos.opacity));b.style.setProperty('--hex-width',mobile?'124px':'172px');
   b.style.setProperty('--hex-height',mobile?'120px':'163px');
-  const icon=document.createElement('span');icon.className='canopy-hex-icon';icon.textContent=node.type==='record'?'⬡':'⬢';icon.setAttribute('aria-hidden','true');
+  const icon=document.createElement('span');icon.className='canopy-hex-icon';icon.textContent=node.type==='record'?({PDF:'PDF',VIDEO:'▶',AUDIO:'♫',IMAGE:'▧',TEXT:'≡','WORD DOCUMENT':'DOC'}[node.description]||'▧'):'📁';icon.setAttribute('aria-hidden','true');
   const title=document.createElement('span');title.className='canopy-hex-title';title.textContent=node.label;
   const meta=document.createElement('span');meta.className='canopy-hex-subtitle';meta.textContent=node.description||'SOURCE RECORD';
   b.append(icon,title,meta);

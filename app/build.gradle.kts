@@ -15,8 +15,8 @@ android {
         applicationId = "industries.leeway.pocket"
         minSdk = 31
         targetSdk = 35
-        versionCode = 44
-        versionName = "1.0.0-continuum-owner-views-rc17"
+        versionCode = 45
+        versionName = "1.0.0-continuum-native-orbit-rc18"
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 }

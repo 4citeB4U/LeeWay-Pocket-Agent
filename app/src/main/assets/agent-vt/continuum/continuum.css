@@ -287,3 +287,14 @@ HOW: Local CSS, keyboard-visible controls, reduced motion. AGENTS: ASSESS EXECUT
 
 /* Mobile overlay geometry: aura is a background, never a flow item pushing cells below the sphere. */
 @media(max-width:600px){.canopy-aura{position:absolute;inset:0;height:100%;top:0}.canopy-viewport{position:relative}.canopy-hex{filter:brightness(1.1) drop-shadow(0 0 8px color-mix(in srgb,var(--focus-color) 45%,transparent))}}
+
+/* LEEWAY.CONTINUUM.NATIVE_HEX: selected source-backed level centered in spherical canopy. */
+#workspace .focus-header{background:transparent;border:0;box-shadow:none;backdrop-filter:none;min-height:0;padding:6px 10px}
+#workspace .focus-description,#workspace .focus-status,#workspace .canopy-ancestors{display:none}
+#workspace .focus-header .focus-labels{max-width:65%;text-shadow:0 2px 12px #000}
+#workspace .focus-header h2{font-size:16px}
+#workspace .focus-footer{background:transparent;border:0;box-shadow:none}
+#workspace .canopy-center{z-index:9!important;filter:brightness(1.18) drop-shadow(0 0 24px var(--focus-color));background:linear-gradient(140deg,#e7faff,var(--focus-color),#8bbada)}
+#workspace .canopy-center .canopy-hex-icon{font-size:28px}
+#workspace.viewer-open .canopy-center{opacity:.35!important;filter:grayscale(1) brightness(.45);pointer-events:none}
+@media(max-width:600px){#workspace .focus-header{padding:5px 12px;min-height:55px}#workspace .focus-header h2{font-size:13px}}
