@@ -106,7 +106,7 @@ class MainActivity : Activity() {
         @JavascriptInterface fun testVoice(){runOnUiThread{PocketVoiceHost.playVerifiedOutputSample(this@MainActivity)}}
         @JavascriptInterface fun stopVoice(){runOnUiThread{PocketVoiceHost.stopVerifiedOutputSample()}}
         @JavascriptInterface fun deviceName():String=android.os.Build.MODEL
-        @JavascriptInterface fun talk(){ runOnUiThread{ startActivity(PocketVoiceActivity.launchIntent(this@MainActivity)) } }
+        @JavascriptInterface fun talk(){ runOnUiThread{ if(Settings.canDrawOverlays(this@MainActivity)&&PocketOverlayService.isEnabled(this@MainActivity))PocketOverlayService.showRoundBox(this@MainActivity) else startActivity(PocketVoiceActivity.launchIntent(this@MainActivity)) } }
         @JavascriptInterface fun enableOverlay(){runOnUiThread{requestOverlayPermission()}}
         @JavascriptInterface fun disableOverlay(){runOnUiThread{
             getSharedPreferences("leeway-pocket-overlay",MODE_PRIVATE).edit().putBoolean("permission_pending",false).apply()
