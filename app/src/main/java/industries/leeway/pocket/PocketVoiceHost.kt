@@ -19,7 +19,8 @@ object PocketVoiceHost {
         fun onError(message: String)
     }
 
-    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"\n    private const val ACTIVE_PROFILE_URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/profiles/agent-lee-active-voice.v1.json"
+    private const val URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/android-bridge.html"
+    private const val ACTIVE_PROFILE_URL = "https://4citeb4u.github.io/LeeWay-Voice-Fabric/profiles/agent-lee-active-voice.v1.json"
     private val main = Handler(Looper.getMainLooper())
     private val session = VoiceSession<Listener>()
     private var view: WebView? = null
