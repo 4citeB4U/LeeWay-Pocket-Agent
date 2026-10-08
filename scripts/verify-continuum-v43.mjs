@@ -6,9 +6,9 @@ import crypto from 'node:crypto';
 const root=path.resolve(import.meta.dirname,'../app/src/main/assets/agent-vt');
 const lock=JSON.parse(fs.readFileSync(path.join(root,'SOURCE.json'),'utf8'));
 const gradle=fs.readFileSync(path.resolve(import.meta.dirname,'../app/build.gradle.kts'),'utf8');
-test('Current Fold6 v44 package upgrades without replacing the v43 Continuum assets',()=>{
- assert.match(gradle,/versionCode = 44/);
- assert.match(gradle,/1\.0\.0-continuum-owner-views-rc17/);
+test('Current Fold6 v45 package upgrades the existing v44 Continuum assets',()=>{
+ assert.match(gradle,/versionCode = 45/);
+ assert.match(gradle,/1\.0\.0-continuum-native-orbit-rc18/);
 });
 test('Every Continuum resource has exact pinned bytes',()=>{
  const names=['index.html','continuum.css','continuum-app.mjs','continuum-sphere.mjs','continuum-depth.mjs','continuum-media.mjs','mammoth.browser.min.js','purify.min.js'];

@@ -110,7 +110,7 @@ internal class FloatingSphereWindow(private val service:Service) {
             }
             relayout();if(!panel&&!expanded)prefs.edit().putInt("x",p.x).putInt("y",p.y).putInt("width",p.width).apply();report()
         }
-        @JavascriptInterface fun talk(){main.post{service.startActivity(PocketVoiceActivity.launchIntent(service,true))}}
+        @JavascriptInterface fun talk(){main.post{(service as? PocketOverlayService)?.showRoundBoxFromTap()}}
         @JavascriptInterface fun testVoice(){main.post{PocketVoiceHost.playVerifiedOutputSample(service)}}
         @JavascriptInterface fun stopVoice(){main.post{PocketVoiceHost.stopVerifiedOutputSample()}}
         @JavascriptInterface fun openVoiceStudio(){main.post{service.startActivity(Intent(service,VoiceStudioActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
