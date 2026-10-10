@@ -113,6 +113,7 @@ class MainActivity : Activity() {
             PocketOverlayService.setEnabled(this@MainActivity,false)
         }}
         @JavascriptInterface fun overlayStatus():String=PocketOverlayService.status(this@MainActivity)
+        @JavascriptInterface fun openVision(){runOnUiThread{startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://leeway-agent-lee-vision.vercel.app/")))}}
         @JavascriptInterface fun openVoiceStudio(){runOnUiThread{startActivity(Intent(this@MainActivity,VoiceStudioActivity::class.java))}}
         @JavascriptInterface fun openModels(){runOnUiThread{startActivity(Intent(this@MainActivity,ModelsActivity::class.java))}}
         @JavascriptInterface fun openSkills(){runOnUiThread{this@MainActivity.openSkills()}}
