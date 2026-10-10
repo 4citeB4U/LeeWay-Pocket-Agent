@@ -113,6 +113,7 @@ internal class FloatingSphereWindow(private val service:Service) {
         @JavascriptInterface fun talk(){main.post{service.startActivity(PocketVoiceActivity.launchIntent(service,true))}}
         @JavascriptInterface fun testVoice(){main.post{PocketVoiceHost.playVerifiedOutputSample(service)}}
         @JavascriptInterface fun stopVoice(){main.post{PocketVoiceHost.stopVerifiedOutputSample()}}
+        @JavascriptInterface fun openVision(){main.post{service.startActivity(Intent(Intent.ACTION_VIEW,android.net.Uri.parse("https://leeway-agent-lee-vision.vercel.app/")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
         @JavascriptInterface fun openVoiceStudio(){main.post{service.startActivity(Intent(service,VoiceStudioActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
         @JavascriptInterface fun openModels(){main.post{service.startActivity(Intent(service,ModelsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
         @JavascriptInterface fun openSkills(){main.post{service.startActivity(Intent(service,SkillsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))}}
