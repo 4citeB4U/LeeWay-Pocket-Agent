@@ -291,6 +291,7 @@ html,body{background:transparent!important;margin:0;overflow:hidden;color:#f6f9f
 <div class="settings-list"><button class="element-card setting-card" data-setting="digital-brain"><span><span class="element-name">Digital Brain</span><span class="element-motto">Your authorized files, objects and knowledge</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="continuum"><span><span class="element-name">Continuum</span><span class="element-motto">Your local database universes</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="diagnostics"><span><span class="element-name">Diagnostics</span><span class="element-motto">Hardware observations and diagnostics</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="vision"><span><span class="element-name">Vision</span><span class="element-motto">Authorized LeeWay Vision cameras</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="voice"><span><span class="element-name">Voice</span><span class="element-motto">One selected Agent Lee voice across your devices</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="workstation"><span><span class="element-name">Agent VT</span><span class="element-motto">Virtual Tablet · Notebook · Notepad · Sandbox</span></span><span class="element-action">OPEN</span></button>
 <button class="element-card setting-card" data-setting="models"><span><span class="element-name">Models · optional</span><span class="element-motto">Core operation does not require an LLM</span></span><span class="element-action">OPEN</span></button>
@@ -867,7 +868,12 @@ window.__leewayFloating={host,blocked,cancel,nativeTap,runText:agentLeeSpeak,tes
 
 
 window.addEventListener('leeway:open-surface',async event=>{
- const key=event.detail?.surface;const panel=document.getElementById('surface-panel');
+ const key=event.detail?.surface;
+ if(key==='vision'){
+  if(typeof window.LeeWayAndroid?.openVision==='function'){window.LeeWayAndroid.openVision();return;}
+  const anchor=document.createElement('a');anchor.href='https://leeway-agent-lee-vision.vercel.app/';anchor.rel='noopener noreferrer';anchor.target='_blank';anchor.click();return;
+ }
+ const panel=document.getElementById('surface-panel');
  if(key==='voice'&&window.LeeWayAndroid?.openVoiceStudio){window.LeeWayAndroid.openVoiceStudio();return;}
  if(key==='workstation'&&window.LeeWayAndroid?.openWorkstation){window.LeeWayAndroid.openWorkstation();return;}
  if(key==='continuum'&&window.LeeWayAndroid?.openContinuum){window.LeeWayAndroid.openContinuum();return;}
@@ -906,8 +912,8 @@ AUTHORIZED ROLES: OWNER_UI. LICENSE: MIT. No new surface/runtime, synthesized te
 (()=>{'use strict';
  const drawer=document.getElementById('drawer');if(!drawer||drawer.dataset.leewayMenuDispatch==='v1')return;
  drawer.dataset.leewayMenuDispatch='v1';
- const known=new Set(['digital-brain','continuum','diagnostics','voice','workstation','models','skills','authority','evidence','about']);
- const phoneMethods={'digital-brain':'openDigitalBrain',continuum:'openContinuum',diagnostics:'openDiagnostics',voice:'openVoiceStudio',workstation:'openWorkstation',models:'openModels',skills:'openSkills'};
+ const known=new Set(['digital-brain','continuum','diagnostics','vision','voice','workstation','models','skills','authority','evidence','about']);
+ const phoneMethods={'digital-brain':'openDigitalBrain',continuum:'openContinuum',diagnostics:'openDiagnostics',vision:'openVision',voice:'openVoiceStudio',workstation:'openWorkstation',models:'openModels',skills:'openSkills'};
  let busy=false;
  drawer.addEventListener('click',async event=>{
   const button=event.target?.closest?.('button[data-setting]');if(!button||!drawer.contains(button)||!known.has(button.dataset.setting))return;
