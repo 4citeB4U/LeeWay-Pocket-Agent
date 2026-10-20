@@ -70,3 +70,11 @@ test('spent challenge, missing approval, incompatible platform all refuse',()=>{
  denied(f=>{f.request.approvalCommitted=false},'CHALLENGE_OR_PLATFORM_NOT_ADMITTED');
  denied(f=>{f.request.platformCompatible=false},'CHALLENGE_OR_PLATFORM_NOT_ADMITTED');
 });
+
+test('candidate proof digest binds the admitted platform',()=>{
+ const android=valid(),ios=valid();ios.request.platform='ios';
+ const a=evaluateEnrollmentAdmission(android),b=evaluateEnrollmentAdmission(ios);
+ assert.equal(a.authorized,false);assert.equal(b.authorized,false);
+ assert.equal(a.payload.platform,'android');assert.equal(b.payload.platform,'ios');
+ assert.notEqual(a.candidateSha256,b.candidateSha256);
+});

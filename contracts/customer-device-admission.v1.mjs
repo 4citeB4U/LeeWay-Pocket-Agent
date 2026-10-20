@@ -22,6 +22,6 @@ export function evaluateEnrollmentAdmission({request,ownerProof,deviceProof,enti
  if(!obj(revocation)||revocation.authoritativeReadback!==true||revocation.ownerId!==request.ownerId||revocation.deviceId!==request.deviceId||revocation.revoked!==false)return deny('REVOCATION_STATE_UNVERIFIED');
  if(!Number.isSafeInteger(nowMs)||!Number.isSafeInteger(request.expiresAtMs)||request.expiresAtMs<=nowMs||request.expiresAtMs>nowMs+300000)return deny('ENROLLMENT_REQUEST_EXPIRED_OR_UNBOUNDED');
  if(request.challengeConsumed!==false||request.approvalCommitted!==true||request.platformCompatible!==true)return deny('CHALLENGE_OR_PLATFORM_NOT_ADMITTED');
- const payload={schemaVersion:admissionSchema,ownerId:request.ownerId,agentId:request.agentId,deviceId:request.deviceId,entitlementId:entitlement.entitlementId,publicKeyFingerprint:deviceProof.publicKeyFingerprint,challengeId:request.challengeId,expiresAtMs:request.expiresAtMs};
+ const payload={schemaVersion:admissionSchema,ownerId:request.ownerId,agentId:request.agentId,deviceId:request.deviceId,platform:request.platform,entitlementId:entitlement.entitlementId,publicKeyFingerprint:deviceProof.publicKeyFingerprint,challengeId:request.challengeId,expiresAtMs:request.expiresAtMs};
  return {status:'CANDIDATE_ADMISSION_READY',authorized:false,reason:'AUTHORITY_REDEMPTION_AND_DURABLE_CONSUMPTION_REQUIRED',candidateSha256:sha(payload),payload};
 }
