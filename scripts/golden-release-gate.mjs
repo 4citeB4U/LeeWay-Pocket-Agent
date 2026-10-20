@@ -35,6 +35,37 @@ export function requiredCases(policy){
  if(!result.length||new Set(result).size!==result.length)throw Error('GOLDEN_POLICY_DUPLICATE_OR_EMPTY');
  return result;
 }
+export function verifyLocalCanonicalPolicy(policy,policySha256){
+ try{
+  const {policy:base,sha256:baseHash}=loadGoldenPolicy();
+  const equivalent=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+  if(policySha256===baseHash&&equivalent(policy,base))return true;
+  const bytes=fs.readFileSync(new URL('../contracts/customer-device-enrollment-extension.v1.json',import.meta.url));
+  const ext=JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));
+  if(ext.schemaVersion!=='leeway.golden.customer-device-enrollment-extension.v1'||
+   ext.parent!=='golden-system-release.v1.json'||
+   ext.scope!=='ADDITIVE_RELEASE_REQUIREMENTS_NOT_RUNTIME_IMPLEMENTATION'||
+   ext.releasePolicy!=='ALL_REQUIRED_CASES_PER_DECLARED_PLATFORM_PROFILE_WITH_PHYSICAL_EVIDENCE'||
+   !Array.isArray(ext.requiredCases)||ext.requiredCases.length!==16||
+   new Set(ext.requiredCases).size!==16)return false;
+  const combined=structuredClone(base);
+  combined.requiredGroups['customer-enrollment']=[...ext.requiredCases];
+  const cases=requiredCases(combined);
+  if(cases.length!==66)return false;
+  const calculated=digest(Buffer.from(JSON.stringify({baseSha256:baseHash,
+   extensionSha256:digest(bytes),caseIds:cases})));
+  return policySha256===calculated&&equivalent(policy,combined);
+ }catch{return false}
+}
+export function verifyLocalCanonicalPlatformProfile(platformProfile,platformProfileSha256,profileId){
+ try{
+  if(typeof profileId!=='string'||!/^[a-z][a-z0-9_-]{0,63}$/.test(profileId))return false;
+  const file=new URL('../contracts/platforms/'+profileId+'.v1.json',import.meta.url);
+  const {profile,sha256}=loadPlatformProfile(file);
+  return platformProfileSha256===sha256&&platformProfile?.id===profileId&&
+   JSON.stringify(platformProfile)===JSON.stringify(profile);
+ }catch{return false}
+}
 function safeEvidence(root,relative){
  if(typeof relative!=='string'||!relative||relative.length>512||path.isAbsolute(relative)||relative.split(/[\\/]/).some(p=>p==='..')||/^[A-Za-z]:/.test(relative))throw Error('EVIDENCE_PATH_INVALID');
  const base=fs.realpathSync(root),p=fs.realpathSync(path.resolve(base,relative)),rel=path.relative(base,p);
@@ -54,11 +85,13 @@ export function evaluateFreshnessTrace(trace){
 }
 export async function assessGoldenEvidence({policy,policySha256,artifactSha256,sourceCommit,expectedProfiles,dossier,evidenceRoot,verifyEvidence,platformProfile,platformProfileSha256}={}){
  const cases=requiredCases(policy),blockers=[],add=(code,detail)=>blockers.push({code,...detail});
+ if(!verifyLocalCanonicalPolicy(policy,policySha256))add('GOLDEN_POLICY_HASH_OR_CASE_BINDING_INVALID');
  if(!HASH.test(policySha256||'')||!HASH.test(artifactSha256||'')||!COMMIT.test(sourceCommit||''))add('ARTIFACT_SOURCE_POLICY_IDENTITY_REQUIRED');
  const platformValid=platformProfile?.schemaVersion==='leeway.platform-release-profile.v1'&&ID.test(platformProfile?.id||'')&&typeof platformProfile?.nativeArtifactType==='string'&&platformProfile.nativeArtifactType.trim().length>0&&HASH.test(platformProfileSha256||'');
  if(!platformValid)add('HASH_BOUND_PLATFORM_PROFILE_REQUIRED');
  const profiles=Array.isArray(expectedProfiles)?expectedProfiles:[];
  if(!profiles.length||new Set(profiles).size!==profiles.length||profiles.some(p=>typeof p!=='string'||!ID.test(p)))add('DECLARED_SUPPORTED_PLATFORM_MATRIX_REQUIRED');
+ if(profiles.length!==1||profiles[0]!==platformProfile?.id||!verifyLocalCanonicalPlatformProfile(platformProfile,platformProfileSha256,profiles[0]))add('PLATFORM_MATRIX_REQUIRES_EXACT_PINNED_PROFILE');
  const records=Array.isArray(dossier?.evidence)?dossier.evidence:[];
  if(typeof verifyEvidence!=='function')add('AUTHORIZED_EXISTING_VERITAS_VERIFIER_REQUIRED');
  const grouped=new Map();

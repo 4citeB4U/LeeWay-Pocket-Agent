@@ -17,7 +17,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {assessGoldenEvidence,evaluateFreshnessTrace,loadGoldenPolicy,requiredCases,loadPlatformProfile} from '../scripts/golden-release-gate.mjs';
 const sha=b=>createHash('sha256').update(b).digest('hex');
-function fixture(t,profiles=['test-fixture-profile']){
+function fixture(t,profiles=['android']){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'leeway-golden-gate-unit-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  const {policy,sha256:policySha256}=loadGoldenPolicy();const artifactSha256='a'.repeat(64),sourceCommit='b'.repeat(40);
  const {profile:platformProfile,sha256:platformProfileSha256}=loadPlatformProfile(new URL('../contracts/platforms/android.v1.json',import.meta.url));
@@ -70,4 +70,34 @@ test('platform policy change invalidates otherwise matching evidence',async t=>{
 test('Android evidence cannot certify another platform',async t=>{
  const f=fixture(t);f.platformProfile={...f.platformProfile,id:'different-platform-test-only',nativeArtifactType:'TEST'};
  assert.ok(has(await assessGoldenEvidence(f),'EVIDENCE_IS_FOR_DIFFERENT_PLATFORM'));
+});
+test('a reduced policy cannot inherit the full canonical policy hash',async t=>{
+ const f=fixture(t);
+ const tiny=structuredClone(f.policy);
+ const chosen=requiredCases(tiny)[0];
+ tiny.requiredGroups=Object.fromEntries(Object.entries(tiny.requiredGroups).filter(([k])=>k===chosen.split('/')[0]));
+ tiny.requiredGroups[chosen.split('/')[0]]=[chosen.split('/')[1]];
+ f.policy=tiny;
+ f.dossier.evidence=f.dossier.evidence.filter(e=>e.caseId===chosen);
+ const r=await assessGoldenEvidence(f);
+ assert.equal(r.status,'BLOCKED');
+ assert.ok(has(r,'GOLDEN_POLICY_HASH_OR_CASE_BINDING_INVALID'));
+ assert.equal(r.releasePromoted,false);
+});
+test('an Android profile cannot qualify a Windows evidence matrix under another label',async t=>{
+ const f=fixture(t);
+ f.expectedProfiles=['windows'];
+ f.dossier.evidence=f.dossier.evidence.map(e=>({...e,profileId:'windows'}));
+ const r=await assessGoldenEvidence(f);
+ assert.equal(r.status,'BLOCKED');
+ assert.ok(has(r,'PLATFORM_MATRIX_REQUIRES_EXACT_PINNED_PROFILE'));
+ assert.equal(r.releasePromoted,false);
+});
+test('a different platform profile hash cannot be supplied as an independent token',async t=>{
+ const f=fixture(t);
+ f.platformProfileSha256='ac'.repeat(32);
+ f.dossier.evidence=f.dossier.evidence.map(e=>({...e,platformProfileSha256:f.platformProfileSha256}));
+ const r=await assessGoldenEvidence(f);
+ assert.equal(r.status,'BLOCKED');
+ assert.ok(has(r,'PLATFORM_MATRIX_REQUIRES_EXACT_PINNED_PROFILE'));
 });
