@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "leeway.golden.customer-device-enrollment-extension.v1",
+  "authority": "4citeB4U/LeeWay-Pocket-Agent",
+  "scope": "ADDITIVE_RELEASE_REQUIREMENTS_NOT_RUNTIME_IMPLEMENTATION",
+  "parent": "golden-system-release.v1.json",
+  "invariants": {
+    "oneCustomerEntitlement": true,
+    "oneAgentLeeIdentityPerCustomer": true,
+    "perDeviceDigitalBrain": true,
+    "noCustomerSecretsInDistributedMaster": true,
+    "allDevicesRequireExplicitEnrollment": true,
+    "deviceNamesNotOwnershipProof": true,
+    "platformSpecificSignedPayloads": true,
+    "noAutomaticPermissionEscalation": true,
+    "offDeviceRevocationPreservesLocalBrain": true,
+    "existing46CasesPreserved": true
+  },
+  "requiredCases": [
+    "purchase-entitlement-bound-to-owner",
+    "second-device-same-entitlement-no-repurchase",
+    "unauthorized-copy-denied",
+    "device-display-name-spoof-denied",
+    "owner-approved-device-enrollment",
+    "device-local-key-generated-not-copied",
+    "new-digital-brain-created-or-adopted",
+    "offline-local-brain-operates",
+    "owner-approved-continuum-sync",
+    "offline-reconciliation-and-conflict-handling",
+    "device-revocation-stops-protected-commands-and-egress",
+    "owner-device-list-and-recovery",
+    "platform-artifact-compatibility-and-signature",
+    "permission-denial-no-implicit-escalation",
+    "user-approval-before-native-update",
+    "cross-customer-isolation"
+  ],
+  "releasePolicy": "ALL_REQUIRED_CASES_PER_DECLARED_PLATFORM_PROFILE_WITH_PHYSICAL_EVIDENCE",
+  "mergeState": "CANDIDATE_PENDING_CANONICAL_RELEASE_GATE_INTEGRATION"
+}
