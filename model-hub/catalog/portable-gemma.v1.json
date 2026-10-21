@@ -59,5 +59,12 @@
     "canonical_leeway_gpu": "NOT_BOUND",
     "canonical_leeway_continuum": "NOT_BOUND",
     "physical_gpu_cross_device": "NOT_VERIFIED"
+  },
+  "deprecated": true,
+  "canonicalSource": {
+    "repository": "https://github.com/4citeB4U/LeeWay-Model-Hub",
+    "catalog": "https://4citeb4u.github.io/LeeWay-Model-Hub/catalog/models.json",
+    "serviceContract": "https://github.com/4citeB4U/LeeWay-Model-Hub/blob/main/README.md",
+    "semantics": "read-only compatibility; new model activation controlled by separate Model Hub"
   }
 }
