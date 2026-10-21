@@ -1,0 +1,63 @@
+{
+  "schema": "leeway.portable.model-hub.v1",
+  "registry_id": "LEEWAY-POCKET-AGENT-MODEL-HUB-GGUF-20261021",
+  "owner": "Leonard Jerome Lee / LeeWay Industries",
+  "purpose": "Shared GGUF model selection for SlowLane, LeeWay Logistics and Pocket Agent Lee",
+  "created_at": "2026-10-21",
+  "device_runtime_contract": {
+    "windows": "Ollama with llama.cpp engine; not PocketPal desktop",
+    "android": "PocketPal (llama.rn / llama.cpp); native link requires installed app and owner selection",
+    "ios": "PocketPal (llama.rn / llama.cpp); native link requires installed app and owner selection"
+  },
+  "model_authority": "LeeWay chooses allowlisted model identity only; weights are distributed by Hugging Face under their own licenses",
+  "mobile_handoff_route": "pocketpal://hub/run?repo_id=<url-encoded-author/repository>&filename=<url-encoded-filename>&source=leeway-model-hub",
+  "mobile_handoff_semantics": "Opens PocketPal's Hugging Face details sheet, not automatic background download or independently verified inference",
+  "default_model": "gemma-3-1b-q4km",
+  "models": [
+    {
+      "id": "gemma-3-1b-q4km",
+      "name": "Gemma 3 1B Instruct / Q4_K_M",
+      "repo_id": "lmstudio-community/gemma-3-1b-it-GGUF",
+      "filename": "gemma-3-1b-it-Q4_K_M.gguf",
+      "quantization": "Q4_K_M",
+      "approx_model_file_bytes": 806000000,
+      "format": "GGUF",
+      "model_license": "gemma",
+      "ollama_name": "hf.co/lmstudio-community/gemma-3-1b-it-GGUF:Q4_K_M"
+    },
+    {
+      "id": "gemma-3-270m-q4km",
+      "name": "Gemma 3 270M Instruct / Q4_K_M",
+      "repo_id": "second-state/gemma-3-270m-it-GGUF",
+      "filename": "gemma-3-270m-it-Q4_K_M.gguf",
+      "quantization": "Q4_K_M",
+      "approx_model_file_bytes": 253000000,
+      "format": "GGUF",
+      "model_license": "gemma",
+      "ollama_name": "hf.co/second-state/gemma-3-270m-it-GGUF:Q4_K_M"
+    }
+  ],
+  "attestation_law": {
+    "listed_model_is_not_installed": true,
+    "installed_model_is_not_running_inference": true,
+    "running_inference_is_not_gpu_proof": true,
+    "mobile_device_must_emit_independent_receipt": true,
+    "same_artifact_requires_hash_comparison": true,
+    "human_document_approval_cannot_be_replaced_by_model": true,
+    "independent_veritas_or_canonical_formula_admission": false
+  },
+  "upstream": {
+    "PocketPal": "https://github.com/a-ghorbani/pocketpal-ai",
+    "PocketPal_license": "MIT (retain copyright and license notices when reusing code)",
+    "Gemma_license": "Gemma model terms; not covered by MIT"
+  },
+  "capability_status": {
+    "model_catalog": "STATIC_REGISTERED",
+    "android_pocketpal_download": "NOT_VERIFIED",
+    "ios_pocketpal_download": "NOT_VERIFIED",
+    "pc_gemma_3_1b": "QUALIFICATION_IN_PROGRESS",
+    "canonical_leeway_gpu": "NOT_BOUND",
+    "canonical_leeway_continuum": "NOT_BOUND",
+    "physical_gpu_cross_device": "NOT_VERIFIED"
+  }
+}
