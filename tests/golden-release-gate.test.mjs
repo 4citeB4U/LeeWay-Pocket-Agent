@@ -101,3 +101,32 @@ test('a different platform profile hash cannot be supplied as an independent tok
  assert.equal(r.status,'BLOCKED');
  assert.ok(has(r,'PLATFORM_MATRIX_REQUIRES_EXACT_PINNED_PROFILE'));
 });
+
+test('two canonical platform profiles qualify only as test-fixture evidence, never release',async t=>{
+ const f=fixture(t,['android','apple']);
+ const apple=loadPlatformProfile(new URL('../contracts/platforms/apple.v1.json',import.meta.url));
+ f.platformProfiles=[{profile:f.platformProfile,sha256:f.platformProfileSha256},apple];
+ f.dossier.evidence=f.dossier.evidence.map(e=>e.profileId==='apple'
+  ? {...e,platformId:apple.profile.id,platformProfileSha256:apple.sha256}:e);
+ const result=await assessGoldenEvidence(f);
+ assert.equal(result.status,'EVIDENCE_QUALIFIED_NOT_DISTRIBUTED');
+ assert.deepEqual(result.platformIds,['android','apple']);
+ assert.equal(result.requiredEvidenceCount,result.requiredCaseCount*2);
+ assert.equal(result.releasePromoted,false);
+ assert.equal(result.installed,false);
+});
+test('a second declared platform without its canonical independent hash is denied',async t=>{
+ const f=fixture(t,['android','apple']);
+ f.platformProfiles=[{profile:f.platformProfile,sha256:f.platformProfileSha256}];
+ const result=await assessGoldenEvidence(f);
+ assert.equal(result.status,'BLOCKED');
+ assert.ok(has(result,'HASH_BOUND_PLATFORM_PROFILE_REQUIRED'));
+});
+test('Apple evidence cannot be certified under Android profile bytes',async t=>{
+ const f=fixture(t,['android','apple']);
+ const apple=loadPlatformProfile(new URL('../contracts/platforms/apple.v1.json',import.meta.url));
+ f.platformProfiles=[{profile:f.platformProfile,sha256:f.platformProfileSha256},apple];
+ const result=await assessGoldenEvidence(f);
+ assert.equal(result.status,'BLOCKED');
+ assert.ok(has(result,'EVIDENCE_IS_FOR_DIFFERENT_PLATFORM'));
+});

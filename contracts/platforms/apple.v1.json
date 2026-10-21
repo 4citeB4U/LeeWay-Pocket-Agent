@@ -1,0 +1,8 @@
+{
+ "schemaVersion":"leeway.platform-release-profile.v1",
+ "id":"apple",
+ "nativeArtifactType":"IPA",
+ "qualification":"REQUIRES_ALL_SHARED_CASES_AND_ACTUAL_APPLE_PACKAGE_AND_DEVICE_EVIDENCE",
+ "platformTested":false,
+ "universalInstallerClaim":false
+}

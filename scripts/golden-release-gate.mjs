@@ -83,15 +83,27 @@ export function evaluateFreshnessTrace(trace){
  const maxMs=Math.max(...lags);
  return{status:maxMs<=180000?'PASS':'FAIL',samples:lags.length,maxMs,targetMs:120000,maximumMs:180000,misses:lags.filter(t=>t>180000).length};
 }
-export async function assessGoldenEvidence({policy,policySha256,artifactSha256,sourceCommit,expectedProfiles,dossier,evidenceRoot,verifyEvidence,platformProfile,platformProfileSha256}={}){
+export async function assessGoldenEvidence({policy,policySha256,artifactSha256,sourceCommit,expectedProfiles,dossier,evidenceRoot,verifyEvidence,platformProfile,platformProfileSha256,platformProfiles}={}){
  const cases=requiredCases(policy),blockers=[],add=(code,detail)=>blockers.push({code,...detail});
  if(!verifyLocalCanonicalPolicy(policy,policySha256))add('GOLDEN_POLICY_HASH_OR_CASE_BINDING_INVALID');
  if(!HASH.test(policySha256||'')||!HASH.test(artifactSha256||'')||!COMMIT.test(sourceCommit||''))add('ARTIFACT_SOURCE_POLICY_IDENTITY_REQUIRED');
- const platformValid=platformProfile?.schemaVersion==='leeway.platform-release-profile.v1'&&ID.test(platformProfile?.id||'')&&typeof platformProfile?.nativeArtifactType==='string'&&platformProfile.nativeArtifactType.trim().length>0&&HASH.test(platformProfileSha256||'');
- if(!platformValid)add('HASH_BOUND_PLATFORM_PROFILE_REQUIRED');
  const profiles=Array.isArray(expectedProfiles)?expectedProfiles:[];
  if(!profiles.length||new Set(profiles).size!==profiles.length||profiles.some(p=>typeof p!=='string'||!ID.test(p)))add('DECLARED_SUPPORTED_PLATFORM_MATRIX_REQUIRED');
- if(profiles.length!==1||profiles[0]!==platformProfile?.id||!verifyLocalCanonicalPlatformProfile(platformProfile,platformProfileSha256,profiles[0]))add('PLATFORM_MATRIX_REQUIRES_EXACT_PINNED_PROFILE');
+ const supplied=Array.isArray(platformProfiles)?platformProfiles:
+  [{profile:platformProfile,sha256:platformProfileSha256}];
+ const boundProfiles=new Map();
+ if(supplied.length!==profiles.length||new Set(supplied.map(x=>x?.profile?.id)).size!==supplied.length)
+  add('PLATFORM_MATRIX_REQUIRES_EXACT_PINNED_PROFILE');
+ for(const profileId of profiles){
+  const matched=supplied.find(x=>x?.profile?.id===profileId);
+  if(matched&&verifyLocalCanonicalPlatformProfile(matched.profile,matched.sha256,profileId))
+   boundProfiles.set(profileId,matched);
+  else{
+   add('HASH_BOUND_PLATFORM_PROFILE_REQUIRED',{profileId});
+   add('PLATFORM_MATRIX_REQUIRES_EXACT_PINNED_PROFILE',{profileId});
+  }
+ }
+ const platformValid=profiles.length>0&&boundProfiles.size===profiles.length;
  const records=Array.isArray(dossier?.evidence)?dossier.evidence:[];
  if(typeof verifyEvidence!=='function')add('AUTHORIZED_EXISTING_VERITAS_VERIFIER_REQUIRED');
  const grouped=new Map();
@@ -105,7 +117,8 @@ export async function assessGoldenEvidence({policy,policySha256,artifactSha256,s
   if(rows.length!==1){add(rows.length?'DUPLICATE_ACCEPTANCE_EVIDENCE':'MISSING_ACCEPTANCE_EVIDENCE',meta);continue;}
   const e=rows[0];
   if(e.status!=='PASS'||e.testsExecuted!==true||e.skipped!==0||e.failures!==0||e.errors!==0||!Number.isInteger(e.assertions)||e.assertions<1){add('MANDATORY_ACCEPTANCE_NOT_PASSED',meta);continue;}
-  if(!platformValid||e.platformId!==platformProfile.id||e.platformProfileSha256!==platformProfileSha256){add('EVIDENCE_IS_FOR_DIFFERENT_PLATFORM',meta);continue;}
+  const bound=boundProfiles.get(profileId);
+  if(!bound||e.platformId!==bound.profile.id||e.platformProfileSha256!==bound.sha256){add('EVIDENCE_IS_FOR_DIFFERENT_PLATFORM',meta);continue;}
   if(e.artifactSha256!==artifactSha256||e.sourceCommit!==sourceCommit||e.policySha256!==policySha256){add('EVIDENCE_IS_FOR_DIFFERENT_ARTIFACT_SOURCE_OR_POLICY',meta);continue;}
   if(e.executionKind!=='PHYSICAL_DEVICE'&&!(artifactCases.has(caseId)&&e.executionKind==='ARTIFACT_INSPECTION')){add('UNIT_OR_FIXTURE_IS_NOT_DEVICE_ACCEPTANCE',meta);continue;}
   if(!HASH.test(e.evidenceSha256||'')){add('EVIDENCE_HASH_REQUIRED',meta);continue;}
@@ -118,11 +131,11 @@ export async function assessGoldenEvidence({policy,policySha256,artifactSha256,s
   if(typeof verifyEvidence!=='function')continue;
   try{
    // Authority is injected by the existing release/Veritas harness, NEVER loaded from a dossier module path.
-   if(await verifyEvidence({record:structuredClone(e),bytes:Buffer.from(bytes),artifactSha256,sourceCommit,policySha256,platformId:platformProfile.id,platformProfileSha256})!==true){add('VERITAS_EVIDENCE_REJECTED',meta);continue;}
+   if(await verifyEvidence({record:structuredClone(e),bytes:Buffer.from(bytes),artifactSha256,sourceCommit,policySha256,platformId:bound.profile.id,platformProfileSha256:bound.sha256})!==true){add('VERITAS_EVIDENCE_REJECTED',meta);continue;}
   }catch{add('VERITAS_EVIDENCE_VERIFICATION_FAILED',meta);continue;}
   verified++;
  }}
- return{schemaVersion:'leeway.golden-system-evidence-assessment.v1',status:blockers.length?'BLOCKED':'EVIDENCE_QUALIFIED_NOT_DISTRIBUTED',requiredCaseCount:cases.length,profileCount:profiles.length,requiredEvidenceCount:cases.length*profiles.length,verifiedEvidenceCount:verified,blockers,artifactSha256,sourceCommit,policySha256,platformId:platformValid?platformProfile.id:null,platformProfileSha256,releasePromoted:false,installed:false};
+ return{schemaVersion:'leeway.golden-system-evidence-assessment.v1',status:blockers.length?'BLOCKED':'EVIDENCE_QUALIFIED_NOT_DISTRIBUTED',requiredCaseCount:cases.length,profileCount:profiles.length,requiredEvidenceCount:cases.length*profiles.length,verifiedEvidenceCount:verified,blockers,artifactSha256,sourceCommit,policySha256,platformId:platformValid&&profiles.length===1?profiles[0]:null,platformProfileSha256:platformValid&&profiles.length===1?boundProfiles.get(profiles[0]).sha256:null,platformIds:profiles,releasePromoted:false,installed:false};
 }
 async function cli(){
  const args=process.argv.slice(2),values=new Map();for(let i=0;i<args.length;i+=2){if(!args[i]?.startsWith('--')||!args[i+1]||values.has(args[i]))throw Error('GOLDEN_GATE_ARGUMENTS_INVALID');values.set(args[i],args[i+1]);}
