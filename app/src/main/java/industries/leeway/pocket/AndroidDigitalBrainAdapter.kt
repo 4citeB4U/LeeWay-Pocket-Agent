@@ -99,7 +99,9 @@ object AndroidDigitalBrainAdapter {
             JSONObject().put("schemaVersion","leeway.digital-brain.context.v1").put("bodyId",body.deviceId)
                 .put("state","LOCAL_BOOTSTRAP_ONLY_NOT_FULL_BRAIN_ACCEPTANCE").put("counts",counts).put("universes",nodes)
                 .put("informationBrain",JSONObject().put("counts",counts).put("universes",nodes))
-                .put("deviceBrain",JSONObject(deviceObservation())).put("runtimeBrain",JSONObject(runtimeObservation())).put("ingestion",JSONObject(AndroidBrainIngestion.status())).toString()
+                .put("deviceBrain",JSONObject(deviceObservation())).put("runtimeBrain",JSONObject(runtimeObservation()))
+                .put("executionReadiness",LeeWayDeviceService(context).status())
+                .put("ingestion",JSONObject(AndroidBrainIngestion.status())).toString()
         }
     }
 

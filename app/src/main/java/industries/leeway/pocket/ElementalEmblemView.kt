@@ -23,6 +23,8 @@ class ElementalEmblemView(context:Context):View(context) {
         paint.colorFilter=ColorMatrixColorFilter(hue(angle))
         val centerX=width/2f;val centerY=height/2f
         canvas.save();canvas.scale(.94f+.04f*sin(phase*1.4f),.98f,centerX,centerY)
+        val clip=Path().apply{addOval(RectF(1f,1f,width-1f,height-1f),Path.Direction.CW)}
+        canvas.clipPath(clip)
         canvas.drawBitmap(bitmap,null,RectF(1f,1f,width-1f,height-1f),paint);canvas.restore()
         if(isAttachedToWindow&&visibility==VISIBLE)postInvalidateDelayed(80)
     }

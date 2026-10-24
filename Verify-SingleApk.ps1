@@ -21,13 +21,27 @@ $required=@(
  'java\industries\leeway\pocket\LeeWayDeviceService.kt',
  'java\industries\leeway\pocket\LeeWayAutomation.kt',
  'java\industries\leeway\pocket\UnifiedAgentLeeRuntime.kt',
- 'java\industries\leeway\pocket\PocketOverlayService.kt'
+ 'java\industries\leeway\pocket\PocketOverlayService.kt',
+ 'java\industries\leeway\pocket\AgentTabletActivity.kt',
+ 'assets\agent-vt\SOURCE.json',
+ 'assets\agent-vt\standalone.html'
 )
 foreach($r in $required){if(!(Test-Path (Join-Path $root $r))){throw "SINGLE_APK_REQUIRED_COMPONENT_MISSING:$r"}}
 $db=Get-Content (Join-Path $root 'java\industries\leeway\pocket\LeeWayBodyDatabases.kt') -Raw
 # Relative implementation structure only. A particular device's database filename is not a universal requirement.
 foreach($name in @('BrainDb','ContinuumDb','LdwmdDb')){if($db -notmatch ('class\s+'+[regex]::Escape($name)+'\b')){throw "SINGLE_APK_DATABASE_STRUCTURE_MISSING:$name"}}
 if(!(Test-Path (Join-Path $PSScriptRoot 'brain-core/src/main/kotlin/industries/leeway/brain/DigitalBrain.kt'))){throw 'PORTABLE_BRAIN_CORE_MISSING'}
+$vtLockPath=Join-Path $root 'assets\agent-vt\SOURCE.json'
+$vtLock=Get-Content $vtLockPath -Raw|ConvertFrom-Json
+if($vtLock.schema -ne 'leeway.embedded-vt.source.v1'){throw 'AGENT_VT_LOCK_SCHEMA_INVALID'}
+if($vtLock.repository -ne '4citeB4U/LeeWay-Digital-Workforce'){throw 'AGENT_VT_SOURCE_OWNER_INVALID'}
+if($vtLock.sourceCommit -notmatch '^[0-9a-f]{40}$'){throw 'AGENT_VT_SOURCE_COMMIT_REQUIRED'}
+$vtPayload=Join-Path $root 'assets\agent-vt\standalone.html'
+$vtActual=(Get-FileHash $vtPayload -Algorithm SHA256).Hash.ToLowerInvariant()
+if($vtActual -ne [string]$vtLock.sha256){throw 'AGENT_VT_PAYLOAD_HASH_MISMATCH'}
+$main=Get-Content (Join-Path $root 'java\industries\leeway\pocket\MainActivity.kt') -Raw
+if($main -notmatch 'OPEN_WORKSTATION' -or $main -notmatch 'AgentTabletActivity'){throw 'AGENT_VT_LAUNCH_BINDING_MISSING'}
+'LEEWAY_AGENT_VT_EMBEDDED_SOURCE_PASS_NOT_RUNTIME_ACCEPTANCE'
 'LEEWAY_SINGLE_APK_SOURCE_STRUCTURE_PASS_NOT_RUNTIME_ACCEPTANCE'
 if($SourceOnly){return}
 if(!$ApkPath -or !$SourceCommit){throw 'GOLDEN_ARTIFACT_AND_SOURCE_IDENTITY_REQUIRED'}

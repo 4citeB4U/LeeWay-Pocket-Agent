@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeeWay Voice Scheduling Translator CRM</title>
+<meta name="theme-color" content="#071f49">
+<meta name="description" content="LeeWay field outreach CRM with voice capture, scheduling, route planning, translator support, and pipeline tracking.">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--navy:#071f49;--blue:#0b63ce;--teal:#008b8b;--gold:#d99a1e;--light:#f5f8fc;--line:#d7e2ef;--text:#122033;--muted:#5c6b7a;--danger:#b42318;--success:#067647;--card:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#f7fbff,#eef4fb);color:var(--text)}
+header{background:linear-gradient(135deg,var(--navy),#003c7c);color:white;padding:22px 26px;border-bottom:5px solid var(--gold)}
+header h1{margin:0;font-size:30px}header p{margin:6px 0 0;color:#d8e8ff}
+nav{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;background:white;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+nav button,.btn{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+nav button.active,.btn.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.wrap{max-width:1280px;margin:0 auto;padding:18px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px rgba(7,31,73,.07);padding:16px}
+.span-3{grid-column:span 3}.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+h2,h3{margin:0 0 12px;color:var(--navy)}.kpi{font-size:30px;font-weight:900;color:var(--blue)}.muted{color:var(--muted);font-size:13px}
+label{display:block;font-size:12px;font-weight:800;color:var(--navy);margin:9px 0 4px}
+input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit;background:white}textarea{min-height:74px;resize:vertical}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}
+table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid var(--line);font-size:13px;text-align:left;vertical-align:top}
+th{background:#eef5ff;color:var(--navy);font-weight:900}tr:hover td{background:#fbfdff}
+.pill{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:800;background:#edf4ff;color:var(--blue)}
+.pill.gold{background:#fff6df;color:#8a5a00}.pill.green{background:#ecfdf3;color:var(--success)}.pill.red{background:#fff1f1;color:var(--danger)}
+.hidden{display:none!important}.actions button{margin:2px}.small{font-size:12px}
+.pipeline{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px}
+.stage{background:#f8fbff;border:1px solid var(--line);border-radius:14px;padding:10px;min-height:160px}.stage h4{margin:0 0 8px;color:var(--navy);font-size:13px}
+.leadcard{background:white;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin:8px 0;font-size:12px}.leadcard strong{font-size:13px}
+.warning{background:#fff8e6;border-left:5px solid var(--gold);padding:10px;border-radius:10px}.good{background:#edfdf6;border-left:5px solid var(--success);padding:10px;border-radius:10px}.danger{background:#fff1f1;border-left:5px solid var(--danger);padding:10px;border-radius:10px}
+a{color:var(--blue);font-weight:700;text-decoration:none}footer{padding:18px;text-align:center;color:var(--muted)}
+@media(max-width:900px){.span-3,.span-4,.span-5,.span-6,.span-7,.span-8{grid-column:span 12}.pipeline{grid-template-columns:repeat(2,minmax(160px,1fr))}}
+.voice-panel{
+  background:linear-gradient(135deg,#071f49,#0b63ce);
+  color:white;
+  border-radius:18px;
+  padding:18px;
+}
+.voice-panel h2,.voice-panel h3{color:white}
+.voice-btn{
+  border:0;
+  background:#d99a1e;
+  color:#071f49;
+  padding:13px 18px;
+  border-radius:999px;
+  font-weight:900;
+  cursor:pointer;
+}
+.voice-btn.recording{
+  background:#fff1f1;
+  color:#b42318;
+  animation:pulse 1.2s infinite;
+}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.6)}70%{box-shadow:0 0 0 12px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.transcript-box{
+  background:#061936;
+  color:#eaf3ff;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:14px;
+  padding:12px;
+  min-height:150px;
+  white-space:pre-wrap;
+}
+.extract-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+}
+.extract-item{
+  background:#f8fbff;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px;
+  font-size:13px;
+}
+.activity{
+  border-left:5px solid var(--blue);
+  padding:10px;
+  border-radius:12px;
+  background:#fbfdff;
+  margin:8px 0;
+}
+.activity.inbound{border-left-color:var(--success)}
+.activity.outbound{border-left-color:var(--blue)}
+.activity.walkin{border-left-color:var(--gold)}
+.activity .meta{font-size:12px;color:var(--muted)}
+.confidence{
+  height:8px;
+  background:#edf4ff;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:5px;
+}
+.confidence span{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,#d99a1e,#0b63ce);
+}
+@media(max-width:900px){.extract-grid{grid-template-columns:1fr}}
+.schedule-card{
+  border-left:5px solid var(--teal);
+}
+.week-strip{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(170px,1fr));
+  gap:10px;
+  overflow-x:auto;
+  padding:6px 0 12px;
+}
+.week-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  min-height:130px;
+}
+.week-card.active{border:2px solid var(--blue);box-shadow:0 0 0 3px rgba(11,99,206,.12)}
+.route-leg{
+  background:#fbfdff;
+  border:1px solid var(--line);
+  border-left:5px solid var(--gold);
+  border-radius:12px;
+  padding:10px;
+  margin:8px 0;
+}
+.cost-box{
+  background:#f6fbff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+}
+.badge-warn{background:#fff8e6;color:#8a5a00}
+.badge-stop{background:#fff1f1;color:#b42318}
+.badge-go{background:#ecfdf3;color:#067647}
+.translate-card{
+  background:linear-gradient(135deg,#f8fbff,#ffffff);
+  border-left:5px solid var(--gold);
+}
+.phrase-card{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  background:white;
+  margin:8px 0;
+}
+.phrase-card strong{color:var(--navy)}
+.lang-pill{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#eef5ff;
+  color:#071f49;
+  font-size:12px;
+  font-weight:800;
+  margin:3px;
+}
+.big-translation{
+  font-size:22px;
+  line-height:1.35;
+  background:#061936;
+  color:#fff;
+  border-radius:16px;
+  padding:18px;
+  min-height:120px;
+  white-space:pre-wrap;
+}
+</style>
+</head>
+<body>
+<header><h1>LeeWay Outreach CRM</h1><p>Field tracking, pipeline management, targeted outreach, and LeeWay Standards follow-up engine.</p></header>
+<nav>
+<button class="tab active" data-tab="dashboard">Dashboard</button><button class="tab" data-tab="voice">Voice Capture</button><button class="tab" data-tab="add">Add / Update Lead</button><button class="tab" data-tab="leads">Lead List</button><button class="tab" data-tab="pipeline">Pipeline</button><button class="tab" data-tab="today">Today's Route</button><button class="tab" data-tab="scheduler">Regional Scheduler</button><button class="tab" data-tab="translator">Translator</button><button class="tab" data-tab="campaigns">Campaigns</button><button class="tab" data-tab="scripts">Scripts</button><button class="tab" data-tab="activities">Activity Log</button><button class="tab" data-tab="settings">Import / Export</button>
+</nav>
+<div class="wrap">
+<section id="voice" class="view hidden">
+  <div class="grid">
+    <div class="card span-7 voice-panel">
+      <h2>Voice Field Capture</h2>
+      <p>Press record, speak naturally, then let LeeWay parse the details into the CRM.</p>
+      <div class="row">
+        <button id="voiceBtn" class="voice-btn" onclick="toggleVoice()">Start Recording</button>
+        <select id="voiceActivityType">
+          <option>Walk-in Visit</option>
+          <option>Outbound Call</option>
+          <option>Inbound Call</option>
+          <option>Email Sent</option>
+          <option>Follow-up Note</option>
+          <option>Research Note</option>
+        </select>
+      </div>
+      <label style="color:white">Live Transcript / Dictation</label>
+      <div id="voiceTranscript" class="transcript-box" contenteditable="true"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" onclick="parseVoiceTranscript()">Parse Into CRM Fields</button>
+        <button class="btn" onclick="clearVoice()">Clear</button>
+      </div>
+      <p class="small" style="color:#d8e8ff">Voice works best in Chrome or Edge. If the browser blocks microphone access, type or paste your spoken note into the transcript box and press parse.</p>
+    </div>
+
+    <div class="card span-5">
+      <h2>Speak Like This</h2>
+      <div class="good">
+        “I just walked into Ballers Club Barbershop on 27th Street. I spoke with Marcus, the manager. Phone is 414-555-1234. Email is marcus@example.com. They care about no-shows, memberships, reviews, and social media. I pitched the $250 AI Tune-Up. He said follow up tomorrow at 10 AM. Stage should be meeting booked.”
+      </div>
+      <h3 style="margin-top:14px">It will extract</h3>
+      <ul>
+        <li>Organization and category</li>
+        <li>Contact name and role</li>
+        <li>Phone, email, website</li>
+        <li>Activity type: walk-in, call, inbound call, email, research</li>
+        <li>Offer pitched and potential value</li>
+        <li>Pipeline stage and next follow-up</li>
+        <li>Pain points and conversation notes</li>
+      </ul>
+    </div>
+
+    <div class="card span-12">
+      <h2>Parsed CRM Fields</h2>
+      <div id="voiceParsed" class="extract-grid"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn primary" onclick="saveParsedLead()">Save Parsed Lead</button>
+        <button class="btn" onclick="sendParsedToForm()">Send Parsed Data To Full Form</button>
+        <button class="btn" onclick="generateParsedFollowup()">Generate Follow-Up Message</button>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Generated Follow-Up</h2>
+      <textarea id="parsedFollowup" style="min-height:180px"></textarea>
+      <button class="btn" onclick="copyParsedFollowup()">Copy Follow-Up</button>
+    </div>
+  </div>
+</section>
+
+<section id="dashboard" class="view">
+<div class="grid">
+<div class="card span-3"><h3>Total Leads</h3><div class="kpi" id="kTotal">0</div><div class="muted">All organizations tracked</div></div>
+<div class="card span-3"><h3>Follow-Ups Due</h3><div class="kpi" id="kDue">0</div><div class="muted">Due today or overdue</div></div>
+<div class="card span-3"><h3>Open Pipeline $</h3><div class="kpi" id="kOpen">$0</div><div class="muted">Estimated potential value</div></div>
+<div class="card span-3"><h3>Closed Won $</h3><div class="kpi" id="kWon">$0</div><div class="muted">Confirmed revenue</div></div>
+<div class="card span-8"><h2>Day 1 Command Board</h2><div class="warning"><strong>Rule:</strong> Track every walk-in, every name, every phone number, every email, every next action. No lead exists until it is inside the CRM.</div><h3 style="margin-top:16px">Next Best Follow-Ups</h3><table><thead><tr><th>Organization</th><th>Category</th><th>Stage</th><th>Next Action</th><th>Due</th></tr></thead><tbody id="dueTable"></tbody></table></div>
+<div class="card span-4"><h2>Category Focus</h2><p class="muted">Target by category until enough touches are completed. Do not scatter randomly.</p><div id="categoryCounts"></div></div>
+</div>
+</section>
+<section id="add" class="view hidden">
+<div class="card"><h2>Add / Update Lead</h2><input type="hidden" id="leadId"><div class="grid">
+<div class="span-4"><label>Organization / Location</label><input id="org" placeholder="Ballers Club Barbershop GO"></div>
+<div class="span-4"><label>Category</label><select id="category"></select></div>
+<div class="span-4"><label>Priority</label><select id="priority"><option>Hot</option><option>Warm</option><option>Cold</option><option>Strategic</option></select></div>
+<div class="span-4"><label>Address / Area</label><input id="address" placeholder="2100 block / 53205 / W North Ave"></div>
+<div class="span-4"><label>Phone</label><input id="phone" placeholder="414-000-0000"></div>
+<div class="span-4"><label>Email</label><input id="email" placeholder="contact@example.com"></div>
+<div class="span-4"><label>Decision Maker / Contact Name</label><input id="contact" placeholder="Owner, manager, administrator"></div>
+<div class="span-4"><label>Role</label><input id="role" placeholder="Owner / Office Manager / Program Director"></div>
+<div class="span-4"><label>LinkedIn / Website</label><input id="website" placeholder="Website, LinkedIn URL, Facebook page"></div>
+<div class="span-4"><label>Pipeline Stage</label><select id="stage"></select></div>
+<div class="span-4"><label>Offer Pitched</label><select id="offer"></select></div>
+<div class="span-4"><label>Potential Value</label><input id="value" type="number" placeholder="497"></div>
+<div class="span-4"><label>Last Contact Date</label><input id="lastContact" type="date"></div>
+<div class="span-4"><label>Next Follow-Up Date</label><input id="nextFollow" type="date"></div>
+<div class="span-4"><label>Next Action</label><input id="nextAction" placeholder="Send flyer, call owner, schedule 20-min call"></div>
+<div class="span-6"><label>Research Notes</label><textarea id="research" placeholder="What do they do? What is their community angle? What is their pain?"></textarea></div>
+<div class="span-6"><label>Conversation Notes</label><textarea id="notes" placeholder="Who did I speak with? What did they say? What did I promise?"></textarea></div>
+<div class="span-12 row"><button class="btn primary" onclick="saveLead()">Save Lead</button><button class="btn" onclick="clearForm()">Clear Form</button><button class="btn" onclick="generateResearchLinks()">Generate Research Links</button></div>
+</div><div id="researchLinks" class="card" style="margin-top:14px;display:none"></div></div>
+</section>
+<section id="leads" class="view hidden"><div class="card"><div class="row"><div><h2>Lead List</h2><p class="muted">Search, filter, edit, and track every location you visit.</p></div><div><label>Search</label><input id="search" oninput="render()" placeholder="Search organization, notes, category"></div><div><label>Filter Category</label><select id="filterCategory" onchange="render()"><option value="">All</option></select></div><div><label>Filter Stage</label><select id="filterStage" onchange="render()"><option value="">All</option></select></div></div><table><thead><tr><th>Organization</th><th>Category</th><th>Contact</th><th>Stage</th><th>Offer</th><th>Next Action</th><th>Due</th><th>Activities</th><th>Actions</th></tr></thead><tbody id="leadRows"></tbody></table></div></section>
+<section id="pipeline" class="view hidden"><div class="card"><h2>Pipeline Funnel</h2><p class="muted">Move people down the funnel: Identified -> Visited -> Contacted -> Meeting Booked -> Proposal Sent -> Closed Won.</p><div class="pipeline" id="pipe"></div></div></section>
+<section id="today" class="view hidden"><div class="grid"><div class="card span-6"><h2>Today's Route Builder</h2><p class="muted">Use this to plan where you are going before you leave.</p><label>Focus Category</label><select id="routeCategory"></select><label>Area / ZIP / Corridor</label><input id="routeArea" value="53205 / 2100 block / W North Ave"><label>Route Notes</label><textarea id="routeNotes">Day 1: collect names, direct emails, decision-maker roles, and schedule 20-minute calls.</textarea><button class="btn primary" onclick="buildRoutePlan()">Build Route Plan</button><div id="routeOutput" style="margin-top:12px"></div></div><div class="card span-6"><h2>Walk-In Capture Form</h2><p class="muted">Fast entry after you leave each location.</p><label>Location Visited</label><input id="quickOrg"><label>Category</label><select id="quickCategory"></select><label>Person / Role</label><input id="quickContact" placeholder="Front desk, owner, manager"><label>Result</label><select id="quickStage"><option>Visited</option><option>Contacted</option><option>Meeting Booked</option><option>Not Interested</option></select><label>Next Follow-Up</label><input id="quickFollow" type="date"><label>Notes</label><textarea id="quickNotes"></textarea><button class="btn primary" onclick="quickAdd()">Capture Visit</button></div></div></section>
+<section id="scheduler" class="view hidden">
+  <div class="grid">
+    <div class="card span-12 schedule-card">
+      <h2>Regional Outreach Scheduler</h2>
+      <p class="muted">Plan one region at a time, keep route legs within the radius rule, track mileage/fuel cost, and scale outward over 3 months.</p>
+      <div class="warning">
+        <strong>Route discipline:</strong> Do not chase leads across town unless there is a scheduled meeting or a hot inbound lead. Default rule: stay within a 6-mile working radius for the day.
+      </div>
+    </div>
+
+    <div class="card span-4">
+      <h2>Add Region / Territory</h2>
+      <label>Region Name</label>
+      <input id="regionName" placeholder="West Milwaukee / Near West Side">
+      <label>Anchor Address / Cross Streets</label>
+      <input id="regionAnchor" placeholder="2100 block W North Ave or 33rd & Capitol">
+      <label>Default Radius Miles</label>
+      <input id="regionRadius" type="number" value="6">
+      <label>Week Number</label>
+      <input id="regionWeek" type="number" value="1">
+      <label>Primary Categories</label>
+      <input id="regionCategories" placeholder="Barbershops, churches, print shops, nonprofits">
+      <label>Region Notes</label>
+      <textarea id="regionNotes" placeholder="Why this region matters, who to target, corridors to cover"></textarea>
+      <button class="btn primary" onclick="saveRegion()">Save Region</button>
+    </div>
+
+    <div class="card span-8">
+      <h2>3-Month Expansion Plan</h2>
+      <div id="weekStrip" class="week-strip"></div>
+    </div>
+
+    <div class="card span-5">
+      <h2>Daily Route Plan</h2>
+      <label>Route Date</label>
+      <input id="routeDate" type="date">
+      <label>Region</label>
+      <select id="scheduleRegion"></select>
+      <label>Start / Home Base</label>
+      <input id="routeStart" placeholder="53205 / current location / home base">
+      <label>Gas Price Per Gallon</label>
+      <input id="gasPrice" type="number" step="0.01" value="3.50">
+      <label>Vehicle MPG</label>
+      <input id="vehicleMPG" type="number" step="0.1" value="24">
+      <button class="btn primary" onclick="createDailyRoute()">Create / Update Route</button>
+    </div>
+
+    <div class="card span-7">
+      <h2>Add Stop to Route</h2>
+      <label>Choose Existing Lead</label>
+      <select id="routeLead"></select>
+      <label>Or New Stop Name</label>
+      <input id="newStopName" placeholder="Monumental Missionary Baptist Church">
+      <label>Stop Address / Cross Streets</label>
+      <input id="stopAddress" placeholder="2407 W North Ave or 33rd & Capitol">
+      <label>Scheduled Time</label>
+      <input id="stopTime" type="time">
+      <label>Distance From Previous Stop - Miles</label>
+      <input id="legMiles" type="number" step="0.1" placeholder="Enter after checking Maps">
+      <label>Stop Type</label>
+      <select id="stopType">
+        <option>Walk-in</option>
+        <option>Scheduled Meeting</option>
+        <option>Follow-up Visit</option>
+        <option>Inbound Call Priority</option>
+        <option>Research Only</option>
+      </select>
+      <label>Purpose / Talk Track</label>
+      <textarea id="stopPurpose" placeholder="Ask for owner, pitch $250 tune-up, collect email, schedule 20-minute call"></textarea>
+      <div class="row">
+        <button class="btn primary" onclick="addRouteStop()">Add Stop</button>
+        <button class="btn" onclick="openDirectionsForStop()">Open Directions Search</button>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Current Route Board</h2>
+      <div class="row">
+        <div class="cost-box"><strong>Total Miles</strong><div class="kpi" id="routeMiles">0</div></div>
+        <div class="cost-box"><strong>Estimated Fuel Cost</strong><div class="kpi" id="routeFuel">$0</div></div>
+        <div class="cost-box"><strong>Stops</strong><div class="kpi" id="routeStops">0</div></div>
+        <div class="cost-box"><strong>Radius Warnings</strong><div class="kpi" id="routeWarnings">0</div></div>
+      </div>
+      <div id="routeBoard"></div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Appointment / Follow-Up Calendar</h2>
+      <p class="muted">This shows scheduled route stops and CRM follow-ups together.</p>
+      <table>
+        <thead><tr><th>Date</th><th>Time</th><th>Organization</th><th>Region</th><th>Type</th><th>Next Action</th><th>Status</th></tr></thead>
+        <tbody id="calendarRows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="translator" class="view hidden">
+  <div class="grid">
+    <div class="card span-12 translate-card">
+      <h2>Field Translator / Conversation Helper</h2>
+      <p class="muted">Use this when someone does not speak English or prefers another language. This version gives you translated field phrases, opens Google Translate for full translation, and lets you save the conversation note back to the CRM.</p>
+      <div class="warning">
+        <strong>Field rule:</strong> Keep it simple. Start with respect, ask their preferred language, explain that you help businesses with communication and follow-up, then offer to send information in writing.
+      </div>
+    </div>
+
+    <div class="card span-5">
+      <h2>Translate My Message</h2>
+      <label>Target Language</label>
+      <select id="translatorLang" onchange="renderPhraseLibrary()">
+        <option value="es" data-label="Spanish">Spanish</option>
+        <option value="hmn" data-label="Hmong">Hmong</option>
+        <option value="ar" data-label="Arabic">Arabic</option>
+        <option value="zh-CN" data-label="Chinese Simplified">Chinese Simplified</option>
+        <option value="fr" data-label="French">French</option>
+        <option value="ru" data-label="Russian">Russian</option>
+        <option value="uk" data-label="Ukrainian">Ukrainian</option>
+        <option value="pl" data-label="Polish">Polish</option>
+        <option value="hi" data-label="Hindi">Hindi</option>
+        <option value="ur" data-label="Urdu">Urdu</option>
+        <option value="vi" data-label="Vietnamese">Vietnamese</option>
+        <option value="sw" data-label="Swahili">Swahili</option>
+      </select>
+
+      <label>English Message</label>
+      <textarea id="translatorInput">Hi, my name is Leonard Lee. I help local businesses use AI for appointment reminders, customer follow-up, reviews, social media, emails, and office workflow. Who is the best person to speak with?</textarea>
+
+      <div class="row">
+        <button class="btn primary" onclick="openGoogleTranslate()">Open in Google Translate</button>
+        <button class="btn" onclick="showPhraseTranslation()">Show Quick Translation</button>
+      </div>
+
+      <label>Conversation Notes</label>
+      <textarea id="translatorNotes" placeholder="What did they say? What language? Name, role, phone, email, follow-up?"></textarea>
+      <button class="btn primary" onclick="saveTranslationNote()">Save Translation Note to CRM</button>
+    </div>
+
+    <div class="card span-7">
+      <h2>Large Display</h2>
+      <p class="muted">Show this screen to the person if needed.</p>
+      <div id="translationOutput" class="big-translation">Select a quick phrase or open Google Translate.</div>
+      <div style="margin-top:10px">
+        <button class="btn" onclick="speakTranslation()">Speak Displayed Text</button>
+        <button class="btn" onclick="copyTranslation()">Copy Displayed Text</button>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Quick Phrase Library</h2>
+      <p class="muted">Tap a phrase to show it large. Spanish includes direct translations. Other languages open best through Google Translate.</p>
+      <div id="phraseLibrary"></div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Voice Capture in Another Language</h2>
+      <p class="muted">Browser support varies by language. This captures what they say as text. Use Google Translate for full translation.</p>
+      <label>Speech Recognition Language</label>
+      <select id="speechLang">
+        <option value="es-US">Spanish</option>
+        <option value="en-US">English</option>
+        <option value="ar">Arabic</option>
+        <option value="zh-CN">Chinese Simplified</option>
+        <option value="fr-FR">French</option>
+        <option value="ru-RU">Russian</option>
+        <option value="uk-UA">Ukrainian</option>
+        <option value="pl-PL">Polish</option>
+        <option value="hi-IN">Hindi</option>
+        <option value="vi-VN">Vietnamese</option>
+      </select>
+      <button id="foreignVoiceBtn" class="voice-btn" onclick="toggleForeignVoice()">Start Foreign-Language Capture</button>
+      <label>Captured Speech</label>
+      <div id="foreignTranscript" class="transcript-box" contenteditable="true"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" onclick="openCapturedInTranslate()">Translate Captured Speech</button>
+        <button class="btn" onclick="appendForeignToNotes()">Add to Notes</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="campaigns" class="view hidden"><div class="grid"><div class="card span-5"><h2>Campaign Generator</h2><label>Organization</label><select id="campaignLead"></select><label>Message Type</label><select id="messageType"><option>Follow-up after walk-in</option><option>First email</option><option>Referral ask</option><option>Meeting confirmation</option><option>Proposal close</option></select><button class="btn primary" onclick="generateMessage()">Generate Message</button></div><div class="card span-7"><h2>Generated Message</h2><textarea id="generatedMessage" style="min-height:260px"></textarea><button class="btn" onclick="copyMessage()">Copy Message</button></div></div></section>
+<section id="scripts" class="view hidden"><div class="card"><h2>Category-Specific LeeWay Scripts</h2><div id="scriptBox"></div></div></section>
+<section id="activities" class="view hidden">
+  <div class="card">
+    <h2>Activity Timeline</h2>
+    <p class="muted">Every voice note, visit, call, inbound call, email, and follow-up gets logged here.</p>
+    <div id="activityTimeline"></div>
+  </div>
+</section>
+
+<section id="settings" class="view hidden"><div class="grid"><div class="card span-6"><h2>Export</h2><p>Download your CRM data as JSON or CSV. Back this up daily.</p><button class="btn primary" onclick="exportJSON()">Export JSON</button><button class="btn" onclick="exportCSV()">Export CSV</button></div><div class="card span-6"><h2>Import JSON</h2><p>Paste a previous JSON backup here.</p><textarea id="importText"></textarea><button class="btn primary" onclick="importJSON()">Import</button></div><div class="card span-12 danger"><h2>Reset Local Data</h2><p>This clears only this browser's local CRM storage.</p><button class="btn" onclick="resetData()">Reset CRM</button></div></div></section>
+</div>
+<footer>LeeWay Outreach CRM - Local browser storage - Phone: 414-303-8580 - Fax: 414-239-8531</footer>
+<script>
+const categories=["Tax Offices","Insurance Offices","Real Estate Offices","Staffing Offices","Barbershops","Salons","Small Clinics","Community Organizations","Training Centers","Churches with Offices","Print Shops","Local Contractors","Nonprofit Offices","Workforce / Business Corridor","Other"];
+const stages=["Identified","Researched","Visited","Contacted","Meeting Booked","Proposal Sent","Closed Won","Closed Lost","Nurture"];
+const offers=["Local Business AI Tune-Up - $250","AI Readiness Audit - $497","AI Staff Workshop - $997","Automation Sprint - Starting at $1,500","Transformation Starter Package - $2,500","Custom Course / Partnership","Not pitched yet"];
+const scripts={
+"Tax Offices":{pain:"Missing documents, intake forms, seasonal overload, appointment reminders, FAQs.",pitch:"I help tax offices use AI for client intake, document checklists, missing-document reminders, appointment coordination, and FAQ drafts while keeping tax professionals in control.",offer:"AI Readiness Audit - $497"},
+"Insurance Offices":{pain:"Lead follow-up, quote intake, renewal reminders, claims communication.",pitch:"I help insurance offices use AI for lead response, quote follow-up, renewal reminders, client education drafts, and internal communication templates.",offer:"AI Readiness Audit - $497 / Automation Sprint - $1,500"},
+"Real Estate Offices":{pain:"Lead speed, listing descriptions, buyer/seller updates, open-house follow-up.",pitch:"I help real estate offices respond to leads faster, draft listing support content, organize open-house follow-up, and improve client communication.",offer:"Staff Workshop - $997 / Automation Sprint - $1,500"},
+"Staffing Offices":{pain:"Candidate intake, resume summaries, interview scheduling, employer outreach.",pitch:"I help staffing offices use AI for candidate intake, resume summaries, interview follow-up, job description drafts, and employer communication while keeping recruiters in control.",offer:"Automation Sprint - $1,500"},
+"Barbershops":{pain:"No-shows, booking reminders, reviews, memberships, promotions, rebooking.",pitch:"I help barbershops keep chairs full with AI-supported reminders, review requests, promo messages, membership follow-up, and social content.",offer:"Local Business AI Tune-Up - $250"},
+"Salons":{pain:"Rebooking, reminders, reviews, service descriptions, retail follow-up.",pitch:"I help salons increase rebooking, reduce missed appointments, create service content, request reviews, and improve client follow-up.",offer:"Local Business AI Tune-Up - $250"},
+"Small Clinics":{pain:"Admin friction, patient reminders, intake organization, FAQs, internal templates.",pitch:"I help clinics identify safe admin uses for AI: appointment reminders, intake organization, FAQ drafts, internal templates, and staff productivity. Not medical decisions.",offer:"AI Readiness Audit - $497"},
+"Community Organizations":{pain:"Outreach, volunteers, event communication, participant intake, reporting.",pitch:"I help community organizations reduce paperwork and improve outreach, volunteer coordination, event communication, participant intake, and reporting.",offer:"AI Staff Workshop - $997 / Starter Package - $2,500"},
+"Training Centers":{pain:"AI literacy, student support, curriculum support, employer communication.",pitch:"I help training centers build practical AI readiness for students, instructors, staff, and employer partners.",offer:"Staff Workshop - $997 / Custom Course"},
+"Churches with Offices":{pain:"Announcements, newsletters, event planning, volunteer coordination, youth materials.",pitch:"I help churches use AI for newsletters, announcements, volunteer coordination, event reminders, donation communication, and office workflow while keeping ministry leaders in control.",offer:"Church Admin & Communications Audit - $497"},
+"Print Shops":{pain:"Quote intake, messy customer requests, job notes, proofing, order updates.",pitch:"I help print shops use AI to clean up quote intake, summarize design requests, organize job notes, draft customer follow-ups, and improve order communication.",offer:"Quote & Workflow Audit - $497"},
+"Local Contractors":{pain:"Estimate follow-up, slow responses, appointment reminders, project updates, reviews.",pitch:"I help contractors respond faster to leads, follow up on estimates, send project updates, request reviews, and organize customer communication.",offer:"Local Business AI Tune-Up - $250"},
+"Nonprofit Offices":{pain:"Grant support, donor communication, participant intake, board updates, reporting.",pitch:"I help nonprofits reduce admin burden with AI support for grants, donor communication, reporting, participant intake, board updates, and outreach.",offer:"AI Staff Workshop - $997 / Starter Package - $2,500"},
+"Workforce / Business Corridor":{pain:"Small business support, employer services, workforce readiness, training.",pitch:"I help corridor organizations and workforce groups bring practical AI readiness to local businesses, staff, entrepreneurs, and program participants.",offer:"Workshop / Partnership / Starter Package"},
+"Other":{pain:"Repetitive admin, follow-up, communication, scheduling, reporting.",pitch:"I help organizations identify where AI can save time while keeping humans in control.",offer:"AI Readiness Audit - $497"}};
+let leads=JSON.parse(localStorage.getItem("leewayCRM")||"[]");
+let activities=JSON.parse(localStorage.getItem("leewayCRMActivities")||"[]");
+let regions=JSON.parse(localStorage.getItem("leewayCRMRegions")||"[]");
+let routes=JSON.parse(localStorage.getItem("leewayCRMRoutes")||"[]");
+function todayISO(){return new Date().toISOString().slice(0,10)}
+if(!localStorage.getItem("leewayCRMSeeded")){leads=[{id:crypto.randomUUID(),org:"Ballers Club Barbershop GO",category:"Barbershops",priority:"Hot",address:"Milwaukee / W Wells St or N 27th St",phone:"",email:"",contact:"",role:"Owner or Manager",website:"",stage:"Visited",offer:"Local Business AI Tune-Up - $250",value:250,lastContact:todayISO(),nextFollow:todayISO(),nextAction:"Send Ballers Club AI Growth Tune-Up follow-up and ask for owner/manager call",research:"Quality haircuts, vibrant atmosphere, community focus, basketball theme, memberships, appointments, multiple locations.",notes:"Visited on Day 1. Need decision-maker name and direct follow-up."},{id:crypto.randomUUID(),org:"Near West Side business corridor contact",category:"Workforce / Business Corridor",priority:"Strategic",address:"Near West Side / 53205",phone:"",email:"",contact:"",role:"Business corridor or community engagement contact",website:"",stage:"Visited",offer:"Custom Course / Partnership",value:2500,lastContact:todayISO(),nextFollow:todayISO(),nextAction:"Send LeeWay AI readiness partnership follow-up for small businesses and nonprofits",research:"Business corridor support lane. Potential connector to multiple small businesses and community organizations.",notes:"Visited on Day 1. Need direct contact and meeting."}];localStorage.setItem("leewayCRM",JSON.stringify(leads));localStorage.setItem("leewayCRMSeeded","1")}
+if(!localStorage.getItem("leewayCRMRegionsSeeded")){
+  regions=[
+    {id:crypto.randomUUID(),name:"Week 1 - West Milwaukee / Near West Side",anchor:"53205 / W North Ave / Near West Side",radius:6,week:1,categories:"Barbershops, churches, print shops, nonprofits, business corridor",notes:"Day 1 launch region. Stay tight around 53205 and W North Ave corridors."},
+    {id:crypto.randomUUID(),name:"Week 2 - Northwest Milwaukee / Capitol Corridor",anchor:"33rd & Capitol / Sherman / Fond du Lac",radius:6,week:2,categories:"churches, clinics, contractors, salons, barbershops",notes:"Move north/northwest after Week 1 follow-ups are organized."},
+    {id:crypto.randomUUID(),name:"Week 3 - Brookfield / Wauwatosa Business Services",anchor:"Brookfield / Wauwatosa",radius:6,week:3,categories:"insurance, real estate, clinics, professional offices",notes:"Higher-income professional services and suburban business owners."},
+    {id:crypto.randomUUID(),name:"Week 4 - Racine",anchor:"Racine, WI",radius:6,week:4,categories:"nonprofits, training centers, contractors, service businesses",notes:"Regional expansion south."},
+    {id:crypto.randomUUID(),name:"Week 5 - Kenosha",anchor:"Kenosha, WI",radius:6,week:5,categories:"training centers, churches, small businesses, nonprofits",notes:"Build from Racine into Kenosha."},
+    {id:crypto.randomUUID(),name:"Weeks 6-8 - Greater Milwaukee Follow-Up",anchor:"Milwaukee metro",radius:8,week:6,categories:"all warm leads and meetings",notes:"Return to warm leads, proposals, workshops, and closed deals."},
+    {id:crypto.randomUUID(),name:"Weeks 9-12 - Chicago Expansion",anchor:"Chicago, IL",radius:8,week:9,categories:"nonprofits, workforce orgs, training centers, business corridors",notes:"Only expand after Milwaukee/Racine/Kenosha follow-up pipeline is active."}
+  ];
+  localStorage.setItem("leewayCRMRegions",JSON.stringify(regions));
+  localStorage.setItem("leewayCRMRegionsSeeded","1");
+}
+function $(id){return document.getElementById(id)}function money(n){return "$"+Number(n||0).toLocaleString()}function save(){localStorage.setItem("leewayCRM",JSON.stringify(leads));localStorage.setItem("leewayCRMActivities",JSON.stringify(activities));localStorage.setItem("leewayCRMRegions",JSON.stringify(regions));localStorage.setItem("leewayCRMRoutes",JSON.stringify(routes))}
+function fillSelect(id,arr,blank=false){const el=$(id);if(!el)return;el.innerHTML=blank?'<option value="">All</option>':'';arr.forEach(x=>{let o=document.createElement("option");o.value=x;o.textContent=x;el.appendChild(o)})}
+function init(){["category","filterCategory","quickCategory","routeCategory"].forEach(id=>fillSelect(id,categories,id==="filterCategory"));["stage","filterStage"].forEach(id=>fillSelect(id,stages,id==="filterStage"));fillSelect("quickStage",["Visited","Contacted","Meeting Booked","Not Interested"]);fillSelect("offer",offers);document.querySelectorAll(".tab").forEach(btn=>{btn.onclick=()=>{document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));btn.classList.add("active");document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));$(btn.dataset.tab).classList.remove("hidden");render()}});$("lastContact").value=todayISO();$("nextFollow").value=todayISO();$("quickFollow").value=todayISO();if($("routeDate"))$("routeDate").value=todayISO();renderScripts();renderPhraseLibrary();render()}
+function clearForm(){["leadId","org","address","phone","email","contact","role","website","value","nextAction","research","notes"].forEach(id=>$(id).value="");$("category").value="Barbershops";$("priority").value="Warm";$("stage").value="Identified";$("offer").value="Not pitched yet";$("lastContact").value=todayISO();$("nextFollow").value=todayISO();$("researchLinks").style.display="none"}
+function saveLead(){const id=$("leadId").value||crypto.randomUUID();const lead={id,org:$("org").value.trim(),category:$("category").value,priority:$("priority").value,address:$("address").value.trim(),phone:$("phone").value.trim(),email:$("email").value.trim(),contact:$("contact").value.trim(),role:$("role").value.trim(),website:$("website").value.trim(),stage:$("stage").value,offer:$("offer").value,value:Number($("value").value||0),lastContact:$("lastContact").value,nextFollow:$("nextFollow").value,nextAction:$("nextAction").value.trim(),research:$("research").value.trim(),notes:$("notes").value.trim()};if(!lead.org){alert("Organization is required.");return}const i=leads.findIndex(x=>x.id===id);if(i>=0)leads[i]=lead;else leads.push(lead);save();clearForm();render();alert("Lead saved.")}
+function editLead(id){const l=leads.find(x=>x.id===id);if(!l)return;Object.keys(l).forEach(k=>{if($(k))$(k).value=l[k]});$("leadId").value=l.id;document.querySelector('[data-tab="add"]').click()}
+function deleteLead(id){if(confirm("Delete this lead?")){leads=leads.filter(x=>x.id!==id);save();render()}}
+function filteredLeads(){const q=($("search")?.value||"").toLowerCase(),fc=$("filterCategory")?.value||"",fs=$("filterStage")?.value||"";return leads.filter(l=>{const hay=Object.values(l).join(" ").toLowerCase();return(!q||hay.includes(q))&&(!fc||l.category===fc)&&(!fs||l.stage===fs)})}
+function render(){if(!$("kTotal"))return;$("kTotal").textContent=leads.length;const due=leads.filter(l=>l.nextFollow&&l.nextFollow<=todayISO()&&!["Closed Won","Closed Lost"].includes(l.stage));$("kDue").textContent=due.length;$("kOpen").textContent=money(leads.filter(l=>!["Closed Won","Closed Lost"].includes(l.stage)).reduce((s,l)=>s+Number(l.value||0),0));$("kWon").textContent=money(leads.filter(l=>l.stage==="Closed Won").reduce((s,l)=>s+Number(l.value||0),0));renderDue(due);renderCategoryCounts();renderLeadRows();renderPipeline();renderCampaignLeadOptions()}
+function renderDue(due){$("dueTable").innerHTML=due.slice(0,8).map(l=>`<tr><td><strong>${l.org}</strong></td><td>${l.category}</td><td>${l.stage}</td><td>${l.nextAction||""}</td><td>${l.nextFollow||""}</td></tr>`).join("")||'<tr><td colspan="5">No follow-ups due.</td></tr>'}
+function renderCategoryCounts(){const counts={};categories.forEach(c=>counts[c]=0);leads.forEach(l=>counts[l.category]=(counts[l.category]||0)+1);$("categoryCounts").innerHTML=categories.map(c=>`<div style="margin:7px 0"><span class="pill">${c}</span> <strong>${counts[c]||0}</strong></div>`).join("")}
+function renderLeadRows(){if(!$("leadRows"))return;const rows=filteredLeads().map(l=>`<tr><td><strong>${l.org}</strong><br><span class="muted">${l.address||""}</span></td><td>${l.category}<br><span class="pill ${l.priority==='Hot'?'red':l.priority==='Strategic'?'gold':''}">${l.priority}</span></td><td>${l.contact||""}<br><span class="muted">${l.role||""}</span><br>${l.phone||""}<br>${l.email||""}</td><td><span class="pill ${l.stage==='Closed Won'?'green':''}">${l.stage}</span></td><td>${l.offer}<br><strong>${money(l.value)}</strong></td><td>${l.nextAction||""}</td><td>${l.nextFollow||""}</td><td>${activities.filter(a=>a.leadId===l.id).length}</td><td class="actions"><button onclick="editLead('${l.id}')">Edit</button><button onclick="deleteLead('${l.id}')">Delete</button></td></tr>`).join("");$("leadRows").innerHTML=rows||'<tr><td colspan="8">No leads yet.</td></tr>'}
+function renderPipeline(){if(!$("pipe"))return;$("pipe").innerHTML=stages.map(s=>{const cards=leads.filter(l=>l.stage===s).map(l=>`<div class="leadcard"><strong>${l.org}</strong><br>${l.category}<br><span class="pill">${money(l.value)}</span><br><span class="muted">${l.nextAction||""}</span></div>`).join("");return`<div class="stage"><h4>${s}</h4>${cards||'<span class="muted">Empty</span>'}</div>`}).join("")}
+function quickAdd(){const org=$("quickOrg").value.trim();if(!org){alert("Location required.");return}leads.push({id:crypto.randomUUID(),org,category:$("quickCategory").value,priority:"Warm",address:"",phone:"",email:"",contact:$("quickContact").value.trim(),role:"",website:"",stage:$("quickStage").value,offer:"Not pitched yet",value:0,lastContact:todayISO(),nextFollow:$("quickFollow").value,nextAction:"Send follow-up and request decision-maker conversation",research:"",notes:$("quickNotes").value.trim()});save();["quickOrg","quickContact","quickNotes"].forEach(id=>$(id).value="");render();alert("Visit captured.")}
+function generateResearchLinks(){const org=encodeURIComponent($("org").value.trim()),cat=encodeURIComponent($("category").value),area=encodeURIComponent($("address").value.trim()||"Milwaukee WI");if(!org){alert("Enter organization first.");return}const links=[["Google business search",`https://www.google.com/search?q=${org}+${area}`],["Google decision maker search",`https://www.google.com/search?q=${org}+owner+manager+director+${area}`],["LinkedIn people search",`https://www.linkedin.com/search/results/people/?keywords=${org}%20${area}`],["LinkedIn company search",`https://www.linkedin.com/search/results/companies/?keywords=${org}`],["Facebook search",`https://www.facebook.com/search/top?q=${org}`],["Category competitors nearby",`https://www.google.com/search?q=${cat}+near+${area}`]];$("researchLinks").innerHTML=`<h3>Research Links</h3><p class="muted">Open these manually. Add names, roles, and notes back into this CRM.</p>`+links.map(([t,u])=>`<p><a target="_blank" href="${u}">${t}</a></p>`).join("");$("researchLinks").style.display="block"}
+function buildRoutePlan(){const cat=$("routeCategory").value,area=$("routeArea").value,s=scripts[cat]||scripts.Other;$("routeOutput").innerHTML=`<div class="good"><strong>Focus:</strong> ${cat}<br><strong>Area:</strong> ${area}</div><h3>What to look for</h3><p>${s.pain}</p><h3>Walk-in pitch</h3><p>${s.pitch}</p><h3>Offer</h3><p><strong>${s.offer}</strong></p><h3>Search links</h3><p><a target="_blank" href="https://www.google.com/search?q=${encodeURIComponent(cat+' near '+area)}">Find nearby ${cat}</a></p><p><a target="_blank" href="https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(cat+' '+area+' owner manager director')}">Search LinkedIn contacts</a></p>`}
+function renderCampaignLeadOptions(){const el=$("campaignLead");if(!el)return;el.innerHTML=leads.map(l=>`<option value="${l.id}">${l.org} - ${l.category}</option>`).join("")}
+function generateMessage(){const l=leads.find(x=>x.id===$("campaignLead").value);if(!l)return;const s=scripts[l.category]||scripts.Other,type=$("messageType").value;let msg="";if(type==="Follow-up after walk-in"){msg=`Thank you for taking a moment to speak with me today. My name is Leonard Lee with LeeWay AI Readiness & Automation Services.\n\nFor ${l.org}, I see an opportunity to use AI around ${s.pain.toLowerCase()} while keeping your team fully in control.\n\nThe easiest first step is ${s.offer}. Would tomorrow or Thursday work for a quick 20-minute conversation with the right decision-maker?\n\nLeonard Lee\nLeeWay Industries | LeeWay Innovations\nPhone: 414-303-8580\nFax: 414-239-8531\nResume: 4citeb4u.github.io/Leonard-Lee-Resume`}else if(type==="First email"){msg=`Hi ${l.contact||""},\n\nMy name is Leonard Lee. I am a Milwaukee-based AI Systems Architect and founder of LeeWay Industries / LeeWay Innovations.\n\nI help organizations like ${l.org} use AI for practical workflow support. Specifically, ${s.pitch}\n\nI am not selling a giant software system. The goal is to identify where AI can save time, improve communication, and keep people in control of the final outcome.\n\nWould you be open to a 20-minute conversation this week?\n\nBest,\nLeonard Lee\n414-303-8580\nleonardlee6@outlook.com`}else if(type==="Referral ask"){msg=`Hi ${l.contact||""},\n\nI am doing a focused Milwaukee outreach push for LeeWay AI Readiness services. Do you know one business owner, nonprofit director, office manager, pastor, or workforce leader who could use help with practical AI training, follow-up, admin workflows, or automation?\n\nA simple introduction would help.\n\nLeonard Lee\n414-303-8580`}else if(type==="Meeting confirmation"){msg=`Hi ${l.contact||""},\n\nConfirming our conversation regarding ${l.org}. I will focus on practical AI opportunities related to ${s.pain.toLowerCase()}.\n\nThe goal is to identify quick wins, workflow risks, and a realistic next step.\n\nThank you,\nLeonard Lee`}else{msg=`Hi ${l.contact||""},\n\nBased on our conversation, I recommend starting with ${s.offer} for ${l.org}.\n\nThis gives you a clear first step without committing to a large system. The focus will be practical workflow improvement, communication support, and human-controlled AI use.\n\nWould you like me to send over the next steps to begin?\n\nLeonard Lee\n414-303-8580`}$("generatedMessage").value=msg}
+function copyMessage(){$("generatedMessage").select();document.execCommand("copy");alert("Copied.")}
+function renderScripts(){$("scriptBox").innerHTML=categories.map(c=>{const s=scripts[c]||scripts.Other;return`<div class="card" style="margin:10px 0"><h3>${c}</h3><p><strong>Pain:</strong> ${s.pain}</p><p><strong>Pitch:</strong> ${s.pitch}</p><p><strong>Offer:</strong> ${s.offer}</p></div>`}).join("")}
+function exportJSON(){download(new Blob([JSON.stringify({leads,activities,regions,routes},null,2)],{type:"application/json"}),"leeway-crm-backup.json")}
+function exportCSV(){const headers=["org","category","priority","address","phone","email","contact","role","website","stage","offer","value","lastContact","nextFollow","nextAction","research","notes"];const csv=[headers.join(",")].concat(leads.map(l=>headers.map(h=>`"${String(l[h]||"").replaceAll('"','""')}"`).join(","))).join("\n");download(new Blob([csv],{type:"text/csv"}),"leeway-crm-export.csv")}
+function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function importJSON(){try{const data=JSON.parse($("importText").value);if(Array.isArray(data)){leads=data;activities=[]}else{leads=data.leads||[];activities=data.activities||[];regions=data.regions||regions;routes=data.routes||[]}save();render();alert("Imported.")}catch(e){alert("Import failed: "+e.message)}}
+function resetData(){if(confirm("Reset all CRM data in this browser?")){localStorage.removeItem("leewayCRM");localStorage.removeItem("leewayCRMActivities");localStorage.removeItem("leewayCRMRegions");localStorage.removeItem("leewayCRMRoutes");localStorage.removeItem("leewayCRMSeeded");localStorage.removeItem("leewayCRMRegionsSeeded");location.reload()}}
+function renderScheduler(){
+  if(!$("weekStrip"))return;
+  const sorted=[...regions].sort((a,b)=>Number(a.week)-Number(b.week));
+  $("weekStrip").innerHTML=sorted.map(r=>`<div class="week-card ${Number(r.week)===1?'active':''}"><h3>Week ${r.week}</h3><strong>${r.name}</strong><p class="muted">${r.anchor}</p><p><span class="pill">${r.radius} mi radius</span></p><p class="small">${r.categories||""}</p><button onclick="editRegion('${r.id}')">Edit</button></div>`).join("");
+  fillRegionSelects();
+  renderRouteBoard();
+  renderCalendarRows();
+}
+function fillRegionSelects(){
+  const opts=regions.sort((a,b)=>Number(a.week)-Number(b.week)).map(r=>`<option value="${r.id}">Week ${r.week} - ${r.name}</option>`).join("");
+  if($("scheduleRegion"))$("scheduleRegion").innerHTML=opts;
+  if($("routeLead"))$("routeLead").innerHTML='<option value="">No existing lead / new stop</option>'+leads.map(l=>`<option value="${l.id}">${l.org} - ${l.category}</option>`).join("");
+}
+function saveRegion(){
+  const name=$("regionName").value.trim();
+  if(!name){alert("Region name required.");return}
+  const id=$("regionName").dataset.editing || crypto.randomUUID();
+  const r={id,name,anchor:$("regionAnchor").value.trim(),radius:Number($("regionRadius").value||6),week:Number($("regionWeek").value||1),categories:$("regionCategories").value.trim(),notes:$("regionNotes").value.trim()};
+  const i=regions.findIndex(x=>x.id===id);
+  if(i>=0)regions[i]=r;else regions.push(r);
+  save();clearRegionForm();renderScheduler();alert("Region saved.");
+}
+function clearRegionForm(){
+  ["regionName","regionAnchor","regionCategories","regionNotes"].forEach(id=>$(id).value="");
+  $("regionRadius").value=6;$("regionWeek").value=1;delete $("regionName").dataset.editing;
+}
+function editRegion(id){
+  const r=regions.find(x=>x.id===id);if(!r)return;
+  $("regionName").value=r.name;$("regionAnchor").value=r.anchor;$("regionRadius").value=r.radius;$("regionWeek").value=r.week;$("regionCategories").value=r.categories;$("regionNotes").value=r.notes;$("regionName").dataset.editing=id;
+  document.querySelector('[data-tab="scheduler"]').click();
+}
+function getCurrentRoute(){
+  const d=$("routeDate")?.value||todayISO();
+  const rid=$("scheduleRegion")?.value||(regions[0]?.id||"");
+  let rt=routes.find(r=>r.date===d&&r.regionId===rid);
+  if(!rt){
+    rt={id:crypto.randomUUID(),date:d,regionId:rid,start:$("routeStart")?.value||"",gasPrice:Number($("gasPrice")?.value||3.5),mpg:Number($("vehicleMPG")?.value||24),stops:[]};
+    routes.push(rt);save();
+  }
+  return rt;
+}
+function createDailyRoute(){
+  const rt=getCurrentRoute();
+  rt.start=$("routeStart").value.trim();
+  rt.gasPrice=Number($("gasPrice").value||3.5);
+  rt.mpg=Number($("vehicleMPG").value||24);
+  save();renderScheduler();alert("Route created/updated.");
+}
+function addRouteStop(){
+  const rt=getCurrentRoute();
+  const leadId=$("routeLead").value;
+  const lead=leads.find(l=>l.id===leadId);
+  const name=lead?lead.org:$("newStopName").value.trim();
+  if(!name){alert("Choose a lead or enter a stop name.");return}
+  const region=regions.find(r=>r.id===rt.regionId)||{};
+  const miles=Number($("legMiles").value||0);
+  const warn=miles>Number(region.radius||6)&&$("stopType").value!=="Scheduled Meeting"&&$("stopType").value!=="Inbound Call Priority";
+  const stop={id:crypto.randomUUID(),leadId:leadId||"",name,address:$("stopAddress").value.trim()||(lead?lead.address:""),time:$("stopTime").value,type:$("stopType").value,miles,purpose:$("stopPurpose").value.trim(),status:warn?"Radius Warning":"Planned",created:new Date().toISOString()};
+  rt.stops.push(stop);
+  save();
+  ["newStopName","stopAddress","stopTime","legMiles","stopPurpose"].forEach(id=>$(id).value="");
+  $("routeLead").value="";
+  renderScheduler();
+  if(warn)alert("Radius warning: this stop is outside the region radius unless it is a scheduled meeting or hot inbound lead.");
+}
+function openDirectionsForStop(){
+  const leadId=$("routeLead").value;
+  const lead=leads.find(l=>l.id===leadId);
+  const dest=encodeURIComponent($("stopAddress").value.trim() || (lead?lead.address||lead.org:""));
+  const start=encodeURIComponent($("routeStart").value.trim() || "53205");
+  if(!dest){alert("Enter a stop address or select a lead with an address.");return}
+  window.open(`https://www.google.com/maps/dir/${start}/${dest}`,"_blank");
+}
+function renderRouteBoard(){
+  if(!$("routeBoard"))return;
+  const d=$("routeDate")?.value||todayISO();
+  const rid=$("scheduleRegion")?.value||(regions[0]?.id||"");
+  const rt=routes.find(r=>r.date===d&&r.regionId===rid);
+  if(!rt){$("routeBoard").innerHTML="<p>No route created for this date/region yet.</p>";$("routeMiles").textContent="0";$("routeFuel").textContent="$0";$("routeStops").textContent="0";$("routeWarnings").textContent="0";return}
+  const region=regions.find(r=>r.id===rt.regionId)||{};
+  const miles=rt.stops.reduce((s,x)=>s+Number(x.miles||0),0);
+  const fuel=(miles/(Number(rt.mpg)||24))*(Number(rt.gasPrice)||3.5);
+  const warnings=rt.stops.filter(s=>s.status==="Radius Warning").length;
+  $("routeMiles").textContent=miles.toFixed(1);
+  $("routeFuel").textContent=money(fuel.toFixed(2));
+  $("routeStops").textContent=rt.stops.length;
+  $("routeWarnings").textContent=warnings;
+  $("routeBoard").innerHTML=`<h3>${region.name||"Route"} - ${rt.date}</h3><p><strong>Start:</strong> ${rt.start||"Not set"} | <strong>Radius:</strong> ${region.radius||6} miles</p>`+
+    rt.stops.map((s,i)=>{
+      const badge=s.status==="Radius Warning"?"badge-stop":s.type==="Scheduled Meeting"||s.type==="Inbound Call Priority"?"badge-go":"badge-warn";
+      return `<div class="route-leg"><strong>${i+1}. ${s.time?s.time+" - ":""}${s.name}</strong> <span class="pill ${badge}">${s.status}</span><br><span class="muted">${s.address||""}</span><br><strong>Type:</strong> ${s.type} | <strong>Leg Miles:</strong> ${s.miles||0}<br><strong>Purpose:</strong> ${s.purpose||""}<br><button onclick="markStopDone('${rt.id}','${s.id}')">Mark Done</button> <button onclick="removeStop('${rt.id}','${s.id}')">Remove</button></div>`
+    }).join("");
+}
+function markStopDone(routeId,stopId){
+  const rt=routes.find(r=>r.id===routeId);if(!rt)return;
+  const st=rt.stops.find(s=>s.id===stopId);if(!st)return;
+  st.status="Completed";
+  if(st.leadId)addActivity(st.leadId,st.type,`Completed route stop: ${st.purpose||""}`,"Visited");
+  save();renderScheduler();render();
+}
+function removeStop(routeId,stopId){
+  const rt=routes.find(r=>r.id===routeId);if(!rt)return;
+  rt.stops=rt.stops.filter(s=>s.id!==stopId);
+  save();renderScheduler();
+}
+function renderCalendarRows(){
+  if(!$("calendarRows"))return;
+  let rows=[];
+  routes.forEach(rt=>{
+    const region=regions.find(r=>r.id===rt.regionId)||{};
+    rt.stops.forEach(s=>rows.push({date:rt.date,time:s.time,org:s.name,region:region.name,type:s.type,next:s.purpose,status:s.status}));
+  });
+  leads.filter(l=>l.nextFollow).forEach(l=>rows.push({date:l.nextFollow,time:"",org:l.org,region:l.address||"",type:"CRM Follow-Up",next:l.nextAction,status:l.stage}));
+  rows.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+  $("calendarRows").innerHTML=rows.slice(0,40).map(r=>`<tr><td>${r.date||""}</td><td>${r.time||""}</td><td><strong>${r.org}</strong></td><td>${r.region||""}</td><td>${r.type||""}</td><td>${r.next||""}</td><td>${r.status||""}</td></tr>`).join("")||'<tr><td colspan="7">No scheduled items yet.</td></tr>';
+}
+const phraseLibrary = [
+  {
+    key:"intro",
+    en:"Hi, my name is Leonard Lee. I help local businesses use AI to save time with follow-up, reminders, reviews, emails, and office work.",
+    es:"Hola, mi nombre es Leonard Lee. Ayudo a negocios locales a usar inteligencia artificial para ahorrar tiempo con seguimiento, recordatorios, reseñas, correos electrónicos y trabajo de oficina."
+  },
+  {
+    key:"decision",
+    en:"Who is the best person to speak with about business operations, appointments, marketing, or office communication?",
+    es:"¿Quién es la mejor persona para hablar sobre operaciones del negocio, citas, mercadeo o comunicación de oficina?"
+  },
+  {
+    key:"not_replace",
+    en:"I am not here to replace people with AI. I help people use AI to save time and communicate better.",
+    es:"No estoy aquí para reemplazar a las personas con inteligencia artificial. Ayudo a las personas a usar la inteligencia artificial para ahorrar tiempo y comunicarse mejor."
+  },
+  {
+    key:"barber",
+    en:"For a barbershop, AI can help with appointment reminders, no-show reduction, review requests, membership follow-up, and social media posts.",
+    es:"Para una barbería, la inteligencia artificial puede ayudar con recordatorios de citas, reducción de ausencias, solicitudes de reseñas, seguimiento de membresías y publicaciones en redes sociales."
+  },
+  {
+    key:"church",
+    en:"For a church, AI can help with announcements, newsletters, volunteer coordination, event reminders, and office administration.",
+    es:"Para una iglesia, la inteligencia artificial puede ayudar con anuncios, boletines, coordinación de voluntarios, recordatorios de eventos y administración de oficina."
+  },
+  {
+    key:"audit",
+    en:"The first step is a simple AI Readiness Audit. I review the workflow and give a practical action plan.",
+    es:"El primer paso es una auditoría simple de preparación para inteligencia artificial. Reviso el flujo de trabajo y entrego un plan de acción práctico."
+  },
+  {
+    key:"tuneup",
+    en:"The small starting option is a Local Business AI Tune-Up for $250.",
+    es:"La opción pequeña para comenzar es una revisión de inteligencia artificial para negocios locales por $250."
+  },
+  {
+    key:"followup",
+    en:"May I send you more information by text or email?",
+    es:"¿Puedo enviarle más información por texto o correo electrónico?"
+  },
+  {
+    key:"contact",
+    en:"What is the best phone number or email for follow-up?",
+    es:"¿Cuál es el mejor número de teléfono o correo electrónico para dar seguimiento?"
+  },
+  {
+    key:"thanks",
+    en:"Thank you for your time. I appreciate it.",
+    es:"Gracias por su tiempo. Se lo agradezco."
+  }
+];
+
+let foreignRecognition=null;
+let foreignRecognizing=false;
+
+function getLangLabel(){
+  const sel=$("translatorLang");
+  return sel.options[sel.selectedIndex].dataset.label || sel.options[sel.selectedIndex].textContent;
+}
+function renderPhraseLibrary(){
+  if(!$("phraseLibrary"))return;
+  const lang=$("translatorLang").value;
+  const label=getLangLabel();
+  $("phraseLibrary").innerHTML=phraseLibrary.map(p=>{
+    const shown=lang==="es"?p.es:p.en;
+    const note=lang==="es"?"Spanish translation":"Open Google Translate for "+label;
+    return `<div class="phrase-card"><strong>${p.en}</strong><p>${shown}</p><span class="lang-pill">${note}</span><br><button class="btn" onclick="usePhrase('${p.key}')">Use Phrase</button><button class="btn" onclick="translatePhrase('${p.key}')">Open Translate</button></div>`;
+  }).join("");
+}
+function usePhrase(key){
+  const lang=$("translatorLang").value;
+  const p=phraseLibrary.find(x=>x.key===key);
+  if(!p)return;
+  const shown=lang==="es"?p.es:p.en;
+  $("translationOutput").textContent=shown;
+  $("translatorInput").value=p.en;
+}
+function translatePhrase(key){
+  const p=phraseLibrary.find(x=>x.key===key);
+  if(!p)return;
+  $("translatorInput").value=p.en;
+  openGoogleTranslate();
+}
+function showPhraseTranslation(){
+  const txt=$("translatorInput").value.trim();
+  const exact=phraseLibrary.find(p=>p.en.trim().toLowerCase()===txt.toLowerCase());
+  if(exact && $("translatorLang").value==="es") $("translationOutput").textContent=exact.es;
+  else $("translationOutput").textContent=txt + "\n\nUse 'Open in Google Translate' for live translation into " + getLangLabel() + ".";
+}
+function openGoogleTranslate(){
+  const text=encodeURIComponent($("translatorInput").value.trim());
+  const target=$("translatorLang").value;
+  if(!text){alert("Enter a message first.");return}
+  window.open(`https://translate.google.com/?sl=en&tl=${target}&text=${text}&op=translate`,"_blank");
+}
+function speakTranslation(){
+  const text=$("translationOutput").textContent.trim();
+  if(!text){return}
+  const u=new SpeechSynthesisUtterance(text);
+  const lang=$("translatorLang").value;
+  const map={es:"es-US",fr:"fr-FR",ar:"ar", "zh-CN":"zh-CN",ru:"ru-RU",uk:"uk-UA",pl:"pl-PL",hi:"hi-IN",vi:"vi-VN",sw:"sw"};
+  u.lang=map[lang]||"en-US";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+function copyTranslation(){
+  const text=$("translationOutput").textContent;
+  navigator.clipboard?.writeText(text);
+  alert("Copied.");
+}
+function saveTranslationNote(){
+  const note=$("translatorNotes").value.trim();
+  const msg=$("translatorInput").value.trim();
+  const lang=getLangLabel();
+  if(!note && !msg){alert("Add a note or message first.");return}
+  const id=crypto.randomUUID();
+  leads.push({
+    id,
+    org:"Translation Contact - "+new Date().toLocaleString(),
+    category:"Other",
+    priority:"Warm",
+    address:"",
+    phone:"",
+    email:"",
+    contact:"",
+    role:"",
+    website:"",
+    stage:"Contacted",
+    offer:"Not pitched yet",
+    value:0,
+    lastContact:todayISO(),
+    nextFollow:todayISO(),
+    nextAction:"Follow up with translated message or ask for preferred language contact",
+    research:"Preferred language: "+lang,
+    notes:"Translated message: "+msg+"\n\nConversation notes: "+note
+  });
+  addActivity(id,"Translation / Language Support",note||msg,"Contacted");
+  save();render();alert("Translation note saved to CRM.");
+}
+function setupForeignVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    if($("foreignVoiceBtn"))$("foreignVoiceBtn").textContent="Voice Not Supported";
+    return;
+  }
+  foreignRecognition=new SR();
+  foreignRecognition.continuous=true;
+  foreignRecognition.interimResults=true;
+  foreignRecognition.lang=$("speechLang").value;
+  foreignRecognition.onresult=(event)=>{
+    let finalText="";
+    let interim="";
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      const t=event.results[i][0].transcript;
+      if(event.results[i].isFinal) finalText+=t+" ";
+      else interim+=t;
+    }
+    const box=$("foreignTranscript");
+    box.textContent=(box.textContent+" "+finalText).trim()+(interim? "\n\nListening: "+interim:"");
+  };
+  foreignRecognition.onend=()=>{
+    foreignRecognizing=false;
+    const btn=$("foreignVoiceBtn");
+    if(btn){btn.textContent="Start Foreign-Language Capture";btn.classList.remove("recording")}
+  };
+}
+function toggleForeignVoice(){
+  if(!foreignRecognition) setupForeignVoice();
+  if(!foreignRecognition){alert("Foreign-language speech recognition is not available in this browser.");return}
+  foreignRecognition.lang=$("speechLang").value;
+  const btn=$("foreignVoiceBtn");
+  if(foreignRecognizing){
+    foreignRecognition.stop();foreignRecognizing=false;btn.textContent="Start Foreign-Language Capture";btn.classList.remove("recording");
+  }else{
+    $("foreignTranscript").textContent=$("foreignTranscript").textContent.replace(/\n\nListening:.*/g,"");
+    foreignRecognition.start();foreignRecognizing=true;btn.textContent="Stop Capture";btn.classList.add("recording");
+  }
+}
+function openCapturedInTranslate(){
+  const text=encodeURIComponent($("foreignTranscript").textContent.replace(/\n\nListening:.*/g,"").trim());
+  if(!text){alert("Capture or type speech first.");return}
+  window.open(`https://translate.google.com/?sl=auto&tl=en&text=${text}&op=translate`,"_blank");
+}
+function appendForeignToNotes(){
+  const text=$("foreignTranscript").textContent.replace(/\n\nListening:.*/g,"").trim();
+  $("translatorNotes").value=($("translatorNotes").value+"\nCaptured speech: "+text).trim();
+}
+let recognition=null;
+let recognizing=false;
+let parsedVoice=null;
+
+function setupVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    const btn=$("voiceBtn");
+    if(btn) btn.textContent="Voice Not Supported - Type Note";
+    return;
+  }
+  recognition=new SR();
+  recognition.continuous=true;
+  recognition.interimResults=true;
+  recognition.lang="en-US";
+  recognition.onresult=(event)=>{
+    let finalText="";
+    let interim="";
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      const t=event.results[i][0].transcript;
+      if(event.results[i].isFinal) finalText+=t+" ";
+      else interim+=t;
+    }
+    const box=$("voiceTranscript");
+    box.textContent=(box.textContent+" "+finalText).trim()+(interim? "\n\nListening: "+interim:"");
+  };
+  recognition.onend=()=>{
+    recognizing=false;
+    const btn=$("voiceBtn");
+    if(btn){btn.textContent="Start Recording";btn.classList.remove("recording")}
+  };
+}
+function toggleVoice(){
+  if(!recognition) setupVoice();
+  if(!recognition){alert("Voice recognition is not available in this browser. Use Chrome or Edge, or type your note in the transcript box.");return}
+  const btn=$("voiceBtn");
+  if(recognizing){
+    recognition.stop();
+    recognizing=false;
+    btn.textContent="Start Recording";
+    btn.classList.remove("recording");
+  }else{
+    $("voiceTranscript").textContent=$("voiceTranscript").textContent.replace(/\n\nListening:.*/g,"");
+    recognition.start();
+    recognizing=true;
+    btn.textContent="Stop Recording";
+    btn.classList.add("recording");
+  }
+}
+function clearVoice(){
+  $("voiceTranscript").textContent="";
+  $("voiceParsed").innerHTML="";
+  $("parsedFollowup").value="";
+  parsedVoice=null;
+}
+function parseVoiceTranscript(){
+  const text=$("voiceTranscript").textContent.replace(/\n\nListening:.*/g,"").trim();
+  if(!text){alert("Speak or paste a note first.");return}
+  parsedVoice=extractCRMFromText(text,$("voiceActivityType").value);
+  renderParsedVoice();
+}
+function extractCRMFromText(text,activityType){
+  const lower=text.toLowerCase();
+  const email=(text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/ig)||[""])[0];
+  const phone=(text.match(/(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/)||[""])[0];
+
+  let category="Other";
+  const categoryHints=[
+    ["barber","Barbershops"],["barbershop","Barbershops"],["salon","Salons"],["church","Churches with Offices"],["ministry","Churches with Offices"],
+    ["print","Print Shops"],["printing","Print Shops"],["contractor","Local Contractors"],["construction","Local Contractors"],
+    ["clinic","Small Clinics"],["doctor","Small Clinics"],["nonprofit","Nonprofit Offices"],["community","Community Organizations"],
+    ["training","Training Centers"],["workforce","Workforce / Business Corridor"],["corridor","Workforce / Business Corridor"],
+    ["insurance","Insurance Offices"],["real estate","Real Estate Offices"],["staffing","Staffing Offices"],["tax","Tax Offices"]
+  ];
+  for(const [hint,cat] of categoryHints){if(lower.includes(hint)){category=cat;break}}
+
+  let stage="Visited";
+  if(lower.includes("meeting booked")||lower.includes("scheduled")||lower.includes("appointment")) stage="Meeting Booked";
+  else if(lower.includes("proposal")) stage="Proposal Sent";
+  else if(lower.includes("closed")||lower.includes("paid")||lower.includes("deposit")) stage="Closed Won";
+  else if(lower.includes("not interested")||lower.includes("no interest")) stage="Closed Lost";
+  else if(lower.includes("called")||activityType.includes("Call")) stage="Contacted";
+  else if(lower.includes("researched")||activityType==="Research Note") stage="Researched";
+
+  if(activityType==="Inbound Call" && !["Closed Won","Closed Lost"].includes(stage)) stage="Meeting Booked";
+
+  let offer="Not pitched yet", value=0;
+  if(lower.includes("250")||lower.includes("tune-up")||lower.includes("tune up")){offer="Local Business AI Tune-Up - $250";value=250}
+  if(lower.includes("497")||lower.includes("readiness audit")||lower.includes("audit")){offer="AI Readiness Audit - $497";value=497}
+  if(lower.includes("997")||lower.includes("workshop")){offer="AI Staff Workshop - $997";value=997}
+  if(lower.includes("1500")||lower.includes("automation sprint")||lower.includes("sprint")){offer="Automation Sprint - Starting at $1,500";value=1500}
+  if(lower.includes("2500")||lower.includes("starter package")||lower.includes("transformation")){offer="Transformation Starter Package - $2,500";value=2500}
+
+  let org="";
+  const orgPatterns=[
+    /(?:walked into|went to|visited|at|called|from|company is|organization is|business is)\s+([^.,\n]+)/i,
+    /(?:i am walking into|i'm walking into)\s+([^.,\n]+)/i
+  ];
+  for(const p of orgPatterns){const m=text.match(p);if(m){org=cleanOrg(m[1]);break}}
+  if(!org && lower.includes("ballers")) org="Ballers Club Barbershop GO";
+  if(!org) org="New Lead - "+new Date().toLocaleString();
+
+  let contact="";
+  const cm=text.match(/(?:spoke with|talked to|met with|contact is|person is|called me|his name is|her name is)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/);
+  if(cm) contact=cm[1];
+
+  let role="";
+  const roles=["owner","manager","director","administrator","pastor","office manager","program director","recruiter","broker","estimator","coordinator"];
+  for(const r of roles){if(lower.includes(r)){role=r.replace(/\b\w/g,c=>c.toUpperCase());break}}
+
+  let nextFollow=todayISO();
+  if(lower.includes("tomorrow")){
+    const d=new Date(); d.setDate(d.getDate()+1); nextFollow=d.toISOString().slice(0,10);
+  } else if(lower.includes("thursday")||lower.includes("friday")||lower.includes("monday")||lower.includes("tuesday")||lower.includes("wednesday")){
+    nextFollow=todayISO();
+  }
+
+  let nextAction="Send follow-up and request 20-minute decision-maker conversation";
+  if(stage==="Meeting Booked") nextAction="Confirm meeting and prepare custom pitch";
+  if(activityType==="Inbound Call") nextAction="Respond quickly, confirm interest, and move toward paid first step";
+  if(stage==="Closed Won") nextAction="Send receipt, confirm scope, and schedule delivery";
+
+  const s=scripts[category]||scripts.Other;
+  const confidence = scoreConfidence({org,category,email,phone,contact,offer,value,stage});
+  return {org,category,priority: activityType==="Inbound Call"?"Hot":"Warm",address:"",phone,email,contact,role,website:"",stage,offer,value,lastContact:todayISO(),nextFollow,nextAction,research:s.pain,notes:text,activityType,confidence};
+}
+function cleanOrg(s){
+  return s.replace(/^(the |a |an )/i,"").replace(/\b(on|at|in|with|and then|where)\b.*$/i,"").trim();
+}
+function scoreConfidence(p){
+  let score=20;
+  if(p.org && !p.org.startsWith("New Lead")) score+=20;
+  if(p.category && p.category!=="Other") score+=15;
+  if(p.contact) score+=10;
+  if(p.email) score+=10;
+  if(p.phone) score+=10;
+  if(p.offer && p.offer!=="Not pitched yet") score+=10;
+  if(p.stage) score+=5;
+  return Math.min(score,100);
+}
+function renderParsedVoice(){
+  if(!parsedVoice)return;
+  const fields=[
+    ["Organization",parsedVoice.org],["Category",parsedVoice.category],["Priority",parsedVoice.priority],["Contact",parsedVoice.contact],
+    ["Role",parsedVoice.role],["Phone",parsedVoice.phone],["Email",parsedVoice.email],["Stage",parsedVoice.stage],
+    ["Offer",parsedVoice.offer],["Value",money(parsedVoice.value)],["Next Follow-Up",parsedVoice.nextFollow],["Next Action",parsedVoice.nextAction],
+    ["Activity Type",parsedVoice.activityType],["Confidence",parsedVoice.confidence+"%"]
+  ];
+  $("voiceParsed").innerHTML=fields.map(([k,v])=>`<div class="extract-item"><strong>${k}</strong><br>${v||"<span class='muted'>Not detected</span>"}${k==="Confidence"?`<div class="confidence"><span style="width:${parsedVoice.confidence}%"></span></div>`:""}</div>`).join("");
+}
+function saveParsedLead(){
+  if(!parsedVoice){alert("Parse a transcript first.");return}
+  let existing=leads.find(l=>l.org.toLowerCase()===parsedVoice.org.toLowerCase());
+  if(existing){
+    Object.assign(existing, {...parsedVoice, id:existing.id});
+    addActivity(existing.id, parsedVoice.activityType, parsedVoice.notes, parsedVoice.stage);
+  }else{
+    const id=crypto.randomUUID();
+    leads.push({...parsedVoice,id});
+    addActivity(id, parsedVoice.activityType, parsedVoice.notes, parsedVoice.stage);
+  }
+  save();render();alert("Voice note saved into CRM.");
+}
+function sendParsedToForm(){
+  if(!parsedVoice){alert("Parse a transcript first.");return}
+  const p=parsedVoice;
+  $("leadId").value="";
+  $("org").value=p.org;$("category").value=p.category;$("priority").value=p.priority;$("address").value=p.address;$("phone").value=p.phone;$("email").value=p.email;$("contact").value=p.contact;$("role").value=p.role;$("website").value=p.website;$("stage").value=p.stage;$("offer").value=p.offer;$("value").value=p.value;$("lastContact").value=p.lastContact;$("nextFollow").value=p.nextFollow;$("nextAction").value=p.nextAction;$("research").value=p.research;$("notes").value=p.notes;
+  document.querySelector('[data-tab="add"]').click();
+}
+function addActivity(leadId,type,note,resultStage){
+  activities.push({id:crypto.randomUUID(),leadId,type,note,resultStage,date:new Date().toISOString()});
+}
+function generateParsedFollowup(){
+  if(!parsedVoice){alert("Parse a transcript first.");return}
+  const p=parsedVoice,s=scripts[p.category]||scripts.Other;
+  let msg=`Thank you for taking time to speak with me today. My name is Leonard Lee with LeeWay AI Readiness & Automation Services.\n\n`;
+  msg+=`For ${p.org}, I see a practical opportunity to use AI around ${s.pain.toLowerCase()} while keeping your team fully in control.\n\n`;
+  msg+=`The easiest first step is ${p.offer}. `;
+  if(p.activityType==="Inbound Call"){
+    msg+=`Since you reached out, I would recommend we move quickly and schedule a short discovery conversation so I can identify the strongest first workflow to improve.\n\n`;
+  }else{
+    msg+=`Would tomorrow or Thursday work for a quick 20-minute conversation with the right decision-maker?\n\n`;
+  }
+  msg+=`Best,\nLeonard Lee\nLeeWay Industries | LeeWay Innovations\nPhone: 414-303-8580\nFax: 414-239-8531\nResume: https://4citeb4u.github.io/Leonard-Lee-Resume/`;
+  $("parsedFollowup").value=msg;
+}
+function copyParsedFollowup(){
+  $("parsedFollowup").select();document.execCommand("copy");alert("Copied.");
+}
+function renderActivities(){
+  const el=$("activityTimeline"); if(!el)return;
+  const rows=[...activities].sort((a,b)=>b.date.localeCompare(a.date)).map(a=>{
+    const l=leads.find(x=>x.id===a.leadId)||{};
+    const cls=a.type.includes("Inbound")?"inbound":a.type.includes("Walk")?"walkin":"outbound";
+    return `<div class="activity ${cls}"><strong>${l.org||"Unknown Lead"}</strong><div class="meta">${new Date(a.date).toLocaleString()} - ${a.type} - ${a.resultStage||""}</div><p>${a.note||""}</p></div>`;
+  }).join("");
+  el.innerHTML=rows||"<p>No activities logged yet.</p>";
+}
+const oldRender=render;render=function(){oldRender();renderActivities();renderScheduler()};setupVoice();
+init();
+</script>
+<script>
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# CONTRIBUTORS — MANDATORY GOLDEN AGENT LEE UI DIRECTIVE
+Date: 2026-10-09
+Owner instruction: The CURRENT APPROVED Agent Lee UI and its real phone-derived SVG icons are the GOLDEN UI for PC, Mac, laptop, Android phone, and tablet. Exact look, navigation, window sizing/movement, controls, and behavior are mandatory. Do not independently redesign or swap icons. Every Back arrow, Close, Exit or X control should be red in product UI, with platform-native verification where necessary.
+Canonical freeze: [AGENT-LEE-GOLDEN-UI-FROZEN-20261009.md](AGENT-LEE-GOLDEN-UI-FROZEN-20261009.md)
+Baseline source: installed-phone menu via agent_lee_sphere_transparent.html and leeway-menu-icons.js; three owner-screen assets leeway-three-reference-screens.css/js; PC popup and native window host as specified in freeze contract. Keep original ten menu routes and separate Authority/Evidence/About windows. Device-specific data must not be simulated.
+Contributor A1 PC: no edits to Android worktree. Contributor A2 Android: no overwrites of PC runtime. Other platform contributors: reuse the exact assets and contract rather than creating new layouts.
+Release gating: GOLDEN_UI_ASSET_HASHES + HUMAN_VISUAL_APPROVAL + REAL_DEVICE_BEHAVIOR + RESPONSES_AND_VOICE + VERITAS. As of writing only DESIGN/CONTRACT frozen; no cross-platform package PASS claimed. Every exception needs owner approval and documented change receipt.

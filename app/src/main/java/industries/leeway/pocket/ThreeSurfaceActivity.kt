@@ -1,0 +1,50 @@
+/* REGION: LEEWAY.UI; TAG: THREE_OWNER_FLOATING_SCREENS
+WHO: Android Agent Lee UI. WHAT: Reuse three approved layouts in separate native windows.
+WHERE: Android phone. WHY: Independent move, resize and close.
+HOW: Existing OwnerSurfaceWindow; owner-scoped read-only bridge. LICENSE: MIT */
+package industries.leeway.pocket
+import android.app.Activity
+import android.os.Bundle
+import android.content.Intent
+import android.graphics.Color
+import android.webkit.JavascriptInterface
+import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
+import android.webkit.WebViewClient
+import android.webkit.WebView
+import android.view.ViewGroup
+import android.widget.FrameLayout
+
+class ThreeSurfaceActivity:Activity(){
+  private var web:WebView?=null
+  override fun onCreate(state:Bundle?){
+    super.onCreate(state)
+    val key=intent.getStringExtra("surface")?.takeIf{it in setOf("about","evidence","authority")}?:run{finish();return}
+    val frame=FrameLayout(this)
+    val page=WebView(this).apply{
+      setBackgroundColor(Color.TRANSPARENT)
+      settings.javaScriptEnabled=true
+      settings.domStorageEnabled=false
+      settings.allowFileAccess=false
+            settings.allowContentAccess=false
+            settings.allowFileAccessFromFileURLs=false
+            settings.allowUniversalAccessFromFileURLs=false
+            settings.mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW
+      webViewClient=object:WebViewClient(){override fun shouldOverrideUrlLoading(view:WebView,request:WebResourceRequest):Boolean{return !(request.url.scheme=="file" && request.url.path=="/android_asset/leeway-three-host.html" && request.url.getQueryParameter("surface") in setOf("about","evidence","authority"))}}
+            addJavascriptInterface(OwnerBridge(),"LeeWayAndroid")
+      loadUrl("file:///android_asset/leeway-three-host.html?surface="+key)
+    }
+    web=page
+    frame.addView(page,FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
+    setContentView(frame)
+    OwnerSurfaceWindow.attach(this,when(key){"about"->"About LeeWay";"evidence"->"Evidence & Receipts";else->"Authority & Permissions"})
+    window.setBackgroundDrawableResource(android.R.color.transparent)
+  }
+  override fun onDestroy(){web?.removeJavascriptInterface("LeeWayAndroid");web?.destroy();web=null;super.onDestroy()}
+  private inner class OwnerBridge{
+    @JavascriptInterface fun closeSurface(){runOnUiThread{finish()}}
+    @JavascriptInterface fun evidenceSummary():String=OwnerRecordsMenu.evidence(this@ThreeSurfaceActivity)
+    @JavascriptInterface fun authoritySummary():String=OwnerRecordsMenu.authority(this@ThreeSurfaceActivity)
+    @JavascriptInterface fun openPermissionSettings(){runOnUiThread{startActivity(Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,android.net.Uri.parse("package:"+packageName)))}}
+  }
+}

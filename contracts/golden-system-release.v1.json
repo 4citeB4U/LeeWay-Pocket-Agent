@@ -1,4 +1,4 @@
-{
+﻿{
     "schemaVersion":  "leeway.golden-system-release.v1",
     "owner":  "4citeB4U/LeeWay-Pocket-Agent",
     "kind":  "RELEASE_REQUIREMENTS_NOT_EXECUTION_PROOF",
@@ -90,8 +90,11 @@
                                          "no-cross-device-allocation-state"
                                      ],
                            "workstation":  [
+                                               "embedded-vt-hash-bound-in-distribution",
+                                               "workstation-launch-opens-agent-vt",
                                                "embedded-vt-real-work",
                                                "sandbox-and-notepad-persistence",
+                                               "assignment-work-visible-from-runtime-truth",
                                                "promotion-and-rollback"
                                            ],
                            "devices-commander":  [
@@ -130,7 +133,8 @@
                                                 "path-relocation-and-device-binding",
                                                 "complete-payload-compression-roundtrip",
                                                 "fresh-install-upgrade-recovery-reboot",
-                                                "complete-dependency-bill-of-materials"
+                                                "complete-dependency-bill-of-materials",
+                                                "agent-vt-and-digital-brain-bootstrap-contained"
                                             ]
                        },
     "claimBoundaries":  {
