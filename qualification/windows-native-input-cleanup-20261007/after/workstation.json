@@ -1,0 +1,401 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "FAILED",
+  "action": "workstation",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791365315.719789,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 38328,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": true,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1366,
+      "y": 276,
+      "width": 760,
+      "height": 800,
+      "screenAreaRatio": 0.05695443645083933
+    },
+    "ownPage": {
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 64.33333396911621,
+        "height": 44,
+        "left": -78,
+        "right": -34,
+        "top": 20.33333396911621,
+        "width": 44,
+        "x": -78,
+        "y": 20.33333396911621
+      },
+      "controls": {
+        "about": {
+          "bottom": 1086.9375228881836,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 992.0104370117188,
+          "width": 298,
+          "x": -332,
+          "y": 992.0104370117188
+        },
+        "authority": {
+          "bottom": 877.0833358764648,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 782.15625,
+          "width": 298,
+          "x": -332,
+          "y": 782.15625
+        },
+        "continuum": {
+          "bottom": 267.02083587646484,
+          "height": 75.42708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 191.59375,
+          "width": 298,
+          "x": -332,
+          "y": 191.59375
+        },
+        "diagnostics": {
+          "bottom": 371.9479293823242,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 277.0208435058594,
+          "width": 298,
+          "x": -332,
+          "y": 277.0208435058594
+        },
+        "digital-brain": {
+          "bottom": 181.59375762939453,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 86.66667175292969,
+          "width": 298,
+          "x": -332,
+          "y": 86.66667175292969
+        },
+        "evidence": {
+          "bottom": 982.0104598999023,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 887.0833740234375,
+          "width": 298,
+          "x": -332,
+          "y": 887.0833740234375
+        },
+        "models": {
+          "bottom": 686.7292098999023,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 591.8021240234375,
+          "width": 298,
+          "x": -332,
+          "y": 591.8021240234375
+        },
+        "skills": {
+          "bottom": 772.1562728881836,
+          "height": 75.42708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 696.7291870117188,
+          "width": 298,
+          "x": -332,
+          "y": 696.7291870117188
+        },
+        "voice": {
+          "bottom": 476.8750228881836,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 381.94793701171875,
+          "width": 298,
+          "x": -332,
+          "y": 381.94793701171875
+        },
+        "workstation": {
+          "bottom": 581.8020858764648,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 486.875,
+          "width": 298,
+          "x": -332,
+          "y": 486.875
+        }
+      },
+      "hamburger": {
+        "bottom": 50,
+        "height": 40,
+        "left": 10,
+        "right": 50,
+        "top": 10,
+        "width": 40,
+        "x": 10,
+        "y": 10
+      },
+      "interaction": {
+        "cancelled": 4,
+        "dragStarts": 1,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "menu": false,
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 800,
+        "width": 760
+      },
+      "workstation": {
+        "bottom": 581.8020858764648,
+        "height": 94.92708587646484,
+        "left": -332,
+        "right": -34,
+        "top": 486.875,
+        "width": 298,
+        "x": -332,
+        "y": 486.875
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.0004601478576660156,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "c8e711e13d06f30306d97ef15dfdd826d39d2bd3624ffaab3687b9698c24e3a5"
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791365315.719789,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 38328,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": true,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1366,
+      "y": 276,
+      "width": 760,
+      "height": 800,
+      "screenAreaRatio": 0.05695443645083933
+    },
+    "ownPage": {
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 64.33333396911621,
+        "height": 44,
+        "left": -78,
+        "right": -34,
+        "top": 20.33333396911621,
+        "width": 44,
+        "x": -78,
+        "y": 20.33333396911621
+      },
+      "controls": {
+        "about": {
+          "bottom": 1086.9375228881836,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 992.0104370117188,
+          "width": 298,
+          "x": -332,
+          "y": 992.0104370117188
+        },
+        "authority": {
+          "bottom": 877.0833358764648,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 782.15625,
+          "width": 298,
+          "x": -332,
+          "y": 782.15625
+        },
+        "continuum": {
+          "bottom": 267.02083587646484,
+          "height": 75.42708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 191.59375,
+          "width": 298,
+          "x": -332,
+          "y": 191.59375
+        },
+        "diagnostics": {
+          "bottom": 371.9479293823242,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 277.0208435058594,
+          "width": 298,
+          "x": -332,
+          "y": 277.0208435058594
+        },
+        "digital-brain": {
+          "bottom": 181.59375762939453,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 86.66667175292969,
+          "width": 298,
+          "x": -332,
+          "y": 86.66667175292969
+        },
+        "evidence": {
+          "bottom": 982.0104598999023,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 887.0833740234375,
+          "width": 298,
+          "x": -332,
+          "y": 887.0833740234375
+        },
+        "models": {
+          "bottom": 686.7292098999023,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 591.8021240234375,
+          "width": 298,
+          "x": -332,
+          "y": 591.8021240234375
+        },
+        "skills": {
+          "bottom": 772.1562728881836,
+          "height": 75.42708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 696.7291870117188,
+          "width": 298,
+          "x": -332,
+          "y": 696.7291870117188
+        },
+        "voice": {
+          "bottom": 476.8750228881836,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 381.94793701171875,
+          "width": 298,
+          "x": -332,
+          "y": 381.94793701171875
+        },
+        "workstation": {
+          "bottom": 581.8020858764648,
+          "height": 94.92708587646484,
+          "left": -332,
+          "right": -34,
+          "top": 486.875,
+          "width": 298,
+          "x": -332,
+          "y": 486.875
+        }
+      },
+      "hamburger": {
+        "bottom": 50,
+        "height": 40,
+        "left": 10,
+        "right": 50,
+        "top": 10,
+        "width": 40,
+        "x": 10,
+        "y": 10
+      },
+      "interaction": {
+        "cancelled": 4,
+        "dragStarts": 1,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "menu": false,
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 800,
+        "width": 760
+      },
+      "workstation": {
+        "bottom": 581.8020858764648,
+        "height": 94.92708587646484,
+        "left": -332,
+        "right": -34,
+        "top": 486.875,
+        "width": 298,
+        "x": -332,
+        "y": 486.875
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.0004601478576660156,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "c8e711e13d06f30306d97ef15dfdd826d39d2bd3624ffaab3687b9698c24e3a5"
+  },
+  "rectBefore": {
+    "left": 1366,
+    "top": 276,
+    "right": 2126,
+    "bottom": 1076
+  },
+  "rectAfter": {
+    "left": 1366,
+    "top": 276,
+    "right": 2126,
+    "bottom": 1076
+  },
+  "checks": [],
+  "error": "CONTROL_OFFSCREEN",
+  "fixtureInput": false,
+  "phoneTested": false
+}

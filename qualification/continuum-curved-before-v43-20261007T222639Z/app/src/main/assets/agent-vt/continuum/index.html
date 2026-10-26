@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- REGION: LEEWAY.CONTINUUM.UI
+TAG: LEEWAY.CONTINUUM.UI.INSPECTOR
+WHAT: Owner-facing Continuum inspection surface using the supplied honeycomb sphere.
+WHY: Let the owner inspect the same persisted records used by Agent Lee retrieval.
+WHO: Leeway Industries / Creator-authorized Agent Lee.
+WHERE: Existing workstation and Pocket package Continuum surface.
+WHEN: 2026-10-07. HOW: Same-origin capability adapter and source-derived Canvas renderer.
+AGENTS: ASSESS EXECUTE VERIFY. LICENSE: MIT -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="continuum-api" content="/api/continuum">
+  <title>Continuum · LeeWay</title>
+  <link rel="stylesheet" href="./continuum.css">
+</head>
+<body>
+  <header class="topbar">
+    <button id="return-agent" class="subtle" aria-label="Return to Agent Lee">← Agent Lee</button>
+    <div class="wordmark"><span class="brand-mark" aria-hidden="true">⬡</span><div>CONTINUUM<small>LEEWAY · YOUR INFORMATION WORLD</small></div></div>
+    <div id="connection" class="connection" role="status"><i></i><span>Connecting…</span></div>
+  </header>
+  <main id="workspace">
+    <section class="sphere-stage" aria-label="Continuum universe sphere">
+      <canvas id="sphere" aria-label="Drag to rotate the honeycomb sphere. Use the universe buttons to navigate with a keyboard."></canvas>
+      <div class="sphere-caption"><strong id="sphere-heading">One place to see what you know.</strong><span>Drag to explore · Select a honeycomb to open</span></div>
+      <button id="motion" class="subtle motion" aria-pressed="false">Pause rotation</button>
+    </section>
+    <aside class="glass-panel" aria-label="Continuum navigation and records">
+      <nav class="breadcrumbs" aria-label="Location"><button id="home">Continuum</button><span id="crumb-current"></span></nav>
+      <div class="panel-heading"><div><p class="eyebrow" id="eyebrow">YOUR CONTINUUM</p><h1 id="heading">Explore your information</h1></div><span id="domain-mark" aria-hidden="true">⬡</span></div>
+      <p id="scope-description" class="supporting">Collections and records come from your connected, owner-scoped data providers.</p>
+      <div class="counts"><div><strong id="record-count">—</strong><span>available records</span></div><div><strong id="body-name">—</strong><span>device body</span></div></div>
+      <div id="gate" class="notice" role="status" hidden></div>
+      <form id="search-form" class="search"><input id="search" type="search" placeholder="Find in Continuum…" aria-label="Search stored records" maxlength="160"><button type="submit" aria-label="Search">⌕</button></form>
+      <div class="toolbar"><button id="back" class="subtle" disabled>← Back</button><button id="all-records" class="subtle">All records</button><button id="view-mode" class="subtle" aria-pressed="false">List view</button><button id="refresh" class="subtle">Refresh</button><button id="add" disabled>Add file</button></div>
+      <input id="file-input" type="file" hidden>
+      <div id="message" class="message" aria-live="polite"></div>
+      <section id="universes" class="universes" aria-label="Universes"></section>
+      <section id="records-region" hidden><div class="list-heading"><span id="list-caption">Records</span><span id="result-count"></span></div><div id="records" class="record-list"></div><button id="load-more" class="wide subtle" hidden>Load more</button></section>
+      <footer class="panel-footer"><span id="retrieval-mode">Source-linked retrieval</span><span>Owner controlled</span></footer>
+    </aside>
+    <section id="inspector" class="inspector glass-panel" aria-label="Record inspector" hidden>
+      <button id="close-record" class="subtle">← Back to records</button>
+      <p class="eyebrow" id="record-kind">RECORD</p><h2 id="record-title"></h2><p id="record-state" class="supporting"></p>
+      <dl id="record-metadata"></dl>
+      <div class="toolbar"><button id="preview-record">Read stored content</button><button id="download-record" class="subtle">Download</button><button id="receipt-record" class="subtle" disabled>Storage receipt</button></div>
+      <pre id="record-content" tabindex="0" hidden></pre>
+      <pre id="record-receipt" aria-label="Storage and preflight receipt" tabindex="0" hidden></pre>
+      <p id="content-note" class="supporting"></p>
+    </section>
+  </main>
+  <noscript>This interface needs JavaScript. No database operation has been performed.</noscript>
+  <script type="module" src="./continuum-app.mjs"></script>
+</body>
+</html>

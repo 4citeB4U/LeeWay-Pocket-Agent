@@ -1,0 +1,20 @@
+{
+  "state": "SOURCE_APPLIED_BUILD_REQUIRED",
+  "sourceBase": "64cf4be8daf85284d6a81bb38fb40534c1072597",
+  "files": [
+    "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt",
+    "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+    "app/src/main/java/industries/leeway/pocket/PocketVoiceHost.kt",
+    "app/build.gradle.kts",
+    "scripts/Observe-PhoneUi.py"
+  ],
+  "voiceAuthorityChanged": false,
+  "dataCleared": false,
+  "hashes": {
+    "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt": "0ae5fe4217524d34cb6d066e91cc1714fadebf6b633d441df43a3e518c61207f",
+    "app/src/main/java/industries/leeway/pocket/MainActivity.kt": "0c9080e6fc88155decbc87e31e7c4768706189e59fc38aa00eaea86f5211452a",
+    "app/src/main/java/industries/leeway/pocket/PocketVoiceHost.kt": "56b8d44c79a8be075791f122f9eddcc8490e6b3233e7320b4bea6c21116f2276",
+    "app/build.gradle.kts": "67508a624bda599073fbe4deee96d3238500181495b44ff517a0efb4c71be6b3",
+    "scripts/Observe-PhoneUi.py": "6fbe1c9463a5b3d724699f6b81eca0213a5b17dd4b69dfa24fd97f335d090a7e"
+  }
+}

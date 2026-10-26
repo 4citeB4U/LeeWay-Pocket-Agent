@@ -1,0 +1,22 @@
+﻿[
+    {
+        "file":  "app\\src\\main\\java\\industries\\leeway\\pocket\\PocketVoiceHost.kt",
+        "sha256":  "FFA0192D1D49524022CF178F0B3B2B791F7A0E8369761F1A6D188C5AB47C467A"
+    },
+    {
+        "file":  "app\\src\\main\\java\\industries\\leeway\\pocket\\UnifiedAgentLeeRuntime.kt",
+        "sha256":  "9FF058E18F87C8C18CC791A608E3AC6555B3F1781DB26EDB91AED8FA3A541A48"
+    },
+    {
+        "file":  "app\\src\\main\\java\\industries\\leeway\\pocket\\PocketVoiceActivity.kt",
+        "sha256":  "B64263299820BDD57729502F38EA5CC977C07DD1BA46C956C04635CC12367E73"
+    },
+    {
+        "file":  "app\\src\\main\\res\\values\\styles.xml",
+        "sha256":  "059F42D6C6504B715043F96835E4631CE788D724B567AA9B96F02EC01498BADB"
+    },
+    {
+        "file":  "Verify-SingleApk.ps1",
+        "sha256":  "1FDAF680E3BEB7E173D2DC5A18B251AAE75E0DA88F6C64ED34DFC1F21E248E1E"
+    }
+]

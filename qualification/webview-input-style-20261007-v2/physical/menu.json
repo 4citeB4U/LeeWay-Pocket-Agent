@@ -1,0 +1,571 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "FAILED",
+  "action": "menu",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791387871.7083488,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 40760,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 2128,
+      "y": 754,
+      "width": 276,
+      "height": 276,
+      "coordinateSpace": "PHYSICAL_DESKTOP_PIXELS",
+      "screenAreaRatio": 0.007135791366906475
+    },
+    "nativeComposition": {
+      "Agent Lee - Floating": {
+        "state": "NATIVE_COMPOSITION_APPLIED",
+        "surfaceTitle": "Agent Lee - Floating",
+        "windowUid": "master",
+        "observedAt": 1791387839.7068624,
+        "stage": "READBACK",
+        "scope": "NATIVE_CONFIGURATION_READBACK_NOT_DESKTOP_ALPHA_PROOF",
+        "compositionMethod": "DWM_EXTENDED_FRAME",
+        "dwmHresult": 0,
+        "inputStyleReadback": [
+          {
+            "hwnd": 4458538,
+            "class": "WindowsForms10.Window.8.app.0.aec740_r21_ad1",
+            "before": "0x0",
+            "after": "0x0"
+          },
+          {
+            "hwnd": 17173594,
+            "class": "Chrome_WidgetWin_0",
+            "before": "0x0",
+            "after": "0x0"
+          },
+          {
+            "hwnd": 6622122,
+            "class": "Chrome_WidgetWin_1",
+            "before": "0x200000",
+            "after": "0x200000"
+          },
+          {
+            "hwnd": 12979414,
+            "class": "Chrome_RenderWidgetHostHWND",
+            "before": "0x0",
+            "after": "0x0"
+          },
+          {
+            "hwnd": 16843062,
+            "class": "Intermediate D3D Window",
+            "before": "0x280004",
+            "after": "0x280004"
+          }
+        ],
+        "inputTransparentChildrenCleared": [],
+        "nativeHandle": 4918630,
+        "formBorderStyle": "None",
+        "formBackgroundArgb": -16777216,
+        "formBackgroundAlpha": 255,
+        "webViewDefaultBackgroundArgb": 16777215,
+        "webViewDefaultBackgroundAlpha": 0,
+        "webViewControlBackgroundArgb": -16777216,
+        "webViewControlBackgroundAlpha": 255,
+        "topmost": true,
+        "windowVisible": true
+      }
+    },
+    "nativeSurfaces": {},
+    "ownPage": {
+      "apiMethods": [
+        "geometry",
+        "listen",
+        "open_surface",
+        "open_voice_studio",
+        "open_workstation"
+      ],
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 105,
+        "height": 44,
+        "left": -72.32292175292969,
+        "right": -28.322921752929688,
+        "top": 61,
+        "width": 44,
+        "x": -72.32292175292969,
+        "y": 61
+      },
+      "controls": {
+        "about": {
+          "bottom": 2203.2083435058594,
+          "height": 214.02084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1989.1875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1989.1875
+        },
+        "authority": {
+          "bottom": 1753.0729675292969,
+          "height": 196.61459350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1556.4583740234375,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1556.4583740234375
+        },
+        "continuum": {
+          "bottom": 506.44793701171875,
+          "height": 133.92709350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 372.5208435058594,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 372.5208435058594
+        },
+        "diagnostics": {
+          "bottom": 669.8750305175781,
+          "height": 153.42709350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 516.4479370117188,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 516.4479370117188
+        },
+        "digital-brain": {
+          "bottom": 362.5208435058594,
+          "height": 194.52084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 168,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 168
+        },
+        "evidence": {
+          "bottom": 1979.1875915527344,
+          "height": 216.11459350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1763.072998046875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1763.072998046875
+        },
+        "models": {
+          "bottom": 1380.9375915527344,
+          "height": 235.61459350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1145.322998046875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1145.322998046875
+        },
+        "skills": {
+          "bottom": 1546.4583435058594,
+          "height": 155.52084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1390.9375,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1390.9375
+        },
+        "voice": {
+          "bottom": 891.8020935058594,
+          "height": 211.92709350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 679.875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 679.875
+        },
+        "workstation": {
+          "bottom": 1135.3229675292969,
+          "height": 233.52084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 901.8021240234375,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 901.8021240234375
+        }
+      },
+      "hamburger": {
+        "bottom": 64,
+        "height": 64,
+        "left": 0,
+        "right": 64,
+        "top": 0,
+        "width": 64,
+        "x": 0,
+        "y": 0
+      },
+      "interaction": {
+        "cancelled": 0,
+        "dragStarts": 0,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "lastClick": null,
+      "lastPointer": null,
+      "lastSurface": null,
+      "menu": false,
+      "screenMetrics": {
+        "devicePixelRatio": 1.5,
+        "innerHeight": 184,
+        "innerWidth": 184,
+        "outerHeight": 185,
+        "outerWidth": 185,
+        "screenX": 1419,
+        "screenY": 503
+      },
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 184,
+        "width": 184
+      },
+      "workstation": {
+        "bottom": 1135.3229675292969,
+        "height": 233.52084350585938,
+        "left": -138.39584350585938,
+        "right": -34.00000762939453,
+        "top": 901.8021240234375,
+        "width": 104.39583587646484,
+        "x": -138.39584350585938,
+        "y": 901.8021240234375
+      },
+      "workstationHit": {
+        "id": null,
+        "setting": null,
+        "text": null
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.0005750656127929688,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "a55b37639e7b2330780f03b7b575351de5530fc4f21232fbc94b3bf8f3c703f5"
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791387875.2509916,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 40760,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 2128,
+      "y": 754,
+      "width": 276,
+      "height": 276,
+      "coordinateSpace": "PHYSICAL_DESKTOP_PIXELS",
+      "screenAreaRatio": 0.007135791366906475
+    },
+    "nativeComposition": {
+      "Agent Lee - Floating": {
+        "state": "NATIVE_COMPOSITION_APPLIED",
+        "surfaceTitle": "Agent Lee - Floating",
+        "windowUid": "master",
+        "observedAt": 1791387839.7068624,
+        "stage": "READBACK",
+        "scope": "NATIVE_CONFIGURATION_READBACK_NOT_DESKTOP_ALPHA_PROOF",
+        "compositionMethod": "DWM_EXTENDED_FRAME",
+        "dwmHresult": 0,
+        "inputStyleReadback": [
+          {
+            "hwnd": 4458538,
+            "class": "WindowsForms10.Window.8.app.0.aec740_r21_ad1",
+            "before": "0x0",
+            "after": "0x0"
+          },
+          {
+            "hwnd": 17173594,
+            "class": "Chrome_WidgetWin_0",
+            "before": "0x0",
+            "after": "0x0"
+          },
+          {
+            "hwnd": 6622122,
+            "class": "Chrome_WidgetWin_1",
+            "before": "0x200000",
+            "after": "0x200000"
+          },
+          {
+            "hwnd": 12979414,
+            "class": "Chrome_RenderWidgetHostHWND",
+            "before": "0x0",
+            "after": "0x0"
+          },
+          {
+            "hwnd": 16843062,
+            "class": "Intermediate D3D Window",
+            "before": "0x280004",
+            "after": "0x280004"
+          }
+        ],
+        "inputTransparentChildrenCleared": [],
+        "nativeHandle": 4918630,
+        "formBorderStyle": "None",
+        "formBackgroundArgb": -16777216,
+        "formBackgroundAlpha": 255,
+        "webViewDefaultBackgroundArgb": 16777215,
+        "webViewDefaultBackgroundAlpha": 0,
+        "webViewControlBackgroundArgb": -16777216,
+        "webViewControlBackgroundAlpha": 255,
+        "topmost": true,
+        "windowVisible": true
+      }
+    },
+    "nativeSurfaces": {},
+    "ownPage": {
+      "apiMethods": [
+        "geometry",
+        "listen",
+        "open_surface",
+        "open_voice_studio",
+        "open_workstation"
+      ],
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 105,
+        "height": 44,
+        "left": -72.32292175292969,
+        "right": -28.322921752929688,
+        "top": 61,
+        "width": 44,
+        "x": -72.32292175292969,
+        "y": 61
+      },
+      "controls": {
+        "about": {
+          "bottom": 2203.2083435058594,
+          "height": 214.02084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1989.1875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1989.1875
+        },
+        "authority": {
+          "bottom": 1753.0729675292969,
+          "height": 196.61459350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1556.4583740234375,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1556.4583740234375
+        },
+        "continuum": {
+          "bottom": 506.44793701171875,
+          "height": 133.92709350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 372.5208435058594,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 372.5208435058594
+        },
+        "diagnostics": {
+          "bottom": 669.8750305175781,
+          "height": 153.42709350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 516.4479370117188,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 516.4479370117188
+        },
+        "digital-brain": {
+          "bottom": 362.5208435058594,
+          "height": 194.52084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 168,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 168
+        },
+        "evidence": {
+          "bottom": 1979.1875915527344,
+          "height": 216.11459350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1763.072998046875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1763.072998046875
+        },
+        "models": {
+          "bottom": 1380.9375915527344,
+          "height": 235.61459350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1145.322998046875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1145.322998046875
+        },
+        "skills": {
+          "bottom": 1546.4583435058594,
+          "height": 155.52084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 1390.9375,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 1390.9375
+        },
+        "voice": {
+          "bottom": 891.8020935058594,
+          "height": 211.92709350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 679.875,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 679.875
+        },
+        "workstation": {
+          "bottom": 1135.3229675292969,
+          "height": 233.52084350585938,
+          "left": -138.39584350585938,
+          "right": -34.00000762939453,
+          "top": 901.8021240234375,
+          "width": 104.39583587646484,
+          "x": -138.39584350585938,
+          "y": 901.8021240234375
+        }
+      },
+      "hamburger": {
+        "bottom": 64,
+        "height": 64,
+        "left": 0,
+        "right": 64,
+        "top": 0,
+        "width": 64,
+        "x": 0,
+        "y": 0
+      },
+      "interaction": {
+        "cancelled": 0,
+        "dragStarts": 0,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "lastClick": null,
+      "lastPointer": null,
+      "lastSurface": null,
+      "menu": false,
+      "screenMetrics": {
+        "devicePixelRatio": 1.5,
+        "innerHeight": 184,
+        "innerWidth": 184,
+        "outerHeight": 185,
+        "outerWidth": 185,
+        "screenX": 1419,
+        "screenY": 503
+      },
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 184,
+        "width": 184
+      },
+      "workstation": {
+        "bottom": 1135.3229675292969,
+        "height": 233.52084350585938,
+        "left": -138.39584350585938,
+        "right": -34.00000762939453,
+        "top": 901.8021240234375,
+        "width": 104.39583587646484,
+        "x": -138.39584350585938,
+        "y": 901.8021240234375
+      },
+      "workstationHit": {
+        "id": null,
+        "setting": null,
+        "text": null
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.0005993843078613281,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "2318a36d4e7524ddcdbf76f23ea2d27b05775781f59dc31584a5845258e848e7"
+  },
+  "rectBefore": {
+    "left": 2128,
+    "top": 754,
+    "right": 2404,
+    "bottom": 1030
+  },
+  "rectAfter": {
+    "left": 2128,
+    "top": 754,
+    "right": 2404,
+    "bottom": 1030
+  },
+  "checks": [
+    {
+      "action": "menu",
+      "actualOsClick": [
+        2176,
+        802
+      ]
+    }
+  ],
+  "error": "MENU_DID_NOT_OPEN",
+  "fixtureInput": false,
+  "phoneTested": false
+}

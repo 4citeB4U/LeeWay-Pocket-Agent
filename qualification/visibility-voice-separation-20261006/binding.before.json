@@ -1,0 +1,38 @@
+﻿{
+    "workspaceRoot":  "E:\\LeeWay-Work",
+    "sourcePath":  "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\server.mjs",
+    "schemaVersion":  "leeway.commander.binding.v1",
+    "policyPath":  "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\command-policy.mjs",
+    "sourceCommit":  "4087dae37e81db0629033a0256b232dd9c0914d1",
+    "admissionScope":  "PINNED_OWNER_CANDIDATE_EXISTING_LOOPBACK_BINDING",
+    "owner":  "4citeB4U/LEEWAY-DEVICE-BRIDGE",
+    "port":  8891,
+    "provider":  "LEEWAY_NATIVE_HOST_COMMANDER",
+    "bodyId":  "pc-primary",
+    "remoteExposure":  false,
+    "sourceSha256":  "A4CCEE4B1D7C6894075DD279431C96968C9E03FECD086F51D80B3D77D4AB46C0",
+    "policySha256":  "091B09323077F09B3168F2D9401D632542313CE0B8BE04D218C5FA69FB0C6649",
+    "brainManifest":  "E:\\LeeWay-Work\\Digital-Brains\\pc-primary\\body.v1.json",
+    "agentUiUri":  "http://127.0.0.1:8890/ui",
+    "nativeAgentUi":  {
+                          "provider":  "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+                          "source":  "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\agent-ui-host.py",
+                          "sha256":  "6AC86E8F3E43B08B8808E49A2536BD6E66060BC2F27A196971D7633B1EDB6282",
+                          "ownership":  "DEVICE_LOCAL_OBSERVED_BINDING",
+                          "mode":  "TRANSPARENT_FRAMELESS_TOPMOST",
+                          "speechAssembly":  {
+                                                 "path":  "C:\\Windows\\Microsoft.Net\\assembly\\GAC_MSIL\\System.Speech\\v4.0_4.0.0.0__31bf3856ad364e35\\System.Speech.dll",
+                                                 "sha256":  "59aa7929fc874d5b124cf86995c0c66d27e4c9b0340c43645cd897c3162ba8cb",
+                                                 "role":  "INPUT_RECOGNITION_NOT_VOICE_SELECTION"
+                                             },
+                          "agentVt":  {
+                                          "url":  "http://127.0.0.1:4173/agent-vt-embedded/standalone.html",
+                                          "sha256":  "320f3e09d7206ea8dd58c3cebbe4f39f58e20efccc5a699918ecdd0a8bd25b1c",
+                                          "repository":  "4citeB4U/LeeWay-Digital-Workforce",
+                                          "sourceCommit":  "d6e87cdaea90d44b13a0e4edf16867f594e4d6d7",
+                                          "sourceState":  "UNCOMMITTED_TEST_CANDIDATE",
+                                          "nativeBridge":  false,
+                                          "scope":  "EXACT_EMBEDDED_VT_SURFACE_NOT_EXECUTION_GATE"
+                                      }
+                      }
+}

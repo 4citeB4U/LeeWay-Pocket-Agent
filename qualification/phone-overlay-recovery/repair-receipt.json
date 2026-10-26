@@ -1,0 +1,62 @@
+﻿{
+    "schemaVersion":  "leeway.overlay-recovery-repair.v1",
+    "status":  "SOURCE_APPLIED_QUALIFICATION_REQUIRED",
+    "sourceBase":  "a9374787e2a2348886b34adc988e4a7fbf2857c6",
+    "before":  [
+                   {
+                       "sha256":  "0621E80883F19642608656252E0565DC2100732005ACC559E28A1A8C4B31320E",
+                       "path":  "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt"
+                   },
+                   {
+                       "sha256":  "E11D6A78CD59AD7A8043EFF823A36C2628E511ED2A1EE24CDB9E46F29D4417D8",
+                       "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt"
+                   },
+                   {
+                       "sha256":  "9EDE0A43220A18C1D7DD39464146CDEC24E4A9C198A6DDC17EE38A7C147A57A1",
+                       "path":  "app/src/main/assets/agent_lee_sphere_transparent.html"
+                   },
+                   {
+                       "sha256":  "648D65A07950824F0A8589F7C0AE8CED785314065F892761A6D50CB1BB64AF41",
+                       "path":  "app/build.gradle.kts"
+                   }
+               ],
+    "changedPaths":  [
+                         "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt",
+                         "app/src/main/java/industries/leeway/pocket/OverlayPlacement.kt",
+                         "app/src/test/java/industries/leeway/pocket/OverlayPlacementTest.kt",
+                         "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+                         "app/src/main/assets/agent_lee_sphere_transparent.html",
+                         "app/build.gradle.kts"
+                     ],
+    "newService":  false,
+    "voiceCodeChanged":  false,
+    "permissionBypass":  false,
+    "phoneInstalled":  false,
+    "formulaExecuted":  false,
+    "after":  [
+                  {
+                      "sha256":  "9E6F5D925212F10C8966BE549A8DEBBCD4CE547E5A059BB7478DD458BE1739E2",
+                      "path":  "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt"
+                  },
+                  {
+                      "sha256":  "55A50745988AB079C232432779EC6C97D37196C4FE103608263F94E2A2B4C3F8",
+                      "path":  "app/src/main/java/industries/leeway/pocket/OverlayPlacement.kt"
+                  },
+                  {
+                      "sha256":  "06058A827DCC8C6651162D4549DF4F6A19B9A33FF85C1F58F3427DC2C5FE7340",
+                      "path":  "app/src/test/java/industries/leeway/pocket/OverlayPlacementTest.kt"
+                  },
+                  {
+                      "sha256":  "7A49F63A9D558E2796E9BA4397C7510CEC890BDB3D657B854232F641EB6AAE70",
+                      "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt"
+                  },
+                  {
+                      "sha256":  "F46447BA2E5C13812BA2698192402C85F5E47AF5F1949D8CB3B44F8B4FC3B5E0",
+                      "path":  "app/src/main/assets/agent_lee_sphere_transparent.html"
+                  },
+                  {
+                      "sha256":  "6261D7C147EB7FA0B3990A0A5B14F99946430A64C12D07B9B5D3D7F05DDCCC1F",
+                      "path":  "app/build.gradle.kts"
+                  }
+              ]
+}

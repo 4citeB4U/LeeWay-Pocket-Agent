@@ -1,0 +1,887 @@
+﻿[
+    {
+        "path":  "app/build.gradle.kts",
+        "sha256":  "309833B607563C46F11CDB558173D0EC05DDA61F79C5335D4DCEDA537FEFE1D8",
+        "bytes":  996
+    },
+    {
+        "path":  "app/src/main/AndroidManifest.xml",
+        "sha256":  "36A15BFAB4F6FC5C02E33E1C277E7A7F4912FECBF68C40B88395C078AAA6CE26",
+        "bytes":  3454
+    },
+    {
+        "path":  "app/src/main/assets/agent_lee_sphere_transparent.html",
+        "sha256":  "3C7F24287CE5400EBFF77ED839F31C44F014F5DD9FC82C4C35EAA9B80B30F452",
+        "bytes":  54143
+    },
+    {
+        "path":  "app/src/main/assets/agent-lee-emblem.png",
+        "sha256":  "31CB7CFB845524A19202ED49E42B0FEC71D8BCC4A5462E52469E98A3CCA6B3FA",
+        "bytes":  562113
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/continuum.css",
+        "sha256":  "C33882C6C8E149613F68468F7B8AAFFB89197EE7D6D9389EFD8350C4A4F5B592",
+        "bytes":  30598
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/continuum-app.mjs",
+        "sha256":  "F0115C01FD2BD961DBABB963CE5808725BC55E42B1FCB15A840621FA2EC79878",
+        "bytes":  29659
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/continuum-depth.mjs",
+        "sha256":  "9E26F051ADC708421755483B90C1E643D65ED459927E5E1339308398620057AB",
+        "bytes":  6873
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/continuum-media.mjs",
+        "sha256":  "4180A36390541C65075C24575C29C56353B88768D4A663F2D80995FD60DFD4FB",
+        "bytes":  7991
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/continuum-sphere.mjs",
+        "sha256":  "17E3A28845A857E70AC2D6BEA68786F885F78CED143D3B8F553EABDBEF21CB4D",
+        "bytes":  36083
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/index.html",
+        "sha256":  "9CD12824D6841D9F182CE626B86D8A7F9854C0F8165B0A10D2A8995432644E97",
+        "bytes":  7681
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/mammoth.browser.min.js",
+        "sha256":  "92914A3708CFDF1E62CB553D1856A7FEDAB21DA83D8EE82845DE2F897B368CAB",
+        "bytes":  405060
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/continuum/purify.min.js",
+        "sha256":  "2C90A9B46D6463F26038A29B686E82BC91DE01FDAC9D5229E7CFE3B360134EA2",
+        "bytes":  28885
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/crm/_leeway-upstream.json",
+        "sha256":  "5C2AD96262028B0AD7147FBCD911C8619B711D57CDF41AF7593B0494E63CD318",
+        "bytes":  604
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/crm/data/leeway-crm-campaign-starter-data.json",
+        "sha256":  "4DA5A2A4EC44F49C4139E0E7710A1DC562EC11034383D98DD23E2D904B84B165",
+        "bytes":  17929
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/crm/icon.svg",
+        "sha256":  "7BEDF83E9B4C62B6F32E2887169705F74F76531F4BE31AFC58AA26D4CB72EC7F",
+        "bytes":  726
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/crm/index.html",
+        "sha256":  "5139BC27EE699413955C85EBC7E736DF171FCA171A9D84AC91CEF665D6B3C00E",
+        "bytes":  76197
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/crm/manifest.json",
+        "sha256":  "72864BD2E53A6AB458FA3856F29B22F9EA0FA82922EC96253C1CD80E80AE0AAB",
+        "bytes":  385
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/crm/service-worker.js",
+        "sha256":  "086681AE97D9DEFA89B12A2F187BC3E74C94B85C3B26684F65E40EC11E25752F",
+        "bytes":  599
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/licenses/HyperFrames-Apache-2.0.txt",
+        "sha256":  "4259155FB06F127687EE7B0A8A3682D45132DB0F2DA26CBC0B7A2D1E796436B8",
+        "bytes":  10763
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/licenses/THIRD-PARTY-NOTICES.md",
+        "sha256":  "FAF64C780C567DF60849E4816E6A2324BCE5D9ECE522011DFD758891E060B17A",
+        "bytes":  1006
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/SOURCE.json",
+        "sha256":  "71A4633DAA5BE307D1AB74E73605BA6D1CD65EC9A2AF2342C3A9C3A80B5D7A28",
+        "bytes":  4106
+    },
+    {
+        "path":  "app/src/main/assets/agent-vt/standalone.html",
+        "sha256":  "353EBB9D0A24D49DC4CB6289A383DC1C6327D764D5CB19EA0677F60758742642",
+        "bytes":  1619686
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/brain.html",
+        "sha256":  "046E7AD37E80D02C705E3E5441988ADD05BB62528CEB970CD0A1C4BFAEE09BF5",
+        "bytes":  160238
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/brain-live-overrides.css",
+        "sha256":  "B87823A5FCC3388530E33CADACBE698A4490F6CAE9D2A73391C9EE0149427C0D",
+        "bytes":  6617
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/brain-live-return.js",
+        "sha256":  "D299E1067BF0624C5EC2940415E38DF1C59ED4F440F8C00A3FA5EF4E09B57BDE",
+        "bytes":  404
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/diagnostics/app.css",
+        "sha256":  "8592B28F9F6835F22CAEA7D1AA9327C8325C367FF4449C386E10604C8FD77AB9",
+        "bytes":  23063
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/diagnostics/app.js",
+        "sha256":  "657A4D7BC766F46FD84C59929AD75ECA94C0102B540034D789B87DBC618D63EA",
+        "bytes":  286209
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/diagnostics/index.html",
+        "sha256":  "19B44F84453B9C997C24AA75FD10D242E822D08A21F5220E54B96299D2F4FF64",
+        "bytes":  740
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/local-brain-binding.js",
+        "sha256":  "0812EA7651EF0108D0270F918BAFB26400446A6D312FB403DDA1BA1A12DF6498",
+        "bytes":  8954
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/nucleus.png",
+        "sha256":  "D81DF8E5C08B7782D36692559EC4A1C896ED260C4E7494D657D52CA6427D337F",
+        "bytes":  3329641
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/original-viewer-native-glue.js",
+        "sha256":  "AC0159E2A79F687E35FB2663BD558E89A96B70F24B18E035AA1231EA2A9FD27F",
+        "bytes":  6295
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/vendor/OrbitControls.js",
+        "sha256":  "5A44A9E86A2A0FB11933EED69BC2CD33C76A496854C1AED6ED776EFA87D7B064",
+        "bytes":  29868
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/vendor/three.module.js",
+        "sha256":  "76DEA8151BC9352AEF3528B4262E249B2604F62543828328DB978D060D61A495",
+        "bytes":  1272972
+    },
+    {
+        "path":  "app/src/main/assets/digital-brain/vendor/THREE-LICENSE.txt",
+        "sha256":  "852E0E8699169BF9F6FDC6BDA3E682D078DCBC738B5D33E74DF594721BFF271D",
+        "bytes":  1081
+    },
+    {
+        "path":  "app/src/main/assets/leeway-authority-profile.json",
+        "sha256":  "9A41B864000E4D0242408685E736DF2B0BAE790513D98DE5AD6CBA50AF679760",
+        "bytes":  2368
+    },
+    {
+        "path":  "app/src/main/assets/models-ui/index.html",
+        "sha256":  "2152D41E48C0361FDB82D4D1714D5F5658FD09935D398ED7ACAF79668732444C",
+        "bytes":  968514
+    },
+    {
+        "path":  "app/src/main/assets/models-ui/native-models-bridge.js",
+        "sha256":  "E4D61F879B9802A966F003DBC571841E02C6BF14650419B6B305EBDCFD89082F",
+        "bytes":  2306
+    },
+    {
+        "path":  "app/src/main/assets/models-ui/SOURCE.json",
+        "sha256":  "EC34CD9B2E5249E842F52FA9E426AE3C8B1407B6AAA7FA7E958DE768CEBA5CFA",
+        "bytes":  1051
+    },
+    {
+        "path":  "app/src/main/assets/skills-ui/assets/index-CzpIehOH.css",
+        "sha256":  "561EC6B037C608E6912F5A6BBB378B6ED75B4CD600B7F6C3F2192FB3DDD0FF73",
+        "bytes":  36752
+    },
+    {
+        "path":  "app/src/main/assets/skills-ui/assets/index-ExVnHdfl.js",
+        "sha256":  "B808029907EE94BFCC087959194934FEB9DB472DDCAA6C163D9899077DF45700",
+        "bytes":  839454
+    },
+    {
+        "path":  "app/src/main/assets/skills-ui/grapevine-state.json",
+        "sha256":  "DA08F281171FE1B686E902E3089B10CE8AE242C10F196645CEB5C0E717076E38",
+        "bytes":  439834
+    },
+    {
+        "path":  "app/src/main/assets/skills-ui/index.html",
+        "sha256":  "12AD9A614C1B7F181EB5C5CB0F519094536427B3E57CB05D039A2E960954AC2C",
+        "bytes":  1257
+    },
+    {
+        "path":  "app/src/main/assets/skills-ui/SOURCE.json",
+        "sha256":  "2F6E3F95F30C806F5BB72DDFFC1C86D79F9EB238C705086939605C0C4E162D1C",
+        "bytes":  1894
+    },
+    {
+        "path":  "app/src/main/assets/vendor/three-r128.min.js",
+        "sha256":  "9274BBCEC8D96168626C732B5D31C775AA8CFB7EAA0599BEC0C175908A2C1CE2",
+        "bytes":  603445
+    },
+    {
+        "path":  "app/src/main/assets/voice/catalog.v1.json",
+        "sha256":  "2E56FD4390757B7AD76C44F0CA42D03D5EBF6F9C6507A9A2FBCA5EAFF7F5F298",
+        "bytes":  24752
+    },
+    {
+        "path":  "app/src/main/assets/voice/employee-voice-bindings.v1.json",
+        "sha256":  "002F87C59B562E2F3BECFCC6C5435C1034C096937E9D0E3CF2D7F7B6DF2EEEEF",
+        "bytes":  542
+    },
+    {
+        "path":  "app/src/main/assets/voice/source-lock.json",
+        "sha256":  "156B82997EF4D183494CCBB549430AAA1E7A25A970B1ADF32B9C8D8ABC36B608",
+        "bytes":  449
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/native-studio-bridge.js",
+        "sha256":  "A9D1E9B7A25CFE779A735A8D4ADF1A87258E6D463A4934CCBFF51828A89D56C4",
+        "bytes":  2925
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/SOURCE.json",
+        "sha256":  "12AADEC5CDC47801C65A4F9921E0CB56164AF2073E8F3598CB23600C6DBB2A0A",
+        "bytes":  10218
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/android-bridge.js",
+        "sha256":  "333DF580DA67FECA8F9E5AB4D960AF52F924CCC2DD2ED8B726122C565C341F0C",
+        "bytes":  10713
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/bridge-runtime.js",
+        "sha256":  "1E0741C98112CE094851424FAAFDAB4223483CDCAA3E0D2D6F1C2E4E5A56F872",
+        "bytes":  5028
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/browser-voice.js",
+        "sha256":  "48B17960D66B9D486664D7623B8BF382EE9D81931EC348D9A86995C768B49E5A",
+        "bytes":  16952
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/chatterbox.worker.js",
+        "sha256":  "343AC712B626F96D93ACD4D8A8B1936ACAC44C8E7E65005FB3A3FFC3AE88BC11",
+        "bytes":  11291
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/formula-voice-adapter.js",
+        "sha256":  "2C82FB6B2E5E1899756EF41238A95E00EC5248731B97CA1135BD0AB1C786B35F",
+        "bytes":  1453
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/lab.js",
+        "sha256":  "624DE442794CF7ABB39E10F8CD2B0A858926F4FCA12CAA65F314CE188A30E832",
+        "bytes":  6293
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/native-decoder-client.js",
+        "sha256":  "458AAA57C55E1E90C28A864E1E7745B7554ABB909B501D9F9D7FB6C244F7DF11",
+        "bytes":  6130
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/speech-pipeline.js",
+        "sha256":  "83D4EBBDC0ED39F394080CD25166D72CD08DC854350C04B01BDFAB4E966DD049",
+        "bytes":  12142
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/studio.css",
+        "sha256":  "4DFE5110995412FD3DB5E4926F55D162EA59DA6E2CE0D871B59E5E657D5AAAFD",
+        "bytes":  15558
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/studio.js",
+        "sha256":  "ADD796A5EE6507E8534B08668FAE7B814B079D2DBD81E6D7F3D47C04C9710212",
+        "bytes":  43285
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/studio-audio.js",
+        "sha256":  "B384C20ACABC79D0E597A81EE7B2BA6DF237B699A4757AE931F328309C438DAF",
+        "bytes":  8873
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/studio-console.js",
+        "sha256":  "BF152ED976E62DC52B298F36252C19FD1625C7677976BA6C500B6310DC909291",
+        "bytes":  18052
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/studio-monitor.js",
+        "sha256":  "AC23B41FAA2A145B5FC1427E534AA8E84FF2E728C6912724938F8AC41848CF1B",
+        "bytes":  8744
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/studio-render.worker.js",
+        "sha256":  "1805821F00B8376AB54F98290367D43FB705357308F4A21E4F8694FC25733035",
+        "bytes":  254
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/studio-visualizer.js",
+        "sha256":  "1A36041821AFDFE5604F3DE88B2A31A290657C566AB991E20108AA2BB652FAFC",
+        "bytes":  21149
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/vendor/three-0.160.1/LICENSE",
+        "sha256":  "852E0E8699169BF9F6FDC6BDA3E682D078DCBC738B5D33E74DF594721BFF271D",
+        "bytes":  1081
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/vendor/three-0.160.1/provenance.json",
+        "sha256":  "1176DC042F24DBCB148C5EB81FC61C1D9FC51047097EB33A96E897E59DDACB00",
+        "bytes":  825
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/vendor/three-0.160.1/three.module.min.js",
+        "sha256":  "3E690AC7D180B0AADF0891BEA39EEC643E29E2D3E75C99B18689518665F69BA6",
+        "bytes":  670681
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/voice-cpu-sessions.js",
+        "sha256":  "0E1607D5AF7A539477853A5B0EABC660CAD714CAD31ED0274BB7F64D8379FEEC",
+        "bytes":  1867
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/voice-model-cache.js",
+        "sha256":  "5AFFF6968B598E059EACEADA85A5EC519577D53D6AC15FB2F6A3580C484730F6",
+        "bytes":  4794
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/voice-package-core.js",
+        "sha256":  "E740D75D2305DBE30801DDA52C795989707F99DBB1A7F027CDD51334E6506AA7",
+        "bytes":  11604
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/voice-registry.js",
+        "sha256":  "D751ABB9A06324C704AA91D1C259798E4BD63AC22FD2C749A20E82F12EE15BB7",
+        "bytes":  6121
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/src/voice-sdk.js",
+        "sha256":  "5D51CF409D496C8A5FC7768F2D5A7ABAFCD78FF7859D8069A74F890D2FDD9F2A",
+        "bytes":  7186
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/studio.html",
+        "sha256":  "8EF640099C5A1975CB9F592EFD33A49C5F25CC6732E7546BE820AA04BCF28AB2",
+        "bytes":  14478
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/agent-lee-preview.json",
+        "sha256":  "1604AB083867751ABBFB26DA455E15307A3DF3EE6126A37F43A98BC709DB88AE",
+        "bytes":  580
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/agent-lee-preview.wav",
+        "sha256":  "A8A2A8F45BB6B3E9330661C1FB30C18D836F16CCCC3E7CCD1D86F4B67585B2C4",
+        "bytes":  574572
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/agent-lee-reference.json",
+        "sha256":  "169729C58CD4438BA8BAD9C98E0561DF913582D6889F8D540F6406CC797EB643",
+        "bytes":  666
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/agent-lee-reference.wav",
+        "sha256":  "638C88B332ECC7A21950511871C724F68F3EB566C59157E46493EE79EC55970E",
+        "bytes":  720078
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/catalog.v1.json",
+        "sha256":  "2E56FD4390757B7AD76C44F0CA42D03D5EBF6F9C6507A9A2FBCA5EAFF7F5F298",
+        "bytes":  24752
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/chatterbox-default-reference.wav",
+        "sha256":  "3EBC531CDABA358A327099C1C4F0448026719957BCF4D8E9868767F227E02F4E",
+        "bytes":  714320
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_alloy.wav",
+        "sha256":  "F48B374CBAAB1B99E1EE8E9655D9579E2BF44071741DA45E709AF3E3BA388164",
+        "bytes":  327644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_aoede.wav",
+        "sha256":  "234E20E6690B73317C9BCEF38376017DB70096AD0B403C817E28908E5DCB7037",
+        "bytes":  324044
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_bella.wav",
+        "sha256":  "45589E7967A67BA0F901D0C0DF663C86EC19863C7979332D93DBD332A595E75A",
+        "bytes":  356444
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_heart.wav",
+        "sha256":  "ACCFB5D2852B4A6E407ABD492A36B4B59A2CC586AD4EFD8FF4AC0D76604AAB0A",
+        "bytes":  338444
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_jessica.wav",
+        "sha256":  "9C8FC7DC1EBA7C1CF3EC27096E08E88100F542D8D866C9A1A50C8F4EAA8A42FB",
+        "bytes":  294044
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_kore.wav",
+        "sha256":  "8D0D6E98843C0FDBED80D22FF500F183A88F5BE522D4AB99F1D2513983E7B1CE",
+        "bytes":  332444
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_nicole.wav",
+        "sha256":  "F765D67936AA8058E56D1CA33F89503469AAB147E4FCDDFAF140A154D2779E75",
+        "bytes":  510044
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_nova.wav",
+        "sha256":  "A4E82F01B0A5E309A2118E06EEA5644FB10A45CA1E654CA99CD0DA35B469B7E9",
+        "bytes":  319244
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_river.wav",
+        "sha256":  "CAD99135FC90F014134B7038D2C66A437AF0EFF6A673BE61170F349775CA496B",
+        "bytes":  289244
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_sarah.wav",
+        "sha256":  "C9DCF5CD4F93F192AC52C2E7E04B704E01583A6219369C36B54ABF10C04470F2",
+        "bytes":  357644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/af_sky.wav",
+        "sha256":  "FB79222CFEB0D9E376DF760A9DAB70C69A92CBF25E981444F2868F9A0DE7E781",
+        "bytes":  334844
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_adam.wav",
+        "sha256":  "FCD29D2C9136C772382DD0C9080004B28E3F11A38B4A6B8E0F79A55B0579B33B",
+        "bytes":  327644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_echo.wav",
+        "sha256":  "6D89D468730D79E69DE52F134359F4FF44961BA65E04BEC060AB891FC3141805",
+        "bytes":  325244
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_eric.wav",
+        "sha256":  "BF050262F11F3FD458EDE52AF6C344F4D5C8A5DAE2E3A8931BD428D0D457D41A",
+        "bytes":  292844
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_fenrir.wav",
+        "sha256":  "2573709D29F55B9478BBAF18BFD8C2ED3BB643DB4008DD70EAC3D12B601BC114",
+        "bytes":  324044
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_liam.wav",
+        "sha256":  "31539FB76F9DA85DBC15E4B88B32E3FA23CB7A6EE570268C67C14F46CAE50A0F",
+        "bytes":  300044
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_michael.wav",
+        "sha256":  "22463F423DC2C8487914AF5B8F74F5A37B07A8590C354C46CCAB04A68881E404",
+        "bytes":  378044
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_onyx.wav",
+        "sha256":  "BE0F5A97429501C64C5FC633CD104F8FFFFBC6FEFF5574DE67C28FCEAC9D866A",
+        "bytes":  324044
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_puck.wav",
+        "sha256":  "FDFB096A243637DF1E7F5A222AF23CD4AB0C3F2E16170FC31937FF0CE871A2F8",
+        "bytes":  328844
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/am_santa.wav",
+        "sha256":  "88F8680BCEC022A37F8F18EFDB4C6D028CA980749A1F7160DACE286667664199",
+        "bytes":  339644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bf_alice.wav",
+        "sha256":  "5EF56F32CD7ED12F9602BE02BB75E3D643EEE306C83F2A4A63D3EA4AF5E6337B",
+        "bytes":  333644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bf_emma.wav",
+        "sha256":  "B0CA6F708DD2B072E4B90A727DC814F33E14BF11F6D51BCC817D3FB3048B201F",
+        "bytes":  337244
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bf_isabella.wav",
+        "sha256":  "1E4B980338B6BA56AB4967A772FBF4817A843BCC7D2BF23D7CBFFEE768977AFF",
+        "bytes":  333644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bf_lily.wav",
+        "sha256":  "31EA3BD734590373669474FDEA5165D53452673CB7CA1CDB7536632163AED090",
+        "bytes":  328844
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bm_daniel.wav",
+        "sha256":  "EB931365CBFA232D18B6FB788D84459A052BF151AE37EE43EE5A87DDCBF2DB28",
+        "bytes":  314444
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bm_fable.wav",
+        "sha256":  "3AAC68365D5DF09561885DDAE9F054DC14E4D353BD93D35A54C801D185655926",
+        "bytes":  325244
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bm_george.wav",
+        "sha256":  "1E1634701F1D038BBA6FCB1531C70353DF049E9EEDB852B0856812618A30B2C1",
+        "bytes":  369644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/bm_lewis.wav",
+        "sha256":  "46DADA31D822DA192AB7BF651B03C6DEC8C7D30E64CF578EA39519F1BF957866",
+        "bytes":  375644
+    },
+    {
+        "path":  "app/src/main/assets/voice-studio/voices/kokoro-previews/generation.json",
+        "sha256":  "1564CCE306057191258C72892E2C0F25C62F62464617BC73587368F55FBE789B",
+        "bytes":  11494
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AgentTabletActivity.kt",
+        "sha256":  "8FB833CA307B8F50FC3F9AAA9906B4CC8FCABF5B8E5D5ED8FCA236DC7FB3342B",
+        "bytes":  13425
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AgentVoiceBinding.kt",
+        "sha256":  "317FF7DC0463BA18DA8F3904AC5E5A17BD3A05A7A2E084D1DE9EF89E23060D71",
+        "bytes":  3303
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AndroidBrainIngestion.kt",
+        "sha256":  "6FBC775DEF411C6252CDF8451015A2A88DDA7F7E0D9BA09F6DA0782AB49B2349",
+        "bytes":  6124
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AndroidBrainViewer.kt",
+        "sha256":  "96BE9B8873E87BDA39418E37B4DBE5192F9DCF75D11001DC35F75C305CAE47CF",
+        "bytes":  7362
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AndroidContinuumReadAdapter.kt",
+        "sha256":  "0F0200FD4D1D4E8237F2A02ADC8B234CE91E6A09E4757B933615EE9212063344",
+        "bytes":  20380
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AndroidContinuumRetrieval.kt",
+        "sha256":  "A59734991821E16422025D89DE3F67D2596AD7DD4DDD7C4418856D5DAEA77198",
+        "bytes":  2229
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AndroidDigitalBrainAdapter.kt",
+        "sha256":  "F8332606162C941C26A99473B84B972BD53C6A62C830F7725B41DA81B45F8DE6",
+        "bytes":  13565
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/BrainFilePreviewActivity.kt",
+        "sha256":  "4D4130081D7217072DE9A282751F1DAD8947DC69CFC3D6078CF59A313B2F5295",
+        "bytes":  7612
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/devices/DeviceDiagnostics.kt",
+        "sha256":  "558A3E9ED7872884BBF0D4A321EA42DEE5EE95EDDF85527443C570CFF98ED2B9",
+        "bytes":  9021
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/devices/DeviceIdentity.kt",
+        "sha256":  "2EF19FCFCB963C1175FE81EBB49D95D29B5490E36151400D987E99225CF5882E",
+        "bytes":  3091
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/DigitalBrainActivity.kt",
+        "sha256":  "FC055DE4698140440582B8C1937827816683B8E9255922E2752B53A69C8743FE",
+        "bytes":  7509
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/EcosystemBindings.kt",
+        "sha256":  "BAFE10E26223AD7F4537C70FEEE355949469060F7788AEFF813E6707F0EFB6A6",
+        "bytes":  3862
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/ElementalEmblemView.kt",
+        "sha256":  "65BB7B84159DADD145B3EBDA5D3FBCAC370752476EB9E382163421DC934AE257",
+        "bytes":  1961
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/EnglishPhoneSpeech.kt",
+        "sha256":  "A0A1B29520291494D8F7387D31986ECAF89DBECFA50F301391A103044CC1CDF4",
+        "bytes":  10135
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/EnglishVoicePolicy.kt",
+        "sha256":  "9A8AC986DC5367A4994E9457B0E1DB6F8B80191E0C2EAAA600964D115961DAAB",
+        "bytes":  559
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/FabricEnglishAdapter.kt",
+        "sha256":  "AFE29D6999BDC162C9B2E4F02F670C7F77FE00C9426CF8C7A5282F0FFA91A548",
+        "bytes":  2154
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/FabricVoiceCatalog.kt",
+        "sha256":  "F9BFF751E0B3E991EA08285564901E69B78371282FFE772DC0D0E1DA041373EF",
+        "bytes":  956
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/FloatingSphereWindow.kt",
+        "sha256":  "12EA75BB4B4341307DDC250F4A0A2181A854F402AD592CE58FBB3464F19611AA",
+        "bytes":  11361
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/LeeWayAutomation.kt",
+        "sha256":  "A6EDFF3EFF49706F5E64326125A1942BC0B595DF613C653A65E72E6009A791A4",
+        "bytes":  760
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt",
+        "sha256":  "B8D8D5BE5A45D014CAA296C768160EC04426E262B00D2B3215019347F39C111B",
+        "bytes":  5594
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/LeeWayDeviceService.kt",
+        "sha256":  "55C9748AFADBA5104150896BE458E00024E04FED1444CF4CD82D4802DC2778E4",
+        "bytes":  1117
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/LocalContinuumRetrieval.kt",
+        "sha256":  "42DA6003BCCDC883B2EF2D7DB6A7DCB7B8BBA3729D487580834C725E7BEEE72E",
+        "bytes":  12876
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+        "sha256":  "0519BC28334D2BF1FA78D70DA81927A753E5641132D7CA9F122E766C5FCE4D37",
+        "bytes":  8143
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/ModelsActivity.kt",
+        "sha256":  "C936CC934B641B2A43294AEF8D20EC2184849AA5F378A5632EE324069798B8B2",
+        "bytes":  7255
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/NativeDecoderContract.kt",
+        "sha256":  "4D3998041EAF64517419E200FA4F705E29229450B1B4E02000B58091E8AED74C",
+        "bytes":  2575
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/NativeFileCensus.kt",
+        "sha256":  "8DD4FE67518E60A5845706E26929673311E5AB96268C2B9E2104202B76EA44BC",
+        "bytes":  4913
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/NativeVoiceDecoder.kt",
+        "sha256":  "A5860414BAAC67280C29EB14283448F8B539A2E79F8478B510A0CB43DC626C76",
+        "bytes":  9380
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/OverlayPlacement.kt",
+        "sha256":  "55A50745988AB079C232432779EC6C97D37196C4FE103608263F94E2A2B4C3F8",
+        "bytes":  2071
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/OwnerDatabaseUpgrade.kt",
+        "sha256":  "68382C94BC9613C856D572B580B072D54CEE66EEF1B5E2F5F457731FD7B26869",
+        "bytes":  7690
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/OwnerRecordsMenu.kt",
+        "sha256":  "7262C38F9CAB9342913883D22C83A136840D29FE1E4A5E7B788EA012DD4CDBAF",
+        "bytes":  3061
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/OwnerSurfaceWindow.kt",
+        "sha256":  "7BD3BA6E254271A2C81FBDD4832B198267787076379EDD3EF98F8D537ACC46F6",
+        "bytes":  6685
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PhoneActionCommand.kt",
+        "sha256":  "CEAB67D4D097C46B6699D360D797387868427838D141F585358AE907499C4BD0",
+        "bytes":  1089
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PhoneLaunchCommand.kt",
+        "sha256":  "E7E5792B08BE43F7EA9DE42CD2472D8714E4FC3DF3E20A0701D2F5D46034D562",
+        "bytes":  386
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketAuthorityProfile.kt",
+        "sha256":  "FA2EAF5659184D7CED3186CA21A63FF91D6A501129C5D18004F2BE85FDCA3D32",
+        "bytes":  643
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketBootReceiver.kt",
+        "sha256":  "EEA7C1846876420872A0112151F5FDA3C627DC7D7743ECB833B55119ECD42D8A",
+        "bytes":  766
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt",
+        "sha256":  "47F811434D484CD6BAEFBE53CFBACDE6C66A3F534316268333B86F48481389C9",
+        "bytes":  10907
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketSpeech.kt",
+        "sha256":  "CD7A4AD9227AF7DFC7D29DF441B1411F07C9867353793A0D00C6F37C86C42638",
+        "bytes":  834
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketVoiceActivity.kt",
+        "sha256":  "EDBC9D30177EB92D30421B979413FBDA21F065AB9062E740EBB3D018E577A1E7",
+        "bytes":  13036
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketVoiceHost.kt",
+        "sha256":  "56B8D44C79A8BE075791F122F9EDDCC8490E6B3233E7320B4BEA6C21116F2276",
+        "bytes":  19640
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/RecognitionSession.kt",
+        "sha256":  "FE8B1AB54D8B2189C9A71CAB8F5EDA7369026E4C96A0C2B6A6D0F3EBDE6681C9",
+        "bytes":  479
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/SkillAuthorityClient.kt",
+        "sha256":  "2F5C38CE1407E90D7D7935EA7414796537624E30B83D1C4ACF5C27D3AF6FA03F",
+        "bytes":  6237
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/SkillsActivity.kt",
+        "sha256":  "962D832E0F956F1CFE04F849FD857DA117EFA09DAB8F3169BC1F9DFF3F976B00",
+        "bytes":  7616
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/SpokenPrompt.kt",
+        "sha256":  "8BF24DEB8C0005BFE7ADEBE63D1518DA00F44287710FB483707F7E78E270BE74",
+        "bytes":  805
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/UnifiedAgentLeeRuntime.kt",
+        "sha256":  "302F7006C3A779C80320DB490240F61D237529CD0FBA032FF59EF5DF44961266",
+        "bytes":  9056
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VerifiedVoiceSample.kt",
+        "sha256":  "00A3A6E73E54815EBBB75493D6348D78659781AD32028078A09927E707C4D501",
+        "bytes":  2522
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceOutputSample.kt",
+        "sha256":  "0982A5B192207766A1EA1C4570A6C36F39535874B61D6B401360B7D3CC8DE561",
+        "bytes":  5031
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceProgress.kt",
+        "sha256":  "4535FEBE34CD5E4B1B007EE78F4D5512543360331C32BF89234879BCBD62FF34",
+        "bytes":  1786
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceReadiness.kt",
+        "sha256":  "F760C4D42D4A8F7D08ED3B8E71D6D6F4D34D5A24D148713A7DDBB1AEEE010460",
+        "bytes":  479
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceSession.kt",
+        "sha256":  "53E25E043FF9EB519D208243768A0CEFB0C4848D9C157BEBB1D17C791EFDD138",
+        "bytes":  1146
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceStudioActivity.kt",
+        "sha256":  "27A45B28DF8695CD809E4B30DC0E991490671809F193EDDC4668851F8BC70CF7",
+        "bytes":  8356
+    },
+    {
+        "path":  "app/src/main/res/drawable/agent_lee_emblem.png",
+        "sha256":  "31CB7CFB845524A19202ED49E42B0FEC71D8BCC4A5462E52469E98A3CCA6B3FA",
+        "bytes":  562113
+    },
+    {
+        "path":  "app/src/main/res/values/styles.xml",
+        "sha256":  "AD24838A00DC4223FE0B2416BE190D37C4ACFFA4A723DF64096B7BE91364D288",
+        "bytes":  1135
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/AgentVoiceBindingTest.kt",
+        "sha256":  "58C621CDF4832F22A33A1438228F7297B2F975E8AAB340CCEFE83DDE3A25619B",
+        "bytes":  3865
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/EnglishVoicePolicyTest.kt",
+        "sha256":  "4B7F84AC8759CFCAD2798C990F92661DD29A91ECBC3972B46CC8F338A16AC4F6",
+        "bytes":  1040
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/FabricVoiceCatalogTest.kt",
+        "sha256":  "064DA8AE0C6A7E0525B629CBA492274986B2C40462CC68A1A243CE813377F14B",
+        "bytes":  1011
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/LocalContinuumRetrievalTest.kt",
+        "sha256":  "251B1DC6A0704FB8949B5994E6033D42AEEC15D8D18B43925957DB5C9E3F77B2",
+        "bytes":  13398
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/NativeDecoderContractTest.kt",
+        "sha256":  "4B6A670C9D39DBC337D3FBDC474FA75EA0E517E4E74D91FB083F2011A4AD3CF7",
+        "bytes":  2764
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/NativeFileCensusTest.kt",
+        "sha256":  "C4CF22F1F5497C140E9C39CD9D937F153F2CB837779447C885494A0AC49EDA30",
+        "bytes":  6472
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/OverlayPlacementTest.kt",
+        "sha256":  "06058A827DCC8C6651162D4549DF4F6A19B9A33FF85C1F58F3427DC2C5FE7340",
+        "bytes":  3140
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/PhoneActionCommandTest.kt",
+        "sha256":  "EA99B6FB9A877F8A7306312D84603146C929DEDB6BCACF5C1517447D32E4E014",
+        "bytes":  1416
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/PhoneLaunchCommandTest.kt",
+        "sha256":  "D4C762E294393C198A05073B3E66854AC5E1C7A5163A4C1A99BCCF6525E6A81E",
+        "bytes":  566
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/RecognitionSessionTest.kt",
+        "sha256":  "B043A57266954BC91FA15B6AE27C640CE0359ABF2C07EF717487D78D52D7DCF1",
+        "bytes":  857
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/SpokenPromptTest.kt",
+        "sha256":  "9F0F4AEC278484C7065E284824325B16D5712D8125DFB774407AB4751B016968",
+        "bytes":  977
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/VerifiedVoiceSampleTest.kt",
+        "sha256":  "33BDDDC9A465BEBF9A9E8D590E18B204D6758B2D7B97A6C043D8632765CAC23A",
+        "bytes":  3489
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/VoiceProgressTest.kt",
+        "sha256":  "B094947DE80F6FBAC1AD0972C1A6245B846DF4AC678AE682216B6A877661F427",
+        "bytes":  1119
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/VoiceReadinessTest.kt",
+        "sha256":  "F770ACD8109465126094D4A2056FD04BB2DB82BD8BD16322012B8BDE6B92E0A3",
+        "bytes":  885
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/VoiceSessionTest.kt",
+        "sha256":  "97126DF5309DEB6242C58C403EDF069780845F6FA3715F043BAE01FF0FD18858",
+        "bytes":  2223
+    },
+    {
+        "path":  "build.gradle.kts",
+        "sha256":  "4ACC15B991B4D48356BCA35D0812AAA37B9F87AFB1CE29CD93DF1367AB3548E2",
+        "bytes":  206
+    },
+    {
+        "path":  "settings.gradle.kts",
+        "sha256":  "15F7B704C8EAB31C798577A41B1F8031639A6EC262C20FA28E999EDBA7448D69",
+        "bytes":  303
+    }
+]

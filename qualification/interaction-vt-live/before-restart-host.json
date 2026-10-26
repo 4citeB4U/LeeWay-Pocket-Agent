@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "leeway.native-floating-host.v1",
+  "status": "NATIVE_HOST_RUNNING",
+  "pid": 27460,
+  "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+  "url": "http://127.0.0.1:8890/ui",
+  "screen": {
+    "x": 0,
+    "y": 0,
+    "width": 1707,
+    "height": 1067
+  },
+  "topmostRequested": true,
+  "transparentRequested": true,
+  "framelessRequested": true,
+  "nativeHitPlane": true,
+  "panelOpen": false,
+  "expandedByOwner": false,
+  "fixedPhysicalPathsInSource": false,
+  "formulaExecution": "NOT_EXECUTED",
+  "geometry": {
+    "x": 88,
+    "y": 28,
+    "width": 426,
+    "height": 426,
+    "screenAreaRatio": 0.0996371410735551
+  },
+  "ownPage": {
+    "viewport": {
+      "width": 426,
+      "height": 426,
+      "dpr": 1.5
+    },
+    "menu": false,
+    "hamburger": {
+      "x": 10,
+      "y": 10,
+      "width": 40,
+      "height": 40,
+      "top": 10,
+      "right": 50,
+      "bottom": 50,
+      "left": 10
+    },
+    "close": {
+      "x": -48.020835876464844,
+      "y": -350.3333435058594,
+      "width": 14.020833969116211,
+      "height": 24,
+      "top": -350.3333435058594,
+      "right": -34.00000190734863,
+      "bottom": -326.3333435058594,
+      "left": -48.020835876464844
+    },
+    "interaction": {
+      "sphereTaps": 2,
+      "dragStarts": 3,
+      "cancelled": 33,
+      "menuBlocked": 0,
+      "resizeActions": 3,
+      "voiceErrors": 0
+    },
+    "status": "Could not load file or assembly 'System.Speech' or one of its dependencies. The system cannot find the file specified.\r\nFile name: 'System.Speech'\r\n   at System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)\r\n   at System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)\r\n   at System.Reflection.Assembly.Load(AssemblyName assemblyRef)\r\n   at Python.Runtime.AssemblyManager.LoadAssembly(AssemblyName name)\r\n   at Python.Runtime.CLRModule.AddReference(String name)\r\n\r\nWRN: Assembly binding logging is turned OFF.\r\nTo enable assembly bind failure logging, set the registry value [HKLM\\Software\\Microsoft\\Fusion!EnableLog] (DWORD) to 1.\r\nNote: There is some performance penalty associated with assembly bind failure logging.\r\nTo turn this feature off, remove the registry value [HKLM\\Software\\Microsoft\\Fusion!EnableLog].\r\n"
+  },
+  "ownMouse": [
+    {
+      "event": "mouseMoved",
+      "nativeX": 556,
+      "nativeY": 247,
+      "scale": 1.5,
+      "cssX": 370.6666666666667,
+      "cssY": 164.66666666666666
+    },
+    {
+      "event": "mouseMoved",
+      "nativeX": 567,
+      "nativeY": 239,
+      "scale": 1.5,
+      "cssX": 378.0,
+      "cssY": 159.33333333333334
+    },
+    {
+      "event": "mouseMoved",
+      "nativeX": 580,
+      "nativeY": 228,
+      "scale": 1.5,
+      "cssX": 386.6666666666667,
+      "cssY": 152.0
+    },
+    {
+      "event": "mouseMoved",
+      "nativeX": 589,
+      "nativeY": 218,
+      "scale": 1.5,
+      "cssX": 392.6666666666667,
+      "cssY": 145.33333333333334
+    },
+    {
+      "event": "mouseMoved",
+      "nativeX": 596,
+      "nativeY": 211,
+      "scale": 1.5,
+      "cssX": 397.3333333333333,
+      "cssY": 140.66666666666666
+    },
+    {
+      "event": "mouseMoved",
+      "nativeX": 602,
+      "nativeY": 202,
+      "scale": 1.5,
+      "cssX": 401.3333333333333,
+      "cssY": 134.66666666666666
+    },
+    {
+      "event": "mouseMoved",
+      "nativeX": 607,
+      "nativeY": 195,
+      "scale": 1.5,
+      "cssX": 404.6666666666667,
+      "cssY": 130.0
+    },
+    {
+      "event": "mouseMoved",
+      "nativeX": 611,
+      "nativeY": 190,
+      "scale": 1.5,
+      "cssX": 407.3333333333333,
+      "cssY": 126.66666666666667
+    }
+  ]
+}

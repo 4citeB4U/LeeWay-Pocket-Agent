@@ -1,0 +1,18 @@
+{
+  "status": "PATCHED_NATIVE_QUALIFICATION_REQUIRED",
+  "files": [
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html",
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\assets\\agent_lee_sphere_transparent.html",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\carrier-server.mjs"
+  ],
+  "sharedInteractionSha256": "312bcd7b1e46432d79103f81d23709aac4fbbfbe5939f95095912e64740d8895",
+  "externalEmblemRemoved": false,
+  "inPageEmblemRemoved": true,
+  "geometryChanged": false,
+  "serviceReadinessNotClaimedByMenu": true,
+  "after": {
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html": "d89ef1efbc07e237bee58a66e13098e6e1f22a4096a13af959560709856dd03e",
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\assets\\agent_lee_sphere_transparent.html": "fffc365c9745069d6e980ad7f243a7577c9b29ccf3781ecf03d23ae273a7d654",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\carrier-server.mjs": "88b5aec0c10f41539a39759fe9e65cf21970bfc0f089675881680dcf82c32799"
+  }
+}

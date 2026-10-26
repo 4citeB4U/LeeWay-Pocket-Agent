@@ -1,0 +1,54 @@
+﻿{
+    "schemaVersion":  "leeway.brain-ingestion-repair.v1",
+    "sourceBase":  "2956987a523abb5ab19875fcc092415286829858",
+    "status":  "APPLIED_TESTS_REQUIRED",
+    "changedPaths":  [
+                         "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt",
+                         "app/src/main/java/industries/leeway/pocket/AndroidDigitalBrainAdapter.kt",
+                         "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+                         "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt"
+                     ],
+    "sourceBefore":  [
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/AndroidDigitalBrainAdapter.kt",
+                             "sha256":  "4362A904BF144719B8DDAB50D9871B93FC9391005AE70345CF3DF76D37648657",
+                             "blob":  "ecd5b0c469140e0f1e3ad748954a95454c8d1ff4"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt",
+                             "sha256":  "A5AE7853BFD5631D2EA4D74ED7B3C66EC8E7B340FA219E1ACD7E1C74D4B75644",
+                             "blob":  "b777628ee238f723aa98c6172c6e3009084299e0"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+                             "sha256":  "78067F4F616FB6C1184C863A8B153BDEE7CCA398B3EFB861C8AB31EA488553D4",
+                             "blob":  "34ab8e8c17fc014d7067b3e8afc5123077d16059"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt",
+                             "sha256":  "A8D381F0375A0A002173964F66B2B09B8F587D580AC13FCD5A67F0AB1996E821",
+                             "blob":  "dd5b0f360707553cad809c553dfd3b4086917f28"
+                         }
+                     ],
+    "phoneModified":  false,
+    "formulaExecution":  "NOT_EXECUTED",
+    "scope":  "APP_PRIVATE_METADATA_SENSOR_NOT_EXTERNAL_FILES_OR_FULL_PRODUCT",
+    "sourceAfter":  [
+                        {
+                            "sha256":  "6540C0462216AD96CAE6C78DF65D34D90515E19BAA4C390016EEEE6CAA49DDB4",
+                            "path":  "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt"
+                        },
+                        {
+                            "sha256":  "F8332606162C941C26A99473B84B972BD53C6A62C830F7725B41DA81B45F8DE6",
+                            "path":  "app/src/main/java/industries/leeway/pocket/AndroidDigitalBrainAdapter.kt"
+                        },
+                        {
+                            "sha256":  "7A76A1AAA4F12248402B42FB5F0E4223106E38C8A6F40726E06928D93BA76D3F",
+                            "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt"
+                        },
+                        {
+                            "sha256":  "88586BD09A28139A85BD7E594D3E1A46A3018189FF5E17D072CF0A0FF568B6CB",
+                            "path":  "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt"
+                        }
+                    ]
+}

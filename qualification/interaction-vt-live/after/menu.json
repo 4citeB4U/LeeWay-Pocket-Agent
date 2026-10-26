@@ -1,0 +1,373 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "FAILED",
+  "action": "menu",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 6572,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1278,
+      "y": 212,
+      "width": 324,
+      "height": 302,
+      "screenAreaRatio": 0.053722227621091606
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 325,
+        "height": 302,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": -34.00000190734863,
+        "bottom": 63,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 4,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0
+      },
+      "shrink": {
+        "x": 196.33334350585938,
+        "y": 244,
+        "width": 28,
+        "height": 28,
+        "top": 244,
+        "right": 224.33334350585938,
+        "bottom": 272,
+        "left": 196.33334350585938
+      },
+      "grow": {
+        "x": 227.33334350585938,
+        "y": 244,
+        "width": 28,
+        "height": 28,
+        "top": 244,
+        "right": 255.33334350585938,
+        "bottom": 272,
+        "left": 227.33334350585938
+      },
+      "expand": {
+        "x": 258.3333435058594,
+        "y": 244,
+        "width": 28,
+        "height": 28,
+        "top": 244,
+        "right": 286.3333435058594,
+        "bottom": 272,
+        "left": 258.3333435058594
+      },
+      "workstation": {
+        "x": -258.53125,
+        "y": 567.0416870117188,
+        "width": 224.53125,
+        "height": 94.92708587646484,
+        "top": 567.0416870117188,
+        "right": -34,
+        "bottom": 661.9687728881836,
+        "left": -258.53125
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": [
+      {
+        "event": "mouseMoved",
+        "cssX": 22.666666666666668,
+        "cssY": 19.333333333333332,
+        "screenX": 1952,
+        "screenY": 348,
+        "at": 1791306924.0378268
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 22.666666666666668,
+        "cssY": 20.0,
+        "screenX": 1952,
+        "screenY": 349,
+        "at": 1791306924.046613
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 22.666666666666668,
+        "cssY": 20.666666666666668,
+        "screenX": 1952,
+        "screenY": 350,
+        "at": 1791306924.055201
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 22.666666666666668,
+        "cssY": 21.333333333333332,
+        "screenX": 1952,
+        "screenY": 351,
+        "at": 1791306924.063987
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 23.333333333333332,
+        "cssY": 22.666666666666668,
+        "screenX": 1953,
+        "screenY": 353,
+        "at": 1791306924.0724928
+      },
+      {
+        "event": "mousePressed",
+        "cssX": 23.333333333333332,
+        "cssY": 22.666666666666668,
+        "screenX": 1953,
+        "screenY": 353,
+        "at": 1791306924.3187504
+      },
+      {
+        "event": "mouseReleased",
+        "cssX": 23.333333333333332,
+        "cssY": 22.666666666666668,
+        "screenX": 1953,
+        "screenY": 353,
+        "at": 1791306924.440675
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 23.333333333333332,
+        "cssY": 22.666666666666668,
+        "screenX": 1953,
+        "screenY": 353,
+        "at": 1791306924.446947
+      }
+    ]
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 6572,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1278,
+      "y": 212,
+      "width": 324,
+      "height": 302,
+      "screenAreaRatio": 0.053722227621091606
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 325,
+        "height": 302,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": -34.00000190734863,
+        "bottom": 63,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 4,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0
+      },
+      "shrink": {
+        "x": 196.33334350585938,
+        "y": 244,
+        "width": 28,
+        "height": 28,
+        "top": 244,
+        "right": 224.33334350585938,
+        "bottom": 272,
+        "left": 196.33334350585938
+      },
+      "grow": {
+        "x": 227.33334350585938,
+        "y": 244,
+        "width": 28,
+        "height": 28,
+        "top": 244,
+        "right": 255.33334350585938,
+        "bottom": 272,
+        "left": 227.33334350585938
+      },
+      "expand": {
+        "x": 258.3333435058594,
+        "y": 244,
+        "width": 28,
+        "height": 28,
+        "top": 244,
+        "right": 286.3333435058594,
+        "bottom": 272,
+        "left": 258.3333435058594
+      },
+      "workstation": {
+        "x": -258.53125,
+        "y": 567.0416870117188,
+        "width": 224.53125,
+        "height": 94.92708587646484,
+        "top": 567.0416870117188,
+        "right": -34,
+        "bottom": 661.9687728881836,
+        "left": -258.53125
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": [
+      {
+        "event": "mouseMoved",
+        "cssX": 79.33333333333333,
+        "cssY": 61.333333333333336,
+        "screenX": 2036,
+        "screenY": 410,
+        "at": 1791306963.7978182
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 79.33333333333333,
+        "cssY": 64.66666666666667,
+        "screenX": 2036,
+        "screenY": 415,
+        "at": 1791306963.806551
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 86.0,
+        "cssY": 82.66666666666667,
+        "screenX": 2046,
+        "screenY": 442,
+        "at": 1791306963.815025
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 113.33333333333333,
+        "cssY": 123.33333333333333,
+        "screenX": 2087,
+        "screenY": 503,
+        "at": 1791306963.8240879
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 143.33333333333334,
+        "cssY": 160.0,
+        "screenX": 2132,
+        "screenY": 558,
+        "at": 1791306963.8326802
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 178.0,
+        "cssY": 194.0,
+        "screenX": 2184,
+        "screenY": 609,
+        "at": 1791306963.841395
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 246.0,
+        "cssY": 258.0,
+        "screenX": 2286,
+        "screenY": 705,
+        "at": 1791306963.8599072
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 274.0,
+        "cssY": 283.3333333333333,
+        "screenX": 2328,
+        "screenY": 743,
+        "at": 1791306963.8676004
+      }
+    ]
+  },
+  "rectBefore": {
+    "left": 1917,
+    "top": 318,
+    "right": 2404,
+    "bottom": 771
+  },
+  "rectAfter": {
+    "left": 1917,
+    "top": 318,
+    "right": 2404,
+    "bottom": 771
+  },
+  "checks": [
+    {
+      "action": "menu",
+      "actualOsClick": [
+        1961,
+        363
+      ]
+    }
+  ],
+  "error": "MENU_DID_NOT_OPEN",
+  "fixtureInput": false,
+  "phoneTested": false
+}

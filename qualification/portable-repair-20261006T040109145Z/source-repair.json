@@ -1,0 +1,124 @@
+﻿{
+    "status":  "SOURCE_REPAIRED_TESTS_REQUIRED",
+    "branch":  "repair/portable-golden-brain-bootstrap",
+    "sourceBase":  "c7a325a9197fc898fb35b86f7b5aa2414f64f212",
+    "writePaths":  [
+                       "settings.gradle.kts",
+                       "build.gradle.kts",
+                       "app/build.gradle.kts",
+                       "brain-core/build.gradle.kts",
+                       "app/src/main/java/industries/leeway/pocket/devices/DeviceIdentity.kt",
+                       "app/src/main/java/industries/leeway/pocket/AndroidDigitalBrainAdapter.kt",
+                       "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt",
+                       "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+                       "app/src/main/java/industries/leeway/pocket/LeeWayAutomation.kt",
+                       "app/src/main/java/industries/leeway/pocket/LeeWayDeviceService.kt",
+                       "app/src/main/java/industries/leeway/pocket/PocketVoiceActivity.kt",
+                       "app/src/main/assets/agent_lee_sphere_transparent.html",
+                       "app/src/main/assets/voice/source-lock.json",
+                       "contracts/golden-system-release.v1.json",
+                       "contracts/platforms/android.v1.json",
+                       "scripts/golden-release-gate.mjs",
+                       "Verify-SingleApk.ps1",
+                       "scripts/Invoke-GoldenGateQualification.ps1",
+                       "tests/golden-release-gate.test.mjs",
+                       "brain-core/src/test/kotlin/industries/leeway/brain/DigitalBrainTest.kt",
+                       "tests/portable-brain-wiring.test.mjs"
+                   ],
+    "deletePaths":  [
+                        "app/src/main/java/industries/leeway/pocket/FoldDigitalBrain.kt",
+                        "contracts/golden-apk-release.v1.json",
+                        "scripts/Apply-GoldenReleaseGate.ps1"
+                    ],
+    "requiredMasterCases":  46,
+    "phoneModified":  false,
+    "releasePromoted":  false,
+    "sourceHashes":  [
+                         {
+                             "path":  "settings.gradle.kts",
+                             "sha256":  "15F7B704C8EAB31C798577A41B1F8031639A6EC262C20FA28E999EDBA7448D69"
+                         },
+                         {
+                             "path":  "build.gradle.kts",
+                             "sha256":  "4ACC15B991B4D48356BCA35D0812AAA37B9F87AFB1CE29CD93DF1367AB3548E2"
+                         },
+                         {
+                             "path":  "app/build.gradle.kts",
+                             "sha256":  "40C9583FF86EAA04A56525A8F84848781F3BC0FDD5C4C9385D6CF7B0EE59092A"
+                         },
+                         {
+                             "path":  "brain-core/build.gradle.kts",
+                             "sha256":  "68F59A46879F1EB2DBE448D778763F751BD72BBC009A78A54743B859B244DB5C"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/devices/DeviceIdentity.kt",
+                             "sha256":  "79B0C6C4A09746AC5046FB82E0A26F3C89A945F66E434368E25A91983AB3E9E1"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/AndroidDigitalBrainAdapter.kt",
+                             "sha256":  "4362A904BF144719B8DDAB50D9871B93FC9391005AE70345CF3DF76D37648657"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt",
+                             "sha256":  "A5AE7853BFD5631D2EA4D74ED7B3C66EC8E7B340FA219E1ACD7E1C74D4B75644"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+                             "sha256":  "78067F4F616FB6C1184C863A8B153BDEE7CCA398B3EFB861C8AB31EA488553D4"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/LeeWayAutomation.kt",
+                             "sha256":  "A6EDFF3EFF49706F5E64326125A1942BC0B595DF613C653A65E72E6009A791A4"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/LeeWayDeviceService.kt",
+                             "sha256":  "55C9748AFADBA5104150896BE458E00024E04FED1444CF4CD82D4802DC2778E4"
+                         },
+                         {
+                             "path":  "app/src/main/java/industries/leeway/pocket/PocketVoiceActivity.kt",
+                             "sha256":  "2C1A26D36B1E1910CD6EDDA81A344637AD4AE59ABF2C58FC907519F6B46B9741"
+                         },
+                         {
+                             "path":  "app/src/main/assets/agent_lee_sphere_transparent.html",
+                             "sha256":  "B529221EBC8B42258AC5B90AEEE11F5D9C87545CA583E0868748085AA2ECBDDA"
+                         },
+                         {
+                             "path":  "app/src/main/assets/voice/source-lock.json",
+                             "sha256":  "156B82997EF4D183494CCBB549430AAA1E7A25A970B1ADF32B9C8D8ABC36B608"
+                         },
+                         {
+                             "path":  "contracts/golden-system-release.v1.json",
+                             "sha256":  "3CE341D57B26511AE0E98A96D0A0EA75869E065631293773F4B2D1D58F37EC42"
+                         },
+                         {
+                             "path":  "contracts/platforms/android.v1.json",
+                             "sha256":  "57E6C5F6936BA6DE42253986E6490D184A71385C9F29EDB7B6325338C8D3BAB9"
+                         },
+                         {
+                             "path":  "scripts/golden-release-gate.mjs",
+                             "sha256":  "F7E606305B3B2CF78C830D2E5D6C204C2372A2E80A4D49AB207915489AD996A4"
+                         },
+                         {
+                             "path":  "Verify-SingleApk.ps1",
+                             "sha256":  "68F577459A663AB6A211CDA1211326AA0CD9B9275698D04D425B1619A72D208C"
+                         },
+                         {
+                             "path":  "scripts/Invoke-GoldenGateQualification.ps1",
+                             "sha256":  "269B02694E4C9B0CAC68B380E10D1E61E36D4EAB27840B51E8B21CC4DBE360AD"
+                         },
+                         {
+                             "path":  "tests/golden-release-gate.test.mjs",
+                             "sha256":  "3AAA462BB83B1255ED9479A15D0030A3475AEC0A5D1C3B089FACB498CDA0127C"
+                         },
+                         {
+                             "path":  "brain-core/src/test/kotlin/industries/leeway/brain/DigitalBrainTest.kt",
+                             "sha256":  "27A52ABB0AC17B41AA4758F6EE7F95B90AF56F95B115604B2D72C96A2AF224EB"
+                         },
+                         {
+                             "path":  "tests/portable-brain-wiring.test.mjs",
+                             "sha256":  "F9BBFC0A92F466CEA6B2788CE191CB824B82D501F54F0EE8389143AC8D54C0EB"
+                         }
+                     ],
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false
+}

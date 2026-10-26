@@ -1,0 +1,10 @@
+﻿{
+    "target":  "EXISTING_PC_CARRIER",
+    "pid":  37688,
+    "source":  "OWNER_LOCAL_BRAIN_SQLITE",
+    "newService":  false,
+    "goldenPromoted":  false,
+    "newPid":  30424,
+    "rootId":  "brain:pc-primary",
+    "status":  "PC_LIVE_BRAIN_BOUND_UI_TEST_PENDING"
+}

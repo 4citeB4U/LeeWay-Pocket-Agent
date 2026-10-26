@@ -18,6 +18,7 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
+import java.lang.ref.WeakReference
 import android.provider.Settings
 import android.view.*
 import androidx.core.content.ContextCompat
@@ -29,6 +30,38 @@ class PocketOverlayService:Service(){
     private var tab:View?=null
     private var params:WindowManager.LayoutParams?=null
     private var foregroundReady=false
+    private var sphere:FloatingSphereWindow?=null
+    private var visionControls:VisionControlsOverlay?=null
+    private fun showVisionControlsInternal(){
+        if(!foregroundReady || !isEnabled(this) || !Settings.canDrawOverlays(this))return
+        if(!VisionActivity.hasForegroundOwner())return
+        if(visionControls==null)visionControls=VisionControlsOverlay(this)
+        try{visionControls?.show()}catch(error:Exception){
+            visionControls?.close();visionControls=null
+            record(this,"VISION_CONTROLS_ATTACH_FAILED",error.javaClass.simpleName)
+        }
+    }
+    private fun hideVisionControlsInternal(){
+        visionControls?.close()
+        visionControls=null
+    }
+    private var conversation:RoundBoxWindow?=null
+    private var executionCursor:AgentLeeCursorOverlay?=null
+    internal fun showAdmittedCursor(event:AgentLeeCursorAdmission.Event,execution:AgentLeeCursorAdmission.Execution,observation:AgentLeeCursorAdmission.Observation):Boolean{
+        if(!AgentLeeCursorAdmission.admit(event,execution,observation))return false
+        val x=event.x?:return false
+        val y=event.y?:return false
+        showVerifiedCursor(execution.receiptHash,x.toInt(),y.toInt())
+        return true
+    }
+    private fun showVerifiedCursor(receiptId:String,xPx:Int,yPx:Int){
+        if(executionCursor==null)executionCursor=AgentLeeCursorOverlay(this)
+        executionCursor?.showForExecutedAction(receiptId,xPx,yPx)
+    }
+    internal fun hideVerifiedCursor(receiptId:String){executionCursor?.hide(receiptId)}
+    internal fun toggleRoundBox(){if(conversation==null)conversation=RoundBoxWindow(this);conversation?.toggle()}
+    private fun toggleSphereOverlay(){if(sphere?.isVisible()==true){sphere?.close();sphere=null}else{sphere=FloatingSphereWindow(this);sphere?.show()}}
+    private fun showSphereOverlay(){if(sphere==null)sphere=FloatingSphereWindow(this);sphere?.show()}
     override fun onCreate(){
         super.onCreate();createChannel()
         try {
@@ -36,6 +69,7 @@ class PocketOverlayService:Service(){
             if(Build.VERSION.SDK_INT>=34)startForeground(NOTIFICATION_ID,notification,ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
             else startForeground(NOTIFICATION_ID,notification)
             foregroundReady=true
+            currentInstance=WeakReference(this)
         }catch(error:Exception){record(this,"START_FAILED",error.javaClass.simpleName);stopSelf()}
     }
     override fun onStartCommand(intent:Intent?,flags:Int,startId:Int):Int {
@@ -45,16 +79,20 @@ class PocketOverlayService:Service(){
         attach()
         if(tab==null){stopSelf();return START_NOT_STICKY}
         AndroidBrainIngestion.start(this)
+        if(intent?.action=="LEEWAY_SHOW_FLOATING_SPHERE")showSphereOverlay()
+        if(intent?.action==ACTION_SHOW_VISION_CONTROLS)showVisionControlsInternal()
         return START_STICKY
     }
     override fun onBind(intent:Intent?):IBinder?=null
     override fun onDestroy(){
-        AndroidBrainIngestion.stop();detach()
+        hideVisionControlsInternal()
+        if(currentInstance?.get()===this)currentInstance=null
+        executionCursor?.close();executionCursor=null;sphere?.close();sphere=null;conversation?.close();conversation=null;AndroidBrainIngestion.stop();detach()
         val state=runCatching{JSONObject(status(this)).optString("state")}.getOrDefault("")
         if(state !in setOf("OWNER_OVERLAY_PERMISSION_REQUIRED","START_FAILED","ATTACH_FAILED","POSITION_FAILED","SERVICE_START_BLOCKED"))record(this,if(isEnabled(this))"SERVICE_STOPPED" else "DISABLED_BY_OWNER")
         super.onDestroy()
     }
-    override fun onConfigurationChanged(configuration:Configuration){super.onConfigurationChanged(configuration);tab?.let{applyPosition(it)}}
+    override fun onConfigurationChanged(configuration:Configuration){super.onConfigurationChanged(configuration);tab?.let{applyPosition(it)};sphere?.relayout();visionControls?.relayout()}
     private fun requestedSize()=(68*resources.displayMetrics.density).toInt().coerceAtLeast(1)
     private fun frame():OverlayPlacement.Frame {
         val metrics=(windowManager?:getSystemService(WindowManager::class.java)).currentWindowMetrics
@@ -106,7 +144,7 @@ class PocketOverlayService:Service(){
                     MotionEvent.ACTION_UP->{
                         val click=pointer>=0&&OverlayPlacement.tapAllowed(cancelled,moved,SystemClock.elapsedRealtime()-began)
                         pointer=-1
-                        if(click){badge.performClick();startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))}
+                        if(click){badge.performClick();toggleSphereOverlay()}
                         true
                     }
                     else->false
@@ -132,10 +170,23 @@ class PocketOverlayService:Service(){
     }
     companion object {
         private const val PREFS="leeway-pocket-overlay"
+        private const val ACTION_SHOW_VISION_CONTROLS="LEEWAY_SHOW_VISION_CONTROLS"
+        @Volatile private var currentInstance:WeakReference<PocketOverlayService>?=null
+        fun showVisionControls(context:Context){
+            if(!isEnabled(context)||!Settings.canDrawOverlays(context))return
+            val existing=currentInstance?.get()
+            if(existing!=null){existing.showVisionControlsInternal();return}
+            try{
+                ContextCompat.startForegroundService(context,
+                    Intent(context,PocketOverlayService::class.java).setAction(ACTION_SHOW_VISION_CONTROLS))
+            }catch(error:Exception){record(context,"VISION_CONTROL_SERVICE_START_BLOCKED",error.javaClass.simpleName)}
+        }
+        fun hideVisionControls(){currentInstance?.get()?.hideVisionControlsInternal()}
         private const val KEY_ENABLED="enabled"
         private const val KEY_FRACTION="vertical_fraction_v1"
         private const val CHANNEL_ID="agent_lee_overlay"
         private const val NOTIFICATION_ID=7141
+        fun showSphere(context:Context){if(isEnabled(context)&&Settings.canDrawOverlays(context))ContextCompat.startForegroundService(context,Intent(context,PocketOverlayService::class.java).setAction("LEEWAY_SHOW_FLOATING_SPHERE"))}
         fun isEnabled(context:Context)=context.getSharedPreferences(PREFS,Context.MODE_PRIVATE).getBoolean(KEY_ENABLED,false)
         private fun record(context:Context,state:String,error:String?=null,attached:Boolean=false,geometry:JSONObject?=null){
             val payload=JSONObject().put("state",state).put("observedAtMs",System.currentTimeMillis()).put("ownerEnabled",isEnabled(context))

@@ -1,0 +1,149 @@
+{
+    "schemaVersion":  "leeway.golden-system-release.v1",
+    "owner":  "4citeB4U/LeeWay-Pocket-Agent",
+    "kind":  "RELEASE_REQUIREMENTS_NOT_EXECUTION_PROOF",
+    "upstream":  [
+                     "4citeB4U/LeeWay-Standards",
+                     "4citeB4U/LeeWay-Agent-Skills/config/portability-contract.md",
+                     "4citeB4U/LEEWAY-DEVICE-BRIDGE",
+                     "4citeB4U/Leeway-Runtime-Fabric"
+                 ],
+    "distribution":  {
+                         "oneLauncher":  true,
+                         "immutableVersionedArtifact":  true,
+                         "customerPrivateDataInMaster":  false,
+                         "customerCredentialsInMaster":  false,
+                         "creatorOrDeviceAuthorityInheritedByRecipient":  false,
+                         "freshPerInstallationIdentity":  true,
+                         "releaseGate":  "ALL_MANDATORY_CASES_ON_EVERY_DECLARED_SUPPORTED_PROFILE",
+                         "knownUnresolvedMandatoryFailuresAllowed":  false,
+                         "customerReleaseFromDebugBuild":  false,
+                         "universalPlatformExecutionClaim":  false,
+                         "requiredModuleImplementationAndDependencyHashes":  true
+                     },
+    "ownerRetainedBrain":  {
+                               "ecosystemRevocationMayDisable":  [
+                                                                     "ecosystem-session",
+                                                                     "remote-services",
+                                                                     "licensed-agent-capabilities",
+                                                                     "remote-commander-session",
+                                                                     "federation-egress"
+                                                                 ],
+                               "ecosystemRevocationMustPreserve":  [
+                                                                       "local-brain-identity",
+                                                                       "local-brain-data",
+                                                                       "local-recursive-viewer",
+                                                                       "local-search",
+                                                                       "authorized-local-ingestion",
+                                                                       "local-hardware-observation",
+                                                                       "local-required-runtime-dependencies",
+                                                                       "owner-export-and-recovery",
+                                                                       "owner-key-access"
+                                                                   ],
+                               "remoteDeleteOrEncryptToLockOutOwner":  false,
+                               "localBootRequiresSubscriptionOrRemoteLogin":  false,
+                               "remoteRevocationOverridesOwnerFilesystemPermissions":  false,
+                               "localPersistenceIsIndependentOfFederationEntitlement":  true,
+                               "uninstallOrFactoryResetSurvivalRequiresOwnerControlledBackup":  true,
+                               "blanketRevokeAndClearAllStorageForbidden":  true,
+                               "offlineRemoteGrantPolicy":  "TIME_BOUNDED_VALIDATED_GRANTS_AND_TARGET_SIDE_AUTHORIZATION; LOCAL_BRAIN_NOT_LICENSE_GATED"
+                           },
+    "fileFreshness":  {
+                          "scope":  "OWNER_AUTHORIZED_OS_ACCESSIBLE_RESOURCES",
+                          "recordTargetMs":  120000,
+                          "recordMaximumMs":  180000,
+                          "start":  "AUTHORITATIVE_SOURCE_CHANGE_TIMESTAMP_WHEN_AVAILABLE",
+                          "stop":  "DURABLE_CURRENT_VERSION_RECORD_IN_BRAIN",
+                          "observationToCommitIsNotSourceToCommit":  true,
+                          "unknownStartCannotProduceLatencyPass":  true,
+                          "fullContentExtractionIsSeparateFromMetadataRegistration":  true,
+                          "contentHashMayNotBeClaimedBeforeCompletion":  true,
+                          "largeEncryptedUnsupportedOrBusyFilesRequireExplicitState":  true,
+                          "pausedOrOsSuspendedTimeMustBeReportedNotSilentlyExcluded":  true,
+                          "cloudTransferRequiresSeparateOwnerAuthority":  true,
+                          "eventPlusReconciliationRecoveryRequired":  true,
+                          "duplicateContentCopiesNotRequiredForIndexing":  true,
+                          "brainOwnDatabaseAndReceiptEventsMustNotSelfReingest":  true
+                      },
+    "requiredGroups":  {
+                           "digital-brain":  [
+                                                 "fresh-install-isolation",
+                                                 "existing-brain-reuse",
+                                                 "recursive-viewer-real-data",
+                                                 "new-file-record-within-180s",
+                                                 "edit-rename-delete-reconciliation",
+                                                 "permission-denial-and-restoration",
+                                                 "no-self-ingestion-loop",
+                                                 "revocation-local-brain-survival",
+                                                 "restart-retains-and-resumes",
+                                                 "owner-export-restore"
+                                             ],
+                           "continuum":  [
+                                             "canonical-local-durable-operations",
+                                             "authorized-federation",
+                                             "cross-customer-isolation",
+                                             "revocation-stops-egress-preserves-local-data"
+                                         ],
+                           "ldwmd":  [
+                                         "canonical-device-local-execution",
+                                         "capacity-and-recovery",
+                                         "no-cross-device-allocation-state"
+                                     ],
+                           "workstation":  [
+                                               "embedded-vt-real-work",
+                                               "sandbox-and-notepad-persistence",
+                                               "promotion-and-rollback"
+                                           ],
+                           "devices-commander":  [
+                                                     "internal-device-execution",
+                                                     "owner-approved-remote-session",
+                                                     "remote-readback-and-receipt",
+                                                     "revocation-denies-next-remote-command"
+                                                 ],
+                           "voice":  [
+                                         "selected-provider-actually-synthesizes",
+                                         "speaker-output-observed",
+                                         "interrupt-stop-resume",
+                                         "same-approved-voice-across-bodies"
+                                     ],
+                           "conversation":  [
+                                                "canonical-executor",
+                                                "multi-turn-context-and-restart",
+                                                "customer-session-isolation"
+                                            ],
+                           "skills-automation-formula-veritas":  [
+                                                                     "real-skill-dispatch",
+                                                                     "durable-automation",
+                                                                     "canonical-formula-real-input-and-receipt",
+                                                                     "veritas-pre-post-enforced",
+                                                                     "zero-llm-core",
+                                                                     "one-and-two-optional-llms-fault-isolation"
+                                                                 ],
+                           "visual-parity":  [
+                                                 "approved-logo-and-operational-colors",
+                                                 "original-brain-recursion",
+                                                 "device-translucency-and-navigation"
+                                             ],
+                           "distribution":  [
+                                                "release-signature-and-payload-integrity",
+                                                "customer-neutral-payload",
+                                                "path-relocation-and-device-binding",
+                                                "complete-payload-compression-roundtrip",
+                                                "fresh-install-upgrade-recovery-reboot",
+                                                "complete-dependency-bill-of-materials"
+                                            ]
+                       },
+    "claimBoundaries":  {
+                            "unitTestsArePhysicalAcceptance":  false,
+                            "historicalReceiptsCanAdmitDifferentApkBytes":  false,
+                            "missingOrSkippedOrFailedMandatoryCaseCanPass":  false,
+                            "sourceScoreOrInitialCensusPercentageCanAdmitGoldenRelease":  false,
+                            "evidenceVerifier":  "EXISTING_AUTHORIZED_VERITAS_ADAPTER_REQUIRED; NO_SELF_ATTESTED_PASS"
+                        },
+    "architecture":  {
+                         "core":  "PLATFORM_NEUTRAL",
+                         "nativeFormats":  "SEPARATE_HASH_BOUND_PLATFORM_PROFILES",
+                         "deviceIdentity":  "RUNTIME_CREATED_NOT_COMPILED",
+                         "platformAcceptance":  "SEPARATELY_EXECUTED_REQUIRED"
+                     }
+}

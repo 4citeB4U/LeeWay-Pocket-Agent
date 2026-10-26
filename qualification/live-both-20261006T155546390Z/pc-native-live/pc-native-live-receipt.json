@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "leeway.actual-windows-floating-ui.v1",
+  "status": "FAILED",
+  "browserFixtures": false,
+  "checks": [
+    {
+      "name": "Actual owned window is frameless, topmost and layered",
+      "status": "PASS",
+      "hwnd": 1575708,
+      "pid": 27320,
+      "style": 369164288,
+      "extendedStyle": 851976
+    },
+    {
+      "name": "Actual compact geometry remains below the 15 percent cap",
+      "status": "PASS",
+      "geometry": {
+        "x": 1278,
+        "y": 212,
+        "width": 325,
+        "height": 302,
+        "screenAreaRatio": 0.05388803696560115
+      }
+    }
+  ],
+  "errors": [
+    "PHYSICAL_SPHERE_DRAG_DID_NOT_MOVE_WINDOW"
+  ],
+  "screenshots": [
+    {
+      "name": "pc-compact-native.png",
+      "sha256": "6e256b803dc2949805dccab59b2d7fbb6bc66aedec2aa6370f90f8bd3ec2dbac"
+    }
+  ],
+  "microphoneRequestedByTest": false,
+  "speakerIdentityChanged": false,
+  "goldenPromoted": false,
+  "formulaExecuted": false
+}

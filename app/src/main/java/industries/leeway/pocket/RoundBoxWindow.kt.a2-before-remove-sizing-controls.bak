@@ -1,0 +1,88 @@
+/* REGION: LEEWAY.UI; TAG: ANDROID_ROUNDBOX_NATIVE_SURFACE
+WHO: Agent Lee phone UI owner. WHAT: Host existing approved Round Box.
+WHEN: Floating sphere tap. WHERE: Existing PocketOverlayService.
+WHY: Independent draggable UI must not resize the Brain.
+HOW: Reuse bundled Round Box and native overlay permissions. LICENSE: MIT. */
+package industries.leeway.pocket
+
+import android.app.Service
+import android.graphics.Color
+import android.graphics.PixelFormat
+import android.os.Handler
+import android.os.Looper
+import android.view.Gravity
+import android.view.WindowManager
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+
+internal class RoundBoxWindow(private val service:Service) {
+    private val wm=service.getSystemService(WindowManager::class.java)
+    private val main=Handler(Looper.getMainLooper())
+    private val density=service.resources.displayMetrics.density
+    private var web:WebView?=null
+    private var lp:WindowManager.LayoutParams?=null
+    private fun dp(v:Int)=(v*density).toInt()
+    fun toggle(){if(web!=null){close();return};show()}
+    fun show(){
+        if(web!=null)return
+        val bounds=wm.currentWindowMetrics.bounds
+        val side=dp(340).coerceAtMost((bounds.width()*.48).toInt().coerceAtLeast(dp(220)))
+        val size=dp(380).coerceAtMost((bounds.height()*.72).toInt())
+        val p=WindowManager.LayoutParams(side,size,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            PixelFormat.TRANSLUCENT).apply{
+            gravity=Gravity.TOP or Gravity.LEFT
+            x=(bounds.width()-side-dp(16)).coerceAtLeast(0)
+            y=(bounds.height()/5).coerceAtLeast(0)
+            softInputMode=WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+            title="Agent Lee Round Box"
+        }
+        val view=WebView(service).apply{
+            setBackgroundColor(Color.TRANSPARENT)
+            settings.javaScriptEnabled=true
+            settings.domStorageEnabled=false
+            settings.allowFileAccess=false
+            addJavascriptInterface(Bridge(),"LeeWayAndroid")
+            loadUrl("file:///android_asset/round-box-leeway.html")
+        }
+        lp=p;web=view;wm.addView(view,p)
+    }
+    fun close(){
+        web?.let{wm.removeView(it);it.removeJavascriptInterface("LeeWayAndroid");it.destroy()}
+        web=null;lp=null
+    }
+    private inner class Bridge {
+        @JavascriptInterface fun roundBoxClose(){main.post{close()}}
+        @JavascriptInterface fun roundBoxMove(dx:Double,dy:Double){main.post{
+            val p=lp?:return@post
+            val b=wm.currentWindowMetrics.bounds
+            p.x=(p.x+(dx*density).toInt()).coerceIn(0,(b.width()-p.width).coerceAtLeast(0))
+            p.y=(p.y+(dy*density).toInt()).coerceIn(0,(b.height()-p.height).coerceAtLeast(0))
+            web?.let{wm.updateViewLayout(it,p)}
+        }}
+        @JavascriptInterface fun roundBoxScale(direction:Int){main.post{
+            val p=lp?:return@post
+            if(direction!=1 && direction!=-1)return@post
+            val b=wm.currentWindowMetrics.bounds
+            p.width=(p.width+dp(65)*direction).coerceIn(dp(220).coerceAtMost(b.width()),b.width())
+            p.height=(p.height+dp(75)*direction).coerceIn(dp(220).coerceAtMost(b.height()),b.height())
+            p.x=p.x.coerceIn(0,(b.width()-p.width).coerceAtLeast(0))
+            p.y=p.y.coerceIn(0,(b.height()-p.height).coerceAtLeast(0))
+            web?.let{wm.updateViewLayout(it,p)}
+        }}        @JavascriptInterface fun roundBoxResize(width:Double,height:Double){main.post{
+            val p=lp?:return@post
+            val b=wm.currentWindowMetrics.bounds
+            p.width=dp(width.toInt().coerceIn(220,600)).coerceAtMost(b.width())
+            p.height=dp(height.toInt().coerceIn(220,700)).coerceAtMost(b.height())
+            web?.let{wm.updateViewLayout(it,p)}
+        }}
+        @JavascriptInterface fun roundBoxMessage(message:String){main.post{
+            val payload=org.json.JSONObject.quote("UI_CONNECTED_EXECUTOR_NOT_BOUND")
+            web?.evaluateJavascript("window.LeeWayRoundBoxReceive?.('error',"+payload+")",null)
+        }}
+        @JavascriptInterface fun roundBoxListen(){main.post{
+            val payload=org.json.JSONObject.quote("VOICE_CONTROL_NOT_BOUND_TO_THIS_SURFACE")
+            web?.evaluateJavascript("window.LeeWayRoundBoxReceive?.('voice-error',"+payload+")",null)
+        }}
+    }
+}

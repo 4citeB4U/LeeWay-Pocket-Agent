@@ -1,0 +1,14 @@
+{
+  "status": "PATCHED_REBUILD_RESTART_REQUIRED",
+  "files": [
+    {
+      "path": "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\assets\\agent_lee_sphere_transparent.html",
+      "sha256": "4c2e7c3a706f97920f16ea41176ef18ff883f9ae0bb768d7b88dfa8342233418"
+    },
+    {
+      "path": "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html",
+      "sha256": "f3d0866c5722acc5a7f94ddbbf75612536b39ca7e5dd84c6720a62b8b8ff04f6"
+    }
+  ],
+  "voiceAuthorityChanged": false
+}

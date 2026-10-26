@@ -1,0 +1,63 @@
+﻿===INSTALLED===
+    versionCode=30 minSdk=31 targetSdk=35
+    versionName=1.0.0-floating-live-rc3
+    lastUpdateTime=2026-10-06 11:12:02
+===OVERLAY_PERMISSION===
+SYSTEM_ALERT_WINDOW: allow; time=+10m33s627ms ago (running)
+===WIRELESS_ADB===
+0
+
+===NETWORK===
+Wifi is enabled
+Wifi scanning is always available
+==== Primary ClientModeManager instance ====
+Wifi is connected to "SpectrumSetup-76AC"
+WifiInfo: SSID: "SpectrumSetup-76AC", BSSID: a0:55:1f:23:76:b4, MAC: 4e:77:d0:04:99:4e, IP: /192.168.1.156, Security type: 4, Supplicant state: COMPLETED, Wi-Fi standard: 11ax, RSSI: -69, Link speed: 864Mbps, Tx Link speed: 864Mbps, Max Supported Tx Link speed: 2401Mbps, Rx Link speed: 816Mbps, Max Supported Rx Link speed: 2401Mbps, Frequency: 6135MHz, Net ID: 5, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"SpectrumSetup-76AC"wpa2-pskMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>, Vendor Data: <none>
+successfulTxPackets: 5539
+successfulTxPacketsPerSecond: 1.058836938442883
+retriedTxPackets: 2074
+retriedTxPacketsPerSecond: 0.7861943266735003
+lostTxPackets: 1
+lostTxPacketsPerSecond: 0.0
+successfulRxPackets: 354910
+successfulRxPacketsPerSecond: 1.08651004102702
+===LISTENERS===
+State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+adb.exe : Cannot open netlink socket: Permission denied
+At E:\LeeWay-Work\agent-lee-fold6-unified\scripts\Inspect-PhoneOperatingLanes.ps1:20 char:13
++   $snapshot=& $adb -s $Serial shell $cmd 2>&1
++             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Cannot open net...rmission denied:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+LISTEN      0      0            *:46227                    *:*                  
+LISTEN      0      0            *:6200                     *:*                  
+LISTEN      0      0       [::ffff:192.168.1.156]:53601                    *:*                  
+===SERVICES===
+  * ServiceRecord{564155f u0 industries.leeway.pocket/.PocketOverlayService c:industries.leeway.pocket}
+    isForeground=true foregroundId=7141 types=0x40000000 foregroundNoti=Notification(channel=agent_lee_overlay shortcut=null contentView=null vibrate=null sound=null defaults=0 flags=ONGOING_EVENT|FOREGROUND_SERVICE color=0x00000000 vis=PRIVATE semFlags=0x0 semPriority=0 semMissedCount=0 semScenarioType=0)
+    startRequested=true delayedStop=false stopIfKilled=false callStart=true lastStartId=2
+  * ServiceRecord{4a21209 u0 industries.leeway.pocket/org.chromium.content.app.SandboxedProcessService0:0 c:industries.leeway.pocket}
+===POCKET_PROCESS===
+26781
+===OVERLAY_STATE===
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="y" value="229" />
+    <string name="status_json">{&quot;state&quot;:&quot;NATIVE_OVERLAY_ATTACHED&quot;,&quot;observedAtMs&quot;:1791307551306,&quot;ownerEnabled&quot;:true,&quot;permissionGranted&quot;:true,&quot;attached&quot;:true,&quot;visualAcceptance&quot;:&quot;NOT_PROVEN_BY_SERVICE_STATE&quot;,&quot;voiceAuthority&quot;:&quot;UNCHANGED_LEEWAY_VOICE_FABRIC&quot;,&quot;geometry&quot;:{&quot;rightInset&quot;:126,&quot;top&quot;:790,&quot;width&quot;:178,&quot;height&quot;:178,&quot;type&quot;:&quot;TYPE_APPLICATION_OVERLAY&quot;,&quot;focusable&quot;:false,&quot;blocksOutsideTouches&quot;:false}}</string>
+    <boolean name="enabled" value="true" />
+    <float name="vertical_fraction_v1" value="1.0" />
+</map>
+===SPHERE_STATE===
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<map>
+    <int name="x" value="451" />
+    <int name="width" value="517" />
+    <string name="status_json">{&quot;state&quot;:&quot;NATIVE_SPHERE_ATTACHED&quot;,&quot;x&quot;:451,&quot;y&quot;:96,&quot;width&quot;:196.95238,&quot;height&quot;:196.95238,&quot;physicalWidth&quot;:517,&quot;physicalHeight&quot;:517,&quot;screenAreaRatio&quot;:0.11621422558922559,&quot;panel&quot;:false,&quot;expanded&quot;:false,&quot;type&quot;:&quot;TYPE_APPLICATION_OVERLAY&quot;,&quot;blocksOutsideTouches&quot;:false,&quot;observedAtMs&quot;:1791307551309}</string>
+    <int name="y" value="96" />
+</map>
+===CURRENT_ACTIVITY===
+    topResumedActivity=ActivityRecord{38228282 u0 industries.leeway.pocket/.DigitalBrainActivity t734}
+Failed to write while dumping service activity: Broken pipe
+===COMPLETE===
+

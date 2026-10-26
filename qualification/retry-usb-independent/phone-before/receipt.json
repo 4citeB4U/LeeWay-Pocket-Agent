@@ -1,0 +1,20 @@
+﻿{
+    "schemaVersion":  "leeway.phone-operating-lanes.v1",
+    "status":  "READ_ONLY_PHONE_SNAPSHOT_OBSERVED",
+    "observations":  [
+                         {
+                             "attempt":  1,
+                             "exit":  0,
+                             "complete":  true,
+                             "at":  "2026-10-06T17:36:14.7503655Z"
+                         }
+                     ],
+    "usbRequiredByProduct":  false,
+    "wirelessQualification":  "NOT_YET_EXECUTED",
+    "phoneSettingsChanged":  false,
+    "voiceAudibility":  "NOT_TESTED",
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false,
+    "readoutSha256":  "7325D8C92C2067C72CD65DFA3633827E87759B7266215218BA3B75D73BF22AF5",
+    "screenshotSha256":  "10FF1A2F2B92A5173BF2AF79B298025FD8AF4E81B73EB18D3571534CB7C37F70"
+}

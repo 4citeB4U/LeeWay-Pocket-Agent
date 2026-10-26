@@ -1,0 +1,63 @@
+{
+  "workspaceRoot": "E:\\LeeWay-Work",
+  "sourcePath": "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\server.mjs",
+  "schemaVersion": "leeway.commander.binding.v1",
+  "policyPath": "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\command-policy.mjs",
+  "sourceCommit": "314a5b1ba78fe805b3590c4e400cd8dd93840dab",
+  "admissionScope": "PINNED_OWNER_CANDIDATE_EXISTING_LOOPBACK_BINDING",
+  "owner": "4citeB4U/LEEWAY-DEVICE-BRIDGE",
+  "port": 8891,
+  "provider": "LEEWAY_NATIVE_HOST_COMMANDER",
+  "bodyId": "pc-primary",
+  "remoteExposure": false,
+  "sourceSha256": "2C107757076FB6155BF880801CE7F627A21B5875A5D4C6272ACC25BA10DD8BF3",
+  "policySha256": "091B09323077F09B3168F2D9401D632542313CE0B8BE04D218C5FA69FB0C6649",
+  "brainManifest": "E:\\LeeWay-Work\\Digital-Brains\\pc-primary\\body.v1.json",
+  "agentUiUri": "http://127.0.0.1:8890/ui",
+  "nativeAgentUi": {
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "source": "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\agent-ui-host.py",
+    "sha256": "2256BD95ED1C1D384DB64EC6E22E774821E913AFFE029D51617DF4C6FC7035D2",
+    "ownership": "DEVICE_LOCAL_OBSERVED_BINDING",
+    "mode": "TRANSPARENT_FRAMELESS_TOPMOST",
+    "speechAssembly": {
+      "path": "C:\\Windows\\Microsoft.Net\\assembly\\GAC_MSIL\\System.Speech\\v4.0_4.0.0.0__31bf3856ad364e35\\System.Speech.dll",
+      "sha256": "59aa7929fc874d5b124cf86995c0c66d27e4c9b0340c43645cd897c3162ba8cb",
+      "role": "INPUT_RECOGNITION_NOT_VOICE_SELECTION"
+    },
+    "agentVt": {
+      "url": "http://127.0.0.1:4173/agent-vt-embedded/standalone.html",
+      "sha256": "353ebb9d0a24d49dc4cb6289a383dc1c6327d764d5cb19ea0677f60758742642",
+      "repository": "4citeB4U/LeeWay-Digital-Workforce",
+      "sourceCommit": "4b0b8b6a8d5103ee0d4cd83db09424c4fed17b31",
+      "sourceState": "PINNED_REVIEWED_COMMIT",
+      "nativeBridge": false,
+      "scope": "EXACT_EMBEDDED_VT_SURFACE_NOT_EXECUTION_GATE"
+    },
+    "voiceStudio": {
+      "repository": "4citeB4U/LeeWay-Voice-Fabric",
+      "url": "http://127.0.0.1:8877/studio.html",
+      "sha256": "8ef640099c5a1975cb9f592efd33a49c5f25cc6732e7546be820aa04bcf28ab2",
+      "nativeBridge": false,
+      "scope": "CANONICAL_EXISTING_STUDIO_NOT_SELECTION_SYNC_PROOF",
+      "sourceCommit": "3f85d5bc6916f4200e41482a2bd3570b05eb708e"
+    },
+    "sourceCommit": "57510449388ca1ef73485321eeb2d69daa1b7e2f"
+  },
+  "additionalSources": [
+    {
+      "path": "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\visible-browser.mjs",
+      "sha256": "4C2E4680954F62B45ABA159DB01C6CFE78B8F47F365495E32FB7A7E5DF8AA8CF"
+    }
+  ],
+  "visibleBrowser": {
+    "browserExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "browserSha256": "1e9412868bbc9faff92d129babd17331e7ceab0702cc07db02a34f3438ae04f2",
+    "playwrightModulePath": "C:\\Users\\Leona\\AppData\\Local\\npm-cache\\_npx\\6bcb61ec6d5aea22\\node_modules\\playwright\\index.mjs",
+    "dependencyManifestPath": "E:\\LeeWay-Work\\pc-consciousness-live\\bindings\\visible-browser\\playwright-1.63.0-a5243047993353bd.json",
+    "dependencyManifestSha256": "a5243047993353bd881c689e073c56d199ad33f414a09b06751eede5a6e0ee47",
+    "searchEngine": "google",
+    "timeoutMs": 25000,
+    "maxSessions": 4
+  }
+}

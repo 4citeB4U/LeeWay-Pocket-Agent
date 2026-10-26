@@ -1,0 +1,20 @@
+{
+  "status": "APPLIED_BUILD_AND_INSTALL_REQUIRED",
+  "files": {
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\assets\\agent_lee_sphere_transparent.html": "fe0b6ba039e117fb18f2b3943aefcef497c7190a4e4f2bb0b3ac3b1dd1ada2f0",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html": "888e58fe325bf1587b56ef6a941d102a44d1354a9dec6cb2775e067813870f23",
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\java\\industries\\leeway\\pocket\\FloatingSphereWindow.kt": "2980344f2873a29925630049ab3f96de6779040ec01daa9201a57355219f1d03",
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\java\\industries\\leeway\\pocket\\PocketOverlayService.kt": "0ae5fe4217524d34cb6d066e91cc1714fadebf6b633d441df43a3e518c61207f"
+  },
+  "voiceAuthorityChanged": false,
+  "brainAuthorityChanged": false,
+  "removesThreeButtons": true,
+  "emblemToggle": true,
+  "androidPinchResize": true,
+  "after": {
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\assets\\agent_lee_sphere_transparent.html": "1a0347a28bd3457b4b63bd67173f2ff3efdf745b2694b927c532c00a84c7069d",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html": "2be56592c1e55b946d1a2db773e419abc836b4c3e065045b767b1be98aa28b0d",
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\java\\industries\\leeway\\pocket\\FloatingSphereWindow.kt": "0594f542c58bdfbc4e90f7c3c176f6d5279e57e0b5a302dcc8cc9a33b20abcc6",
+    "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\java\\industries\\leeway\\pocket\\PocketOverlayService.kt": "47f811434d484cd6baefbe53cfbacde6c66a3f534316268333b86f48481389c9"
+  }
+}

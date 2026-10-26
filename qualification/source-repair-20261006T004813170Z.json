@@ -1,0 +1,45 @@
+﻿{
+    "status":  "SOURCE_REPAIRED_TESTS_PENDING",
+    "changes":  [
+                    {
+                        "path":  "app\\src\\main\\java\\industries\\leeway\\pocket\\PocketVoiceHost.kt",
+                        "beforeSha256":  "FFA0192D1D49524022CF178F0B3B2B791F7A0E8369761F1A6D188C5AB47C467A",
+                        "afterSha256":  "A08EA4875ACF166E8F294E98693E2E14D954D45866A11441EBFB675A355E8C3B"
+                    },
+                    {
+                        "path":  "app\\src\\main\\java\\industries\\leeway\\pocket\\UnifiedAgentLeeRuntime.kt",
+                        "beforeSha256":  "9FF058E18F87C8C18CC791A608E3AC6555B3F1781DB26EDB91AED8FA3A541A48",
+                        "afterSha256":  "6ECAD929F02A0A3D61F2A9756F3662033A6C87D3ACE5312A4AE0F3F1A1AB7A6D"
+                    },
+                    {
+                        "path":  "app\\src\\main\\java\\industries\\leeway\\pocket\\PocketVoiceActivity.kt",
+                        "beforeSha256":  "B64263299820BDD57729502F38EA5CC977C07DD1BA46C956C04635CC12367E73",
+                        "afterSha256":  "4FB8BF2E1C303B8B26DF393E10DA69D47D234A738B505F228A1242C24C50F282"
+                    },
+                    {
+                        "path":  "app\\src\\main\\res\\values\\styles.xml",
+                        "beforeSha256":  "059F42D6C6504B715043F96835E4631CE788D724B567AA9B96F02EC01498BADB",
+                        "afterSha256":  "AD24838A00DC4223FE0B2416BE190D37C4ACFFA4A723DF64096B7BE91364D288"
+                    },
+                    {
+                        "path":  "Verify-SingleApk.ps1",
+                        "beforeSha256":  "1FDAF680E3BEB7E173D2DC5A18B251AAE75E0DA88F6C64ED34DFC1F21E248E1E",
+                        "afterSha256":  "5A9310DD12810629885ECEECA4BF7D2CFE5C5CF97FBF0B665123B295CD2D8DFF"
+                    }
+                ],
+    "voiceSource":  {
+                        "schemaVersion":  "leeway.voice.source-projection.v1",
+                        "authority":  "4citeB4U/LeeWay-Voice-Fabric",
+                        "body":  "phone-fold6",
+                        "sourceBody":  "pc-primary",
+                        "mode":  "QUALIFICATION_ONLY",
+                        "creatorFinalVoiceSelection":  false,
+                        "catalogSha256":  "2E56FD4390757B7AD76C44F0CA42D03D5EBF6F9C6507A9A2FBCA5EAFF7F5F298",
+                        "bindingSha256":  "002F87C59B562E2F3BECFCC6C5435C1034C096937E9D0E3CF2D7F7B6DF2EEEEF",
+                        "acousticEquivalence":  "NOT_TESTED",
+                        "providerRuntimePackaged":  false
+                    },
+    "installed":  false,
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false
+}

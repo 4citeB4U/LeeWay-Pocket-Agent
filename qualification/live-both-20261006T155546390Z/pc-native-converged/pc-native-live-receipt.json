@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "leeway.actual-windows-floating-ui.v1",
+  "status": "VERIFIED_NATIVE_WINDOW_AND_INTERACTION",
+  "browserFixtures": false,
+  "inputMethod": "OWNER_HWND_BOUND_WIN32_MESSAGES_NOT_GLOBAL_CURSOR",
+  "checks": [
+    {
+      "name": "Actual owned window is frameless, topmost and layered",
+      "status": "PASS",
+      "hwnd": 2230804,
+      "pid": 27460,
+      "style": 369164288,
+      "extendedStyle": 135069704
+    },
+    {
+      "name": "Actual compact geometry remains below the 15 percent cap",
+      "status": "PASS",
+      "geometry": {
+        "x": 1250,
+        "y": 226,
+        "width": 134,
+        "height": 134,
+        "screenAreaRatio": 0.009858518509977935
+      }
+    },
+    {
+      "name": "Owner-window Win32 input drag moves native sphere",
+      "status": "PASS",
+      "before": [
+        1875,
+        339,
+        2076,
+        540
+      ],
+      "after": [
+        1869,
+        342,
+        2070,
+        543
+      ]
+    },
+    {
+      "name": "Actual hamburger owns an expanded readable native panel",
+      "status": "PASS",
+      "geometry": {
+        "x": 946,
+        "y": 228,
+        "width": 760,
+        "height": 800,
+        "screenAreaRatio": 0.3338148392774885
+      }
+    },
+    {
+      "name": "Closing actual drawer restores compact native sphere",
+      "status": "PASS",
+      "geometry": {
+        "x": 1246,
+        "y": 228,
+        "width": 134,
+        "height": 134,
+        "screenAreaRatio": 0.009858518509977935
+      }
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "name": "pc-compact-native.png",
+      "sha256": "78d830fd73ef6ff7e03a7d65e30b77288555cbd7a054f4bb88c8bca1bdeae604"
+    },
+    {
+      "name": "pc-native-menu.png",
+      "sha256": "b382cd96a2d071f732377aa3aef7224dc64e59882cd84a08bda200b9419af3f4"
+    },
+    {
+      "name": "pc-final-native-floating.png",
+      "sha256": "41216c8e8ecfcc48f9f2dcd6963018f232f80c135bf8f1d3791c7b87c0e13ec9"
+    }
+  ],
+  "microphoneRequestedByTest": false,
+  "speakerIdentityChanged": false,
+  "goldenPromoted": false,
+  "formulaExecuted": false
+}

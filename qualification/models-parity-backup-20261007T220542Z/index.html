@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Models · Agent Lee</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#e7eff4;background:#090f17;line-height:1.5;font-synthesis:none;--muted:#a5b4c3;--line:#263442;--teal:#72e3cd;--panel:#101b27}
+    *{box-sizing:border-box}body{margin:0}button,a{touch-action:manipulation}button{font:inherit}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--teal);outline-offset:4px}
+    a{color:var(--teal)}main{max-width:1100px;margin:auto;padding:30px 28px 70px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:27px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px}.mark{display:grid;place-items:center;width:40px;height:40px;border:1px solid #416663;border-radius:12px;color:var(--teal);font-size:25px;background:#112c2d}.eyebrow{font-size:11px;letter-spacing:.17em;font-weight:700;color:var(--muted);text-transform:uppercase}.brand-name{font-size:14px;font-weight:650}.back{font-size:13px;text-decoration:none}.intro{padding:32px 0 23px}h1{margin:0 0 9px;font-size:clamp(34px,6vw,48px);line-height:1.1;letter-spacing:-.045em;font-weight:680}.intro p{margin:0;color:var(--muted);max-width:640px;font-size:15px}.service{display:flex;justify-content:space-between;align-items:center;gap:20px;background:linear-gradient(120deg,#142631,#111d2a);border:1px solid #314a54;border-radius:16px;padding:22px}.service-title{font-size:17px;font-weight:650;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;padding:5px 9px;border-radius:99px;background:#183b35;color:#9df2d9}.badge::before{content:"";width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:currentColor}.badge[data-state="loading"]{background:#233645;color:#bac8d8}.badge[data-state="partial"],.badge[data-state="offline"]{background:#45341e;color:#f0ce91}.service-meta{display:flex;gap:7px;flex-wrap:wrap;margin:7px 0 0;color:var(--muted);font-size:13px}.service-meta span+span::before{content:"·";padding-right:7px;color:#607589}.refresh{background:#ddf7ef;border:0;color:#12392f;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;white-space:nowrap}.refresh:disabled{opacity:.55;cursor:wait}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 31px}.metric{padding:20px 22px;background:#101a25;border:1px solid var(--line);border-radius:14px}.metric-label{font-size:12px;color:var(--muted)}.metric-value{font-size:32px;font-weight:630;line-height:1.2;margin-top:8px;letter-spacing:-.03em}.metric-note{font-size:11px;color:var(--muted);margin-top:6px}.section-title{display:flex;gap:18px;align-items:baseline;justify-content:space-between;margin-bottom:13px}.section-title h2{font-size:18px;font-weight:640;margin:0}.section-title p{font-size:12px;color:var(--muted);margin:0}.model-list{display:grid;gap:14px}.model-card{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:22px}.model-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:17px}.model-heading h3{font-size:20px;letter-spacing:-.025em;margin:0;overflow-wrap:anywhere}.model-subtitle{color:var(--muted);font-size:12px;margin-top:4px}.load-state{font-size:12px;color:#b4c4d2;background:#1e2c3c;border-radius:7px;padding:5px 10px;white-space:nowrap}.load-state.loaded{color:#9df2d9;background:#183b35}.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding-top:16px;border-top:1px solid var(--line)}.fact dt{font-size:11px;color:var(--muted)}.fact dd{font-size:14px;font-weight:550;margin:5px 0 0;overflow-wrap:anywhere}.capabilities{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:19px;font-size:11px}.capabilities-label{color:var(--muted);margin-right:4px}.chip{border:1px solid #36505b;color:#b2d7d5;border-radius:6px;padding:3px 7px}.details{border-top:1px solid var(--line);margin-top:19px;padding-top:12px;font-size:12px;color:var(--muted)}summary{cursor:pointer;max-width:max-content}.details p{margin:11px 0 0;overflow-wrap:anywhere}.digest{display:block;font:11px ui-monospace,SFMono-Regular,Consolas,monospace;color:#b8c7d4;margin-top:5px;overflow-wrap:anywhere}.notice{border:1px solid #665131;border-radius:13px;background:#282216;padding:17px 20px;margin:18px 0;color:#ecd5a8;font-size:13px}.notice[hidden],.empty[hidden],[hidden]{display:none!important}.empty{border:1px dashed #3b5061;border-radius:16px;background:#101a25;padding:32px 24px}.empty h3{font-size:17px;margin:0 0 7px}.empty p{font-size:14px;color:var(--muted);margin:0}.loaded-section{margin-top:29px}.loading{padding:25px 0;color:var(--muted);font-size:14px}.foot{font-size:12px;color:var(--muted);line-height:1.7;border-top:1px solid var(--line);padding-top:19px;margin-top:30px}.foot strong{font-weight:550;color:#cedbe4}.timestamp{font-size:11px;margin-top:7px;color:#8ba1b3}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+    @media(max-width:640px){main{padding:20px 17px 42px}.topbar{padding-bottom:20px}.intro{padding:27px 0 21px}.service{align-items:flex-start;padding:18px;gap:12px}.service-title{font-size:15px;gap:8px}.service-meta{font-size:12px;display:block}.service-meta span{display:block}.service-meta span+span::before{display:none}.refresh{font-size:12px;padding:9px 11px}.metrics{gap:8px;margin:14px 0 26px}.metric{padding:14px 12px}.metric-label{font-size:11px}.metric-value{font-size:27px}.metric-note{font-size:10px}.section-title{display:block}.section-title p{margin-top:4px}.model-card{padding:18px}.model-heading{gap:8px}.model-heading h3{font-size:18px}.load-state{font-size:10px}.facts{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.brand-name{font-size:12px}.eyebrow{font-size:9px}.mark{width:35px;height:35px}.back{font-size:12px}.foot{font-size:11px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<main>
+  <header class="topbar">
+    <div class="brand"><div class="mark" aria-hidden="true">◈</div><div><div class="eyebrow">LeeWay ecosystem</div><div class="brand-name">Agent Lee · Runtime Fabric</div></div></div>
+    <a class="back" id="backToAgentLee" href="/ui">← Agent Lee</a>
+  </header>
+  <section class="intro"><h1>Models</h1><p>See the models installed on your PC and what its model service currently has loaded.</p></section>
+  <section class="service" aria-label="Model service">
+    <div><div class="service-title"><span id="bodyTitle">PC model service</span><span id="serviceState" class="badge" data-state="loading">Checking</span></div>
+      <p class="service-meta"><span id="bodyName">Reading serving device</span><span>Ollama</span><span>Model Execution Runtime</span></p>
+    </div>
+    <button type="button" class="refresh" id="refresh">Refresh</button>
+  </section>
+  <div id="notice" class="notice" role="status" hidden></div>
+  <div class="metrics" aria-label="Current inventory counts">
+    <div class="metric"><div class="metric-label">Installed</div><div class="metric-value" id="installedCount">—</div><div class="metric-note">Models on disk</div></div>
+    <div class="metric"><div class="metric-label">Loaded</div><div class="metric-value" id="loadedCount">—</div><div class="metric-note">Models in memory</div></div>
+    <div class="metric"><div class="metric-label">Installed size</div><div class="metric-value" id="installedSize">—</div><div class="metric-note">Reported by service</div></div>
+  </div>
+  <section aria-labelledby="libraryTitle">
+    <div class="section-title"><h2 id="libraryTitle">Installed models</h2><p id="libraryDetail">Current PC inventory</p></div>
+    <p id="loading" class="loading">Reading the PC model service…</p>
+    <div id="empty" class="empty" hidden><h3 id="emptyTitle"></h3><p id="emptyText"></p></div>
+    <div id="models" class="model-list"></div>
+  </section>
+  <section id="loadedSection" class="loaded-section" aria-labelledby="loadedTitle" hidden>
+    <div class="section-title"><h2 id="loadedTitle">Loaded models</h2><p>Reported separately by the running service</p></div>
+    <div id="loadedModels" class="model-list"></div>
+  </section>
+  <footer class="foot"><strong>PC model inventory</strong> · When opened on your phone, this view still reports the serving PC. Model files and memory use are shown here; Agent Lee’s execution bindings are managed separately.<div id="observedAt" class="timestamp">Waiting for an observation.</div></footer>
+  <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+</main>
+<script>
+(()=>{'use strict';
+  const $=id=>document.getElementById(id), schema='leeway.model-inventory.v1';
+  let sequence=0, pending;
+  const put=(id,value)=>{$(id).textContent=value;};
+  const size=bytes=>{if(!Number.isSafeInteger(bytes)||bytes<0)return '—';if(bytes===0)return '0 B';const unit=bytes>=1e9?'GB':bytes>=1e6?'MB':bytes>=1e3?'KB':'B',divisor={GB:1e9,MB:1e6,KB:1e3,B:1}[unit];return new Intl.NumberFormat(undefined,{maximumFractionDigits:bytes/divisor<10?2:1}).format(bytes/divisor)+' '+unit;};
+  const when=value=>{const date=new Date(value);return value&&Number.isFinite(date.getTime())?date.toLocaleString():'Not reported';};
+  function node(tag,className,content){const value=document.createElement(tag);if(className)value.className=className;if(content!==undefined)value.textContent=String(content);return value;}
+  function fact(label,value){const item=node('div','fact');item.append(node('dt','',label),node('dd','',value??'Not reported'));return item;}
+  function card(model,loaded=false){
+    const article=node('article','model-card'),heading=node('div','model-heading'),title=node('div');
+    title.append(node('h3','',model.name),node('div','model-subtitle',model.family?'Model family · '+model.family:'Ollama model'));
+    const isLoaded=loaded||model.loaded===true,loadText=isLoaded?'Loaded':model.loaded===false?'On disk':'Load state unavailable';
+    heading.append(title,node('span','load-state'+(isLoaded?' loaded':''),loadText));article.append(heading);
+    const facts=node('dl','facts');facts.append(fact('Size',size(model.sizeBytes)),fact('Parameters',model.parameterSize),fact('Quantization',model.quantization),fact('Format',model.format));article.append(facts);
+    if(model.reportedCapabilities?.length){const chips=node('div','capabilities');chips.append(node('span','capabilities-label','Reported capabilities'));for(const value of model.reportedCapabilities)chips.append(node('span','chip',value));article.append(chips);}
+    const details=node('details','details');details.append(node('summary','','Model details'));
+    const hash=node('p','','Model digest');hash.append(node('code','digest',model.digest));details.append(hash);
+    details.append(node('p','',loaded?'Memory allocation · '+size(model.sizeVramBytes)+' VRAM':'Last modified · '+when(model.modifiedAt)));
+    if(loaded&&model.expiresAt)details.append(node('p','','Service expiry · '+when(model.expiresAt)));
+    article.append(details);return article;
+  }
+  function validate(value){
+    if(!value||value.schemaVersion!==schema||value.owner?.repository!=='4citeB4U/Leeway-Runtime-Fabric'||
+       value.owner?.component!=='model-execution-runtime'||value.owner?.provider!=='OLLAMA_LOCAL'||
+       value.body?.kind!=='PC'||typeof value.body?.name!=='string'||value.scope!=='PC_MODEL_SERVICE_INVENTORY'||
+       !['OBSERVED','PARTIAL','UNAVAILABLE','BLOCKED'].includes(value.state))throw Error('The inventory response could not be verified.');
+    for(const key of ['installed','loaded']){const section=value[key];if(!section||!Array.isArray(section.models)||
+      (section.state==='OBSERVED'?section.count!==section.models.length:section.count!==null||section.models.length!==0))throw Error('The inventory counts could not be verified.');}
+    return value;
+  }
+  function render(value){
+    const installed=value.installed,loaded=value.loaded,observed=installed.state==='OBSERVED',loadedObserved=loaded.state==='OBSERVED';
+    put('bodyTitle','PC model service');put('bodyName','PC · '+value.body.name);
+    put('serviceState',value.state==='OBSERVED'?'Online':value.state==='PARTIAL'?'Partial read':'Unavailable');
+    $('serviceState').dataset.state=value.state==='OBSERVED'?'online':value.state==='PARTIAL'?'partial':'offline';
+    put('installedCount',observed?installed.count:'—');put('loadedCount',loadedObserved?loaded.count:'—');put('installedSize',observed?size(installed.totalSizeBytes):'—');
+    put('libraryDetail',observed?installed.count+' '+(installed.count===1?'model':'models')+' reported':'Inventory could not be read');
+    $('models').replaceChildren(...installed.models.map(model=>card(model)));
+    const extraLoaded=loaded.models.filter(model=>!installed.models.some(item=>item.name===model.name&&item.digest===model.digest));
+    $('loadedModels').replaceChildren(...extraLoaded.map(model=>card(model,true)));$('loadedSection').hidden=extraLoaded.length===0;
+    $('empty').hidden=observed&&installed.count>0;
+    if(!observed){put('emptyTitle','Installed inventory unavailable');put('emptyText',installed.error?.message||'Refresh to try the PC model service again.');}
+    else if(!installed.count){put('emptyTitle','No installed models reported');put('emptyText','The PC model service returned an empty installed-model list.');}
+    const issues=[!observed?'Installed models: '+(installed.error?.message||'Unavailable.'):null,!loadedObserved?'Loaded models: '+(loaded.error?.message||'Unavailable.'):null].filter(Boolean);
+    $('notice').hidden=issues.length===0;put('notice',issues.join(' '));
+    put('observedAt','Read '+when(value.observedAt)+(loadedObserved&&loaded.count===0?' · No model is currently loaded.':''));
+    put('announcement',value.state==='OBSERVED'?installed.count+' installed, '+loaded.count+' loaded.':'Model inventory '+(value.state==='PARTIAL'?'partially available.':'unavailable.'));
+    $('loading').hidden=true;
+  }
+  function unavailable(message){
+    put('serviceState','Unavailable');$('serviceState').dataset.state='offline';put('installedCount','—');put('loadedCount','—');put('installedSize','—');
+    $('models').replaceChildren();$('loadedModels').replaceChildren();$('loadedSection').hidden=true;$('loading').hidden=true;$('empty').hidden=false;
+    put('emptyTitle','PC inventory unavailable');put('emptyText',message);put('libraryDetail','Inventory could not be read');$('notice').hidden=true;
+    put('observedAt','This refresh did not produce a valid inventory observation.');put('announcement','PC model inventory unavailable.');
+  }
+  async function refresh(){
+    const run=++sequence;pending?.abort();pending=new AbortController();const deadline=setTimeout(()=>pending?.abort(),15000);
+    $('refresh').disabled=true;put('serviceState','Checking');$('serviceState').dataset.state='loading';
+    try{
+      const response=await fetch('/api/models/inventory',{method:'GET',cache:'no-store',credentials:'same-origin',signal:pending.signal});
+      if(!response.ok)throw Error('The inventory service is unavailable. Refresh to try again.');
+      const value=validate(await response.json());if(run===sequence)render(value);
+    }catch(error){if(run===sequence)unavailable(error.name==='AbortError'?'The PC inventory read timed out. Refresh to try again.':error.message||'Refresh to try the PC inventory again.');}
+    finally{clearTimeout(deadline);if(run===sequence)$('refresh').disabled=false;}
+  }
+  $('backToAgentLee').addEventListener('click',async event=>{
+    const close=window.LeeWayModels?.close?()=>window.LeeWayModels.close():
+      window.pywebview?.api?.close?()=>window.pywebview.api.close():null;
+    if(close){event.preventDefault();try{await close();}catch{$('notice').hidden=false;put('notice','The window could not close. Use the platform Back or close control to return to Agent Lee.');}}
+    else if(location.hostname==='appassets.androidplatform.net'){event.preventDefault();$('notice').hidden=false;put('notice','Use Android Back to return to Agent Lee.');}
+  });
+  $('refresh').addEventListener('click',refresh);addEventListener('pagehide',()=>pending?.abort());refresh();
+})();
+</script>
+</body>
+</html>

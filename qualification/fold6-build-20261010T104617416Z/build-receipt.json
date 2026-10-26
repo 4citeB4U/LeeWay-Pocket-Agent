@@ -1,0 +1,23 @@
+﻿{
+    "schemaVersion":  "leeway.pocket.build-qualification.v1",
+    "runId":  "fold6-build-20261010T104617416Z",
+    "sourceOrigin":  "https://github.com/4citeB4U/LeeWay-Pocket-Agent.git",
+    "baseCommit":  "64cf4be8daf85284d6a81bb38fb40534c1072597",
+    "startedAt":  "2026-10-10T10:46:17.7705226Z",
+    "finishedAt":  "2026-10-10T10:46:27.9478320Z",
+    "gradleExitCode":  0,
+    "status":  "BUILD_AND_UNIT_TESTS_PASSED",
+    "sourceManifestSha256":  "8AFE4525A1EF0DD878D646485835570F0E73FB0B55E2A8F1A5533EF211AE318E",
+    "sourceChangedDuringBuild":  0,
+    "apk":  {
+                "path":  "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+                "sha256":  "05E755433815CF5FE21612557502485C17EE863597605B69D8327112120BF812",
+                "bytes":  64179059
+            },
+    "logSha256":  "7A3906E47B19F2A09746542115A6443DAB2138F76D4F7C2647554FD350396615",
+    "installed":  false,
+    "deviceAcceptance":  "NOT_EXECUTED",
+    "completeness":  "NOT_PROVEN",
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false
+}

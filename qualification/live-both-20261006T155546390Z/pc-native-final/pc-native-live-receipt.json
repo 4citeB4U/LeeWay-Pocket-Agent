@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "leeway.actual-windows-floating-ui.v1",
+  "status": "FAILED",
+  "browserFixtures": false,
+  "checks": [
+    {
+      "name": "Actual owned window is frameless, topmost and layered",
+      "status": "PASS",
+      "hwnd": 2230804,
+      "pid": 27460,
+      "style": 369164288,
+      "extendedStyle": 135069704
+    }
+  ],
+  "errors": [
+    "ACTUAL_NATIVE_STATE_TIMEOUT"
+  ],
+  "screenshots": [],
+  "microphoneRequestedByTest": false,
+  "speakerIdentityChanged": false,
+  "goldenPromoted": false,
+  "formulaExecuted": false
+}

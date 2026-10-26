@@ -1,0 +1,23 @@
+{
+  "status": "EXISTING_OWNER_BRAIN_PRESERVED_AND_INSTALLED_APK_HASH_VERIFIED",
+  "priorNodes": 396,
+  "currentNodes": 396,
+  "missingPriorNodeIds": 0,
+  "sameOwnerIdentity": true,
+  "installedApkSha256": "50b1746b08d212f78b434df7547a241181d99d9b07f2b35664e022f63c75da4f",
+  "databaseIntegrity": [
+    {
+      "name": "leeway-continuum.db",
+      "integrity": "ok"
+    },
+    {
+      "name": "leeway-working-memory.db",
+      "integrity": "ok"
+    },
+    {
+      "name": "leeway-digital-brain.db",
+      "integrity": "ok"
+    }
+  ],
+  "privateDatabasesPublished": false
+}

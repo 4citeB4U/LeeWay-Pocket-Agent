@@ -1,0 +1,351 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "FAILED",
+  "action": "drag",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 41456,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1278,
+      "y": 212,
+      "width": 276,
+      "height": 254,
+      "screenAreaRatio": 0.03848972942879779
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 277,
+        "height": 254,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": -34.00000190734863,
+        "bottom": 63,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 4,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0,
+        "nativeControlTaps": 1,
+        "lastNativeTarget": "hamburger-btn"
+      },
+      "shrink": {
+        "x": 148.33334350585938,
+        "y": 196,
+        "width": 28,
+        "height": 28,
+        "top": 196,
+        "right": 176.33334350585938,
+        "bottom": 224,
+        "left": 148.33334350585938
+      },
+      "grow": {
+        "x": 179.33334350585938,
+        "y": 196,
+        "width": 28,
+        "height": 28,
+        "top": 196,
+        "right": 207.33334350585938,
+        "bottom": 224,
+        "left": 179.33334350585938
+      },
+      "expand": {
+        "x": 210.33334350585938,
+        "y": 196,
+        "width": 28,
+        "height": 28,
+        "top": 196,
+        "right": 238.33334350585938,
+        "bottom": 224,
+        "left": 210.33334350585938
+      },
+      "workstation": {
+        "x": -217.7291717529297,
+        "y": 664.5416870117188,
+        "width": 183.7291717529297,
+        "height": 133.92709350585938,
+        "top": 664.5416870117188,
+        "right": -34,
+        "bottom": 798.4687805175781,
+        "left": -217.7291717529297
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": [
+      {
+        "event": "mouseMoved",
+        "cssX": 29.333333333333332,
+        "cssY": 29.333333333333332,
+        "screenX": 1961,
+        "screenY": 362,
+        "at": 1791307199.5358925
+      },
+      {
+        "event": "nativeTap",
+        "cssX": 29.333333333333332,
+        "cssY": 29.333333333333332,
+        "at": 1791307199.7650077
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 29.333333333333332,
+        "cssY": 29.333333333333332,
+        "screenX": 1961,
+        "screenY": 362,
+        "at": 1791307199.7663834
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 7.333333333333333,
+        "cssY": 50.666666666666664,
+        "screenX": 1928,
+        "screenY": 394,
+        "at": 1791307319.933468
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 20.666666666666668,
+        "cssY": 50.666666666666664,
+        "screenX": 1948,
+        "screenY": 394,
+        "at": 1791307319.9416485
+      }
+    ]
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 41456,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1278,
+      "y": 212,
+      "width": 276,
+      "height": 254,
+      "screenAreaRatio": 0.03848972942879779
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 277,
+        "height": 254,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": -34.00000190734863,
+        "bottom": 63,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 1,
+        "dragStarts": 0,
+        "cancelled": 5,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0,
+        "nativeControlTaps": 1,
+        "lastNativeTarget": "sphere"
+      },
+      "shrink": {
+        "x": 148.33334350585938,
+        "y": 196,
+        "width": 28,
+        "height": 28,
+        "top": 196,
+        "right": 176.33334350585938,
+        "bottom": 224,
+        "left": 148.33334350585938
+      },
+      "grow": {
+        "x": 179.33334350585938,
+        "y": 196,
+        "width": 28,
+        "height": 28,
+        "top": 196,
+        "right": 207.33334350585938,
+        "bottom": 224,
+        "left": 179.33334350585938
+      },
+      "expand": {
+        "x": 210.33334350585938,
+        "y": 196,
+        "width": 28,
+        "height": 28,
+        "top": 196,
+        "right": 238.33334350585938,
+        "bottom": 224,
+        "left": 210.33334350585938
+      },
+      "workstation": {
+        "x": -217.7291717529297,
+        "y": 664.5416870117188,
+        "width": 183.7291717529297,
+        "height": 133.92709350585938,
+        "top": 664.5416870117188,
+        "right": -34,
+        "bottom": 798.4687805175781,
+        "left": -217.7291717529297
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Listening \u2014 tap sphere to stop"
+    },
+    "ownMouse": [
+      {
+        "event": "mouseMoved",
+        "cssX": 226.0,
+        "cssY": 121.33333333333333,
+        "screenX": 2256,
+        "screenY": 500,
+        "at": 1791307323.6506708
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 226.0,
+        "cssY": 121.33333333333333,
+        "screenX": 2256,
+        "screenY": 500,
+        "at": 1791307323.6557715
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 234.0,
+        "cssY": 121.33333333333333,
+        "screenX": 2268,
+        "screenY": 500,
+        "at": 1791307323.6593804
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 234.0,
+        "cssY": 121.33333333333333,
+        "screenX": 2268,
+        "screenY": 500,
+        "at": 1791307323.662589
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 242.66666666666666,
+        "cssY": 123.33333333333333,
+        "screenX": 2281,
+        "screenY": 503,
+        "at": 1791307323.6682982
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 250.66666666666666,
+        "cssY": 125.33333333333333,
+        "screenX": 2293,
+        "screenY": 506,
+        "at": 1791307323.6768682
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 261.3333333333333,
+        "cssY": 126.66666666666667,
+        "screenX": 2309,
+        "screenY": 508,
+        "at": 1791307323.685941
+      },
+      {
+        "event": "mouseMoved",
+        "cssX": 268.6666666666667,
+        "cssY": 128.0,
+        "screenX": 2320,
+        "screenY": 510,
+        "at": 1791307323.6943119
+      }
+    ]
+  },
+  "rectBefore": {
+    "left": 1917,
+    "top": 318,
+    "right": 2332,
+    "bottom": 699
+  },
+  "rectAfter": {
+    "left": 1917,
+    "top": 318,
+    "right": 2332,
+    "bottom": 699
+  },
+  "checks": [
+    {
+      "action": "drag",
+      "physicalDelta": [
+        120,
+        60
+      ]
+    }
+  ],
+  "error": "DRAG_NOT_TRACKING_ACTUAL_CURSOR",
+  "fixtureInput": false,
+  "phoneTested": false
+}

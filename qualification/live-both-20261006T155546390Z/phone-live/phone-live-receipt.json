@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "leeway.actual-phone-floating-and-audio.v1",
+  "status": "VERIFIED_INSTALLED_PHONE_SCOPED_UI_AND_OUTPUT",
+  "fixtures": false,
+  "checks": [
+    {
+      "name": "Installed package is version 30, not the old candidate",
+      "status": "PASS"
+    },
+    {
+      "name": "Separate native right-edge emblem and bounded sphere; no in-page duplicate",
+      "status": "PASS",
+      "emblem": {
+        "rightInset": 0,
+        "top": 1220,
+        "width": 178,
+        "height": 178,
+        "type": "TYPE_APPLICATION_OVERLAY",
+        "focusable": false,
+        "blocksOutsideTouches": false
+      },
+      "sphere": {
+        "state": "NATIVE_SPHERE_ATTACHED",
+        "x": 1043,
+        "y": 540,
+        "width": 229.33333,
+        "height": 229.33333,
+        "physicalWidth": 602,
+        "physicalHeight": 602,
+        "screenAreaRatio": 0.09039850734355044,
+        "panel": false,
+        "expanded": false,
+        "type": "TYPE_APPLICATION_OVERLAY",
+        "blocksOutsideTouches": false,
+        "observedAtMs": 1791303415679
+      }
+    },
+    {
+      "name": "Home screen stays active behind the sphere, not MainActivity",
+      "status": "PASS"
+    },
+    {
+      "name": "Ordinary calculator runs while the external emblem and sphere remain",
+      "status": "PASS"
+    },
+    {
+      "name": "Hamburger opens without invoking sphere speech",
+      "status": "PASS"
+    },
+    {
+      "name": "Voice menu touch does not trigger a sphere tap",
+      "status": "PASS"
+    },
+    {
+      "name": "Actual selected Voice Fabric audio playing on built-in phone speaker",
+      "status": "PASS",
+      "playing": {
+        "scope": "OWNER_REQUESTED_VOICE_FABRIC_SAMPLE_NOT_CONVERSATION",
+        "humanAudibilityConfirmed": false,
+        "volumeChanged": false,
+        "systemTtsUsed": false,
+        "audioSha256": "5621cab098297a4e258bb6b302927c025fefdde1de8ff74714ea1bf25a852898",
+        "voicePackageId": "kokoro-am_michael",
+        "provider": "kokoro",
+        "selectionRevision": "076cfae4678ac16f0b06dbf9f82f8b16f7fb943fc9bec4a95d3c33e144c7079f",
+        "streamVolume": 15,
+        "streamMaxVolume": 15,
+        "requestedOutputType": 2,
+        "requestedOutputName": "SM-F956U",
+        "state": "PLAYING_BUILTIN_SPEAKER",
+        "observedAtMs": 1791303802361,
+        "durationMs": 9275,
+        "actualOutputType": 2,
+        "actualOutputName": "SM-F956U",
+        "nativeIsPlaying": true
+      }
+    },
+    {
+      "name": "Phone speaker playback completes without changing selected voice or volume",
+      "status": "PASS",
+      "completed": {
+        "scope": "OWNER_REQUESTED_VOICE_FABRIC_SAMPLE_NOT_CONVERSATION",
+        "humanAudibilityConfirmed": false,
+        "volumeChanged": false,
+        "systemTtsUsed": false,
+        "audioSha256": "5621cab098297a4e258bb6b302927c025fefdde1de8ff74714ea1bf25a852898",
+        "voicePackageId": "kokoro-am_michael",
+        "provider": "kokoro",
+        "selectionRevision": "076cfae4678ac16f0b06dbf9f82f8b16f7fb943fc9bec4a95d3c33e144c7079f",
+        "streamVolume": 15,
+        "streamMaxVolume": 15,
+        "requestedOutputType": 2,
+        "requestedOutputName": "SM-F956U",
+        "state": "NATIVE_PLAYBACK_COMPLETED",
+        "observedAtMs": 1791303811624,
+        "durationMs": 9275,
+        "actualOutputType": 2,
+        "actualOutputName": "SM-F956U",
+        "nativeIsPlaying": true,
+        "playedPositionMs": 9205
+      }
+    },
+    {
+      "name": "Actual drag moves native sphere without speaking",
+      "status": "PASS",
+      "before": {
+        "x": 1043,
+        "y": 540
+      },
+      "after": {
+        "x": 966,
+        "y": 617
+      }
+    },
+    {
+      "name": "Owner shrink changes actual native window size",
+      "status": "PASS",
+      "size": 517,
+      "screenAreaRatio": 0.06667290269795657
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "name": "phone-home-overlay.png",
+      "sha256": "6718a3062d1b11adab92b4ea0bb5e2c3c3496d92be334da1518b8f789a06a09d"
+    },
+    {
+      "name": "phone-calculator-overlay.png",
+      "sha256": "4c5fe35199ecaf00702462903fda257438661ec8f9b829711e12981df5611c00"
+    },
+    {
+      "name": "phone-voice-test-control.png",
+      "sha256": "47a9ab30ea2f2c20e146553687dd8232a1abb7a8c149e0a29648a80527fcb483"
+    },
+    {
+      "name": "phone-voice-playing.png",
+      "sha256": "6c9e9fb435bb8ad2823f6259300385353166a2dfa0b6f1f23ef7e5d886d0dab3"
+    },
+    {
+      "name": "phone-final-home-floating.png",
+      "sha256": "7d516d8fc806bb71b4841aff844e40acc8f5ee666cb21e77f284f6433eeb8672"
+    }
+  ],
+  "humanAudibilityConfirmed": false,
+  "conversationExecutorQualified": false,
+  "crossDeviceSelectionSyncQualified": false,
+  "fullGoldenRelease": false,
+  "formulaExecution": "NOT_EXECUTED"
+}

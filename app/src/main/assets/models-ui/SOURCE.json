@@ -1,0 +1,19 @@
+{
+    "schemaVersion":  "leeway.models-ui-bundle.v1",
+    "repository":  "4citeB4U/Leeway-Runtime-Fabric",
+    "sourceComponent":  "runtime/model-execution-runtime/models-ui.html",
+    "sourceState":  "LIVE_PC_SOURCE_HASH_VERIFIED",
+    "scope":  "PAIRED_PC_INVENTORY_READ_ONLY_UI_PARITY_ONLY",
+    "runtimeProjection":  "NATIVE_TRANSPORT_SCRIPT_INSERTED_AFTER_HTML_HASH_VERIFICATION",
+    "files":  {
+                  "index.html":  {
+                                     "sha256":  "2152d41e48c0361fdb82d4d1714d5f5658fd09935d398ed7acaf79668732444c",
+                                     "mime":  "text/html"
+                                 },
+                  "native-models-bridge.js":  {
+                                                  "sha256":  "e4d61f879b9802a966f003dbc571841e02c6bf14650419b6b305ebdcfd89082f",
+                                                  "mime":  "text/javascript"
+                                              }
+              },
+    "sourceCommit":  "44717cf4cbe6fe0a007db4ad94f6a13e1a3f729d"
+}

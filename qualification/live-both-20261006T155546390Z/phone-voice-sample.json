@@ -1,0 +1,28 @@
+{
+  "voicePackageId": "kokoro-am_michael",
+  "provider": "kokoro",
+  "voiceId": "am_michael",
+  "sampleRate": 24000,
+  "format": "wav",
+  "engine": "kokoro-82m-q8-cpu",
+  "metrics": {
+    "generationMs": 8057.604399999604,
+    "audioSeconds": 9.275
+  },
+  "agentId": "agent-lee",
+  "personaFamily": "AGENT_LEE_CONSTITUTIONAL",
+  "personaArchetypeId": "ELDER_MALE",
+  "voiceAuthority": "LEEWAY_VOICE_FABRIC",
+  "selectionRevision": "076cfae4678ac16f0b06dbf9f82f8b16f7fb943fc9bec4a95d3c33e144c7079f",
+  "qualificationOnly": true,
+  "productionAdmitted": false,
+  "textHash": "d6a4f9492058fc472f45093812b097f6e748ff525780d6e3e74a4ccdfe661621",
+  "state": "SYNTHESIZED_NOT_PLAYBACK_VERIFIED",
+  "deviceMayOverride": false,
+  "systemVoiceFallback": false,
+  "capturedAtMs": 1791303258313,
+  "expiresAtMs": 1791306858313,
+  "audioSha256": "5621cab098297a4e258bb6b302927c025fefdde1de8ff74714ea1bf25a852898",
+  "purpose": "OWNER_REQUESTED_PHONE_OUTPUT_TEST_NOT_CONVERSATION",
+  "text": "Creator, this is LeeWay Voice. This is a phone speaker test, using the same selected Agent Lee voice as the computer."
+}

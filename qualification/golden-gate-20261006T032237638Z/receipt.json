@@ -1,0 +1,47 @@
+﻿{
+    "schemaVersion":  "leeway.golden-gate-qualification.v1",
+    "runId":  "golden-gate-20261006T032237638Z",
+    "sourceBase":  "6ec2dc9c4c54deb09c3190e1c0e560a9b6164113",
+    "artifactSourceCommit":  "6ec2dc9c4c54deb09c3190e1c0e560a9b6164113",
+    "status":  "VERIFIED_RELEASE_GATE_REGRESSIONS_NOT_PRODUCT_ACCEPTANCE",
+    "unitTestsPassed":  20,
+    "unitTestsFailed":  0,
+    "testExitCode":  0,
+    "negativeCandidateExitCode":  2,
+    "requiredGroups":  10,
+    "requiredAcceptanceCasesPerProfile":  46,
+    "candidateVerifiedAcceptanceCases":  0,
+    "candidateReleaseState":  "BLOCKED",
+    "candidateProfile":  "PROVISIONAL_PLAN_LABEL_NOT_SUPPORTED_PLATFORM_CERTIFICATION",
+    "apkSha256":  "F4E18F27DA1310A91419CAAA011F4693404FCA0C52985786FC28F5EC9667201E",
+    "apkBytes":  42042287,
+    "testsLogSha256":  "5BE3FC754E70D69E7AA1FA81423DF2A11B3AF1AAA2A1EEDCFEEE36F880B11F4A",
+    "assessmentSha256":  "F8335CF2A7896CB93465010B4F06A86F81DD0F482F5B86E2A102151D819C4705",
+    "sourceHashes":  [
+                         {
+                             "path":  "contracts\\golden-apk-release.v1.json",
+                             "sha256":  "3549BF92DD77824AB962FE496F13D7BBD4E6871A6F4AC789A579109F6EAA1030"
+                         },
+                         {
+                             "path":  "scripts\\golden-release-gate.mjs",
+                             "sha256":  "2BF7A8848461825295AF596C050B57029DDC72FADD25BDD1D98C9D75CAA03014"
+                         },
+                         {
+                             "path":  "tests\\golden-release-gate.test.mjs",
+                             "sha256":  "A27FC37AAC64386F80F7FED9969FB8CBCA8DC90415588E0C40A766A52A839570"
+                         },
+                         {
+                             "path":  "tests\\sphere-voice-boundary.test.mjs",
+                             "sha256":  "2A03E65A4444151C8DECF9875654EE65C3F24D7E743EB27CF03EA82F0453E7EE"
+                         },
+                         {
+                             "path":  "Verify-SingleApk.ps1",
+                             "sha256":  "6DC41E13F0A6912CDA2B2F66144FFDE4F96E51E2F408CD7FD20A062D434DA5B8"
+                         }
+                     ],
+    "phoneModified":  false,
+    "apkRebuilt":  false,
+    "releasePromoted":  false,
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false
+}

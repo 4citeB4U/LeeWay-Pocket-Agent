@@ -1,0 +1,183 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "PASS_SCOPED_NATIVE_ACTION",
+  "action": "close",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 32652,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": true,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1406,
+      "y": 264,
+      "width": 760,
+      "height": 800,
+      "screenAreaRatio": 0.05695443645083933
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 760,
+        "height": 800,
+        "dpr": 1.5
+      },
+      "menu": true,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": 301.97918701171875,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": 316.00002098083496,
+        "bottom": 63,
+        "left": 301.97918701171875
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 1,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0
+      },
+      "workstation": {
+        "x": 18,
+        "y": 547.5416870117188,
+        "width": 298,
+        "height": 94.92708587646484,
+        "top": 547.5416870117188,
+        "right": 316,
+        "bottom": 642.4687728881836,
+        "left": 18
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": []
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 32652,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1406,
+      "y": 264,
+      "width": 276,
+      "height": 276,
+      "screenAreaRatio": 0.007135791366906475
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 276,
+        "height": 276,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": -34.00000190734863,
+        "bottom": 63,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 1,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0
+      },
+      "workstation": {
+        "x": -216.59375,
+        "y": 664.5416870117188,
+        "width": 182.59375,
+        "height": 133.92709350585938,
+        "top": 664.5416870117188,
+        "right": -34,
+        "bottom": 798.4687805175781,
+        "left": -216.59375
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": []
+  },
+  "rectBefore": {
+    "left": 1406,
+    "top": 264,
+    "right": 2166,
+    "bottom": 1064
+  },
+  "rectAfter": {
+    "left": 2109,
+    "top": 396,
+    "right": 2523,
+    "bottom": 810
+  },
+  "checks": [
+    {
+      "action": "close",
+      "actualOsClick": [
+        1714,
+        315
+      ]
+    }
+  ],
+  "error": null,
+  "fixtureInput": false,
+  "phoneTested": false
+}

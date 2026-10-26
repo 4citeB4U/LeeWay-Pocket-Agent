@@ -1,0 +1,43 @@
+﻿{
+    "schemaVersion":  "leeway.body.v1",
+    "bodyId":  "pc-primary",
+    "platform":  "windows",
+    "agentIdentity":  "agent-lee",
+    "consciousnessAuthority":  "ONE_AGENT_LEE_CONSCIOUSNESS",
+    "logicalRoots":  [
+                         {
+                             "rootId":  "PC_SYSTEM_ROOT",
+                             "physicalPath":  "C:\\",
+                             "mode":  "OBSERVE_AUTHORIZED"
+                         },
+                         {
+                             "rootId":  "LEEWAY_WORK_ROOT",
+                             "physicalPath":  "E:\\",
+                             "mode":  "OBSERVE_AUTHORIZED"
+                         }
+                     ],
+    "bodyLocal":  {
+                      "workstation":  "E:\\LeeWay-Work\\agent-vt-production-test",
+                      "digitalBrain":  "E:\\LeeWay-Work\\Digital-Brains\\pc-primary",
+                      "continuum":  "E:\\LeeWay-Work\\continuum-vtensor-acceptance-local\\continuum",
+                      "ldwmd":  {
+                                    "state":  "BINDING_REQUIRED"
+                                }
+                  },
+    "sharedAuthorities":  {
+                              "runtimeFabric":  {
+                                                    "repo":  "4citeB4U/Leeway-Runtime-Fabric",
+                                                    "canonicalMain":  "647913b04c456afb6ad4f3e7636b446773861702"
+                                                },
+                              "formula":  "4citeB4U/Leeway-formula-live",
+                              "voice":  "4citeB4U/LeeWay-Voice-Fabric",
+                              "skills":  "4citeB4U/LeeWay-Agent-Skills",
+                              "deviceBridge":  "4citeB4U/LEEWAY-DEVICE-BRIDGE",
+                              "standards":  "4citeB4U/LeeWay-Standards"
+                          },
+    "commander":  {
+                      "role":  "BODY_EXECUTION_AUTHORITY",
+                      "state":  "LIVE_BINDING_REQUIRED"
+                  },
+    "activation":  "BLOCKED_UNTIL_MANDATORY_GATES_PASS"
+}

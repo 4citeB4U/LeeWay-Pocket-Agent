@@ -31,20 +31,33 @@ window.LeeWayLocalBrainBinding = function installLocalBrainBinding(renderer) {
     if(node.status==='tombstoned')throw Error('VIEWER_TOMBSTONE_REJECTED');
     renderer.upsert(node);cache.set(node.id,node);return node;
   }
-  async function load(id,offset=0,{navigate=true}={}){
+  function pageSize(node){
+    const size=renderer.pageSize?.(node)??128;
+    if(!Number.isInteger(size)||size<1||size>128||128%size!==0)throw Error('VIEWER_PAGE_SIZE_INVALID');
+    return size;
+  }
+  async function load(id,offset=0,{navigate=true,focusId=null}={}){
     if(!Number.isInteger(offset)||offset<0)throw Error('VIEWER_PAGE_INVALID');
     const token=++generation;
     try {
-      const {result}=await query('children',{id,offset,limit:128});
+      const limit=focusId?128:pageSize(cache.get(id));
+      const {result}=await query('children',{id,offset,limit});
       if(token!==generation)return null;
-      if(result.node?.id!==id||!Array.isArray(result.nodes)||result.nodes.length>128||result.offset!==offset||!Number.isSafeInteger(result.total)||result.total<0)throw Error('VIEWER_PAGE_CONTRACT_INVALID');
+      if(result.node?.id!==id||!Array.isArray(result.nodes)||result.nodes.length>limit||result.offset!==offset||!Number.isSafeInteger(result.total)||result.total<0)throw Error('VIEWER_PAGE_CONTRACT_INVALID');
       if(result.nodes.some(n=>n.parent_id!==id)||new Set(result.nodes.map(n=>n.id)).size!==result.nodes.length)throw Error('VIEWER_RELATION_IS_NOT_CHILD');
       if(result.hasMore!== (offset+result.nodes.length<result.total))throw Error('VIEWER_PAGE_COUNT_MISMATCH');
+      const size=Math.min(limit,pageSize(result.node));
+      const focusIndex=focusId?result.nodes.findIndex(n=>n.id===focusId):0;
+      if(focusIndex<0)throw Error('VIEWER_SEARCH_RESULT_NOT_IN_PAGE');
+      const start=focusId?Math.floor(focusIndex/size)*size:0;
+      const nodes=result.nodes.slice(start,start+size),pageOffset=offset+start;
+      const hasMore=pageOffset+nodes.length<result.total;
       admit(result.node);result.nodes.forEach(admit);
-      renderer.children(id,result.nodes.map(n=>n.id),result.total,offset);
-      active={id,offset,total:result.total,size:result.nodes.length,hasMore:result.hasMore};
+      renderer.children(id,nodes.map(n=>n.id),result.total,pageOffset);
+      active={id,offset:pageOffset,total:result.total,size:nodes.length,hasMore,limit:size};
       if(navigate)renderer.enter(id);
-      paintPage();show('LOCAL BRAIN · '+bodyId);return result;
+      paintPage();show('LOCAL BRAIN · '+bodyId);
+      return {...result,nodes,offset:pageOffset,hasMore};
     }catch(error){show(error.message,true);throw error;}
   }
   function paintPage(){
@@ -83,16 +96,16 @@ window.LeeWayLocalBrainBinding = function installLocalBrainBinding(renderer) {
     if(!Array.isArray(result.nodes)||result.nodes.length>32)throw Error('VIEWER_SEARCH_LIMIT');
     result.nodes.forEach(admit);return result.nodes;
   }
-  async function focus(id){const result=await inspect(id);const parent=result.node.parent_id;if(parent){const offset=result.pageOffset;if(!Number.isInteger(offset)||offset<0||offset%128!==0)throw Error('VIEWER_SEARCH_PAGE_INVALID');const page=await load(parent,offset);if(!page?.nodes.some(n=>n.id===id))throw Error('VIEWER_SEARCH_RESULT_NOT_IN_PAGE');}renderer.select(id);}
+  async function focus(id){const result=await inspect(id);const parent=result.node.parent_id;if(parent){const offset=result.pageOffset;if(!Number.isInteger(offset)||offset<0||offset%128!==0)throw Error('VIEWER_SEARCH_PAGE_INVALID');const page=await load(parent,offset,{focusId:id});if(!page?.nodes.some(n=>n.id===id))throw Error('VIEWER_SEARCH_RESULT_NOT_IN_PAGE');}renderer.select(id);}
   async function start(){
     try{
       const envelope=await query('root');bodyId=envelope.bodyId;rootId=envelope.result.node?.id;
       if(rootId!=='brain:'+bodyId)throw Error('VIEWER_ROOT_IDENTITY_MISMATCH');
       admit(envelope.result.node);renderer.root(rootId);await load(rootId);
-      document.getElementById('localPrev')?.addEventListener('click',()=>{if(active)load(active.id,Math.max(0,active.offset-128)).catch(()=>{});});
+      document.getElementById('localPrev')?.addEventListener('click',()=>{if(active)load(active.id,Math.max(0,active.offset-active.limit)).catch(()=>{});});
       document.getElementById('localNext')?.addEventListener('click',()=>{if(active?.hasMore)load(active.id,active.offset+active.size).catch(()=>{});});
       document.getElementById('localRefresh')?.addEventListener('click',()=>{if(active)load(active.id,active.offset).catch(()=>{});});
-      document.getElementById('localClose')?.addEventListener('click',()=>native.close?.());
+      document.getElementById('localClose')?.addEventListener('click',()=>{try{native.close?.();}catch(error){show('RETURN_TO_AGENT_LEE_FAILED: '+error.message,true);}});
       document.getElementById('localEnter')?.addEventListener('click',()=>window.dispatchEvent(new Event('leeway-enter-local-brain')));
       document.getElementById('localSearch')?.addEventListener('input',async event=>{
         const host=document.getElementById('localSearchResults');if(!host)return;host.replaceChildren();

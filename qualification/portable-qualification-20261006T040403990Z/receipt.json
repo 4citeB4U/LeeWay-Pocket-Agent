@@ -1,0 +1,19 @@
+﻿{
+    "schemaVersion":  "leeway.portable-brain-qualification.v1",
+    "runId":  "portable-qualification-20261006T040403990Z",
+    "sourceBase":  "c7a325a9197fc898fb35b86f7b5aa2414f64f212",
+    "sourceManifestSha256":  "5F39D9B0F715A120C88F60AEA605F20B5E9E80FA3A13F38BFC68FD965062F000",
+    "scope":  "PORTABLE_BOOTSTRAP_AND_BUILD_NOT_FULL_PRODUCT_OR_DEVICE_ACCEPTANCE",
+    "status":  "FAILED",
+    "nodeTestExit":  0,
+    "gradleExit":  1,
+    "fixedIdentityHits":  0,
+    "phoneModified":  false,
+    "installed":  false,
+    "releasePromoted":  false,
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false,
+    "error":  "GRADLE_QUALIFICATION_FAILED",
+    "node-tests.tapSha256":  "B3AF23B936D8AF28ADB7DFCD84EFE4F29B71FC553935BE251E529A9EEB37D9D2",
+    "gradle.logSha256":  "D895355162E4D1FE9E94D61C22B7EFD0036E6F80FA5B608A11A22231B2AF7A48"
+}

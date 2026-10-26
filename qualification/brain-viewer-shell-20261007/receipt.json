@@ -1,0 +1,9 @@
+{
+  "status": "PATCHED_SOURCE_RESTART_BUILD_REQUIRED",
+  "phoneBrainHtml": "33d985a67bd97e5ebb588972a2131f98f251bedbce4dd874b43bb3f531439c01",
+  "phoneBinding": "d26b2419f25c862da52d81f110757a099676496aece1ca2764df98f800416ba5",
+  "pcBrainHtml": "33d985a67bd97e5ebb588972a2131f98f251bedbce4dd874b43bb3f531439c01",
+  "pcSphere": "5dd69d35a39b2cb958a4ddda36489c831d130ab88c2c2cf3c5e4c22dad1e2770",
+  "voiceAuthorityChanged": false,
+  "brainDatabaseChanged": false
+}

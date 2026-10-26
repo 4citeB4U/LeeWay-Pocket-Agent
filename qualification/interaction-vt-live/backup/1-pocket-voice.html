@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Agent Lee — Elemental Digital Brain Sphere</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      cursor: pointer;
+    }
+    /* Top Floating Hamburger Button */
+    .hamburger-btn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(12, 24, 42, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.25s ease;
+      outline: none;
+    }
+    .hamburger-btn:hover {
+      background: rgba(30, 41, 59, 0.75);
+      border-color: rgba(56, 189, 248, 0.8);
+      transform: scale(1.05);
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+
+    /* Subtle Bottom Status Indicator */
+    .status-badge {
+      display: none !important;
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: rgba(10, 14, 23, 0.65);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+      transition: all 0.3s ease;
+    }
+    .status-badge.active .status-dot {
+      background: #f43f5e;
+      box-shadow: 0 0 12px #f43f5e;
+    }
+    .status-text {
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Slide-out Navigation Drawer */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 8, 18, 0.08);
+      backdrop-filter: blur(2px);
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 85%;
+      height: 100%;
+      background: rgba(6, 12, 24, 0.42);
+      border-right: 1px solid rgba(56, 189, 248, 0.25);
+      z-index: 35;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .drawer.open {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .drawer-title {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .drawer-subtitle {
+      color: #94a3b8;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .element-card {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(15, 28, 48, 0.34);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .element-card:hover {
+      background: rgba(30, 41, 59, 0.50);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .element-name {
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .element-motto {
+      color: #94a3b8;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+    .element-action {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .settings-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 24px; }
+    .setting-card { width: 100%; color: inherit; text-align: left; font: inherit; }
+    canvas { background: transparent !important; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style id="leeway-floating-repair">
+html,body{background:transparent!important;margin:0;overflow:hidden;color:#f6f9ff}
+.hamburger-btn{top:10px!important;left:10px!important;right:auto!important;transform:none!important;width:40px;height:40px;background:rgba(9,19,32,.8);border:1px solid rgba(255,255,255,.4)}
+.drawer{background:rgba(5,14,25,.96)!important;color:#f5f8ff!important;width:min(350px,96vw)!important;padding:18px!important;box-sizing:border-box;overflow:auto}
+.drawer-title{font-size:22px!important;color:#fff!important}.drawer-subtitle{font-size:13px!important;color:#c1d1e6!important}
+.element-card{color:#fff!important;background:rgba(32,48,70,.96)!important;padding:14px!important;min-height:58px;gap:12px;width:100%;border:1px solid rgba(179,205,231,.3)!important;box-sizing:border-box;text-align:left}
+.element-card>span:first-child{min-width:0}.element-name{display:block!important;font-size:16px!important;line-height:1.35!important;color:#fff!important}
+.element-motto{display:block!important;font-size:13px!important;line-height:1.5!important;color:#ccdaeb!important;margin-top:5px!important}
+.element-action{font-size:12px!important;letter-spacing:.7px;color:#97dcff!important;flex-shrink:0}.settings-list{display:flex;flex-direction:column;gap:10px}
+.drawer-overlay{background:transparent!important;backdrop-filter:none!important}.status-badge{font-size:11px;max-width:90vw;bottom:5px;pointer-events:none;background:rgba(4,12,21,.8);color:#fff;opacity:.85}
+#agent-controls{position:fixed;right:8px;bottom:30px;display:flex;gap:3px;z-index:24;opacity:0;transition:opacity .15s}body:hover #agent-controls,#agent-controls:focus-within{opacity:1}
+#agent-controls button{background:rgba(5,14,25,.86);border:1px solid #acc4d8;color:white;border-radius:7px;width:28px;height:28px;padding:0;font-size:14px;cursor:pointer}
+#agent-resize-grip{position:fixed;right:2px;bottom:2px;width:20px;height:20px;z-index:23;cursor:nwse-resize;touch-action:none;color:#afd8f4;font-size:18px}
+#surface-panel{display:none;position:fixed;inset:12px;background:rgba(5,14,25,.97);color:#ecf4ff;z-index:50;padding:24px;overflow:auto;border:1px solid #739bbb;border-radius:16px;font:15px/1.65 system-ui}
+#surface-panel.open{display:block}#surface-panel button{font:inherit;color:#fff;background:#183752;border:1px solid #87b6d2;border-radius:8px;padding:8px 12px;margin:6px 3px}#surface-panel h2{font-size:23px;color:#fff;margin-top:10px}#surface-panel p{max-width:65ch}#surface-panel .state{border-left:3px solid #87b6d2;padding-left:12px;color:#d8e8f7}
+</style>
+</head>
+<body style="background: transparent;">
+  <!-- Top Hamburger Menu Button -->
+  <button class="hamburger-btn" id="hamburger-btn" aria-label="Open Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- 3D Canvas (Clickable Sphere) -->
+  <div id="canvas-container"></div>
+
+  <!-- Bottom Tap Instruction Status -->
+  <div class="status-badge" id="status-badge">
+    <div class="status-dot" id="status-dot"></div>
+    <span class="status-text" id="status-text">Tap sphere to speak</span>
+  </div>
+
+  <!-- Drawer & Overlay -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title">Agent Lee</div>
+        <div class="drawer-subtitle">LeeWay · One Agent Lee · Your authorized devices</div>
+      </div>
+      <button class="close-btn" id="close-drawer">&times;</button>
+    </div>
+
+    <div style="font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: #38bdf8; margin-top: 10px;">
+      LEEWAY SETTINGS
+    </div>
+
+    <div class="settings-list">
+<button class="element-card setting-card" data-setting="digital-brain"><span><span class="element-name">Digital Brain</span><span class="element-motto">Your authorized files, objects and knowledge</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="continuum"><span><span class="element-name">Continuum</span><span class="element-motto">Your local database universes</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="diagnostics"><span><span class="element-name">This device</span><span class="element-motto">Hardware observations and diagnostics</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="voice"><span><span class="element-name">Voice</span><span class="element-motto">One selected Agent Lee voice across your devices</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="workstation"><span><span class="element-name">Agent VT</span><span class="element-motto">Virtual Tablet · Notebook · Notepad · Sandbox</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="models"><span><span class="element-name">Models · optional</span><span class="element-motto">Core operation does not require an LLM</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="skills"><span><span class="element-name">Skills reference</span><span class="element-motto">Read-only capability inventory</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="authority"><span><span class="element-name">Authority & Permissions</span><span class="element-motto">Owner-controlled access and revocation</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="evidence"><span><span class="element-name">Evidence & Receipts</span><span class="element-motto">Your permitted activity and execution records</span></span><span class="element-action">OPEN</span></button>
+<button class="element-card setting-card" data-setting="about"><span><span class="element-name">About LeeWay</span><span class="element-motto">Purpose, services and how Agent Lee works</span></span><span class="element-action">OPEN</span></button>
+    </div>
+  </div>
+
+  <script>
+    // --- THREE.JS SCENE SETUP ---
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.fog = null;
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 4.6);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.3;
+    container.appendChild(renderer.domElement);
+
+    // --- LIGHTING ---
+    const ambientLight = new THREE.AmbientLight(0x06182c, 1.8);
+    scene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0x67e8f9, 3.4);
+    keyLight.position.set(-3.5, 4.0, 3.5);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x0284c7, 2.5);
+    rimLight.position.set(3.5, -2.5, -2.5);
+    scene.add(rimLight);
+
+    const fissureLight = new THREE.PointLight(0x38bdf8, 3.6, 6);
+    fissureLight.position.set(0, 0, 0);
+    scene.add(fissureLight);
+
+    // --- MAIN GLOBE GROUP ---
+    const sphereGroup = new THREE.Group();
+    sphereGroup.position.set(0, 0, 0); // Perfectly centered
+    scene.add(sphereGroup);
+
+    // --- 1. REALISTIC DUAL-HEMISPHERE BRAIN GEOMETRY ---
+    const brainGroup = new THREE.Group();
+    sphereGroup.add(brainGroup);
+
+    const gapX = 0.085;
+    const latSteps = 22;
+    const lonSteps = 16;
+
+    function createHemisphereGeometry(isLeft) {
+      const geom = new THREE.BufferGeometry();
+      const vertices = [];
+      const normals = [];
+      const indices = [];
+
+      const side = isLeft ? -1 : 1;
+      const grid = [];
+
+      for (let i = 0; i <= latSteps; i++) {
+        grid[i] = [];
+        const latFrac = i / latSteps;
+        const lat = (latFrac - 0.5) * Math.PI * 0.94;
+
+        for (let j = 0; j <= lonSteps; j++) {
+          const lonFrac = j / lonSteps;
+          const lon = lonFrac * Math.PI;
+
+          const isMedial = j === 0;
+
+          const cosLat = Math.cos(lat);
+          const sinLat = Math.sin(lat);
+          const baseY = -sinLat * 0.90 - 0.05;
+          const baseZ = Math.cos(lon) * cosLat * 1.12;
+          const sinLon = Math.sin(lon);
+
+          let gyri = 0;
+          if (!isMedial) {
+            const n1 = Math.sin(lat * 8.5) * Math.cos(lon * 7.0) * 0.095;
+            const n2 = Math.cos(lat * 15.0 + lon * 11.0) * 0.045;
+            const n3 = Math.sin(baseZ * 9.0) * 0.035;
+            gyri = n1 + n2 + n3;
+          }
+
+          const r = 1.0 + gyri;
+          const posX = isMedial ? (side * gapX) : (side * (gapX + sinLon * cosLat * 0.82 * r));
+          const posY = baseY * r;
+          const posZ = baseZ * r;
+
+          const vIndex = vertices.length / 3;
+          grid[i][j] = vIndex;
+          vertices.push(posX, posY, posZ);
+
+          if (isMedial) {
+            normals.push(-side, 0, 0);
+          } else {
+            const vNorm = new THREE.Vector3(posX - side * gapX, posY, posZ).normalize();
+            normals.push(vNorm.x, vNorm.y, vNorm.z);
+          }
+        }
+      }
+
+      for (let i = 0; i < latSteps; i++) {
+        for (let j = 0; j < lonSteps; j++) {
+          const v0 = grid[i][j];
+          const v1 = grid[i + 1][j];
+          const v2 = grid[i + 1][j + 1];
+          const v3 = grid[i][j + 1];
+
+          indices.push(v0, v1, v2);
+          indices.push(v0, v2, v3);
+        }
+      }
+
+      geom.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geom.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+      geom.setIndex(indices);
+      geom.computeVertexNormals();
+      return geom;
+    }
+
+    const leftGeom = createHemisphereGeometry(true);
+    const rightGeom = createHemisphereGeometry(false);
+
+    const brainMaterial = new THREE.MeshStandardMaterial({
+      color: 0x052244,
+      emissive: 0x02162e,
+      roughness: 0.28,
+      metalness: 0.85,
+      transparent: true,
+      opacity: 0.88,
+      side: THREE.DoubleSide
+    });
+
+    const wireframeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.38
+    });
+
+    const leftMesh = new THREE.Mesh(leftGeom, brainMaterial);
+    const rightMesh = new THREE.Mesh(rightGeom, brainMaterial);
+    const leftWire = new THREE.Mesh(leftGeom, wireframeMaterial);
+    const rightWire = new THREE.Mesh(rightGeom, wireframeMaterial);
+
+    brainGroup.add(leftMesh);
+    brainGroup.add(rightMesh);
+    brainGroup.add(leftWire);
+    brainGroup.add(rightWire);
+
+    // --- 2. CENTRAL SAGITTAL BRIDGE (CORPUS CALLOSUM) ---
+    const bridgeGroup = new THREE.Group();
+    sphereGroup.add(bridgeGroup);
+
+    const bridgeFiberCount = 42;
+    const bridgePositions = new Float32Array(bridgeFiberCount * 2 * 3);
+    const bridgeColors = new Float32Array(bridgeFiberCount * 2 * 3);
+
+    for (let k = 0; k < bridgeFiberCount; k++) {
+      const y = (Math.random() - 0.5) * 1.35;
+      const z = (Math.random() - 0.5) * 1.6;
+      const idx = k * 6;
+      bridgePositions[idx + 0] = -gapX;
+      bridgePositions[idx + 1] = y;
+      bridgePositions[idx + 2] = z;
+
+      bridgePositions[idx + 3] = gapX;
+      bridgePositions[idx + 4] = y;
+      bridgePositions[idx + 5] = z;
+
+      bridgeColors[idx + 0] = 0.4; bridgeColors[idx + 1] = 0.9; bridgeColors[idx + 2] = 1.0;
+      bridgeColors[idx + 3] = 0.9; bridgeColors[idx + 4] = 0.98; bridgeColors[idx + 5] = 1.0;
+    }
+
+    const bridgeGeom = new THREE.BufferGeometry();
+    bridgeGeom.setAttribute('position', new THREE.BufferAttribute(bridgePositions, 3));
+    bridgeGeom.setAttribute('color', new THREE.BufferAttribute(bridgeColors, 3));
+
+    const bridgeMaterial = new THREE.LineBasicMaterial({
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.95,
+      linewidth: 2
+    });
+    const bridgeLines = new THREE.LineSegments(bridgeGeom, bridgeMaterial);
+    bridgeGroup.add(bridgeLines);
+
+    // Synaptic Particles
+    const bridgeSignalCount = 32;
+    const bridgeSigGeom = new THREE.BufferGeometry();
+    const bridgeSigPos = new Float32Array(bridgeSignalCount * 3);
+    for (let s = 0; s < bridgeSignalCount * 3; s += 3) {
+      bridgeSigPos[s + 0] = (Math.random() - 0.5) * gapX * 2;
+      bridgeSigPos[s + 1] = (Math.random() - 0.5) * 1.35;
+      bridgeSigPos[s + 2] = (Math.random() - 0.5) * 1.6;
+    }
+    bridgeSigGeom.setAttribute('position', new THREE.BufferAttribute(bridgeSigPos, 3));
+
+    const bridgeSigMaterial = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.06,
+      transparent: true,
+      opacity: 0.95,
+      blending: THREE.AdditiveBlending
+    });
+    const bridgeSignals = new THREE.Points(bridgeSigGeom, bridgeSigMaterial);
+    bridgeGroup.add(bridgeSignals);
+
+    // --- 3. TRANSLUCENT GEODESIC GLASS SPHERE ---
+    const globeRadius = 1.58;
+
+    const glassGeom = new THREE.SphereGeometry(globeRadius, 48, 36);
+    const glassMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x071e3d,
+      emissive: 0x0284c7,
+      emissiveIntensity: 0.18,
+      roughness: 0.08,
+      metalness: 0.1,
+      transmission: 0.72,
+      ior: 1.333,
+      transparent: true,
+      opacity: 0.45,
+      side: THREE.FrontSide
+    });
+    const glassMesh = new THREE.Mesh(glassGeom, glassMaterial);
+    sphereGroup.add(glassMesh);
+
+    const wireframeGlobeGeom = new THREE.SphereGeometry(globeRadius * 0.998, 28, 20);
+    const wireframeGlobeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.18
+    });
+    const wireframeGlobe = new THREE.Mesh(wireframeGlobeGeom, wireframeGlobeMaterial);
+    sphereGroup.add(wireframeGlobe);
+
+    const rimGeom = new THREE.RingGeometry(globeRadius * 0.98, globeRadius * 1.05, 64);
+    const rimMaterial = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.38,
+      blending: THREE.AdditiveBlending
+    });
+    const rimMesh = new THREE.Mesh(rimGeom, rimMaterial);
+    sphereGroup.add(rimMesh);
+
+    // --- 4. BACKGROUND NEURAL CONSTELLATION ---
+    const constellGroup = new THREE.Group();
+    scene.add(constellGroup);
+
+    const constellPositions = [];
+    for (let c = 0; c < 48; c++) {
+      const r = 3.2 + Math.random() * 2.5;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = (Math.random() - 0.5) * Math.PI;
+      constellPositions.push(new THREE.Vector3(
+        r * Math.cos(phi) * Math.cos(theta),
+        r * Math.sin(phi),
+        r * Math.cos(phi) * Math.sin(theta)
+      ));
+    }
+
+    const constellLinesGeom = new THREE.BufferGeometry();
+    const constellLinePos = [];
+    for (let i = 0; i < constellPositions.length; i++) {
+      for (let j = i + 1; j < constellPositions.length; j++) {
+        if (constellPositions[i].distanceTo(constellPositions[j]) < 2.2) {
+          constellLinePos.push(
+            constellPositions[i].x, constellPositions[i].y, constellPositions[i].z,
+            constellPositions[j].x, constellPositions[j].y, constellPositions[j].z
+          );
+        }
+      }
+    }
+    constellLinesGeom.setAttribute('position', new THREE.Float32BufferAttribute(constellLinePos, 3));
+    const constellLineMat = new THREE.LineBasicMaterial({ color: 0x0369a1, transparent: true, opacity: 0.14 });
+    // Background constellation intentionally hidden for transparent overlay UI.
+    // constellGroup.add(new THREE.LineSegments(constellLinesGeom, constellLineMat));
+
+    const constellDotGeom = new THREE.BufferGeometry().setFromPoints(constellPositions);
+    const constellDotMat = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.05, transparent: true, opacity: 0.45 });
+    // constellGroup.add(new THREE.Points(constellDotGeom, constellDotMat));
+
+    // Input is owned by the shared pointer-boundary adapter, not the whole window.
+    let isDragging=false,yaw=0.35,pitch=0.12;
+
+    // --- VOICE & TALKING ENGINE ---
+    let isListening = false;
+    let isSpeaking = false;
+    let audioContext = null;
+    let analyser = null;
+    let micStream = null;
+    let dataArray = null;
+    let voiceAmplitude = 0;
+
+    const statusBadge = document.getElementById('status-badge');
+    const statusText = document.getElementById('status-text');
+
+    async function toggleVoiceInteraction() {
+      window.LeeWayAgentSpeech?.stop();
+      if (isListening) {
+        stopListening();
+      } else {
+        startListening();
+      }
+    }
+
+    async function startListening() {
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          fallbackListeningSimulation();
+          return;
+        }
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        const source = audioContext.createMediaStreamSource(micStream);
+        source.connect(analyser);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        isListening = true;
+        statusBadge.classList.add('active');
+        statusText.textContent = 'Listening... Tap sphere to stop';
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+          const recognition = new SpeechRec();
+          recognition.continuous = false;
+          recognition.interimResults = false;
+          recognition.onresult = (e) => {
+            const transcript = e.results[0][0].transcript;
+            stopListening();
+            agentLeeSpeak(transcript);
+          };
+          recognition.onerror = () => stopListening();
+          recognition.start();
+        }
+      } catch (err) {
+        fallbackListeningSimulation();
+      }
+    }
+
+    function stopListening() {
+      isListening = false;
+      statusBadge.classList.remove('active');
+      statusText.textContent = 'Tap sphere to speak';
+      if (micStream) {
+        micStream.getTracks().forEach(t => t.stop());
+        micStream = null;
+      }
+      if (audioContext) {
+        audioContext.close();
+        audioContext = null;
+      }
+    }
+
+    function fallbackListeningSimulation() {
+      isListening = false;
+      voiceAmplitude = 0;
+      window.dispatchEvent(new CustomEvent('leeway:voice-unbound', { detail: { reason: 'MICROPHONE_OR_SPEECH_PROVIDER_UNAVAILABLE' } }));
+    }
+
+    // UI requests speech; Voice Fabric owns stream, synthesis, epoch and audio output.
+    async function agentLeeSpeak(prompt) {
+      if(!window.LeeWayAgentSpeech){statusText.textContent='LeeWay Voice interface is still loading';return;}
+      return window.LeeWayAgentSpeech.respond(prompt);
+    }
+    // --- HAMBURGER MENU DRAWER ---
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const closeDrawerBtn = document.getElementById('close-drawer');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      drawerOverlay.classList.add('open');
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      drawerOverlay.classList.remove('open');
+    }
+
+    hamburgerBtn.addEventListener('click', openDrawer);
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+
+    document.querySelectorAll('.setting-card').forEach((button) => {
+      button.addEventListener('click', () => {
+        const setting = button.dataset.setting;
+        closeDrawer();
+        window.dispatchEvent(new CustomEvent('leeway:open-surface', { detail: { surface: setting } }));
+      });
+    });
+
+    function setElement(name, primary, accent) {
+      wireframeMaterial.color.setHex(accent);
+      wireframeGlobeMaterial.color.setHex(accent);
+      rimMaterial.color.setHex(accent);
+      fissureLight.color.setHex(accent);
+      keyLight.color.setHex(accent);
+      document.getElementById('status-dot').style.backgroundColor = '#' + accent.toString(16);
+      closeDrawer();
+      agentLeeSpeak("Harmonizing with " + name);
+    }
+
+    // --- ANIMATION LOOP (LIVELY TALKING ANIMATION) ---
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      if (analyser && dataArray) {
+        analyser.getByteFrequencyData(dataArray);
+        let sum = 0;
+        for (let i = 0; i < dataArray.length; i++) {
+          sum += dataArray[i];
+        }
+        const avg = sum / dataArray.length;
+        voiceAmplitude = THREE.MathUtils.lerp(voiceAmplitude, Math.min(1.0, avg / 80), 0.25);
+      } else if (!isListening && !isSpeaking) {
+        voiceAmplitude = THREE.MathUtils.lerp(voiceAmplitude, 0, 0.1);
+      }
+
+      // Dynamic talking animation: faster orbital drift & conversational micro-sway
+      const talkingSpeed = (isSpeaking ? 2.5 : isListening ? 1.6 : 1.0);
+      if (!isDragging) {
+        yaw += dt * (0.15 + voiceAmplitude * 0.45) * talkingSpeed;
+      }
+
+      // Conversational sway when speaking
+      const talkPitchSway = isSpeaking ? Math.sin(time * 4.2) * 0.04 : 0;
+      const talkYawSway = isSpeaking ? Math.cos(time * 3.6) * 0.03 : 0;
+
+      sphereGroup.rotation.y = yaw + talkYawSway;
+      sphereGroup.rotation.x = pitch + talkPitchSway;
+
+      rimMesh.lookAt(camera.position);
+
+      // Lively Breathing & Talking Surface Expansion
+      const talkPulse = isSpeaking ? (0.04 * Math.sin(time * 9.0) + voiceAmplitude * 0.12) : (voiceAmplitude * 0.08);
+      const currentScale = 1.0 + talkPulse;
+      brainGroup.scale.set(currentScale, currentScale, currentScale);
+
+      // Central Fissure Bridge Light Surge
+      const fissureIntensity = isSpeaking ? (3.5 + voiceAmplitude * 6.0 + Math.sin(time * 10) * 1.5) : (2.5 + voiceAmplitude * 4.0);
+      fissureLight.intensity = fissureIntensity;
+
+      // Accelerated Synaptic Particles across the gap
+      const sigPositions = bridgeSigGeom.attributes.position.array;
+      const particleSpeed = (isSpeaking ? 4.0 : 1.0) * (1.0 + voiceAmplitude * 3.5);
+      for (let s = 0; s < bridgeSignalCount * 3; s += 3) {
+        sigPositions[s + 0] += (Math.random() - 0.5) * 0.04 * particleSpeed;
+        if (Math.abs(sigPositions[s + 0]) > gapX * 1.25) {
+          sigPositions[s + 0] = (Math.random() - 0.5) * gapX;
+        }
+      }
+      bridgeSigGeom.attributes.position.needsUpdate = true;
+
+      constellGroup.rotation.y = time * 0.02;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+
+
+<script src="/voice-fabric/src/browser-voice.js"></script>
+<script src="/voice-fabric/src/speech-pipeline.js"></script>
+<script type="module">
+import {createLeeWayBoundVoice} from '/voice-fabric/src/voice-sdk.js';
+function status(message){statusText.textContent=message;statusBadge.classList.add('active');}
+const voice=createLeeWayBoundVoice({runtimeOrigin:location.origin,
+ onState:message=>{isSpeaking=message.startsWith('Speaking');if(!isSpeaking)voiceAmplitude=0;status(message);},
+ onError:error=>{isSpeaking=false;voiceAmplitude=0;status('LeeWay Voice: '+error.message);}});
+let responseRequest=0;
+window.LeeWayAgentSpeech=Object.freeze({
+ async respond(text){
+  if(typeof text!=='string'||!text.trim())return;
+  const turn=++responseRequest;voice.stop();status('Agent Lee preparing response');
+  try{
+   const r=await fetch('/respond',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+   const data=await r.json();if(turn!==responseRequest)return {state:'SPEECH_INVALIDATED_RUNTIME_NOT_CANCELLED'};
+   if(!r.ok||typeof data.text!=='string')throw Error(data.error||'RUNTIME_RESPONSE_UNAVAILABLE');
+   await voice.speak(data.text);if(turn===responseRequest){isSpeaking=false;voiceAmplitude=0;status('Tap sphere to speak');}
+   return {state:'VOICE_PIPELINE_COMPLETED',personaDelivery:data.personaDelivery};
+  }catch(error){if(error.name==='AbortError')return {state:'VOICE_STOPPED'};isSpeaking=false;status('LeeWay Voice: '+error.message);return {state:'BLOCKED',error:error.message};}
+ },
+ stop(){responseRequest++;isSpeaking=false;voiceAmplitude=0;voice.stop();},
+ metrics(){return voice.metrics();}
+});
+window.addEventListener('pagehide',()=>voice.dispose(),{once:true});
+window.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.getElementById('drawer')?.classList.contains('open'))window.LeeWayAgentSpeech.stop();});
+</script>
+<div id="agent-controls"><button id="shrink-agent" title="Shrink Agent Lee">−</button><button id="grow-agent" title="Enlarge Agent Lee">+</button><button id="expand-agent" title="Expand / restore">⤢</button><button id="stop-agent-voice" title="Stop speech">■</button></div><div id="agent-resize-grip" role="button" aria-label="Resize Agent Lee">⌟</div><section id="surface-panel" aria-live="polite"></section>
+<script src="/voice-fabric/src/browser-voice.js"></script><script src="/voice-fabric/src/speech-pipeline.js"></script>
+<script>
+/* REGION: LEEWAY.UI.INTERACTION; TAG: NATIVE_SPHERE_INPUT_WITH_VOICE_FABRIC
+WHO: Owner-driven Agent Lee. WHAT: Separate sphere taps, native movement, menus and Voice Fabric dispatch.
+WHEN: Existing sphere UI. WHERE: shared DOM, native platform geometry adapters only.
+WHY: Global window listeners made menu touches speak; UI must not become the speech queue or speaker owner.
+HOW: Pointer capture, raycast, cancellation and canonical Voice SDK. LICENSE: MIT */
+(()=>{'use strict';
+const $=id=>document.getElementById(id),canvas=renderer.domElement;
+const native=()=>window.pywebview?.api||(window.LeeWayAndroid?.geometry?window.LeeWayAndroid:null);
+async function host(action,value=0,second=0){const n=native();if(!n)return{state:'NATIVE_HOST_UNBOUND'};const r=await n.geometry(action,typeof value==='boolean'?Number(value):value,second);return typeof r==='string'?JSON.parse(r):r;}
+let menu=false,gesture=null,movePending=null,moving=false,voice=null,loading=null;
+const counts=window.__leewayInteraction={sphereTaps:0,dragStarts:0,cancelled:0,menuBlocked:0,resizeActions:0,voiceErrors:0};
+function report(message){$('status-text').textContent=message;$('status-badge').classList.add('active');}
+function blocked(){return menu||$('drawer')?.classList.contains('open')||$('surface-panel')?.classList.contains('open');}
+function hit(e){const r=canvas.getBoundingClientRect();const p=new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);const ray=new THREE.Raycaster();ray.setFromCamera(p,camera);return ray.intersectObject(sphereGroup,true).length>0;}
+function cancel(){gesture=null;isDragging=false;counts.cancelled++;}
+async function flushMove(){if(moving||!movePending)return;moving=true;try{while(movePending){const [dx,dy]=movePending;movePending=null;await host('move',Math.max(-250,Math.min(250,dx)),Math.max(-250,Math.min(250,dy)));}}catch(e){report(e.message)}finally{moving=false;}}
+canvas.style.touchAction='none';
+canvas.addEventListener('pointerdown',e=>{if(e.button!==0||!e.isPrimary||blocked()){if(blocked())counts.menuBlocked++;return}if(!hit(e))return;gesture={id:e.pointerId,x:e.screenX,y:e.screenY,lastX:e.screenX,lastY:e.screenY,at:performance.now(),moved:false};canvas.setPointerCapture(e.pointerId);e.preventDefault()});
+canvas.addEventListener('pointermove',e=>{const g=gesture;if(!g||e.pointerId!==g.id)return;if(blocked()){cancel();return}if(Math.hypot(e.screenX-g.x,e.screenY-g.y)>7){if(!g.moved)counts.dragStarts++;g.moved=true;isDragging=true}if(g.moved){const dx=e.screenX-g.lastX,dy=e.screenY-g.lastY;movePending=movePending?[movePending[0]+dx,movePending[1]+dy]:[dx,dy];flushMove()}g.lastX=e.screenX;g.lastY=e.screenY});
+canvas.addEventListener('pointerup',e=>{const g=gesture;if(!g||g.id!==e.pointerId)return;gesture=null;isDragging=false;if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);if(!g.moved&&performance.now()-g.at<600&&!blocked()&&hit(e)){counts.sphereTaps++;Promise.resolve(toggleVoiceInteraction()).catch(e=>report(e.message))}});
+canvas.addEventListener('pointercancel',cancel);canvas.addEventListener('lostpointercapture',()=>{if(gesture)cancel()});window.addEventListener('blur',cancel);
+const oldOpen=openDrawer,oldClose=closeDrawer;
+openDrawer=function(){cancel();menu=true;oldOpen();host('panel',true).catch(e=>report(e.message));};
+closeDrawer=function(){oldClose();menu=false;host('panel',false).catch(e=>report(e.message));};
+hamburgerBtn.removeEventListener('click',oldOpen);hamburgerBtn.addEventListener('click',()=>openDrawer());closeDrawerBtn.removeEventListener('click',oldClose);closeDrawerBtn.addEventListener('click',()=>closeDrawer());drawerOverlay.removeEventListener('click',oldClose);drawerOverlay.addEventListener('click',()=>closeDrawer());
+$('drawer').addEventListener('pointerdown',e=>e.stopPropagation());$('drawer').addEventListener('pointerup',e=>e.stopPropagation());
+for(const [id,action,delta]of[['shrink-agent','resize',-32],['grow-agent','resize',32],['expand-agent','expand',0]])$(id)?.addEventListener('click',async()=>{cancel();counts.resizeActions++;if(action==='resize'){const s=await host('status');await host(action,(s.width||innerWidth)+delta);}else await host(action);});
+let resizing=null;const grip=$('agent-resize-grip');grip?.addEventListener('pointerdown',async e=>{cancel();const id=e.pointerId,x=e.screenX;grip.setPointerCapture(id);const s=await host('status');resizing={id,x,size:s.width||innerWidth};});grip?.addEventListener('pointermove',e=>{if(resizing?.id===e.pointerId)host('resize',resizing.size+e.screenX-resizing.x).catch(()=>{})});grip?.addEventListener('pointerup',()=>resizing=null);grip?.addEventListener('pointercancel',()=>resizing=null);
+async function fabric(){if(voice)return voice;if(!loading)loading=import('/voice-fabric/src/voice-sdk.js').then(module=>voice=module.createLeeWayBoundVoice({runtimeOrigin:location.origin,onState:message=>{report(message);isSpeaking=message.startsWith('Speaking');},onError:e=>{isSpeaking=false;report('Voice unavailable: '+e.message);}})).catch(e=>{loading=null;throw e;});return loading;}
+window.stopAgentSpeech=()=>{voice?.stop();isSpeaking=false;voiceAmplitude=0;};
+$('stop-agent-voice')?.addEventListener('click',()=>{window.stopAgentSpeech();if(window.pywebview?.api?.listen)window.pywebview.api.listen(false);window.LeeWayAndroid?.stopVoice?.();isListening=false;});
+const originalToggle=toggleVoiceInteraction;
+toggleVoiceInteraction=async function(){if(blocked())return;window.stopAgentSpeech();
+ if(window.LeeWayAndroid?.talk){window.LeeWayAndroid.talk();return;}
+ if(window.pywebview?.api?.listen){const r=await window.pywebview.api.listen(!isListening);isListening=r.state==='LISTENING_OWNER_TAP';report(isListening?'Listening — tap sphere to stop':'Tap sphere to talk');return;}
+ return originalToggle();};
+window.addEventListener('leeway:native-transcript',e=>{isListening=false;if(!blocked()&&e.detail?.text)agentLeeSpeak(e.detail.text)});window.addEventListener('leeway:native-listening-ended',()=>{isListening=false});
+agentLeeSpeak=async function(prompt){if(typeof prompt!=='string'||!prompt.trim())return;try{const client=await fabric();client.stop();report('Preparing response…');const r=await fetch('/respond',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:prompt})});const reply=await r.json();if(!r.ok||!reply.text)throw Error(reply.error||'RESPONSE_PROVIDER_UNAVAILABLE');await client.speak(reply.text);isSpeaking=false;report('Tap sphere to talk');}catch(e){if(e.name!=='AbortError'){counts.voiceErrors++;isSpeaking=false;report('Voice unavailable: '+e.message);}}};
+async function testVoice(){if(window.LeeWayAndroid?.testVoice){window.LeeWayAndroid.testVoice();return;}const client=await fabric();await client.speak('Creator, this is LeeWay Voice. I am using the selected Agent Lee voice through this device speaker.');}
+window.addEventListener('leeway:voice-unbound',e=>report('Voice unavailable: '+(e.detail?.reason||'provider not bound')));
+window.__leewayFloating={host,blocked,cancel,runText:agentLeeSpeak,testVoice,metrics:()=>voice?.metrics()||null};
+})();
+
+
+window.addEventListener('leeway:open-surface',async event=>{
+ const key=event.detail?.surface;const panel=document.getElementById('surface-panel');
+ if(key==='digital-brain'||key==='diagnostics'){
+  if(window.LeeWayAndroid){if(key==='diagnostics')window.LeeWayAndroid.openDiagnostics();else window.LeeWayAndroid.openDigitalBrain();return;}
+  const route='/brain-ui/brain.html'+(key==='diagnostics'?'?surface=hardware':'');
+  if(window.pywebview?.api){await window.pywebview.api.open_surface(route);return;}location.assign(route);return;
+ }
+ panel.replaceChildren();const close=document.createElement('button');close.textContent='Back to Agent Lee';close.onclick=()=>{panel.classList.remove('open');window.__leewayFloating.host('panel',false);};panel.appendChild(close);
+ const article=document.createElement('article');panel.appendChild(article);panel.classList.add('open');await window.__leewayFloating.host('panel',true);
+ if(key==='about'){article.innerHTML="<h2>About LeeWay</h2><p><strong>Logically Enhanced Engineering for Workload, Authority &amp; Yield.</strong></p><p>LeeWay is designed to increase human capability without replacing human responsibility. Agent Lee is the user-facing assistant and coordinator: a consistent identity and workspace across your authorized devices, with explicit permissions and inspectable results.</p><h3>Your device, your information</h3><p>Each device has its own Digital Brain to organize authorized file observations, relationships, provenance and physical-device information. The Brain should reflect what has actually been observed; missing permissions, unavailable sensors and incomplete indexing must remain visible.</p><p>Continuum is LeeWay\u2019s governed database fabric, organized as bounded cells and nested universes. Each device maintains local durable state; approved federation may relate that state across devices without making another customer\u2019s files or authority yours. Device working memory is separate and local.</p><h3>Models are optional</h3><p>The LeeWay architecture does not require an LLM to perform its implemented deterministic duties. An optional local or API-connected language model is a tool, not the owner of identity, data, permissions or voice. Zero-LLM operation does not mean every conversational request is already implemented: the assistant must disclose unsupported requests rather than invent completion.</p><h3>One Agent Lee voice</h3><p>Voice belongs to the shared LeeWay Voice system. Your selected voice should remain consistent across devices. Synchronization and audibility require their own verification; an unavailable provider must not silently become another speaker.</p><h3>Work and services</h3><p>The canonical Agent VT provides a sandboxed Virtual Tablet for documents, notebooks, shared notepad events and bounded work before promotion. Skills and authorized Device/Commander capabilities supply execution, while evidence and receipts record what actually happened. Optional ecosystem services and remote access remain permission-bound.</p><p class=\"state\">This installation is under qualification. A component\u2019s presence is not proof that every service is connected. Your private data, owner control, transparent failure reporting and tested recovery are part of the product requirements.</p>";return;}
+ const title=document.createElement('h2');title.textContent={voice:'LeeWay Voice',models:'Models · optional',skills:'Skills reference',authority:'Authority & Permissions',workstation:'Agent VT',continuum:'Continuum',evidence:'Evidence & Receipts'}[key]||key;article.appendChild(title);
+ try{
+  if(key==='skills'){const data=await fetch('/owner-ui').then(r=>r.json());const p=document.createElement('p');p.textContent='Discovered skill documents: '+data.skillCount+'. This is a read-only inventory, not a claim that every skill has a qualified live executor.';article.appendChild(p);}
+  else if(key==='voice'){
+   if(window.LeeWayAndroid?.testVoice){const b=document.createElement('button');b.textContent='Test selected LeeWay Voice';b.onclick=()=>window.LeeWayAndroid.testVoice();article.appendChild(b);const p=document.createElement('p');p.textContent='Plays a current, verified Voice Fabric waveform through this phone speaker. This tests audio output, not the unbound conversation executor.';article.appendChild(p);return;}
+   const data=await fetch('/owner-ui').then(r=>r.json());const p=document.createElement('p');p.textContent='Current shared selection: '+(data.voiceBinding?.voicePackageId||'No voice selected')+'. Device-to-device update delivery is still unqualified; selection is not silently changed here.';article.appendChild(p);
+   const b=document.createElement('button');b.textContent='Test current voice';b.onclick=()=>{panel.classList.remove('open');window.__leewayFloating.host('panel',false);window.__leewayFloating.testVoice();};article.appendChild(b);
+  }else if(key==='models'){const p=document.createElement('p');p.textContent='No LLM is required by the core. Local-model discovery and API-provider connections must use the existing Model Execution Runtime and protected credential storage. That settings adapter is not yet bound here; no credentials are requested or stored in this page.';article.appendChild(p);}
+  else if(key==='authority'){const p=document.createElement('p');p.textContent='Overlay, microphone, camera and filesystem permissions remain owner controlled. No permission is implied by opening this menu.';article.appendChild(p);if(window.LeeWayAndroid?.enableOverlay){const b=document.createElement('button');b.textContent='Floating overlay permission';b.onclick=()=>window.LeeWayAndroid.enableOverlay();article.appendChild(b);}}
+  else{const p=document.createElement('p');p.className='state';p.textContent={workstation:'Canonical Agent VT located. Its live host binding is being restored; this is not a replacement workstation.',continuum:'The canonical local Continuum runtime is not yet bound to this view. No database cells or records are being invented.',evidence:'The owner-scoped receipt browser is not yet bound to this view. Stored engineering receipts remain preserved.'}[key]||'This surface is not bound.';article.appendChild(p);}
+ }catch(error){const p=document.createElement('p');p.className='state';p.textContent='Unavailable: '+error.message;article.appendChild(p);}
+});
+(async()=>{try{const data=window.LeeWayAndroid?.deviceName?{deviceName:window.LeeWayAndroid.deviceName()}:await fetch('/owner-ui').then(r=>r.json());if(data.deviceName)document.querySelector('[data-setting="diagnostics"] .element-name').textContent=data.deviceName;}catch{}})();
+
+</script>
+</body>
+</html>

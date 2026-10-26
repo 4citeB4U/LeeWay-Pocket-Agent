@@ -1,0 +1,15 @@
+﻿{
+    "state":  "NATIVE_LAUNCHER_INSTALLED",
+    "descriptor":  {
+                       "provider":  "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+                       "source":  "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\agent-ui-host.py",
+                       "sha256":  "00D07E26CC53E79DAE6EC75745ABC1CEA03E9D747838CBF5027A5B86A37B2045",
+                       "ownership":  "DEVICE_LOCAL_OBSERVED_BINDING",
+                       "mode":  "TRANSPARENT_FRAMELESS_TOPMOST"
+                   },
+    "browserFallback":  false,
+    "voiceSelectionChanged":  false,
+    "ownerDataCleared":  false,
+    "launcherSha256":  "29E03D51E41F3D0FAE0EEBBDCF030D8A37E746F2628D24D40C421A999AE98D77",
+    "bindingSha256":  "727F4A0330616B649330EE4C5823A22CAA8B857963517F11E041FFD370B835DF"
+}

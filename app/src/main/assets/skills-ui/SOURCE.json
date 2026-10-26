@@ -1,0 +1,32 @@
+{
+    "schemaVersion":  "leeway.skills-grapevine-bundle.v1",
+    "repository":  "4citeB4U/LeeWay-Agent-Skills",
+    "source":  "GITHUB_PINNED_LOCAL_BUILD",
+    "sourceUrl":  "https://github.com/4citeB4U/LeeWay-Agent-Skills",
+    "commit":  "a01154b67fd01c0f5e83ee15fe3d7dc4464cd687",
+    "registrySchema":  "leeway.grapevine.registry.v2",
+    "canonicalSkillMd":  499,
+    "capturedAt":  "2026-10-07T21:09:54.6490630Z",
+    "files":  {
+                  "index.html":  {
+                                     "sha256":  "12ad9a614c1b7f181eb5c5cb0f519094536427b3e57cb05d039a2e960954ac2c",
+                                     "bytes":  1257,
+                                     "mime":  "text/html"
+                                 },
+                  "assets/index-ExVnHdfl.js":  {
+                                                   "sha256":  "b808029907ee94bfcc087959194934feb9db472ddcaa6c163d9899077df45700",
+                                                   "bytes":  839454,
+                                                   "mime":  "application/javascript"
+                                               },
+                  "assets/index-CzpIehOH.css":  {
+                                                    "sha256":  "561ec6b037c608e6912f5a6bbb378b6ed75b4cd600b7f6c3f2192fb3ddd0ff73",
+                                                    "bytes":  36752,
+                                                    "mime":  "text/css"
+                                                },
+                  "grapevine-state.json":  {
+                                               "sha256":  "da08f281171fe1b686e902e3089b10ce8ae242c10f196645ceb5c0e717076e38",
+                                               "bytes":  439834,
+                                               "mime":  "application/json"
+                                           }
+              }
+}

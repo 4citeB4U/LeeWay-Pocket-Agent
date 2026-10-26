@@ -1,0 +1,455 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "PASS_SCOPED_NATIVE_ACTION",
+  "action": "menu",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791365946.3173919,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 22280,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1366,
+      "y": 276,
+      "width": 276,
+      "height": 276,
+      "screenAreaRatio": 0.007135791366906475
+    },
+    "ownPage": {
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 73,
+        "height": 44,
+        "left": -78,
+        "right": -34,
+        "top": 29,
+        "width": 44,
+        "x": -78,
+        "y": 29
+      },
+      "controls": {
+        "about": {
+          "bottom": 1485.2395935058594,
+          "height": 136.02084350585938,
+          "left": -216.59375,
+          "right": -34,
+          "top": 1349.21875,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 1349.21875
+        },
+        "authority": {
+          "bottom": 1193.1979675292969,
+          "height": 136.02084350585938,
+          "left": -216.59375,
+          "right": -34,
+          "top": 1057.1771240234375,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 1057.1771240234375
+        },
+        "continuum": {
+          "bottom": 342.8541793823242,
+          "height": 114.42708587646484,
+          "left": -216.59375,
+          "right": -34,
+          "top": 228.42709350585938,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 228.42709350585938
+        },
+        "diagnostics": {
+          "bottom": 467.2812728881836,
+          "height": 114.42708587646484,
+          "left": -216.59375,
+          "right": -34,
+          "top": 352.85418701171875,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 352.85418701171875
+        },
+        "digital-brain": {
+          "bottom": 218.42708587646484,
+          "height": 114.42708587646484,
+          "left": -216.59375,
+          "right": -34,
+          "top": 104,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 104
+        },
+        "evidence": {
+          "bottom": 1339.2188415527344,
+          "height": 136.02084350585938,
+          "left": -216.59375,
+          "right": -34,
+          "top": 1203.197998046875,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 1203.197998046875
+        },
+        "models": {
+          "bottom": 901.1562805175781,
+          "height": 136.02084350585938,
+          "left": -216.59375,
+          "right": -34,
+          "top": 765.1354370117188,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 765.1354370117188
+        },
+        "skills": {
+          "bottom": 1047.1770935058594,
+          "height": 136.02084350585938,
+          "left": -216.59375,
+          "right": -34,
+          "top": 911.15625,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 911.15625
+        },
+        "voice": {
+          "bottom": 611.2083435058594,
+          "height": 133.92709350585938,
+          "left": -216.59375,
+          "right": -34,
+          "top": 477.28125,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 477.28125
+        },
+        "workstation": {
+          "bottom": 755.1354675292969,
+          "height": 133.92709350585938,
+          "left": -216.59375,
+          "right": -34,
+          "top": 621.2083740234375,
+          "width": 182.59375,
+          "x": -216.59375,
+          "y": 621.2083740234375
+        }
+      },
+      "hamburger": {
+        "bottom": 50,
+        "height": 40,
+        "left": 10,
+        "right": 50,
+        "top": 10,
+        "width": 40,
+        "x": 10,
+        "y": 10
+      },
+      "interaction": {
+        "cancelled": 0,
+        "dragStarts": 0,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "lastClick": null,
+      "lastPointer": null,
+      "menu": false,
+      "screenMetrics": {
+        "devicePixelRatio": 1.5,
+        "innerHeight": 276,
+        "innerWidth": 276,
+        "outerHeight": 276,
+        "outerWidth": 276,
+        "screenX": 1366,
+        "screenY": 276
+      },
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 276,
+        "width": 276
+      },
+      "workstation": {
+        "bottom": 755.1354675292969,
+        "height": 133.92709350585938,
+        "left": -216.59375,
+        "right": -34,
+        "top": 621.2083740234375,
+        "width": 182.59375,
+        "x": -216.59375,
+        "y": 621.2083740234375
+      },
+      "workstationHit": {
+        "id": null,
+        "setting": null,
+        "text": null
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.00030922889709472656,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "b9ca544e5e0ac1c608b8fdf635ea8091c0b1a7b16c5ed4d899b7b36621f5c1fa"
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791365949.9350426,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 22280,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": true,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1366,
+      "y": 276,
+      "width": 760,
+      "height": 800,
+      "screenAreaRatio": 0.05695443645083933
+    },
+    "ownPage": {
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 64.33333396911621,
+        "height": 44,
+        "left": 272,
+        "right": 316,
+        "top": 20.33333396911621,
+        "width": 44,
+        "x": 272,
+        "y": 20.33333396911621
+      },
+      "controls": {
+        "about": {
+          "bottom": 1086.9375228881836,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 992.0104370117188,
+          "width": 298,
+          "x": 18,
+          "y": 992.0104370117188
+        },
+        "authority": {
+          "bottom": 877.0833358764648,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 782.15625,
+          "width": 298,
+          "x": 18,
+          "y": 782.15625
+        },
+        "continuum": {
+          "bottom": 267.02083587646484,
+          "height": 75.42708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 191.59375,
+          "width": 298,
+          "x": 18,
+          "y": 191.59375
+        },
+        "diagnostics": {
+          "bottom": 371.9479293823242,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 277.0208435058594,
+          "width": 298,
+          "x": 18,
+          "y": 277.0208435058594
+        },
+        "digital-brain": {
+          "bottom": 181.59375762939453,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 86.66667175292969,
+          "width": 298,
+          "x": 18,
+          "y": 86.66667175292969
+        },
+        "evidence": {
+          "bottom": 982.0104598999023,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 887.0833740234375,
+          "width": 298,
+          "x": 18,
+          "y": 887.0833740234375
+        },
+        "models": {
+          "bottom": 686.7292098999023,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 591.8021240234375,
+          "width": 298,
+          "x": 18,
+          "y": 591.8021240234375
+        },
+        "skills": {
+          "bottom": 772.1562728881836,
+          "height": 75.42708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 696.7291870117188,
+          "width": 298,
+          "x": 18,
+          "y": 696.7291870117188
+        },
+        "voice": {
+          "bottom": 476.8750228881836,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 381.94793701171875,
+          "width": 298,
+          "x": 18,
+          "y": 381.94793701171875
+        },
+        "workstation": {
+          "bottom": 581.8020858764648,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 486.875,
+          "width": 298,
+          "x": 18,
+          "y": 486.875
+        }
+      },
+      "hamburger": {
+        "bottom": 50,
+        "height": 40,
+        "left": 10,
+        "right": 50,
+        "top": 10,
+        "width": 40,
+        "x": 10,
+        "y": 10
+      },
+      "interaction": {
+        "cancelled": 1,
+        "dragStarts": 0,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "lastClick": {
+        "at": 1791365947593.0,
+        "id": null,
+        "setting": null,
+        "tag": "SPAN",
+        "text": null
+      },
+      "lastPointer": {
+        "at": 1791365947518.0,
+        "id": null,
+        "setting": null,
+        "tag": "SPAN",
+        "x": 30,
+        "y": 30
+      },
+      "menu": true,
+      "screenMetrics": {
+        "devicePixelRatio": 1.5,
+        "innerHeight": 800,
+        "innerWidth": 760,
+        "outerHeight": 800,
+        "outerWidth": 760,
+        "screenX": 1366,
+        "screenY": 276
+      },
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 800,
+        "width": 760
+      },
+      "workstation": {
+        "bottom": 581.8020858764648,
+        "height": 94.92708587646484,
+        "left": 18,
+        "right": 316,
+        "top": 486.875,
+        "width": 298,
+        "x": 18,
+        "y": 486.875
+      },
+      "workstationHit": {
+        "id": null,
+        "setting": "workstation",
+        "tag": "SPAN",
+        "text": "Virtual Tablet \u00b7 Notebook \u00b7 Notepad \u00b7 Sandbox"
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.0007040500640869141,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "8cb92116c1af0fa93e5509c473b327dad0f4184e57bb4555e1bca1675e684266"
+  },
+  "rectBefore": {
+    "left": 2049,
+    "top": 414,
+    "right": 2463,
+    "bottom": 828
+  },
+  "rectAfter": {
+    "left": 1366,
+    "top": 276,
+    "right": 2126,
+    "bottom": 1076
+  },
+  "checks": [
+    {
+      "action": "menu",
+      "actualOsClick": [
+        2094,
+        459
+      ]
+    }
+  ],
+  "error": null,
+  "fixtureInput": false,
+  "phoneTested": false
+}

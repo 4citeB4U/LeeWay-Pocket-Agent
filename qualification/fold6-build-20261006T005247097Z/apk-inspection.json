@@ -1,0 +1,18 @@
+﻿{
+    "apkSha256":  "F4E18F27DA1310A91419CAAA011F4693404FCA0C52985786FC28F5EC9667201E",
+    "bytes":  42042287,
+    "signatureToolExitCode":  0,
+    "signatureClass":  "DEBUG_BUILD_NOT_CUSTOMER_RELEASE",
+    "launcherCount":  1,
+    "abis":  [
+                 "arm64-v8a"
+             ],
+    "bundledModelFiles":  [
+                              "DebugProbesKt.bin"
+                          ],
+    "uiAssetSha256":  "3A44006E7AF777700268888342801920AF5A1C1A2307047A539A6E2894E17676",
+    "uiAssetMatchesSource":  true,
+    "installed":  false,
+    "phoneSpeechTest":  "NOT_EXECUTED",
+    "completePackage":  "BLOCKED"
+}

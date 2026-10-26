@@ -1,0 +1,71 @@
+package industries.leeway.pocket
+
+import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.GestureDescription
+import android.graphics.Path
+import android.os.Handler
+import android.os.Looper
+import android.view.accessibility.AccessibilityEvent
+
+/**
+ * Owner-enabled Android touch actuator. Not an instruction parser.
+ * Only the existing governed Agent Lee executor may provide approved action receipts.
+ * Android itself requires the owner to enable the service in Accessibility settings.
+ */
+class AgentLeeTouchAuthority : AccessibilityService() {
+    companion object {
+        @Volatile private var active: AgentLeeTouchAuthority? = null
+        fun available(): Boolean = active != null
+        fun stop(): Boolean {
+            val a = active ?: return false
+            a.main.post { a.cancelCurrent() }
+            return true
+        }
+        internal fun tap(request: AgentLeeTouchRequestGate.Request, result: (AgentLeeGestureOutcome.Result) -> Unit) {
+            val service = active
+            if (service == null || !AgentLeeTouchRequestGate.accept(request, runCatching { industries.leeway.pocket.devices.DeviceIdentity.readExisting(service).deviceId }.getOrDefault(""))) {
+                result(AgentLeeGestureOutcome.denied(request.actionId)); return
+            }
+            // This gate validates shape only; no caller is admitted until a trusted executor is wired.
+            service.dispatchApprovedTap(request.actionId, request.x, request.y, result)
+        }
+    }
+    private val main = Handler(Looper.getMainLooper())
+    private var activeReceipt: String? = null
+    private var pending: ((AgentLeeGestureOutcome.Result) -> Unit)? = null
+    override fun onServiceConnected() { super.onServiceConnected(); active = this }
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
+    override fun onInterrupt() { cancelCurrent() }
+    override fun onDestroy() { cancelCurrent(); if (active === this) active = null; super.onDestroy() }
+    private fun cancelCurrent() {
+        val activeId = activeReceipt
+        val done = pending
+        pending = null
+        activeReceipt = null
+        done?.invoke(AgentLeeGestureOutcome.callback(activeId ?: "cancelled-action", false))
+    }
+    private fun dispatchApprovedTap(id: String, x: Float, y: Float, result: (AgentLeeGestureOutcome.Result) -> Unit) {
+        main.post {
+            if (activeReceipt != null) { result(AgentLeeGestureOutcome.denied(id)); return@post }
+            val bounds = getSystemService(android.view.WindowManager::class.java).currentWindowMetrics.bounds
+            if (x < 0 || y < 0 || x >= bounds.width() || y >= bounds.height()) { result(AgentLeeGestureOutcome.denied(id)); return@post }
+            val path = Path().apply { moveTo(x, y) }
+            val stroke = GestureDescription.StrokeDescription(path, 0, 100)
+            val gesture = GestureDescription.Builder().addStroke(stroke).build()
+            activeReceipt = id
+            pending = result
+            val accepted = dispatchGesture(gesture, object : GestureResultCallback() {
+                override fun onCompleted(gestureDescription: GestureDescription?) { finish(id, true) }
+                override fun onCancelled(gestureDescription: GestureDescription?) { finish(id, false) }
+            }, main)
+            if (!accepted) finish(id, false)
+        }
+    }
+    private fun finish(id: String, success: Boolean) {
+        if (activeReceipt != id) return
+        val done = pending
+        pending = null
+        activeReceipt = null
+        done?.invoke(AgentLeeGestureOutcome.callback(id,success))
+    }
+}

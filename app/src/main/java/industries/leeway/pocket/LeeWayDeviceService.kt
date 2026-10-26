@@ -12,6 +12,11 @@ class LeeWayDeviceService(private val context:Context) {
         .put("bodyId",AndroidDigitalBrainAdapter.identity(context).deviceId)
         .put("commanderProvider","LEEWAY_COMMANDER_ADAPTER")
         .put("externalDeviceBridgeRequired",false)
+        .put("touchAccessibilityConnected",AgentLeeTouchAuthority.available())
+        .put("ownerAgentAccess",CanonicalLocalAuthority.agentAccessEnabled(context))
+        .put("ownerUiControl",CanonicalLocalAuthority.uiControlEnabled(context))
+        .put("trustedIssuerConnected",AgentLeeTrustedExecutionAdmission.admitted())
+        .put("touchExecutionState","BLOCKED_TRUSTED_ISSUER_NOT_BOUND")
 
     fun openSettings():JSONObject = runCatching {
         context.startActivity(Intent(Settings.ACTION_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

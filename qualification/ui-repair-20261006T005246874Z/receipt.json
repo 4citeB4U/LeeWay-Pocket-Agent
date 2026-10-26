@@ -1,0 +1,28 @@
+﻿{
+    "status":  "SOURCE_REPAIRED_TESTS_PENDING",
+    "before":  [
+                   {
+                       "Algorithm":  "SHA256",
+                       "Hash":  "D1C3E73B665FEA8C41F8C46395B31F7B70754F62262C2006C047A8207B93FF30",
+                       "Path":  "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\assets\\agent_lee_sphere_transparent.html"
+                   },
+                   {
+                       "Algorithm":  "SHA256",
+                       "Hash":  "A08EA4875ACF166E8F294E98693E2E14D954D45866A11441EBFB675A355E8C3B",
+                       "Path":  "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\java\\industries\\leeway\\pocket\\PocketVoiceHost.kt"
+                   }
+               ],
+    "after":  [
+                  {
+                      "Algorithm":  "SHA256",
+                      "Hash":  "3A44006E7AF777700268888342801920AF5A1C1A2307047A539A6E2894E17676",
+                      "Path":  "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\assets\\agent_lee_sphere_transparent.html"
+                  },
+                  {
+                      "Algorithm":  "SHA256",
+                      "Hash":  "41E3439027D9D1C4592B616763CA8A3BA65B37FDFC2CC4EF9D4377F3E24C8130",
+                      "Path":  "E:\\LeeWay-Work\\agent-lee-fold6-unified\\app\\src\\main\\java\\industries\\leeway\\pocket\\PocketVoiceHost.kt"
+                  }
+              ],
+    "installed":  false
+}

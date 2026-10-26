@@ -1,0 +1,11 @@
+﻿{
+    "state":  "NATIVE_HOST_STARTED_ACTUAL_COMPOSITOR_TEST_REQUIRED",
+    "priorCarrierPid":  40456,
+    "carrierSha256":  "88B5AEC0C10F41539A39759FE9E65CF21970BFC0F089675881680DCF82C32799",
+    "nativeHostSha256":  "A4DEE81ADCD16D86EFAB66F8D42D5CEF86E1CD770D5C6A6CFA36B3A43330A46C",
+    "voiceSelectionChanged":  false,
+    "nativeHostUnderDevices":  true,
+    "fullGoldenRelease":  false,
+    "carrierPid":  43396,
+    "nativePid":  40512
+}

@@ -1,0 +1,19 @@
+{
+  "status": "APPLIED_RESTART_AND_LIVE_TEST_REQUIRED",
+  "paths": [
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\carrier-server.mjs",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\host-commander.binding.v1.json",
+    "E:\\LeeWay-Work\\Digital-Brains\\pc-primary\\body.v1.json"
+  ],
+  "serverBeforeSha256": "bfd80e408fd757a20fb081899b38c65523c390bbbee3b62a8042802fe0237f8c",
+  "voiceBindingChanged": false,
+  "newServer": false,
+  "newBrainDatabase": false,
+  "after": {
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\carrier-server.mjs": "7e680fa32128560af3ad6a7e4d3b6cf08f43e93cb3747c4dcb5fd53bce081176",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html": "fb1985086baad3f684016ea1040e67c0e975eddfb4efcfd2fe45cdbca00a122b",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\host-commander.binding.v1.json": "df6a8f13de94e5215e913f9170517d343cc65c95363de4003f68dac75c384f59",
+    "E:\\LeeWay-Work\\Digital-Brains\\pc-primary\\body.v1.json": "069768118cc732a4289c5df8afa19ab92ba73970b4480becac6f3aca26f9d5a0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "workspaceRoot": "E:\\LeeWay-Work",
+  "sourcePath": "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\server.mjs",
+  "schemaVersion": "leeway.commander.binding.v1",
+  "policyPath": "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\command-policy.mjs",
+  "sourceCommit": "4087dae37e81db0629033a0256b232dd9c0914d1",
+  "admissionScope": "PINNED_OWNER_CANDIDATE_EXISTING_LOOPBACK_BINDING",
+  "owner": "4citeB4U/LEEWAY-DEVICE-BRIDGE",
+  "port": 8891,
+  "provider": "LEEWAY_NATIVE_HOST_COMMANDER",
+  "bodyId": "pc-primary",
+  "remoteExposure": false,
+  "sourceSha256": "A4CCEE4B1D7C6894075DD279431C96968C9E03FECD086F51D80B3D77D4AB46C0",
+  "policySha256": "091B09323077F09B3168F2D9401D632542313CE0B8BE04D218C5FA69FB0C6649"
+}

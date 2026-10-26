@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "leeway.native-floating-host.v1",
+  "status": "NATIVE_HOST_RUNNING",
+  "pid": 11168,
+  "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+  "url": "http://127.0.0.1:8890/ui",
+  "screen": {
+    "x": 0,
+    "y": 0,
+    "width": 1707,
+    "height": 1067
+  },
+  "topmostRequested": true,
+  "transparentRequested": true,
+  "framelessRequested": true,
+  "panelOpen": false,
+  "expandedByOwner": false,
+  "fixedPhysicalPathsInSource": false,
+  "formulaExecution": "NOT_EXECUTED",
+  "geometry": {
+    "x": 1278,
+    "y": 212,
+    "width": 325,
+    "height": 302,
+    "screenAreaRatio": 0.05388803696560115
+  }
+}

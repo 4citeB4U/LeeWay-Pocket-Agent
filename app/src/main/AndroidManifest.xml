@@ -36,7 +36,23 @@
             android:exported="false"
             android:excludeFromRecents="true"
             android:theme="@style/AppTheme.TransparentVoice" />
-        <activity android:name=".DigitalBrainActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".ThreeSurfaceActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+          <activity android:name=".DigitalBrainActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".BrainFilePreviewActivity" android:exported="false" />
+        <activity android:name=".AgentTabletActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".VoiceStudioActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".ModelsActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".SkillsActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <activity android:name=".VisionActivity" android:exported="false" android:theme="@style/AppTheme.TransparentVoice" />
+        <service
+            android:name=".AgentLeeTouchAuthority"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data android:name="android.accessibilityservice" android:resource="@xml/agent_lee_touch_authority"/>
+        </service>
         <service
             android:name=".PocketOverlayService"
             android:exported="false"

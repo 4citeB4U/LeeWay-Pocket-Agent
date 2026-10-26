@@ -1,0 +1,2 @@
+Open http://127.0.0.1:8877/studio.html ; Ctrl+C stops this launcher's services.
+Models may still be warming up; check the studio's service status.

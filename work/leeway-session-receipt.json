@@ -1,0 +1,109 @@
+{
+  "type": "LEEWAY_SKILL_SESSION_RECEIPT",
+  "checkedAt": "2026-10-11T00:09:48.8060146Z",
+  "canonicalRepository": "4citeB4U/LeeWay-Agent-Skills",
+  "sourceRoot": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills",
+  "sourceCommit": "881a36235a8216056383b5a25e1846983117d20a",
+  "sourceIdentity": "LOCAL_CANONICAL_CHECKOUT_VERIFIED",
+  "remoteFreshness": "NOT_CHECKED_BY_THIS_SCRIPT: fetch when stale or source changes matter",
+  "rootContractSha256": "07F698A43115B25AE4D7B5DB2771947E58804F63EEFE17B7FAA5308BA8180736",
+  "skillArtifactCount": 493,
+  "coreSkills": [
+    {
+      "id": "leeway-bootstrap-authority",
+      "sha256": "7024A014CDD702F6589F082A03CE1FE362727403492E9B3F196BDF6DA01F6C52",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-bootstrap-authority\\SKILL.md"
+    },
+    {
+      "id": "leeway-continuity-authority",
+      "sha256": "694FC9BC31C2EE57A8232B3B03C645E08C79E4DFF237229A922907259AE67343",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-continuity-authority\\SKILL.md"
+    },
+    {
+      "id": "leeway-message-ingress-authority",
+      "sha256": "883C24204BD3C4579E454C11285A32C4097D05866E7BEAD0327EC60992A5B7DA",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-message-ingress-authority\\SKILL.md"
+    },
+    {
+      "id": "leeway-context-engineering",
+      "sha256": "E3C48294EA3EA3EC5D8D5D896944ECF4F24347ED49887F8615DA61452B581465",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-context-engineering\\SKILL.md"
+    },
+    {
+      "id": "leeway-formula-governance",
+      "sha256": "F3F33E875B0C89E4FCD701306C08E8E2E738F20ECBC3EEF9DC5F51929BD5211B",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-formula-governance\\SKILL.md"
+    },
+    {
+      "id": "leeway-skill-orchestrator",
+      "sha256": "60AE89E09E871D5CE100AD83F562A50F776148B1249184FB5BCF342CC23E7288",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-skill-orchestrator\\SKILL.md"
+    },
+    {
+      "id": "leeway-human-conversation",
+      "sha256": "FE0319886CCF257F2500A0A543B10E5D20236A3951635F9AF3864996E6BC355B",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-human-conversation\\SKILL.md"
+    },
+    {
+      "id": "leeway-og-expressive-identity",
+      "sha256": "4F7FF8E906D0E61964C16637072B81BDC152DA42027D13977A2562F3D6F9D858",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-og-expressive-identity\\SKILL.md"
+    },
+    {
+      "id": "leeway-veritas",
+      "sha256": "AB1A7803FB7EA7A1AC4C70555D465B6DA5A88104D8023ABE5406551DCA798DFE",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-veritas\\SKILL.md"
+    },
+    {
+      "id": "leeway-receipt-authority",
+      "sha256": "AE123C256694D715D9727A9691C9FC0C30096E86DDFBB85B2E677C1E82C4354A",
+      "path": "C:\\Users\\Leona\\.codex\\leeway\\LeeWay-Agent-Skills\\skills\\leeway-receipt-authority\\SKILL.md"
+    }
+  ],
+  "formulaHealth": {
+    "state": "RESPONDED",
+    "url": "http://127.0.0.1:4001/runtime/formula/v1/health",
+    "response": {
+      "status": "LEEWAY_FORMULA_V1_PASS",
+      "formula": "LEEWAY-FORMULA-v1.0",
+      "loaded": true,
+      "goldenVectorPass": true,
+      "specValid": true,
+      "adapterRegistryPass": true,
+      "expectedDecimal": [
+        4,
+        50,
+        63,
+        59,
+        48,
+        69
+      ],
+      "expectedBase64": [
+        "E",
+        "y",
+        "/",
+        "7",
+        "w",
+        "BF"
+      ],
+      "specHash": "2f4604f143e2f7c3bc2fe315f2faa2c7d9b8b188151a0fab9f6cebea3e155f9b",
+      "specMdHash": "dd9f2f7d23dcc8076d7d3c9e1f194b596bff041e8b25dc003348c8554db7b16d",
+      "timestamp": "2026-10-11T00:09:48.726Z",
+      "hostScope": "formula-only",
+      "kernelIntegrity": "VERIFIED_AT_STARTUP"
+    }
+  },
+  "formulaTaskEvaluation": "NOT_EXECUTED",
+  "notebookBridgeHealth": {
+    "state": "RESPONDED",
+    "url": "http://127.0.0.1:43117/health",
+    "response": {
+      "ok": true,
+      "service": "leeway-notebook-direct-git-bridge"
+    }
+  },
+  "notebookExtensionBinding": "NOT_VERIFIED_BY_HEALTH_ENDPOINT",
+  "deviceBridgeRuntime": "NOT_CHECKED_BY_THIS_SCRIPT",
+  "mcpChatBinding": "CONFIGURATION_AND_SEPARATE_PROTOCOL_TEST_DO_NOT_PROVE_CURRENT_CHAT_TOOL_LOADING",
+  "status": "PARTIAL_UNTIL_TASK_SPECIFIC_RUNTIME_GATES_VERIFIED"
+}

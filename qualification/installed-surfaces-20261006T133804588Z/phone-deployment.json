@@ -1,0 +1,12 @@
+﻿{
+    "target":  "EXISTING_ANDROID_APPLICATION",
+    "package":  "industries.leeway.pocket",
+    "apkSha256":  "74C7BBD83A2FBC59CEA74FC64934C568A75E99052DA3030290D8DF0B7845C029",
+    "certificate":  "Signer #1 certificate SHA-256 digest: bd8cfff73383416d6c35d96617c49d53df4dc1610e6ea44e55b5b5c04836fce1",
+    "ownerStateBackedUp":  true,
+    "uninstall":  false,
+    "clearData":  false,
+    "goldenPromoted":  false,
+    "scope":  "OWNER_REQUESTED_UI_AND_DIAGNOSTICS_REPAIR_NOT_COMPLETE_GOLDEN_PACKAGE",
+    "status":  "IN_PLACE_REPAIR_INSTALLED_LIVE_ACCEPTANCE_PENDING"
+}

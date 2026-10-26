@@ -1,0 +1,435 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "PASS_SCOPED_NATIVE_ACTION",
+  "action": "workstation",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791365536.1166239,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 44972,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": true,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1366,
+      "y": 276,
+      "width": 760,
+      "height": 800,
+      "screenAreaRatio": 0.05695443645083933
+    },
+    "ownPage": {
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 64.33333396911621,
+        "height": 44,
+        "left": 272,
+        "right": 316,
+        "top": 20.33333396911621,
+        "width": 44,
+        "x": 272,
+        "y": 20.33333396911621
+      },
+      "controls": {
+        "about": {
+          "bottom": 1086.9375228881836,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 992.0104370117188,
+          "width": 298,
+          "x": 18,
+          "y": 992.0104370117188
+        },
+        "authority": {
+          "bottom": 877.0833358764648,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 782.15625,
+          "width": 298,
+          "x": 18,
+          "y": 782.15625
+        },
+        "continuum": {
+          "bottom": 267.02083587646484,
+          "height": 75.42708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 191.59375,
+          "width": 298,
+          "x": 18,
+          "y": 191.59375
+        },
+        "diagnostics": {
+          "bottom": 371.9479293823242,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 277.0208435058594,
+          "width": 298,
+          "x": 18,
+          "y": 277.0208435058594
+        },
+        "digital-brain": {
+          "bottom": 181.59375762939453,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 86.66667175292969,
+          "width": 298,
+          "x": 18,
+          "y": 86.66667175292969
+        },
+        "evidence": {
+          "bottom": 982.0104598999023,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 887.0833740234375,
+          "width": 298,
+          "x": 18,
+          "y": 887.0833740234375
+        },
+        "models": {
+          "bottom": 686.7292098999023,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 591.8021240234375,
+          "width": 298,
+          "x": 18,
+          "y": 591.8021240234375
+        },
+        "skills": {
+          "bottom": 772.1562728881836,
+          "height": 75.42708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 696.7291870117188,
+          "width": 298,
+          "x": 18,
+          "y": 696.7291870117188
+        },
+        "voice": {
+          "bottom": 476.8750228881836,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 381.94793701171875,
+          "width": 298,
+          "x": 18,
+          "y": 381.94793701171875
+        },
+        "workstation": {
+          "bottom": 581.8020858764648,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 486.875,
+          "width": 298,
+          "x": 18,
+          "y": 486.875
+        }
+      },
+      "hamburger": {
+        "bottom": 50,
+        "height": 40,
+        "left": 10,
+        "right": 50,
+        "top": 10,
+        "width": 40,
+        "x": 10,
+        "y": 10
+      },
+      "interaction": {
+        "cancelled": 1,
+        "dragStarts": 0,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "lastClick": {
+        "at": 1791365533495.0,
+        "id": null,
+        "setting": null,
+        "tag": "SPAN",
+        "text": null
+      },
+      "menu": true,
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 800,
+        "width": 760
+      },
+      "workstation": {
+        "bottom": 581.8020858764648,
+        "height": 94.92708587646484,
+        "left": 18,
+        "right": 316,
+        "top": 486.875,
+        "width": 298,
+        "x": 18,
+        "y": 486.875
+      },
+      "workstationHit": {
+        "id": null,
+        "setting": "workstation",
+        "tag": "SPAN",
+        "text": "Virtual Tablet \u00b7 Notebook \u00b7 Notepad \u00b7 Sandbox"
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.0005726814270019531,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "29ca1cf4d40a9060e452d3a7fe4459bf2faf4034197d995ef6c110f80ba0cd12"
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "observedAt": 1791365539.6920202,
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 44972,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": -1920,
+      "y": -81,
+      "width": 5560,
+      "height": 1920
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": false,
+    "panelOpen": true,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1366,
+      "y": 276,
+      "width": 760,
+      "height": 800,
+      "screenAreaRatio": 0.05695443645083933
+    },
+    "ownPage": {
+      "background": "rgba(0, 0, 0, 0)",
+      "bridgeReady": true,
+      "close": {
+        "bottom": 64.33333396911621,
+        "height": 44,
+        "left": 272,
+        "right": 316,
+        "top": 20.33333396911621,
+        "width": 44,
+        "x": 272,
+        "y": 20.33333396911621
+      },
+      "controls": {
+        "about": {
+          "bottom": 1086.9375228881836,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 992.0104370117188,
+          "width": 298,
+          "x": 18,
+          "y": 992.0104370117188
+        },
+        "authority": {
+          "bottom": 877.0833358764648,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 782.15625,
+          "width": 298,
+          "x": 18,
+          "y": 782.15625
+        },
+        "continuum": {
+          "bottom": 267.02083587646484,
+          "height": 75.42708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 191.59375,
+          "width": 298,
+          "x": 18,
+          "y": 191.59375
+        },
+        "diagnostics": {
+          "bottom": 371.9479293823242,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 277.0208435058594,
+          "width": 298,
+          "x": 18,
+          "y": 277.0208435058594
+        },
+        "digital-brain": {
+          "bottom": 181.59375762939453,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 86.66667175292969,
+          "width": 298,
+          "x": 18,
+          "y": 86.66667175292969
+        },
+        "evidence": {
+          "bottom": 982.0104598999023,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 887.0833740234375,
+          "width": 298,
+          "x": 18,
+          "y": 887.0833740234375
+        },
+        "models": {
+          "bottom": 686.7292098999023,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 591.8021240234375,
+          "width": 298,
+          "x": 18,
+          "y": 591.8021240234375
+        },
+        "skills": {
+          "bottom": 772.1562728881836,
+          "height": 75.42708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 696.7291870117188,
+          "width": 298,
+          "x": 18,
+          "y": 696.7291870117188
+        },
+        "voice": {
+          "bottom": 476.8750228881836,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 381.94793701171875,
+          "width": 298,
+          "x": 18,
+          "y": 381.94793701171875
+        },
+        "workstation": {
+          "bottom": 581.8020858764648,
+          "height": 94.92708587646484,
+          "left": 18,
+          "right": 316,
+          "top": 486.875,
+          "width": 298,
+          "x": 18,
+          "y": 486.875
+        }
+      },
+      "hamburger": {
+        "bottom": 50,
+        "height": 40,
+        "left": 10,
+        "right": 50,
+        "top": 10,
+        "width": 40,
+        "x": 10,
+        "y": 10
+      },
+      "interaction": {
+        "cancelled": 1,
+        "dragStarts": 0,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "sphereTaps": 0,
+        "voiceErrors": 0
+      },
+      "lastClick": {
+        "at": 1791365537427.0,
+        "id": null,
+        "setting": "workstation",
+        "tag": "SPAN",
+        "text": "Agent VTVirtual Tablet \u00b7 Notebook \u00b7 Notepad \u00b7 Sandbox"
+      },
+      "menu": true,
+      "status": "Tap sphere to speak",
+      "url": "http://127.0.0.1:8890/ui",
+      "viewport": {
+        "dpr": 1.5,
+        "height": 800,
+        "width": 760
+      },
+      "workstation": {
+        "bottom": 581.8020858764648,
+        "height": 94.92708587646484,
+        "left": 18,
+        "right": 316,
+        "top": 486.875,
+        "width": 298,
+        "x": 18,
+        "y": 486.875
+      },
+      "workstationHit": {
+        "id": null,
+        "setting": "workstation",
+        "tag": "SPAN",
+        "text": "Virtual Tablet \u00b7 Notebook \u00b7 Notepad \u00b7 Sandbox"
+      }
+    },
+    "ownMouse": [],
+    "pageObservationAgeSeconds": 0.000743865966796875,
+    "pageProbeError": null,
+    "visibilityObservation": {},
+    "priorEvidenceWriteError": null,
+    "recordClass": "MUTABLE_NATIVE_OBSERVATION_NOT_VERITAS_RECEIPT",
+    "writeMode": "SHARED_FILE_IN_PLACE_CHECKSUM_READBACK",
+    "replacementFailureWinerror": 5,
+    "snapshotSha256": "7c3255c29f236fcf42b263e0df9163857ee34d3a8f872943a1d66b95f28a3dd4"
+  },
+  "rectBefore": {
+    "left": 1366,
+    "top": 276,
+    "right": 2126,
+    "bottom": 1076
+  },
+  "rectAfter": {
+    "left": 1366,
+    "top": 276,
+    "right": 2126,
+    "bottom": 1076
+  },
+  "checks": [
+    {
+      "action": "workstation",
+      "actualOsClick": [
+        1533,
+        810
+      ]
+    }
+  ],
+  "error": null,
+  "fixtureInput": false,
+  "phoneTested": false
+}

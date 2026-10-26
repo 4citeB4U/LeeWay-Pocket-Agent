@@ -1,0 +1,99 @@
+/* REGION: LEEWAY.UI; TAG: ANDROID_ROUNDBOX_NATIVE_SURFACE
+WHO: Agent Lee phone UI owner. WHAT: Host existing approved Round Box.
+WHEN: Floating sphere tap. WHERE: Existing PocketOverlayService.
+WHY: Independent draggable UI must not resize the Brain.
+HOW: Reuse bundled Round Box and native overlay permissions. LICENSE: MIT. */
+package industries.leeway.pocket
+
+import android.app.Service
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.PixelFormat
+import android.os.Handler
+import android.os.Looper
+import android.view.Gravity
+import android.view.WindowManager
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+
+internal class RoundBoxWindow(private val service:Service) {
+    companion object {
+        private var active:RoundBoxWindow?=null
+        fun deliver(kind:String,message:String) {
+            val window=active?:return
+            window.main.post{
+                val script="window.LeeWayRoundBoxReceive?.("+org.json.JSONObject.quote(kind)+","+org.json.JSONObject.quote(message)+")"
+                window.web?.evaluateJavascript(script,null)
+            }
+        }
+    }
+    private val wm=service.getSystemService(WindowManager::class.java)
+    private val main=Handler(Looper.getMainLooper())
+    private val density=service.resources.displayMetrics.density
+    private var web:WebView?=null
+    private var lp:WindowManager.LayoutParams?=null
+    private fun dp(v:Int)=(v*density).toInt()
+    fun toggle(){if(web!=null){close();return};show()}
+    fun show(){
+        if(web!=null)return
+        val bounds=wm.currentWindowMetrics.bounds
+        val side=dp(340).coerceAtMost((bounds.width()*.48).toInt().coerceAtLeast(dp(220)))
+        val size=dp(380).coerceAtMost((bounds.height()*.72).toInt())
+        val p=WindowManager.LayoutParams(side,size,WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            PixelFormat.TRANSLUCENT).apply{
+            gravity=Gravity.TOP or Gravity.LEFT
+            x=(bounds.width()-side-dp(16)).coerceAtLeast(0)
+            y=(bounds.height()/5).coerceAtLeast(0)
+            softInputMode=WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+            title="Agent Lee Round Box"
+        }
+        val view=WebView(service).apply{
+            setBackgroundColor(Color.TRANSPARENT)
+            settings.javaScriptEnabled=true
+            settings.domStorageEnabled=false
+            settings.allowFileAccess=false
+            addJavascriptInterface(Bridge(),"LeeWayAndroid")
+            loadUrl("file:///android_asset/round-box-leeway.html")
+        }
+        lp=p;web=view;wm.addView(view,p);active=this
+    }
+    fun close(){
+        web?.let{wm.removeView(it);it.removeJavascriptInterface("LeeWayAndroid");it.destroy()}
+        web=null;lp=null;if(active===this)active=null
+    }
+    private inner class Bridge {
+        @JavascriptInterface fun roundBoxClose(){main.post{close()}}
+        @JavascriptInterface fun roundBoxMove(dx:Double,dy:Double){main.post{
+            val p=lp?:return@post
+            val b=wm.currentWindowMetrics.bounds
+            p.x=(p.x+(dx*density).toInt()).coerceIn(0,(b.width()-p.width).coerceAtLeast(0))
+            p.y=(p.y+(dy*density).toInt()).coerceIn(0,(b.height()-p.height).coerceAtLeast(0))
+            web?.let{wm.updateViewLayout(it,p)}
+        }}
+        @JavascriptInterface fun roundBoxMaxWidth():Double=(wm.currentWindowMetrics.bounds.width()/density-24).toDouble()
+        @JavascriptInterface fun roundBoxMaxHeight():Double=(wm.currentWindowMetrics.bounds.height()/density-36).toDouble()
+        @JavascriptInterface fun roundBoxResize(width:Double,height:Double){main.post{
+            val p=lp?:return@post
+            val b=wm.currentWindowMetrics.bounds
+            p.width=dp(width.toInt().coerceAtLeast(220)).coerceAtMost(b.width())
+            p.height=dp(height.toInt().coerceAtLeast(250)).coerceAtMost(b.height()).coerceAtMost((p.width*1.5).toInt())
+            web?.let{wm.updateViewLayout(it,p)}
+        }}
+        private fun openCanonical(text:String?){
+            val intent=PocketVoiceActivity.launchIntent(service,true)
+            if(text!=null)intent.putExtra("LEEWAY_ROUNDBOX_TEXT",text)
+            service.startActivity(intent)
+        }
+        @JavascriptInterface fun roundBoxMessage(message:String){main.post{
+            val q=message.trim()
+            if(q.isBlank()||q.length>4096){deliver("error","INVALID_REQUEST_LENGTH");return@post}
+            deliver("thinking","")
+            openCanonical(q)
+        }}
+        @JavascriptInterface fun roundBoxListen(){main.post{
+            deliver("listening","")
+            openCanonical(null)
+        }}
+    }
+}

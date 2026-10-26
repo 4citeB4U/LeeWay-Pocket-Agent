@@ -1,0 +1,38 @@
+﻿{
+    "status":  "ORIGINAL_INSTALLED_FILES_BACKED_UP",
+    "sourceCommit":  "2018d134fae361f1f80aa342b5afc6e260ca6f87",
+    "files":  [
+                  {
+                      "backup":  "0-Start-Agent-Lee.ps1",
+                      "sha256":  "D34C1B898F94966379A402DC71E32E67B4E2B688CB2AB553C82213B943774B78",
+                      "resource":  "Start-Agent-Lee.ps1"
+                  },
+                  {
+                      "backup":  "1-host-commander.binding.v1.json",
+                      "sha256":  "8C5C279AD1C6F938CA4B57A56B2E7600FDE548D35CD03AE6EDAD14BF33CAD9F7",
+                      "resource":  "host-commander.binding.v1.json"
+                  },
+                  {
+                      "backup":  "2-pocket-voice.html",
+                      "sha256":  "FB1985086BAAD3F684016EA1040E67C0E975EDDFB4EFCFD2FE45CDBCA00A122B",
+                      "resource":  "runtime\\machine-consciousness\\pocket-voice.html"
+                  },
+                  {
+                      "backup":  "3-carrier-server.mjs",
+                      "sha256":  "7E680FA32128560AF3AD6A7E4D3B6CF08F43E93CB3747C4DCB5FD53BCE081176",
+                      "resource":  "runtime\\machine-consciousness\\carrier-server.mjs"
+                  },
+                  {
+                      "backup":  "4-Start-Pocket-Edge-Overlay.ps1",
+                      "sha256":  "E3A3EF1AEC896F905FE5387BEDA027A18538171C5A34FD287ADF5E60B06D2140",
+                      "resource":  "runtime\\machine-consciousness\\Start-Pocket-Edge-Overlay.ps1"
+                  },
+                  {
+                      "backup":  "5-pc-brain-view.mjs",
+                      "sha256":  "4FCE9A88405329C16798C772F38ACF7DC725B5EF9EAAF1447815B4E3916F691E",
+                      "resource":  "runtime\\machine-consciousness\\pc-brain-view.mjs"
+                  }
+              ],
+    "phoneCleared":  false,
+    "goldenPromoted":  false
+}

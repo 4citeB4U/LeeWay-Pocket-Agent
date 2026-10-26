@@ -1,0 +1,264 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "PASS_SCOPED_NATIVE_ACTION",
+  "action": "menu",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 12792,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 1312,
+      "y": 40,
+      "width": 276,
+      "height": 276,
+      "screenAreaRatio": 0.041823485521055866
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 276,
+        "height": 276,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": -34.00000190734863,
+        "bottom": 63,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 1,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0
+      },
+      "shrink": {
+        "x": 147,
+        "y": 218,
+        "width": 28,
+        "height": 28,
+        "top": 218,
+        "right": 175,
+        "bottom": 246,
+        "left": 147
+      },
+      "grow": {
+        "x": 178,
+        "y": 218,
+        "width": 28,
+        "height": 28,
+        "top": 218,
+        "right": 206,
+        "bottom": 246,
+        "left": 178
+      },
+      "expand": {
+        "x": 209,
+        "y": 218,
+        "width": 28,
+        "height": 28,
+        "top": 218,
+        "right": 237,
+        "bottom": 246,
+        "left": 209
+      },
+      "workstation": {
+        "x": -216.59375,
+        "y": 664.5416870117188,
+        "width": 182.59375,
+        "height": 133.92709350585938,
+        "top": 664.5416870117188,
+        "right": -34,
+        "bottom": 798.4687805175781,
+        "left": -216.59375
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": []
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 12792,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": true,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 946,
+      "y": 40,
+      "width": 760,
+      "height": 800,
+      "screenAreaRatio": 0.3338148392774885
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 760,
+        "height": 800,
+        "dpr": 1.5
+      },
+      "menu": true,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": 301.97918701171875,
+        "y": 39,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": 39,
+        "right": 316.00002098083496,
+        "bottom": 63,
+        "left": 301.97918701171875
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 3,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0,
+        "nativeControlTaps": 1,
+        "lastNativeTarget": "hamburger-btn"
+      },
+      "shrink": {
+        "x": 631,
+        "y": 742,
+        "width": 28,
+        "height": 28,
+        "top": 742,
+        "right": 659,
+        "bottom": 770,
+        "left": 631
+      },
+      "grow": {
+        "x": 662,
+        "y": 742,
+        "width": 28,
+        "height": 28,
+        "top": 742,
+        "right": 690,
+        "bottom": 770,
+        "left": 662
+      },
+      "expand": {
+        "x": 693,
+        "y": 742,
+        "width": 28,
+        "height": 28,
+        "top": 742,
+        "right": 721,
+        "bottom": 770,
+        "left": 693
+      },
+      "workstation": {
+        "x": 18,
+        "y": 547.5416870117188,
+        "width": 298,
+        "height": 94.92708587646484,
+        "top": 547.5416870117188,
+        "right": 316,
+        "bottom": 642.4687728881836,
+        "left": 18
+      },
+      "url": "http://127.0.0.1:8890/ui",
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": [
+      {
+        "event": "nativeDown",
+        "screenX": 2013,
+        "screenY": 105,
+        "mode": "control",
+        "at": 1791322793.9947228
+      },
+      {
+        "event": "nativeUp",
+        "moved": false,
+        "at": 1791322794.0707304
+      },
+      {
+        "event": "nativeTap",
+        "cssX": 30.0,
+        "cssY": 30.0,
+        "at": 1791322794.0708678
+      }
+    ]
+  },
+  "rectBefore": {
+    "left": 1968,
+    "top": 60,
+    "right": 2382,
+    "bottom": 474
+  },
+  "rectAfter": {
+    "left": 1420,
+    "top": 60,
+    "right": 2560,
+    "bottom": 1260
+  },
+  "checks": [
+    {
+      "action": "menu",
+      "actualOsClick": [
+        2013,
+        105
+      ]
+    }
+  ],
+  "error": null,
+  "fixtureInput": false,
+  "phoneTested": false
+}

@@ -1,0 +1,266 @@
+﻿[
+    {
+        "path":  "app/build.gradle.kts",
+        "sha256":  "40C9583FF86EAA04A56525A8F84848781F3BC0FDD5C4C9385D6CF7B0EE59092A"
+    },
+    {
+        "path":  "app/src/main/AndroidManifest.xml",
+        "sha256":  "5D6A24D64137E699A3916C88E070B7747C60045E2E9175FBB841410A55BBBFEB"
+    },
+    {
+        "path":  "app/src/main/assets/agent_lee_sphere_transparent.html",
+        "sha256":  "827ADF7A7CCBC717BBAB35C000B33CB226074760DE18F9BC75B8256D4F27FA0E"
+    },
+    {
+        "path":  "app/src/main/assets/leeway-authority-profile.json",
+        "sha256":  "9A41B864000E4D0242408685E736DF2B0BAE790513D98DE5AD6CBA50AF679760"
+    },
+    {
+        "path":  "app/src/main/assets/voice/catalog.v1.json",
+        "sha256":  "2E56FD4390757B7AD76C44F0CA42D03D5EBF6F9C6507A9A2FBCA5EAFF7F5F298"
+    },
+    {
+        "path":  "app/src/main/assets/voice/employee-voice-bindings.v1.json",
+        "sha256":  "002F87C59B562E2F3BECFCC6C5435C1034C096937E9D0E3CF2D7F7B6DF2EEEEF"
+    },
+    {
+        "path":  "app/src/main/assets/voice/source-lock.json",
+        "sha256":  "156B82997EF4D183494CCBB549430AAA1E7A25A970B1ADF32B9C8D8ABC36B608"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AgentVoiceBinding.kt",
+        "sha256":  "317FF7DC0463BA18DA8F3904AC5E5A17BD3A05A7A2E084D1DE9EF89E23060D71"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AndroidBrainIngestion.kt",
+        "sha256":  "6FBC775DEF411C6252CDF8451015A2A88DDA7F7E0D9BA09F6DA0782AB49B2349"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/AndroidDigitalBrainAdapter.kt",
+        "sha256":  "F8332606162C941C26A99473B84B972BD53C6A62C830F7725B41DA81B45F8DE6"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/devices/DeviceIdentity.kt",
+        "sha256":  "79B0C6C4A09746AC5046FB82E0A26F3C89A945F66E434368E25A91983AB3E9E1"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/EcosystemBindings.kt",
+        "sha256":  "BAFE10E26223AD7F4537C70FEEE355949469060F7788AEFF813E6707F0EFB6A6"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/EnglishPhoneSpeech.kt",
+        "sha256":  "A0A1B29520291494D8F7387D31986ECAF89DBECFA50F301391A103044CC1CDF4"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/EnglishVoicePolicy.kt",
+        "sha256":  "9A8AC986DC5367A4994E9457B0E1DB6F8B80191E0C2EAAA600964D115961DAAB"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/FabricEnglishAdapter.kt",
+        "sha256":  "AFE29D6999BDC162C9B2E4F02F670C7F77FE00C9426CF8C7A5282F0FFA91A548"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/FabricVoiceCatalog.kt",
+        "sha256":  "F9BFF751E0B3E991EA08285564901E69B78371282FFE772DC0D0E1DA041373EF"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/LeeWayAutomation.kt",
+        "sha256":  "A6EDFF3EFF49706F5E64326125A1942BC0B595DF613C653A65E72E6009A791A4"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt",
+        "sha256":  "6540C0462216AD96CAE6C78DF65D34D90515E19BAA4C390016EEEE6CAA49DDB4"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/LeeWayDeviceService.kt",
+        "sha256":  "55C9748AFADBA5104150896BE458E00024E04FED1444CF4CD82D4802DC2778E4"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+        "sha256":  "7A76A1AAA4F12248402B42FB5F0E4223106E38C8A6F40726E06928D93BA76D3F"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/NativeDecoderContract.kt",
+        "sha256":  "4D3998041EAF64517419E200FA4F705E29229450B1B4E02000B58091E8AED74C"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/NativeFileCensus.kt",
+        "sha256":  "8DD4FE67518E60A5845706E26929673311E5AB96268C2B9E2104202B76EA44BC"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/NativeVoiceDecoder.kt",
+        "sha256":  "A5860414BAAC67280C29EB14283448F8B539A2E79F8478B510A0CB43DC626C76"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PhoneActionCommand.kt",
+        "sha256":  "CEAB67D4D097C46B6699D360D797387868427838D141F585358AE907499C4BD0"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PhoneLaunchCommand.kt",
+        "sha256":  "E7E5792B08BE43F7EA9DE42CD2472D8714E4FC3DF3E20A0701D2F5D46034D562"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketAuthorityProfile.kt",
+        "sha256":  "FA2EAF5659184D7CED3186CA21A63FF91D6A501129C5D18004F2BE85FDCA3D32"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketBootReceiver.kt",
+        "sha256":  "EEA7C1846876420872A0112151F5FDA3C627DC7D7743ECB833B55119ECD42D8A"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt",
+        "sha256":  "88586BD09A28139A85BD7E594D3E1A46A3018189FF5E17D072CF0A0FF568B6CB"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketSpeech.kt",
+        "sha256":  "CD7A4AD9227AF7DFC7D29DF441B1411F07C9867353793A0D00C6F37C86C42638"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketVoiceActivity.kt",
+        "sha256":  "2C1A26D36B1E1910CD6EDDA81A344637AD4AE59ABF2C58FC907519F6B46B9741"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/PocketVoiceHost.kt",
+        "sha256":  "41E3439027D9D1C4592B616763CA8A3BA65B37FDFC2CC4EF9D4377F3E24C8130"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/RecognitionSession.kt",
+        "sha256":  "FE8B1AB54D8B2189C9A71CAB8F5EDA7369026E4C96A0C2B6A6D0F3EBDE6681C9"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/SkillAuthorityClient.kt",
+        "sha256":  "2F5C38CE1407E90D7D7935EA7414796537624E30B83D1C4ACF5C27D3AF6FA03F"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/SpokenPrompt.kt",
+        "sha256":  "8BF24DEB8C0005BFE7ADEBE63D1518DA00F44287710FB483707F7E78E270BE74"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/UnifiedAgentLeeRuntime.kt",
+        "sha256":  "6ECAD929F02A0A3D61F2A9756F3662033A6C87D3ACE5312A4AE0F3F1A1AB7A6D"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceProgress.kt",
+        "sha256":  "4535FEBE34CD5E4B1B007EE78F4D5512543360331C32BF89234879BCBD62FF34"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceReadiness.kt",
+        "sha256":  "F760C4D42D4A8F7D08ED3B8E71D6D6F4D34D5A24D148713A7DDBB1AEEE010460"
+    },
+    {
+        "path":  "app/src/main/java/industries/leeway/pocket/VoiceSession.kt",
+        "sha256":  "53E25E043FF9EB519D208243768A0CEFB0C4848D9C157BEBB1D17C791EFDD138"
+    },
+    {
+        "path":  "app/src/main/res/values/styles.xml",
+        "sha256":  "AD24838A00DC4223FE0B2416BE190D37C4ACFFA4A723DF64096B7BE91364D288"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/AgentVoiceBindingTest.kt",
+        "sha256":  "58C621CDF4832F22A33A1438228F7297B2F975E8AAB340CCEFE83DDE3A25619B"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/EnglishVoicePolicyTest.kt",
+        "sha256":  "4B7F84AC8759CFCAD2798C990F92661DD29A91ECBC3972B46CC8F338A16AC4F6"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/FabricVoiceCatalogTest.kt",
+        "sha256":  "064DA8AE0C6A7E0525B629CBA492274986B2C40462CC68A1A243CE813377F14B"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/NativeDecoderContractTest.kt",
+        "sha256":  "4B6A670C9D39DBC337D3FBDC474FA75EA0E517E4E74D91FB083F2011A4AD3CF7"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/NativeFileCensusTest.kt",
+        "sha256":  "C4CF22F1F5497C140E9C39CD9D937F153F2CB837779447C885494A0AC49EDA30"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/PhoneActionCommandTest.kt",
+        "sha256":  "EA99B6FB9A877F8A7306312D84603146C929DEDB6BCACF5C1517447D32E4E014"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/PhoneLaunchCommandTest.kt",
+        "sha256":  "D4C762E294393C198A05073B3E66854AC5E1C7A5163A4C1A99BCCF6525E6A81E"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/RecognitionSessionTest.kt",
+        "sha256":  "B043A57266954BC91FA15B6AE27C640CE0359ABF2C07EF717487D78D52D7DCF1"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/SpokenPromptTest.kt",
+        "sha256":  "9F0F4AEC278484C7065E284824325B16D5712D8125DFB774407AB4751B016968"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/VoiceProgressTest.kt",
+        "sha256":  "B094947DE80F6FBAC1AD0972C1A6245B846DF4AC678AE682216B6A877661F427"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/VoiceReadinessTest.kt",
+        "sha256":  "F770ACD8109465126094D4A2056FD04BB2DB82BD8BD16322012B8BDE6B92E0A3"
+    },
+    {
+        "path":  "app/src/test/java/industries/leeway/pocket/VoiceSessionTest.kt",
+        "sha256":  "97126DF5309DEB6242C58C403EDF069780845F6FA3715F043BAE01FF0FD18858"
+    },
+    {
+        "path":  "brain-core/build.gradle.kts",
+        "sha256":  "68F59A46879F1EB2DBE448D778763F751BD72BBC009A78A54743B859B244DB5C"
+    },
+    {
+        "path":  "brain-core/src/main/kotlin/industries/leeway/brain/BrainIngestion.kt",
+        "sha256":  "1A37A74ACC8B3383E98B824705207BB98235123CFF6E672E5681DF615A3A1FA5"
+    },
+    {
+        "path":  "brain-core/src/main/kotlin/industries/leeway/brain/DigitalBrain.kt",
+        "sha256":  "CCB1EBE6B4D9AA29531AEFD66FA5D3E9EC2B5BD0EA2805D6A42077B2F1141457"
+    },
+    {
+        "path":  "brain-core/src/test/kotlin/industries/leeway/brain/BrainIngestionTest.kt",
+        "sha256":  "6BF27FBBBD9062174462EE0919EFDB3BE26F811DC9F5FEBCA4242A6EEC94EA0B"
+    },
+    {
+        "path":  "brain-core/src/test/kotlin/industries/leeway/brain/DigitalBrainTest.kt",
+        "sha256":  "27A52ABB0AC17B41AA4758F6EE7F95B90AF56F95B115604B2D72C96A2AF224EB"
+    },
+    {
+        "path":  "build.gradle.kts",
+        "sha256":  "4ACC15B991B4D48356BCA35D0812AAA37B9F87AFB1CE29CD93DF1367AB3548E2"
+    },
+    {
+        "path":  "contracts/golden-system-release.v1.json",
+        "sha256":  "3CE341D57B26511AE0E98A96D0A0EA75869E065631293773F4B2D1D58F37EC42"
+    },
+    {
+        "path":  "contracts/platforms/android.v1.json",
+        "sha256":  "57E6C5F6936BA6DE42253986E6490D184A71385C9F29EDB7B6325338C8D3BAB9"
+    },
+    {
+        "path":  "scripts/golden-release-gate.mjs",
+        "sha256":  "F7E606305B3B2CF78C830D2E5D6C204C2372A2E80A4D49AB207915489AD996A4"
+    },
+    {
+        "path":  "settings.gradle.kts",
+        "sha256":  "15F7B704C8EAB31C798577A41B1F8031639A6EC262C20FA28E999EDBA7448D69"
+    },
+    {
+        "path":  "tests/golden-release-gate.test.mjs",
+        "sha256":  "3AAA462BB83B1255ED9479A15D0030A3475AEC0A5D1C3B089FACB498CDA0127C"
+    },
+    {
+        "path":  "tests/pocket-workstation-source.test.mjs",
+        "sha256":  "739468C8355C5B3DB144A99AB949EE3955874557B5B09675E54352404A9827C6"
+    },
+    {
+        "path":  "tests/portable-brain-wiring.test.mjs",
+        "sha256":  "F9BBFC0A92F466CEA6B2788CE191CB824B82D501F54F0EE8389143AC8D54C0EB"
+    },
+    {
+        "path":  "tests/sphere-voice-boundary.test.mjs",
+        "sha256":  "2A03E65A4444151C8DECF9875654EE65C3F24D7E743EB27CF03EA82F0453E7EE"
+    },
+    {
+        "path":  "Verify-SingleApk.ps1",
+        "sha256":  "68F577459A663AB6A211CDA1211326AA0CD9B9275698D04D425B1619A72D208C"
+    }
+]

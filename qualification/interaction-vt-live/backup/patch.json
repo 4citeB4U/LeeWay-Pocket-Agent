@@ -1,0 +1,21 @@
+{
+  "status": "APPLIED_RESTART_AND_NATIVE_TESTS_REQUIRED",
+  "scope": "CURRENT_NATIVE_HOST_AND_VT_LAUNCH",
+  "inputs": {
+    "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\agent-ui-host.py": "df0c2800bb54bbfff29db0e0ccd3581452b0c6864f2b33e33e5d450270ee0ce5",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html": "d89ef1efbc07e237bee58a66e13098e6e1f22a4096a13af959560709856dd03e",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\Start-Agent-Lee.ps1": "897ca25dc1505182b7aa27fe3206379afcbf63d2a6430c5b57ab8edc17bef0bb",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\host-commander.binding.v1.json": "e3301b681a77b04a994166ba57c854201cc5ebe10a16124e62137773a0e9244c"
+  },
+  "vtHash": "320f3e09d7206ea8dd58c3cebbe4f39f58e20efccc5a699918ecdd0a8bd25b1c",
+  "vtSourceState": "UNCOMMITTED_TEST_CANDIDATE",
+  "voiceSelectionChanged": false,
+  "newWorkstation": false,
+  "phoneInstalled": false,
+  "outputs": {
+    "E:\\LeeWay-Work\\p7-g3-native-commander\\providers\\desktop-commander\\native-host\\agent-ui-host.py": "6d3b96af1b233fa7285587e7608b4635bc0f6e268f78d8212c647c5e256ef26d",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\runtime\\machine-consciousness\\pocket-voice.html": "ba746121ba7002ae8c95b7d5a6f752d5e0befc9717a4257d1b797945f950b013",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\Start-Agent-Lee.ps1": "a9359666afbd7782b511d7c4128f794dd7ae6c92559a49a4b6eb8925adb2e04e",
+    "E:\\LeeWay-Work\\pc-consciousness-live\\host-commander.binding.v1.json": "822a499c1028c6da191550911854cfd22efa9d892088043168f7dbc4d96b219d"
+  }
+}

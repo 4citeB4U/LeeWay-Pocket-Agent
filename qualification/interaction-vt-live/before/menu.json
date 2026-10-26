@@ -1,0 +1,291 @@
+{
+  "scope": "ACTUAL_OS_POINTER_ON_INSTALLED_AGENT",
+  "status": "FAILED",
+  "action": "menu",
+  "before": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 27460,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 58,
+      "y": 16,
+      "width": 522,
+      "height": 522,
+      "screenAreaRatio": 0.14960395175277497
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 522,
+        "height": 522,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": -350.3333435058594,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": -350.3333435058594,
+        "right": -34.00000190734863,
+        "bottom": -326.3333435058594,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 18,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0
+      },
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": [
+      {
+        "event": "mouseMoved",
+        "nativeX": 487,
+        "nativeY": 318,
+        "scale": 1.5,
+        "cssX": 324.6666666666667,
+        "cssY": 212.0
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 434,
+        "nativeY": 331,
+        "scale": 1.5,
+        "cssX": 289.3333333333333,
+        "cssY": 220.66666666666666
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 378,
+        "nativeY": 344,
+        "scale": 1.5,
+        "cssX": 252.0,
+        "cssY": 229.33333333333334
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 326,
+        "nativeY": 354,
+        "scale": 1.5,
+        "cssX": 217.33333333333334,
+        "cssY": 236.0
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 258,
+        "nativeY": 366,
+        "scale": 1.5,
+        "cssX": 172.0,
+        "cssY": 244.0
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 191,
+        "nativeY": 377,
+        "scale": 1.5,
+        "cssX": 127.33333333333333,
+        "cssY": 251.33333333333334
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 115,
+        "nativeY": 395,
+        "scale": 1.5,
+        "cssX": 76.66666666666667,
+        "cssY": 263.3333333333333
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 40,
+        "nativeY": 403,
+        "scale": 1.5,
+        "cssX": 26.666666666666668,
+        "cssY": 268.6666666666667
+      }
+    ]
+  },
+  "after": {
+    "schemaVersion": "leeway.native-floating-host.v1",
+    "status": "NATIVE_HOST_RUNNING",
+    "pid": 27460,
+    "provider": "LEEWAY_DEVICE_BRIDGE_NATIVE_UI",
+    "url": "http://127.0.0.1:8890/ui",
+    "screen": {
+      "x": 0,
+      "y": 0,
+      "width": 1707,
+      "height": 1067
+    },
+    "topmostRequested": true,
+    "transparentRequested": true,
+    "framelessRequested": true,
+    "nativeHitPlane": true,
+    "panelOpen": false,
+    "expandedByOwner": false,
+    "fixedPhysicalPathsInSource": false,
+    "formulaExecution": "NOT_EXECUTED",
+    "geometry": {
+      "x": 58,
+      "y": 16,
+      "width": 522,
+      "height": 522,
+      "screenAreaRatio": 0.14960395175277497
+    },
+    "ownPage": {
+      "viewport": {
+        "width": 522,
+        "height": 522,
+        "dpr": 1.5
+      },
+      "menu": false,
+      "hamburger": {
+        "x": 10,
+        "y": 10,
+        "width": 40,
+        "height": 40,
+        "top": 10,
+        "right": 50,
+        "bottom": 50,
+        "left": 10
+      },
+      "close": {
+        "x": -48.020835876464844,
+        "y": -350.3333435058594,
+        "width": 14.020833969116211,
+        "height": 24,
+        "top": -350.3333435058594,
+        "right": -34.00000190734863,
+        "bottom": -326.3333435058594,
+        "left": -48.020835876464844
+      },
+      "interaction": {
+        "sphereTaps": 0,
+        "dragStarts": 0,
+        "cancelled": 18,
+        "menuBlocked": 0,
+        "resizeActions": 0,
+        "voiceErrors": 0
+      },
+      "status": "Tap sphere to speak"
+    },
+    "ownMouse": [
+      {
+        "event": "mousePressed",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      },
+      {
+        "event": "mouseReleased",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      },
+      {
+        "event": "mouseMoved",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      },
+      {
+        "event": "mouseWheel",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      },
+      {
+        "event": "mouseWheel",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      },
+      {
+        "event": "mouseWheel",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      },
+      {
+        "event": "mouseWheel",
+        "nativeX": 84,
+        "nativeY": 155,
+        "scale": 1.5,
+        "cssX": 56.0,
+        "cssY": 103.33333333333333
+      }
+    ]
+  },
+  "rectBefore": {
+    "left": 87,
+    "top": 24,
+    "right": 870,
+    "bottom": 807
+  },
+  "rectAfter": {
+    "left": 87,
+    "top": 24,
+    "right": 870,
+    "bottom": 807
+  },
+  "checks": [
+    {
+      "action": "menu",
+      "actualOsClick": [
+        132,
+        69
+      ]
+    }
+  ],
+  "error": "MENU_DID_NOT_OPEN",
+  "fixtureInput": false,
+  "phoneTested": false
+}

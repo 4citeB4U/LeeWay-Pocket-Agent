@@ -1,0 +1,31 @@
+{
+  "state": "APPLIED_BUILD_AND_LIVE_ACCEPTANCE_REQUIRED",
+  "files": [
+    "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt",
+    "app/src/main/java/industries/leeway/pocket/MainActivity.kt",
+    "app/src/main/java/industries/leeway/pocket/AndroidBrainViewer.kt",
+    "app/src/main/java/industries/leeway/pocket/DigitalBrainActivity.kt",
+    "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt",
+    "app/src/main/java/industries/leeway/pocket/PocketVoiceActivity.kt",
+    "app/src/main/AndroidManifest.xml",
+    "app/build.gradle.kts",
+    "app/src/main/assets/agent_lee_sphere_transparent.html",
+    "app/src/main/assets/digital-brain/local-brain-binding.js"
+  ],
+  "logoSha256": "31cb7cfb845524a19202ed49e42b0fec71d8bcc4a5462e52469e98a3cca6b3fa",
+  "threeSha256": "9274bbcec8d96168626c732b5d31c775aa8cfb7eaa0599bec0c175908a2c1ce2",
+  "noDataClearing": true,
+  "fullGoldenRelease": false,
+  "hashes": {
+    "app/src/main/java/industries/leeway/pocket/LeeWayBodyDatabases.kt": "b8d8d5be5a45d014caa296c768160ec04426e262b00d2b3215019347f39c111b",
+    "app/src/main/java/industries/leeway/pocket/MainActivity.kt": "e11d6a78cd59ad7a8043eff823a36c2628e511ed2a1ee24cdb9e46f29d4417d8",
+    "app/src/main/java/industries/leeway/pocket/AndroidBrainViewer.kt": "96be9b8873e87bda39418e37b4dbe5192f9dcf75d11001dc35f75c305cae47cf",
+    "app/src/main/java/industries/leeway/pocket/DigitalBrainActivity.kt": "33292f80f47eca4ed02c5ecc2a2a0ce139bea4ccc845708ef3de47bce4da27a9",
+    "app/src/main/java/industries/leeway/pocket/PocketOverlayService.kt": "0621e80883f19642608656252e0565dc2100732005acc559e28a1a8c4b31320e",
+    "app/src/main/java/industries/leeway/pocket/PocketVoiceActivity.kt": "caef12ca6b6902edb399331e3cd9c3feccf55c6bd27d42645abcee87d0c51711",
+    "app/src/main/AndroidManifest.xml": "d77bf6cf3648130726c2831e6e2b283b52d5b33a69f2a3c1645099d10a76a356",
+    "app/build.gradle.kts": "648d65a07950824f0a8589f7c0ae8ced785314065f892761a6d50cb1bb64af41",
+    "app/src/main/assets/agent_lee_sphere_transparent.html": "9ede0a43220a18c1d7dd39464146cdec24e4a9c198a6ddc17ee38a7c147a57a1",
+    "app/src/main/assets/digital-brain/local-brain-binding.js": "57c0cba16fd1d2ae5d2527916e7981d147dcb9b2314d5c0365a5017eb00c4acd"
+  }
+}

@@ -1,0 +1,71 @@
+/* One compact control header; the original nucleus artwork and graph remain the canvas. */
+[hidden]{display:none!important}
+#top{position:fixed;inset:0 0 auto;z-index:14000;height:56px;min-height:56px;display:grid;grid-template-columns:44px minmax(0,1fr) 44px auto;gap:6px;align-items:center;padding:6px 8px!important;background:rgba(3,10,18,.9)!important;border-bottom:1px solid rgba(155,211,239,.24);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:visible}
+#backBtn{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;font-size:22px;line-height:1}
+#crumbs{position:static;display:flex;align-items:center;gap:4px;flex-wrap:nowrap;min-width:0;height:44px;padding:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x}
+#crumbs::-webkit-scrollbar{display:none}
+#crumbs .crumb{flex:0 0 auto;max-width:100%;min-width:44px;min-height:44px;padding:7px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;border-radius:10px}
+#crumbs .crumb[aria-current=page]{color:#d9f5ff;border-color:rgba(113,228,255,.32)}
+#brainControlsMenu{position:static;min-width:0}
+#brainControlsToggle{display:grid;place-items:center;list-style:none;width:44px;height:44px;border:1px solid var(--line);border-radius:10px;background:#07131e;color:#eef6ff;font-size:22px;cursor:pointer}
+#brainControlsToggle::-webkit-details-marker{display:none}
+#brainControlsMenu[open]>#brainControlsToggle{border-color:#71e4ff;color:#71e4ff}
+#brainControlsToggle:focus-visible,#top button:focus-visible,#brainControlsPanel input:focus-visible{outline:2px solid #b5f0ff;outline-offset:2px}
+#brainControlsPanel{position:absolute;right:8px;top:calc(100% + 7px);width:min(340px,calc(100vw - 16px));max-height:calc(100dvh - 72px);overflow:auto;overscroll-behavior:contain;padding:12px;border:1px solid rgba(125,175,210,.42);border-radius:14px;background:rgba(3,10,18,.97);box-shadow:0 16px 44px rgba(0,0,0,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#brainControlsMenu:not([open])>#brainControlsPanel{display:none}
+#brainControlsPanel button{min-height:44px;min-width:44px;font-size:12px;line-height:1.25;white-space:normal}
+#localControls{position:static;display:block;left:auto;right:auto;bottom:auto;padding:0;background:transparent;border:0;border-radius:0}
+#localControlsTrack{display:block;padding:0;height:auto;overflow:visible}
+#localControlsTrack>label{display:block;margin-bottom:7px;font-size:12px;font-weight:700;color:#c6e7f7}
+#localSearch{display:block;width:100%;min-width:0;min-height:44px;font-size:16px}
+#localSearchResults{position:static;display:grid;gap:4px;max-height:190px;overflow:auto;margin-top:5px}
+#localSearchResults button{text-align:left;overflow-wrap:anywhere}
+.brainPageState{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-top:8px}
+#localPageStatus{font-size:12px;color:#a9c9df;overflow-wrap:anywhere}
+#brainPageNavigation{display:flex;gap:6px;margin-top:6px}
+#brainPageNavigation button:disabled{display:none}
+.brainMenuSection{margin-top:12px;padding-top:10px;border-top:1px solid rgba(125,175,210,.2)}
+.brainMenuLabel{display:block;margin-bottom:7px;font-size:11px;font-weight:750;color:#86b4ce}
+.brainMenuActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.brainMenuStatus{margin:10px 0 0;color:#7f9eb2;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
+#zoom{position:static;margin-top:8px;display:block;padding:4px 0;border:0;background:transparent;font-size:11px;color:#94afc3}
+#leewayReturnAgent{position:static;z-index:auto;display:grid;place-items:center;min-height:44px;min-width:76px;max-width:84px;padding:6px 8px;border:1px solid rgba(155,211,239,.38);border-radius:12px;background:rgba(3,10,18,.7);color:#f5fbff;font:700 11px/1.1 system-ui;white-space:nowrap;cursor:pointer}
+#leewayReturnAgent:hover{border-color:#72e7ff;background:rgba(4,22,34,.9)}
+#stage{top:56px;bottom:0;left:0;right:0;background:transparent!important}
+#brainEntry{position:fixed;z-index:12000;left:50%;bottom:16px;transform:translateX(-50%)}
+#localEnter{min-height:44px;padding:10px 20px;border-color:#70dcff;background:rgba(3,14,25,.9);box-shadow:0 4px 24px rgba(0,0,0,.35);font-size:14px;font-weight:700}
+body.galaxy-active #brainEntry{display:none}
+#scopeLabel,#hint,.packetHint,#brainDepthHint{display:none!important}
+#hud,#settingsPanel,#legend,.filesystemCarouselHost{background:rgba(3,10,18,.94)!important;backdrop-filter:blur(16px) saturate(118%);-webkit-backdrop-filter:blur(16px) saturate(118%)}
+#hud,#settingsPanel,#legend{top:64px;bottom:8px;right:8px;max-height:calc(100dvh - 72px)}
+button,input,.node{backdrop-filter:blur(8px)}
+@media(max-width:760px){
+ #hud,#settingsPanel{left:8px;right:8px;width:auto;max-height:calc(100dvh - 72px)}
+ #legend{left:8px;right:8px;width:auto;max-height:calc(100dvh - 72px)}
+}
+
+/* Give universe names normal word boundaries without reducing the label font. */
+.node[data-node-type="universe"]{width:196px;min-height:74px}
+.node.center[data-node-type="universe"]{width:240px;min-height:92px}
+.node[data-node-type="universe"] .nodeCard{grid-template-columns:26px minmax(0,1fr);gap:8px;padding:9px;min-height:72px}
+.node[data-node-type="universe"] .nodeIcon{width:26px;height:26px;font-size:18px;border-radius:8px}
+.node[data-node-type="universe"] .nodeKebab{display:none}
+.node[data-node-type="universe"] b{overflow-wrap:normal;word-break:normal;hyphens:none;line-height:1.2}
+
+/* Task cards preview the original title; the inspector retains its complete text. */
+.node[data-node-type="task"]{width:240px;min-height:74px}
+.node[data-node-type="task"] .nodeCard{grid-template-columns:26px minmax(0,1fr);gap:8px;padding:9px;min-height:72px}
+.node[data-node-type="task"] .nodeIcon{width:26px;height:26px;font-size:18px;border-radius:8px}
+.node[data-node-type="task"] .nodeKebab{display:none}
+.node[data-node-type="task"] b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden;overflow-wrap:break-word;word-break:normal;hyphens:none;line-height:1.2}
+
+/* Keep full inspector titles within the scrollable panel, including long tokens. */
+#hud .hudHeader{grid-template-columns:62px minmax(0,1fr) auto;align-items:start}
+#hud .hudTitle{min-width:0}
+#hud .hudSection{min-width:0;overflow-wrap:anywhere}
+#hud .hudTitle h2,#hud .hudSubtitle{max-width:100%;overflow-wrap:anywhere;word-break:normal}
+@media(max-width:760px){
+ #hud .hudHeader{grid-template-columns:50px minmax(0,1fr) auto}
+ #hud .hudTitle{grid-column:1/-1;grid-row:2}
+ #hud .hudClose{grid-column:3;grid-row:1}
+}

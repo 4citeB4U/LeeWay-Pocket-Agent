@@ -1,0 +1,312 @@
+{
+  "schemaVersion": "leeway.installed-surfaces.preflight.v1",
+  "phonePackage": "industries.leeway.pocket",
+  "installedApkSha256": "50b1746b08d212f78b434df7547a241181d99d9b07f2b35664e022f63c75da4f",
+  "privateBackupSha256": "b9f5d710d10b34c29d2b22b70e632a5eb370384bd65bfd79b845a441268c790c",
+  "phoneDatabases": [
+    {
+      "name": "leeway-continuum.db",
+      "bytes": 45056,
+      "sha256": "c3c04ff25e17172ce79c2734040585ebbc8fc022169a1ac1a6f645299cd7d866",
+      "integrity": "ok",
+      "tables": [
+        "android_metadata",
+        "universes",
+        "universe_links",
+        "continuum_events",
+        "sqlite_sequence",
+        "federation_peers"
+      ]
+    },
+    {
+      "name": "leeway-working-memory.db",
+      "bytes": 28672,
+      "sha256": "42d09a20fa7957829634266686593e86cfebbf9093f81d6b7e9e822f5077e1e5",
+      "integrity": "ok",
+      "tables": [
+        "android_metadata",
+        "working_set",
+        "working_events",
+        "sqlite_sequence"
+      ]
+    },
+    {
+      "name": "leeway-digital-brain.db",
+      "bytes": 417792,
+      "sha256": "39f636af70655aa78dfcd0f67e1e1f8e638de552ee38cf3a187a80f634bc7957",
+      "integrity": "ok",
+      "tables": [
+        "android_metadata",
+        "nodes",
+        "edges",
+        "provenance",
+        "sqlite_sequence",
+        "formula_passports",
+        "sync_events",
+        "node_tombstones",
+        "experiences",
+        "hardware_stats",
+        "brain_owner",
+        "brain_resource_bindings"
+      ],
+      "nodes": 396,
+      "roots": [
+        [
+          "brain:LDB-67e1205a-33f8-48b9-8efd-5d1e4621b204",
+          "Digital Brain"
+        ]
+      ]
+    }
+  ],
+  "pcBrain": {
+    "path": "E:\\LeeWay-Work\\Digital-Brains\\pc-primary\\brain\\digital-brain.sqlite",
+    "bytes": 88039424,
+    "tables": [
+      "nodes",
+      "edges",
+      "provenance",
+      "sqlite_sequence",
+      "meta",
+      "view_positions",
+      "formula_passports",
+      "sync_events",
+      "node_tombstones",
+      "hardware_stats",
+      "experiences",
+      "experience_features",
+      "feature_schemas",
+      "learning_artifacts",
+      "learning_scopes",
+      "discovered_objects",
+      "object_bindings",
+      "object_states",
+      "source_observations"
+    ],
+    "nodesSchema": [
+      [
+        0,
+        "id",
+        "TEXT",
+        0,
+        null,
+        1
+      ],
+      [
+        1,
+        "canonical_id",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        2,
+        "domain",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        3,
+        "type",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        4,
+        "subtype",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        5,
+        "title",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        6,
+        "description",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        7,
+        "source",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        8,
+        "source_path",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        9,
+        "source_anchor",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        10,
+        "tags_json",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        11,
+        "status",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        12,
+        "confidence",
+        "REAL",
+        0,
+        null,
+        0
+      ],
+      [
+        13,
+        "spatial_json",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        14,
+        "metadata_json",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        15,
+        "created_at",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        16,
+        "parent_id",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        17,
+        "scope_id",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        18,
+        "depth",
+        "INTEGER",
+        0,
+        "0",
+        0
+      ],
+      [
+        19,
+        "expandable",
+        "INTEGER",
+        0,
+        "0",
+        0
+      ],
+      [
+        20,
+        "child_count",
+        "INTEGER",
+        0,
+        "0",
+        0
+      ],
+      [
+        21,
+        "child_provider",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        22,
+        "source_kind",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        23,
+        "b64_path",
+        "TEXT",
+        0,
+        null,
+        0
+      ],
+      [
+        24,
+        "spatial_index",
+        "INTEGER",
+        0,
+        null,
+        0
+      ],
+      [
+        25,
+        "binary_path",
+        "TEXT",
+        0,
+        null,
+        0
+      ]
+    ],
+    "nodesCount": 209,
+    "roots": [
+      [
+        "scope::hemi::L",
+        "scope",
+        "LeeWay Ecosystem Hemisphere"
+      ],
+      [
+        "scope::hemi::R",
+        "scope",
+        "User Knowledge Hemisphere"
+      ]
+    ]
+  },
+  "appStoppedForConsistentBackup": true,
+  "phoneDataCleared": false,
+  "installedCandidate": false
+}

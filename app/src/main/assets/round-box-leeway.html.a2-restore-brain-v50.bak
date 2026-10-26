@@ -1,0 +1,1261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Round Box - 3D Luminous Speech Bubble</title>
+    <meta name="description" content="Standalone Round Box: 3D luminous cloud speech bubble with real-time streaming, scratchable resize, and concurrent voice reading." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for standalone execution -->
+    <script src="vendor/three-r128.min.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #000000;
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        overflow: hidden;
+        user-select: none;
+        -webkit-user-select: none;
+        width: 100vw;
+        height: 100vh;
+      }
+      #canvas-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+      }
+      /* Floating scratch & resize bounding box */
+      #box-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(88vw, 560px);
+        height: 380px;
+        min-width: 280px;
+        max-width: 90vw;
+        min-height: 220px;
+        max-height: 85vh;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        transition: width 0.05s ease-out, height 0.05s ease-out;
+      }
+      .interactive-surface {
+        pointer-events: auto;
+      }
+      /* Glassmorphic speech bubble card */
+      .cloud-card {
+        width: 100%;
+        height: 100%;
+        border-radius: 44px;
+        background: radial-gradient(130% 120% at 30% 20%, rgba(34, 211, 238, 0.16) 0%, rgba(99, 102, 241, 0.12) 45%, rgba(0, 0, 0, 0.85) 90%);
+        border: 1.5px solid rgba(56, 189, 248, 0.4);
+        box-shadow: 0 0 50px -10px rgba(34, 211, 238, 0.3), inset 0 0 35px rgba(56, 189, 248, 0.15);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        display: flex;
+        flex-direction: column;
+        padding: 24px 28px;
+        position: relative;
+        cursor: grab;
+      }
+      .cloud-card:active {
+        cursor: grabbing;
+      }
+      /* Tail for round speech bubble */
+      .cloud-tail {
+        position: absolute;
+        bottom: -22px;
+        left: 56px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.3), rgba(0, 0, 0, 0.9));
+        border: 1.5px solid rgba(56, 189, 248, 0.35);
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+      }
+      .cloud-tail-sm {
+        position: absolute;
+        bottom: -36px;
+        left: 42px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: rgba(56, 189, 248, 0.25);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+      }
+      /* Resize / Scratch Handles */
+      .resize-handle {
+        position: absolute;
+        pointer-events: auto;
+        z-index: 30;
+      }
+      .handle-e, .handle-w {
+        top: 35%;
+        bottom: 35%;
+        width: 14px;
+        cursor: ew-resize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .handle-e { right: -7px; }
+      .handle-w { left: -7px; }
+      .handle-n, .handle-s {
+        left: 35%;
+        right: 35%;
+        height: 14px;
+        cursor: ns-resize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .handle-n { top: -7px; }
+      .handle-s { bottom: -7px; }
+      .handle-se {
+        bottom: -6px;
+        right: -6px;
+        width: 22px;
+        height: 22px;
+        cursor: nwse-resize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .handle-bar-v {
+        width: 4px;
+        height: 38px;
+        background: #38bdf8;
+        border-radius: 999px;
+        box-shadow: 0 0 10px #38bdf8;
+      }
+      .handle-bar-h {
+        height: 4px;
+        width: 38px;
+        background: #38bdf8;
+        border-radius: 999px;
+        box-shadow: 0 0 10px #38bdf8;
+      }
+      .handle-corner {
+        width: 14px;
+        height: 14px;
+        border-right: 3px solid #38bdf8;
+        border-bottom: 3px solid #38bdf8;
+        border-radius: 2px;
+        box-shadow: 2px 2px 8px #38bdf8;
+      }
+
+      /* Content Area inside bubble */
+      .bubble-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+        flex-wrap: wrap;
+      }
+      .badge-round {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 4px 10px;
+        border-radius: 9999px;
+        background: rgba(6, 182, 212, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+      }
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #38bdf8;
+        box-shadow: 0 0 8px #38bdf8;
+      }
+      .status-dot.pulse {
+        animation: pulseDot 1.4s infinite;
+      }
+      @keyframes pulseDot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(1.3); }
+      }
+
+      /* Mode Toggle Button Group */
+      .mode-toggle-group {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1.5px solid rgba(56, 189, 248, 0.4);
+        border-radius: 9999px;
+        padding: 2px;
+        gap: 2px;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+        pointer-events: auto;
+      }
+      .mode-toggle-btn {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        padding: 4px 11px;
+        border-radius: 9999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .mode-toggle-btn:hover {
+        color: #ffffff;
+      }
+      .mode-toggle-btn.active {
+        background: linear-gradient(135deg, #06b6d4, #0284c7);
+        color: #ffffff;
+        box-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+      }
+
+      /* Unified Bubble Screen (Output & Input Look Identical) */
+      .bubble-screen-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        position: relative;
+        z-index: 5;
+      }
+      .bubble-unified-view {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+      }
+      .bubble-input-container {
+        flex: 1;
+        display: flex;
+        align-items: flex-start;
+        cursor: text;
+        min-height: 0;
+      }
+      .bubble-inline-textarea {
+        flex: 1;
+        height: 100%;
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        resize: none;
+        outline: none;
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        pointer-events: auto;
+      }
+      .bubble-inline-textarea::placeholder {
+        color: #334155;
+      }
+      .bubble-screen-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 8px;
+        border-top: 1px dashed rgba(56, 189, 248, 0.2);
+        pointer-events: auto;
+      }
+      .bubble-mic-btn {
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        color: #38bdf8;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 5px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+      }
+      .bubble-mic-btn:hover {
+        background: rgba(56, 189, 248, 0.28);
+        color: #ffffff;
+      }
+      .bubble-mic-btn.listening {
+        background: rgba(239, 68, 68, 0.25);
+        border-color: #ef4444;
+        color: #f87171;
+        animation: pulseBubble 1s infinite;
+      }
+      .bubble-transmit-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #06b6d4, #2563eb);
+        border: 1px solid rgba(56, 189, 248, 0.5);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        padding: 6px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 0 14px rgba(6, 182, 212, 0.4);
+        transition: all 0.2s;
+        font-family: inherit;
+      }
+      .bubble-transmit-btn:hover {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+        transform: translateY(-1px);
+      }
+
+      .bubble-text-container {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 6px;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #e2e8f0;
+        scroll-behavior: smooth;
+      }
+      .bubble-text-container::-webkit-scrollbar {
+        width: 5px;
+      }
+      .bubble-text-container::-webkit-scrollbar-thumb {
+        background: rgba(56, 189, 248, 0.3);
+        border-radius: 9999px;
+      }
+      .streaming-cursor {
+        display: inline-block;
+        width: 7px;
+        height: 17px;
+        background: #38bdf8;
+        margin-left: 4px;
+        vertical-align: middle;
+        animation: blink 0.8s infinite;
+      }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      /* Navigation Header */
+      header {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        right: 16px;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+      .nav-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        pointer-events: auto;
+      }
+      .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 12px;
+        background: rgba(10, 10, 15, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #cbd5e1;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        backdrop-filter: blur(10px);
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+      .nav-btn:hover {
+        background: rgba(30, 41, 59, 0.9);
+        border-color: rgba(56, 189, 248, 0.4);
+        color: #ffffff;
+        transform: translateY(-1px);
+      }
+      .nav-btn.primary {
+        background: rgba(6, 182, 212, 0.15);
+        border-color: rgba(56, 189, 248, 0.4);
+        color: #38bdf8;
+      }
+      .nav-btn.primary:hover {
+        background: rgba(6, 182, 212, 0.28);
+        box-shadow: 0 0 16px rgba(34, 211, 238, 0.25);
+      }
+
+      /* Resize scratch HUD indicator */
+      .scratch-hud {
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        background: rgba(0, 0, 0, 0.75);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        font-size: 12px;
+        color: #94a3b8;
+        pointer-events: auto;
+        backdrop-filter: blur(8px);
+      }
+      .scratch-hud span {
+        color: #38bdf8;
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .scratch-hud button {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .scratch-hud button:hover {
+        background: rgba(56, 189, 248, 0.25);
+      }
+
+      /* Thinking Animation & Animated Blinking Dots */
+      .thinking-label {
+        font-weight: 800;
+        color: #38bdf8;
+        font-size: 1.1em;
+        letter-spacing: 0.05em;
+      }
+      .thinking-dots {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        margin-left: 4px;
+      }
+      .thinking-dots span {
+        display: inline-block;
+        font-weight: 900;
+        color: #38bdf8;
+        font-size: 1.2em;
+        animation: blinkDots 1.4s infinite ease-in-out both;
+      }
+      .thinking-dots span:nth-child(1) { animation-delay: 0s; }
+      .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+      .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+      @keyframes blinkDots {
+        0%, 80%, 100% {
+          opacity: 0.2;
+          transform: scale(0.85);
+        }
+        40% {
+          opacity: 1;
+          transform: scale(1.3);
+          text-shadow: 0 0 12px #38bdf8;
+        }
+      }
+
+      /* Mic / Speech Input Button */
+      .bubble-mic-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 9999px;
+        background: rgba(14, 165, 233, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        color: #7dd3fc;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .bubble-mic-btn:hover {
+        background: rgba(14, 165, 233, 0.3);
+        border-color: #38bdf8;
+        color: #ffffff;
+      }
+      .bubble-mic-btn.listening {
+        background: rgba(239, 68, 68, 0.25);
+        border-color: #ef4444;
+        color: #fca5a5;
+        animation: pulseMic 1s infinite;
+      }
+      @keyframes pulseMic {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+        50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+      }
+
+      .sound-round-btn {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        color: #cbd5e1;
+        padding: 4px 8px;
+        border-radius: 9999px;
+        font-size: 12px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s;
+      }
+      .sound-round-btn:hover {
+        background: rgba(56, 189, 248, 0.2);
+        color: #ffffff;
+        border-color: #38bdf8;
+      }
+    
+/* LeeWay Round Box host integration: retain the supplied visual markup. */
+html, body { background: transparent !important; }
+#canvas-container { display:block !important; background:transparent !important; pointer-events:none !important; }
+#box-wrapper { position:fixed; top:22%; left:50%; transform:translateX(-50%); touch-action:none; }
+.cloud-card { background:radial-gradient(130% 120% at 30% 20%, rgba(34,211,238,.16) 0%, rgba(99,102,241,.12) 45%, rgba(0,0,0,.85) 90%); }
+#roundbox-close { border:1px solid rgba(56,189,248,.5); border-radius:50%; width:30px; height:30px; color:white; background:rgba(0,0,0,.28); cursor:pointer; }
+#roundbox-reopen { display:none; position:fixed; right:14px; top:14px; z-index:40; background:rgba(6,182,212,.23); color:white; border:1px solid #38bdf8; border-radius:24px; padding:9px 14px; cursor:pointer; }
+#roundbox-drag { display:none !important; } .bubble-header { cursor:move; touch-action:none; }
+</style>
+  </head>
+  <body>
+    <!-- 3D Canvas Background -->
+    <div id="canvas-container"></div>
+
+    <button type="button" id="roundbox-reopen">Open Agent Lee chat</button>
+    <!-- Floating Scratch & Resize Container -->
+    <div id="box-wrapper">
+      <!-- Scratch Handles for stretching -->
+      <div class="resize-handle handle-w" id="handle-w"><div class="handle-bar-v"></div></div>
+      <div class="resize-handle handle-e" id="handle-e"><div class="handle-bar-v"></div></div>
+      <div class="resize-handle handle-n" id="handle-n"><div class="handle-bar-h"></div></div>
+      <div class="resize-handle handle-s" id="handle-s"><div class="handle-bar-h"></div></div>
+      <div class="resize-handle handle-se" id="handle-se"><div class="handle-corner"></div></div>
+
+      <!-- Cloud Speech Bubble Card -->
+      <div class="cloud-card interactive-surface" id="cloud-card">
+        <div class="bubble-header">
+          <div class="badge-round">
+            <div class="status-dot" id="status-dot"></div>
+            <span id="status-text">OUTPUT MODE</span>
+          </div>
+
+          <span id="roundbox-drag" title="Move Round Box">⠿ MOVE</span>
+          <!-- Mode Toggle: Input vs Output -->
+          <div class="mode-toggle-group">
+            <button type="button" id="toggle-mode-output" class="mode-toggle-btn active" onclick="setMode('output')" title="Switch to Output Box">
+              <span>💬 OUTPUT</span>
+            </button>
+            <button type="button" id="toggle-mode-input" class="mode-toggle-btn" onclick="setMode('input')" title="Switch to Input Box">
+              <span>⌨️ INPUT</span>
+            </button>
+          </div>
+
+          <button type="button" id="roundbox-close" aria-label="Close chat" title="Close Round Box">×</button>
+          <button id="toggle-sound-btn" class="sound-round-btn" title="Toggle Voice Output">
+            <span id="sound-icon">🔊</span>
+          </button>
+
+          <div style="font-size: 11px; color: #64748b; font-family: 'JetBrains Mono', monospace;" id="dimensions-badge">
+            ↔ DRAG EDGES TO SCRATCH / STRETCH
+          </div>
+        </div>
+
+        <!-- Unified Bubble Screen (Both Output and Input) -->
+        <div class="bubble-screen-body">
+          <!-- Output View -->
+          <div id="output-view" class="bubble-unified-view">
+            <div class="bubble-text-container" id="text-container">
+              <span id="stream-content"><div style="font-weight: 900; font-size: 26px; color: #e0f2fe; text-shadow: 0 0 16px rgba(56,189,248,0.8); margin-bottom: 6px;">I'M YOUR AI!</div><div style="font-weight: 900; font-size: 26px; color: #7dd3fc; text-shadow: 0 0 16px rgba(56,189,248,0.8); margin-bottom: 6px;">LET'S TALK!</div><div style="font-weight: 900; font-size: 26px; color: #0284c7; text-shadow: 0 0 16px rgba(2,132,199,0.8);">HOW CAN I HELP?</div></span>
+              <span class="streaming-cursor" id="cursor" style="display: none;"></span>
+            </div>
+          </div>
+          <!-- Input View on the Exact Same Screen -->
+          <div id="input-view" class="bubble-unified-view" style="display: none;">
+            <div class="bubble-text-container bubble-input-container">
+              <textarea
+                id="bubble-input-textarea"
+                class="bubble-inline-textarea"
+                placeholder="Type what you want to say, or click Speak... (Press Enter to transmit)"
+                rows="4"
+              ></textarea>
+            </div>
+            <div class="bubble-screen-actions">
+              <button type="button" class="bubble-mic-btn" id="bubble-mic-btn" onclick="toggleVoiceInput()" title="Speak what you want to say">
+                <span id="bubble-mic-icon">🎙️</span>
+                <span id="bubble-mic-label">Speak</span>
+              </button>
+              <button type="button" class="bubble-transmit-btn" id="bubble-transmit-btn" onclick="sendFromBubbleInput()">
+                <span>Transmit</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cloud-tail"></div>
+        <div class="cloud-tail-sm"></div>
+      </div>
+    </div>
+
+    <!-- Standalone Script -->
+    <script>
+      /* --- 1. Three.js Background Ambient Scene --- */
+      let scene, camera, renderer, cloudMeshGroup, particles;
+      const container = document.getElementById('canvas-container');
+
+      function initThree() {
+        scene = new THREE.Scene();
+        scene.background = null; // Keep the creator's 3D cloud, never obscure the host application.
+
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 18);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const cyanLight = new THREE.PointLight(0x22d3ee, 2.5, 30);
+        cyanLight.position.set(5, 5, 8);
+        scene.add(cyanLight);
+
+        const purpleLight = new THREE.PointLight(0xa855f7, 2.0, 30);
+        purpleLight.position.set(-5, -4, 8);
+        scene.add(purpleLight);
+
+        // Clustered 3D Luminous Speech Bubble mesh behind the card
+        cloudMeshGroup = new THREE.Group();
+        const sphereGeo = new THREE.SphereGeometry(1, 32, 32);
+        const cloudMat = new THREE.MeshPhysicalMaterial({
+          color: 0x06b6d4,
+          emissive: 0x0891b2,
+          emissiveIntensity: 0.35,
+          roughness: 0.2,
+          transmission: 0.7,
+          thickness: 1.5,
+          transparent: true,
+          opacity: 0.55,
+          wireframe: false,
+        });
+
+        // Main bubble spheres
+        const spheres = [
+          { x: 0, y: 0, z: 0, scale: [3.4, 2.2, 1.2] },
+          { x: -2.0, y: 0.4, z: 0.1, scale: [1.8, 1.6, 1.0] },
+          { x: 2.0, y: 0.3, z: 0.1, scale: [1.9, 1.7, 1.0] },
+          { x: -1.2, y: -0.9, z: 0.2, scale: [1.6, 1.4, 0.9] },
+          { x: 1.3, y: -0.8, z: 0.2, scale: [1.7, 1.5, 0.9] },
+          // Speech tail pointer
+          { x: -2.4, y: -2.0, z: 0.1, scale: [0.6, 0.6, 0.6] },
+          { x: -2.9, y: -2.6, z: 0.1, scale: [0.35, 0.35, 0.35] }
+        ];
+
+        spheres.forEach(s => {
+          const m = new THREE.Mesh(sphereGeo, cloudMat);
+          m.position.set(s.x, s.y, s.z);
+          m.scale.set(...s.scale);
+          cloudMeshGroup.add(m);
+        });
+
+        scene.add(cloudMeshGroup);
+
+        // Luminous orbital particles
+        const particleGeo = new THREE.BufferGeometry();
+        const particleCount = 200;
+        const posArray = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * 22;
+          posArray[i + 1] = (Math.random() - 0.5) * 14;
+          posArray[i + 2] = (Math.random() - 0.5) * 10;
+        }
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particleMat = new THREE.PointsMaterial({
+          size: 0.08,
+          color: 0x38bdf8,
+          transparent: true,
+          opacity: 0.65,
+          blending: THREE.AdditiveBlending,
+        });
+        particles = new THREE.Points(particleGeo, particleMat);
+        scene.add(particles);
+
+        window.addEventListener('resize', onWindowResize);
+      }
+
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      let clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        const time = clock.getElapsedTime();
+
+        // Buoyant floating bobbing animation
+        if (cloudMeshGroup) {
+          cloudMeshGroup.position.y = Math.sin(time * 1.4) * 0.28;
+          cloudMeshGroup.position.x = Math.cos(time * 0.9) * 0.15;
+          cloudMeshGroup.rotation.z = Math.sin(time * 0.8) * 0.02;
+        }
+        if (particles) {
+          particles.rotation.y = time * 0.04;
+        }
+
+        renderer.render(scene, camera);
+      }
+      initThree();
+      animate();
+
+      /* --- 2. Interactive Scratch & Resize System --- */
+      const boxWrapper = document.getElementById('box-wrapper');
+      const cloudCard = document.getElementById('cloud-card');
+      const dimensionsBadge = document.getElementById('dimensions-badge');
+      const scaleIndicator = document.getElementById('scale-indicator');
+
+      let currentWidth = Math.min(window.innerWidth * 0.88, 560);
+      let currentHeight = 380;
+      let isDragging = false;
+      let activeHandle = null;
+      let startX = 0, startY = 0;
+      let startW = 0, startH = 0;
+
+      function updateBoxSize(w, h) {
+        currentWidth = Math.max(260, Math.min(window.innerWidth * 0.94, w));
+        currentHeight = Math.max(200, Math.min(window.innerHeight * 0.85, h));
+        boxWrapper.style.width = currentWidth + 'px';
+        boxWrapper.style.height = currentHeight + 'px';
+
+        const scaleW = (currentWidth / 560).toFixed(2);
+        const scaleH = (currentHeight / 380).toFixed(2);
+        if (dimensionsBadge) dimensionsBadge.textContent = `${Math.round(currentWidth)}px × ${Math.round(currentHeight)}px (${scaleW}x / ${scaleH}x)`;
+        const scaleInd = document.getElementById('scale-indicator');
+        if (scaleInd) scaleInd.textContent = `${scaleW}x`;
+
+        // Sync 3D mesh scale
+        if (cloudMeshGroup) {
+          cloudMeshGroup.scale.set(parseFloat(scaleW), parseFloat(scaleH), (parseFloat(scaleW) + parseFloat(scaleH)) / 2);
+        }
+      }
+
+      function onPointerDown(e, handleType) {
+        isDragging = true;
+        activeHandle = handleType;
+        startX = e.clientX || e.touches[0].clientX;
+        startY = e.clientY || e.touches[0].clientY;
+        startW = currentWidth;
+        startH = currentHeight;
+        e.preventDefault();
+      }
+
+      ['handle-w', 'handle-e', 'handle-n', 'handle-s', 'handle-se'].forEach(id => {
+        const el = document.getElementById(id);
+        el.addEventListener('mousedown', (e) => onPointerDown(e, id));
+        el.addEventListener('touchstart', (e) => onPointerDown(e, id), { passive: false });
+      });
+
+      // Scratching directly across cloud card surface
+      cloudCard.addEventListener('mousedown', (e) => {
+        if (e.target.closest('#text-container, textarea, #roundbox-drag, .bubble-header') || e.target.closest('button')) return;
+        onPointerDown(e, 'surface-scratch');
+      });
+      cloudCard.addEventListener('touchstart', (e) => {
+        if (e.target.closest('#text-container, textarea, #roundbox-drag, .bubble-header') || e.target.closest('button')) return;
+        onPointerDown(e, 'surface-scratch');
+      }, { passive: false });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const clientX = e.clientX;
+        const clientY = e.clientY;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        if (activeHandle === 'handle-e') {
+          updateBoxSize(startW + dx * 2, startH);
+        } else if (activeHandle === 'handle-w') {
+          updateBoxSize(startW - dx * 2, startH);
+        } else if (activeHandle === 'handle-s') {
+          updateBoxSize(startW, startH + dy * 2);
+        } else if (activeHandle === 'handle-n') {
+          updateBoxSize(startW, startH - dy * 2);
+        } else if (activeHandle === 'handle-se') {
+          updateBoxSize(startW + dx * 2, startH + dy * 2);
+        } else if (activeHandle === 'surface-scratch') {
+          // Scratch drag enlarges or shrinks based on radial drag
+          updateBoxSize(startW + dx, startH + dy);
+        }
+      });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const clientX = e.touches[0].clientX;
+        const clientY = e.touches[0].clientY;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        if (activeHandle === 'handle-e') updateBoxSize(startW + dx * 2, startH);
+        else if (activeHandle === 'handle-w') updateBoxSize(startW - dx * 2, startH);
+        else if (activeHandle === 'handle-s') updateBoxSize(startW, startH + dy * 2);
+        else if (activeHandle === 'handle-n') updateBoxSize(startW, startH - dy * 2);
+        else if (activeHandle === 'handle-se') updateBoxSize(startW + dx * 2, startH + dy * 2);
+        else if (activeHandle === 'surface-scratch') updateBoxSize(startW + dx, startH + dy);
+      }, { passive: false });
+
+      window.addEventListener('mouseup', () => { isDragging = false; });
+      window.addEventListener('touchend', () => { isDragging = false; });
+
+      /* --- 3. Real-Time Streaming Speech Synthesis Engine --- */
+      let isVoiceActive = true;
+      let speechQueue = [];
+      let isSpeaking = false;
+      let spokenOffset = 0;
+
+      const toggleSoundBtn = document.getElementById('toggle-sound-btn');
+      const soundIcon = document.getElementById('sound-icon');
+
+      if (toggleSoundBtn) {
+        toggleSoundBtn.addEventListener('click', () => {
+          isVoiceActive = !isVoiceActive;
+          if (!isVoiceActive && window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+            speechQueue = [];
+            isSpeaking = false;
+          }
+          if (soundIcon) soundIcon.textContent = isVoiceActive ? '🔊' : '🔇';
+        });
+      }
+
+      function speakNextChunk() {
+        if (!isVoiceActive || !window.speechSynthesis) return;
+        if (speechQueue.length === 0) {
+          isSpeaking = false;
+          return;
+        }
+
+        isSpeaking = true;
+        const textToSpeak = speechQueue.shift();
+        if (!textToSpeak.trim()) {
+          speakNextChunk();
+          return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.rate = 1.05;
+        utterance.pitch = 1.0;
+        
+        // Pick best voice
+        const voices = window.speechSynthesis.getVoices();
+        const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha')));
+        if (preferred) utterance.voice = preferred;
+
+        utterance.onend = () => speakNextChunk();
+        utterance.onerror = () => speakNextChunk();
+
+        window.speechSynthesis.speak(utterance);
+      }
+
+      function pushSpeechStream(fullText) {
+        if (!isVoiceActive) return;
+        const unread = fullText.slice(spokenOffset);
+        // Break at sentence punctuation or clause
+        const match = unread.match(/^(.*?[.!?\n]|.{35,}[,;:])\s+/);
+        if (match) {
+          const chunk = match[1].trim();
+          spokenOffset += match[0].length;
+          speechQueue.push(chunk);
+          if (!isSpeaking) speakNextChunk();
+        }
+      }
+
+      function flushSpeechStream(fullText) {
+        if (!isVoiceActive) return;
+        const remaining = fullText.slice(spokenOffset).trim();
+        if (remaining) {
+          spokenOffset = fullText.length;
+          speechQueue.push(remaining);
+          if (!isSpeaking) speakNextChunk();
+        }
+      }
+
+      /* --- 4. Mode Toggle & Dual Input/Output Handling --- */
+      let currentMode = 'output';
+      const outputView = document.getElementById('output-view');
+      const inputView = document.getElementById('input-view');
+      const toggleModeInput = document.getElementById('toggle-mode-input');
+      const toggleModeOutput = document.getElementById('toggle-mode-output');
+      const bubbleInputTextarea = document.getElementById('bubble-input-textarea');
+      const bubbleCharCount = document.getElementById('bubble-char-count') || { textContent: '' };
+      const bubbleTransmitBtn = document.getElementById('bubble-transmit-btn');
+
+      function setMode(mode) {
+        currentMode = mode;
+        if (mode === 'input') {
+          outputView.style.display = 'none';
+          inputView.style.display = 'flex';
+          toggleModeInput.classList.add('active');
+          toggleModeOutput.classList.remove('active');
+          statusText.textContent = 'INPUT MODE';
+          statusDot.className = 'status-dot';
+          statusDot.style.backgroundColor = '#06b6d4';
+          statusDot.style.boxShadow = '0 0 8px #06b6d4';
+          setTimeout(() => bubbleInputTextarea.focus(), 50);
+        } else {
+          inputView.style.display = 'none';
+          outputView.style.display = 'flex';
+          toggleModeOutput.classList.add('active');
+          toggleModeInput.classList.remove('active');
+          statusText.textContent = 'OUTPUT MODE';
+          statusDot.className = 'status-dot';
+          statusDot.style.backgroundColor = '#38bdf8';
+          statusDot.style.boxShadow = '0 0 8px #38bdf8';
+        }
+      }
+
+      if (bubbleInputTextarea) {
+        bubbleInputTextarea.addEventListener('input', () => {
+          bubbleCharCount.textContent = `${bubbleInputTextarea.value.length} chars`;
+        });
+        bubbleInputTextarea.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendFromBubbleInput();
+          }
+        });
+      }
+
+      function setBubblePrompt(text) {
+        if (!bubbleInputTextarea) return;
+        bubbleInputTextarea.value = text;
+        bubbleCharCount.textContent = `${text.length} chars`;
+        bubbleInputTextarea.focus();
+      }
+
+      function clearBubbleInput() {
+        if (!bubbleInputTextarea) return;
+        bubbleInputTextarea.value = '';
+        bubbleCharCount.textContent = '0 chars';
+        bubbleInputTextarea.focus();
+      }
+
+      /* --- Voice Dictation (Speech Recognition) --- */
+      let recognition = null;
+      let isListening = false;
+      function toggleVoiceInput() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) {
+          alert("Speech recognition is not supported in this browser. Please type directly into the box.");
+          return;
+        }
+        const micBtn = document.getElementById('bubble-mic-btn');
+        const micIcon = document.getElementById('bubble-mic-icon');
+        const micLabel = document.getElementById('bubble-mic-label');
+
+        if (isListening && recognition) {
+          recognition.stop();
+          return;
+        }
+
+        try {
+          recognition = new SpeechRec();
+          recognition.continuous = false;
+          recognition.interimResults = true;
+          recognition.lang = 'en-US';
+
+          recognition.onstart = () => {
+            isListening = true;
+            if (micBtn) micBtn.classList.add('listening');
+            if (micIcon) micIcon.textContent = '🔴';
+            if (micLabel) micLabel.textContent = 'Listening...';
+          };
+
+          recognition.onresult = (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+              transcript += event.results[i][0].transcript;
+            }
+            if (bubbleInputTextarea) {
+              bubbleInputTextarea.value = transcript;
+              bubbleCharCount.textContent = `${transcript.length} chars`;
+            }
+          };
+
+          recognition.onerror = (e) => {
+            console.warn('Speech recognition error:', e);
+            resetMicState();
+          };
+
+          recognition.onend = () => {
+            resetMicState();
+          };
+
+          function resetMicState() {
+            isListening = false;
+            if (micBtn) micBtn.classList.remove('listening');
+            if (micIcon) micIcon.textContent = '🎙️';
+            if (micLabel) micLabel.textContent = 'Speak';
+          }
+
+          recognition.start();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function sendFromBubbleInput() {
+        const text = bubbleInputTextarea ? bubbleInputTextarea.value.trim() : '';
+        if (!text) return;
+        // Stop listening if mic is on
+        if (isListening && recognition) {
+          recognition.stop();
+        }
+        // Switch to output view to stream the response
+        setMode('output');
+        sendMessage(text);
+      }
+
+      /* --- 5. Chat & Streaming Implementation --- */
+      const streamContent = document.getElementById('stream-content');
+      const cursor = document.getElementById('cursor');
+      const statusText = document.getElementById('status-text');
+      const statusDot = document.getElementById('status-dot');
+      const textContainer = document.getElementById('text-container');
+
+      function setStatus(status) {
+        if (status === 'thinking') {
+          statusText.textContent = 'THINKING...';
+          statusDot.className = 'status-dot pulse';
+          statusDot.style.backgroundColor = '#f59e0b';
+          statusDot.style.boxShadow = '0 0 10px #f59e0b';
+          if (streamContent) {
+            streamContent.innerHTML = '<span class="thinking-label">Thinking</span><span class="thinking-dots"><span>.</span><span>.</span><span>.</span></span>';
+          }
+          if (cursor) cursor.style.display = 'inline-block';
+        } else if (status === 'streaming') {
+          statusText.textContent = 'STREAMING WORDS...';
+          statusDot.className = 'status-dot pulse';
+          statusDot.style.backgroundColor = '#22d3ee';
+          statusDot.style.boxShadow = '0 0 10px #22d3ee';
+          if (cursor) cursor.style.display = 'inline-block';
+        } else {
+          statusText.textContent = currentMode === 'input' ? 'INPUT MODE' : 'OUTPUT MODE';
+          statusDot.className = 'status-dot';
+          statusDot.style.backgroundColor = currentMode === 'input' ? '#06b6d4' : '#38bdf8';
+          statusDot.style.boxShadow = '0 0 8px #38bdf8';
+          if (cursor) cursor.style.display = 'none';
+        }
+      }
+
+      function setPrompt(text) {
+        sendMessage(text);
+      }
+
+      async function sendMessage(overridePrompt) {
+        const prompt = (overridePrompt || (bubbleInputTextarea ? bubbleInputTextarea.value : '')).trim();
+        if (!prompt) return;
+
+        if (bubbleInputTextarea) bubbleInputTextarea.value = '';
+        if (bubbleCharCount) bubbleCharCount.textContent = '0 chars';
+        if (bubbleTransmitBtn) bubbleTransmitBtn.disabled = true;
+
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        speechQueue = [];
+        spokenOffset = 0;
+        isSpeaking = false;
+
+        setStatus('thinking');
+
+        let fullResponse = '';
+        let hasStartedStreaming = false;
+
+        try {
+          const response = await fetch('/api/chat-stream', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt }),
+          });
+
+          if (!response.ok || !response.body) {
+            throw new Error('AGENT_LEE_STREAM_UNAVAILABLE');
+          }
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = '';
+
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed.startsWith('data:')) continue;
+              const jsonStr = trimmed.replace(/^data:\s*/, '');
+              try {
+                const data = JSON.parse(jsonStr);
+                if (data.status === 'thinking') {
+                  setStatus('thinking');
+                } else if (data.chunk) {
+                  if (!hasStartedStreaming) {
+                    hasStartedStreaming = true;
+                    setStatus('streaming');
+                    streamContent.textContent = '';
+                  }
+                  fullResponse += data.chunk;
+                  streamContent.textContent = fullResponse;
+                  textContainer.scrollTop = textContainer.scrollHeight;
+                  pushSpeechStream(fullResponse);
+                } else if (data.done) {
+                  flushSpeechStream(fullResponse);
+                }
+              } catch (e) {
+                // Ignore parse errors on raw tokens
+              }
+            }
+          }
+          flushSpeechStream(fullResponse);
+        } catch (err) {
+          console.warn('Fallback streaming:', err);
+          setStatus('ready');
+          streamContent.textContent = 'Agent Lee connection unavailable: ' + (err?.message || 'Unknown error');
+        } finally {
+          setStatus('ready');
+          if (bubbleTransmitBtn) bubbleTransmitBtn.disabled = false;
+        }
+      }
+    </script>
+  
+<script>
+/* Presentation-only controls. Existing streaming remains connected through the host route. */
+(()=>{
+  const box=document.getElementById('box-wrapper');
+  const move=document.getElementById('roundbox-drag');
+  const close=document.getElementById('roundbox-close');
+  const reopen=document.getElementById('roundbox-reopen');
+  const toggle=(visible)=>{box.style.display=visible?'flex':'none';reopen.style.display=visible?'none':'block';};
+  close.addEventListener('click',()=>toggle(false));
+  reopen.addEventListener('click',()=>toggle(true));
+  let state=null;
+  move.addEventListener('pointerdown',e=>{
+    e.preventDefault();e.stopPropagation();
+    const rect=box.getBoundingClientRect();
+    state={x:e.clientX,y:e.clientY,left:rect.left,top:rect.top};
+    move.setPointerCapture(e.pointerId);
+  });
+  move.addEventListener('pointermove',e=>{
+    if(!state)return;
+    const left=Math.max(0,Math.min(innerWidth-box.offsetWidth,state.left+e.clientX-state.x));
+    const top=Math.max(0,Math.min(innerHeight-box.offsetHeight,state.top+e.clientY-state.y));
+    box.style.left=left+'px';box.style.top=top+'px';box.style.transform='none';
+  });
+  const done=()=>state=null;
+  move.addEventListener('pointerup',done);move.addEventListener('pointercancel',done);
+  window.LeeWayRoundBox={show:()=>toggle(true),hide:()=>toggle(false)};
+})();
+</script>
+<script id="leeway-roundbox-native-bridge">
+/* Native transport only: preserves the supplied Round Box markup, styles and controls. */
+(()=>{
+ if(!window.LeeWayAndroid?.roundBoxMessage)return;
+ const originalSend=window.sendMessage;
+ const originalVoice=window.toggleVoiceInput;
+ window.__leewayRoundUser='';
+ window.sendMessage=function(overridePrompt){
+   const prompt=(overridePrompt||(bubbleInputTextarea?.value||'')).trim();
+   if(!prompt)return;
+   window.__leewayRoundUser=prompt;
+   bubbleInputTextarea.value='';
+   setMode('output');setStatus('thinking');
+   window.LeeWayAndroid.roundBoxMessage(prompt);
+ };
+ window.toggleVoiceInput=function(){window.LeeWayAndroid.roundBoxListen?.()};
+ window.LeeWayRoundBoxReceive=function(kind,message){
+   const text=String(message||'');
+   if(kind==='thinking'){setStatus('thinking');return;}
+   if(kind==='dictation'){setMode('input');bubbleInputTextarea.value=text;return;}
+   if(kind==='listening'){setMode('input');bubbleInputTextarea.placeholder='Listening...';return;}
+   if(kind==='response'){
+     setMode('output');
+     streamContent.textContent='You: '+window.__leewayRoundUser+'\n\nAgent Lee: '+text;
+     textContainer.scrollTop=textContainer.scrollHeight;
+     setStatus('ready');return;
+   }
+   if(kind==='error'){
+     setMode('output');streamContent.textContent='Agent Lee connection blocked: '+text;
+     setStatus('ready');return;
+   }
+   if(kind==='voice-error'){statusText.textContent='VOICE UNAVAILABLE: '+text;return;}
+   if(kind==='voice'){statusText.textContent='VOICE: '+text;return;}
+ };
+ document.getElementById('roundbox-close')?.addEventListener('click',()=>{
+   window.LeeWayAndroid.roundBoxClose?.();
+ });
+ let drag=null;
+ const header=document.querySelector('.bubble-header');
+ header?.style.setProperty('touch-action','none');
+ header?.addEventListener('pointerdown',e=>{
+   if(e.target.closest('button'))return;
+   drag={id:e.pointerId,x:e.screenX,y:e.screenY};
+   header.setPointerCapture(e.pointerId);
+   e.stopPropagation();
+ },true);
+ header?.addEventListener('pointermove',e=>{
+   if(!drag||drag.id!==e.pointerId)return;
+   const dx=e.screenX-drag.x,dy=e.screenY-drag.y;
+   drag.x=e.screenX;drag.y=e.screenY;
+   if(Number.isFinite(dx)&&Number.isFinite(dy)&&Math.abs(dx)+Math.abs(dy)>0)
+     window.LeeWayAndroid.roundBoxMove?.(dx,dy);
+   e.stopImmediatePropagation();
+ },true);
+ const end=e=>{if(drag?.id===e.pointerId)drag=null;};
+ header?.addEventListener('pointerup',end,true);
+ header?.addEventListener('pointercancel',end,true);
+ const oldSize=window.updateBoxSize;
+ window.updateBoxSize=function(w,h){
+   oldSize(w,h);
+   window.LeeWayAndroid.roundBoxResize?.(currentWidth,currentHeight);
+ };
+})();
+</script>
+</body>
+</html>
