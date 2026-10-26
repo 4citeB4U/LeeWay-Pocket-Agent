@@ -1,0 +1,105 @@
+/*
+REGION: LEEWAY.VISION.ANDROID
+TAG: CANONICAL_GOLDEN_VISION_FOREGROUND_SURFACE
+WHO: Agent Lee Golden Package owner. WHAT: Foreground camera viewer for existing bundled Vision UI.
+WHEN: Explicit owner Vision menu selection. WHERE: Non-exported Pocket Agent Activity.
+WHY: Android restricts camera capture from background overlays.
+HOW: Reuse signed Vision HTML, synthetic HTTPS local asset, scoped VIDEO_CAPTURE permission,
+     existing movable OwnerSurfaceWindow; no parallel package, registry or RTC authority.
+LICENSE: MIT
+*/
+package industries.leeway.pocket
+
+import android.app.Activity
+import android.graphics.Color
+import android.os.Bundle
+import android.webkit.*
+import java.io.ByteArrayInputStream
+
+class VisionActivity : Activity() {
+    private lateinit var view: WebView
+    private var foreground = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
+        view = WebView(this).apply {
+            setBackgroundColor(Color.BLACK)
+            settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
+            settings.allowFileAccess = false
+            settings.allowContentAccess = false
+            settings.javaScriptCanOpenWindowsAutomatically = false
+            settings.setSupportMultipleWindows(false)
+            settings.mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
+            settings.mediaPlaybackRequiresUserGesture = true
+            webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(v: WebView, request: WebResourceRequest): Boolean =
+                    request.url.toString() != ENTRY && request.url.toString() != "about:blank"
+
+                override fun shouldInterceptRequest(v: WebView, request: WebResourceRequest): WebResourceResponse {
+                    if (request.method != "GET" || request.url.toString() != ENTRY) return deny()
+                    return try {
+                        WebResourceResponse(
+                            "text/html", "UTF-8", 200, "OK",
+                            mapOf("Cache-Control" to "no-store", "X-Content-Type-Options" to "nosniff"),
+                            assets.open("vision/index.html")
+                        )
+                    } catch (_: Exception) { deny() }
+                }
+            }
+            webChromeClient = object : WebChromeClient() {
+                override fun onPermissionRequest(request: PermissionRequest) {
+                    runOnUiThread {
+                        val ownerForeground = this@VisionActivity.foreground && !this@VisionActivity.isFinishing && !this@VisionActivity.isDestroyed
+                        val exactOrigin = request.origin.toString().trimEnd('/') == "https://vision.leeway.invalid"
+                        val onlyVideo = request.resources.size == 1 &&
+                            request.resources[0] == PermissionRequest.RESOURCE_VIDEO_CAPTURE
+                        val cameraGranted = checkSelfPermission(android.Manifest.permission.CAMERA) ==
+                            android.content.pm.PackageManager.PERMISSION_GRANTED
+                        if (ownerForeground && exactOrigin && onlyVideo && cameraGranted)
+                            request.grant(arrayOf(PermissionRequest.RESOURCE_VIDEO_CAPTURE))
+                        else request.deny()
+                    }
+                }
+            }
+            loadUrl(ENTRY)
+        }
+        setContentView(view)
+        window.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
+        OwnerSurfaceWindow.attach(this, "Agent Lee Vision")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        foreground = true
+        view.onResume()
+    }
+
+    override fun onPause() {
+        foreground = false
+        view.evaluateJavascript(
+            "document.querySelectorAll('video').forEach(v=>v.srcObject?.getTracks().forEach(t=>t.stop()))",
+            null
+        )
+        view.onPause()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        view.loadUrl("about:blank")
+        view.destroy()
+        super.onDestroy()
+    }
+
+    private fun deny() = WebResourceResponse(
+        "text/plain", "UTF-8", 403, "Blocked",
+        mapOf("Cache-Control" to "no-store"),
+        ByteArrayInputStream("LOCAL_VISION_ASSET_ONLY".toByteArray())
+    )
+
+    companion object {
+        private const val ENTRY = "https://vision.leeway.invalid/vision/index.html"
+    }
+}

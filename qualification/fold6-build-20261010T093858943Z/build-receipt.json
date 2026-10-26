@@ -1,0 +1,23 @@
+﻿{
+    "schemaVersion":  "leeway.pocket.build-qualification.v1",
+    "runId":  "fold6-build-20261010T093858943Z",
+    "sourceOrigin":  "https://github.com/4citeB4U/LeeWay-Pocket-Agent.git",
+    "baseCommit":  "0eec42f48e89890103f4a6d1379f9ea642831369",
+    "startedAt":  "2026-10-10T09:38:59.1278027Z",
+    "finishedAt":  "2026-10-10T09:39:40.9352936Z",
+    "gradleExitCode":  0,
+    "status":  "BUILD_AND_UNIT_TESTS_PASSED",
+    "sourceManifestSha256":  "92D5213D08A2488A6963780B208315006336C7B771E15E8FD2581CB6AC34E1D4",
+    "sourceChangedDuringBuild":  0,
+    "apk":  {
+                "path":  "E:\\LeeWay-Work\\c3-vision-lane-a-qualification\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+                "sha256":  "1201F014E17647C4C8CA1227CCF5424DCBAB4D255C44916FCE016FF1A9C23655",
+                "bytes":  47434777
+            },
+    "logSha256":  "E9FEF46367D5F27502B6606CF841C06D6EB00B230C5E82BB6B9C20261011A1A7",
+    "installed":  false,
+    "deviceAcceptance":  "NOT_EXECUTED",
+    "completeness":  "NOT_PROVEN",
+    "formulaExecution":  "NOT_EXECUTED",
+    "learningLedgerUpdated":  false
+}
