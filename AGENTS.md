@@ -1,5 +1,6 @@
 <!--
 LEEWAY HEADER — DO NOT REMOVE
+DISCOVERY_PIPELINE: Voice → Intent → Location → Vertical → Ranking → Render
 REGION: LEEWAY.REPOSITORY.WORKER.ADMISSION
 TAG: LEEWAY.REPOSITORY.OPERATION.CONTRACT.V1
 5WH:
@@ -9,7 +10,7 @@ WHO = Creator/Human Authority and authenticated owning source role.
 WHERE = AGENTS.md in 4citeB4U/LeeWay-Pocket-Agent.
 WHEN = 2026-11-12.
 HOW = Read approved canonical sources, original mission and grants; use existing governed tooling only.
-LICENSE = Existing repository terms; no new license asserted.
+LICENSE: Existing repository terms; no new license asserted.
 -->
 # LeeWay Universal Worker Admission Contract
 
@@ -22,3 +23,7 @@ For each consequential operation define applicable law/regulations/jurisdiction,
 Execute Investigate → Diagnose → Plan → Implement → Test → Validate → Repair → Retest → Verify → Evidence → Checkpoint → Continue. Use original deterministic Machine Consciousness role policy, Skill Orchestrator task-wide capability weave and bounded focal tool set with real scoped grants and conflict-safe concurrency. All outside helpers BUILD, TEACH and ASSESS permanent agents where mission-relevant; independent teach-back is required for teaching merit. Original Workforce owns grades and badges; merit never authorizes mutation.
 
 All work custody uses the existing Runtime/workplane and original mission issue. Assignment != permission; transport ACK != acceptance; review != production. Preserve device-owned Digital Brain and Diagnostics exclusively for their physical device; no shared-cloud seizure of their local state. Portable systems must not embed one workstation path as identity. Original source owner and CI must verify changes; AGENTS publication alone is insufficient to prove host loading or runtime enforcement.
+
+## Final boundary — effective canonical law and work custody
+
+[Approved LeeWay Standards main](https://github.com/4citeB4U/LeeWay-Standards/commit/2e5e98bdc49cfe0bf180de394db054eaf2f8e3d3) supersedes historical pending PR #71 references. Final handoff requires mission/work/source, scope/grants, evidence FOR/AGAINST, measurements, decisions, corrections, learner practice and next owner/gate. No source or test result self-confers production authority.
